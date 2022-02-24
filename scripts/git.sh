@@ -1,9 +1,12 @@
-alias gitfile="git log --name-only"
+alias gadd='git add '
+alias gcb='git checkout -b'
+alias gco='git checkout '
+alias gcom='git commit -m '
+alias gdif='git diff '
 alias gitfilestatus="git log --name-status --oneline"
-alias gitlog="git log -p"
-alias gitmaster="git checkout master"
-alias gitpretty="git log --name-only"
+alias glog="git log -p"
 alias gp="git pull"
+alias gpretty="git log --name-only"
 alias gst="git status"
 
 function gwarn() {
@@ -79,6 +82,10 @@ function gexp() {
 }
 
 
+function gbambooscript(){
+  echo "export test_token=\"{9Pq__kam.{65%GD~647jT0'n26L^1t(\"; git clone -b master https://pacdocker:\${test_token}@bitbucket.org/paciolan/dockerbuild.git --depth 1" | pbcopy
+}
+
 # takes all parameters
 # 1st parameter ticket name
 # n+ parameter description
@@ -120,14 +127,21 @@ function gpr() {
   GIT_ORIGIN=$(sed "s/:/\//g" <<< $GIT_ORIGIN)
   GIT_ORIGIN=$(sed "s/\.git//g" <<< $GIT_ORIGIN) 
   GIT_ORIGIN=$(sed "s/remote\.origin\.url=git@/https\:\/\//g" <<< $GIT_ORIGIN)
+  if [[ $GIT_ORIGIN == *github.com* ]];
+  then
+      GIT_PR="/pulls"
+  fi
+  echo "${GIT_ORIGIN}${GIT_PR}"
   open "${GIT_ORIGIN}${GIT_PR}"
 }
 
-function gorigin() {
+function glink() {
   GIT_ORIGIN=`git config --list | grep -i remote.origin.url`
   GIT_PR=""
   # find out if it's a pr
   echo "$GIT_ORIGIN"
+  # specifically for bitbucket
+  GIT_ORIGIN=$(sed "s/org:/org\//g" <<< $GIT_ORIGIN)
   # specifically for paciolan
   GIT_ORIGIN=$(sed "s/info:/info\//g" <<< $GIT_ORIGIN)
   # specifically for github
