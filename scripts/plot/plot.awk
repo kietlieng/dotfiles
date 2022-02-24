@@ -1,5 +1,8 @@
 #!/usr/bin/awk -f
 
+# All credits go to thingskatedid for this awesome work on introducing me to awk programming 
+
+
 # This program is a copy of guff, a plot device. https://github.com/silentbicycle/guff
 # My copy here is written in awk instead of C, has no compelling benefit.
 # Public domain. @thingskatedid
