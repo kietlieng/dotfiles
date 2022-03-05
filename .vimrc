@@ -176,6 +176,8 @@ nmap <C-n> :bn<CR>
 nmap <C-p> :bp<CR>
 nmap <LEADER>bd :bd<CR>
 nmap <LEADER>l :Buffers<CR>
+# format with json
+nmap <LEADER>js :%!python -m json.tool<CR>
 
 "" window navigation
 nmap <C-l> :wincmd l<CR>
