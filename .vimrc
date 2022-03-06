@@ -172,12 +172,13 @@ set runtimepath+=/Users/klieng/.vim
 " %! <some command>
 "" >>= Navigation =<<
 "" buffer navigation
+"" shortcuts
 nmap <C-n> :bn<CR>
 nmap <C-p> :bp<CR>
 nmap <LEADER>bd :bd<CR>
 nmap <LEADER>l :Buffers<CR>
-# format with json
-nmap <LEADER>ff :%!python -m json.tool<CR>
+nmap <LEADER>pf :%!python -m json.tool<CR>
+nmap <LEADER>= gg=G<CR>
 
 "" window navigation
 nmap <C-l> :wincmd l<CR>
