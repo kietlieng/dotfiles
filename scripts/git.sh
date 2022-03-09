@@ -1,13 +1,20 @@
 alias gadd='git add '
 alias gcb='git checkout -b'
 alias gco='git checkout '
-alias gcom='git commit -m '
 alias gdif='git diff '
 alias gitfilestatus="git log --name-status --oneline"
 alias glog="git log -p"
 alias gp="git pull"
 alias gpretty="git log --name-only"
 alias gst="git status"
+
+function gcom() {
+    if [[ $# -gt 0 ]]; then
+        git commit -m "$1"
+    else
+        git commit
+    fi
+}
 
 function gwarn() {
   git config pull.rebase false  # merge (the default strategy)
@@ -136,21 +143,66 @@ function gpr() {
 }
 
 function glink() {
-  GIT_ORIGIN=`git config --list | grep -i remote.origin.url`
-  GIT_PR=""
-  # find out if it's a pr
-  echo "$GIT_ORIGIN"
-  # specifically for bitbucket
-  GIT_ORIGIN=$(sed "s/org:/org\//g" <<< $GIT_ORIGIN)
-  # specifically for paciolan
-  GIT_ORIGIN=$(sed "s/info:/info\//g" <<< $GIT_ORIGIN)
-  # specifically for github
-  GIT_ORIGIN=$(sed "s/com:/com\//g" <<< $GIT_ORIGIN)
-  # converting @git and remove it
-  GIT_ORIGIN=$(sed "s/\.git//g" <<< $GIT_ORIGIN) 
-  GIT_ORIGIN=$(sed "s/remote\.origin\.url=//g" <<< $GIT_ORIGIN)
-  GIT_ORIGIN=$(sed "s/git@/https:\/\//g" <<< $GIT_ORIGIN)
-  #echo "origin ${GIT_ORIGIN}"
-  #echo "${GIT_ORIGIN}${GIT_PR}"
-  open "${GIT_ORIGIN}${GIT_PR}"
+    GIT_ORIGIN=`git config --list | grep -i remote.origin.url`
+    GIT_PR=""
+    # find out if it's a pr
+    #echo "$GIT_ORIGIN"
+    # specifically for bitbucket
+    GIT_ORIGIN=$(sed "s/org:/org\//g" <<< $GIT_ORIGIN)
+    # specifically for paciolan
+    GIT_ORIGIN=$(sed "s/info:/info\//g" <<< $GIT_ORIGIN)
+    # specifically for github
+    GIT_ORIGIN=$(sed "s/com:/com\//g" <<< $GIT_ORIGIN)
+    # converting @git and remove it
+    GIT_ORIGIN=$(sed "s/\.git//g" <<< $GIT_ORIGIN) 
+    GIT_ORIGIN=$(sed "s/remote\.origin\.url=//g" <<< $GIT_ORIGIN)
+    GIT_ORIGIN=$(sed "s/git@/https:\/\//g" <<< $GIT_ORIGIN)
+    #echo "${GIT_ORIGIN}${GIT_PR}"
+
+    if [[ $# -eq 0 ]]; then
+        open "${GIT_ORIGIN}${GIT_PR}"
+        return
+    fi
+
+    GIT_BRANCH=`git rev-parse --abbrev-ref HEAD`
+
+
+    anchorPath=`pwd`
+    repoPath=${PWD##*/}   
+    currentFolder=""
+    foundIt="" 
+    # found .git in current directory
+    for d in $(ls -la | grep -i "\.git\$"); do
+        echo "working! ${gitInDirectory}"
+        repoPath=${PWD##*/}   
+        foundIt="true" 
+        break
+    done
+
+    if [[ "true" == "$foundIt" ]]; then
+        return
+    fi
+   
+    # 10 should be good 
+    for i in {1..10}
+    do
+        cd ..
+        echo "$currentFolder"
+        if [ -n "$currentFolder" ]; then
+            repoPath="${currentFolder}/${repoPath}"
+        fi
+        # it's working if it when into the for loop
+        for d in $(ls -la | grep -i "\.git\$"); do
+            echo "working!"
+            foundIt="true"
+            break
+        done
+        if [[ "true" == "$foundIt" ]]; then
+            break
+        fi
+        currentFolder=${PWD##*/}
+    done
+    echo "${GIT_ORIGIN}${GIT_PR}/-/tree/${GIT_BRANCH}/${repoPath}"
+    open "${GIT_ORIGIN}${GIT_PR}/-/tree/${GIT_BRANCH}/${repoPath}"
+    cd $anchorPath
 }
