@@ -96,6 +96,11 @@ set background=dark
 let g:gruvbox_italic=1
 let g:gruvbox_termcolors=16
 let g:gruvbox_contrast_dark = 'dark'
+"let g:gruvbox_contrast_dark = 'hard'
+"set bg=dark
+
+"" youcompleteme: closes top preview window when you leave insert mode
+let g:ycm_autoclose_preview_window_after_insertion = 1
 
 " disable default commands
 let mapleader=" "
@@ -177,8 +182,8 @@ nmap <C-n> :bn<CR>
 nmap <C-p> :bp<CR>
 nmap <LEADER>bd :bd<CR>
 nmap <LEADER>l :Buffers<CR>
-nmap <LEADER>pf :%!python -m json.tool<CR>
-nmap <LEADER>= gg=G<CR>
+nmap <LEADER>ff :%!python -m json.tool<CR>
+nmap <LEADER>== gg=G<CR>
 
 "" window navigation
 nmap <C-l> :wincmd l<CR>
