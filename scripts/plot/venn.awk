@@ -67,14 +67,15 @@ BEGIN {
 END {
 
     #print "num of fields %s | %s", NF, $0
-    tSide = $1
-    radius = sin(45) * tSide
-    tSide = tSide * .5
+    radius = sin(45) * $1
+    tSide = $1 * .5
+    center_text = $2
     # declare an empty cirle_arrayay via delete statement 
+    delete center_grid[0]
     delete cirle_array[0]
+    delete coord_grid[0]
     delete ref_array[0]
     delete text_array[0]
-    delete coord_grid[0]
 
     # parameters
     # venn 1 2 3 4 5
@@ -85,44 +86,68 @@ END {
     # top left
     coord_grid[0,0] = -1
     coord_grid[0,1] = -1
+    center_grid[0,0] = -1
+    center_grid[0,1] = -1
+
     # top right
     coord_grid[1,0] = 1
     coord_grid[1,1] = -1
+    center_grid[1,0] = -1
+    center_grid[1,1] = -1
+
     # bottom 
     coord_grid[2,0] = 0
     coord_grid[2,1] = 1
+    center_grid[2,0] = 0
+    center_grid[2,1] = -1 
+
     # bottom left
     coord_grid[3,0] = -1
     coord_grid[3,1] = 1
+    center_grid[3,0] = 0
+    center_grid[3,1] = 0
     # bottom right
     coord_grid[4,0] = 1
     coord_grid[4,1] = 1
+    center_grid[4,0] = 0
+    center_grid[4,1] = 0
     # top
     coord_grid[5,0] = 0
     coord_grid[5,1] = -1
+    center_grid[5,0] = 0
+    center_grid[5,1] = 0
 
+    
     FONT_SIZE = 150
-
+    #printf("%s %s", NR, FNR)
+    #if ( FNR == 1) {
+    #    printf("first row")
+    #}
+    #else if ( FNR == 2) {
+    #    printf("second row")
+    #}
     #printf "%06.2f ", sqrt(tSide)
     #print ""
     #printf "value %s, %s", NF, $0
     #print ""
     #printf "radius %d", radius
     #print ""
-    countIndex=2
-    
+    countIndex=3
+    currentIndex=countIndex  
     while (countIndex <= NF) {
-        currentIndex=(countIndex - 2)
-#        printf("current index %s countIndex %s", currentIndex, countIndex)
-#        print("")
-        #printf("radius2 %f", radius)
-        #print("")
-        #printf("radius2 %s | %s", NF, $0)
-        #print("")
+        currentIndex=(countIndex - 3)
         cirle_array[currentIndex] = drawCircle( coord_grid[currentIndex,0], coord_grid[currentIndex,1], radius, tSide, currentIndex)
         ref_array[currentIndex] = drawReference(currentIndex)
+        # NOTE: $countIndex is referencing a field positions NOT a number count.  Variables have no dollar sign ($) in front in awk
         text_array[currentIndex] = drawText(coord_grid[currentIndex, 0], coord_grid[currentIndex, 1], tSide, $countIndex)
         countIndex++
+    }
+    currentIndex=(countIndex - 3)
+    #printf "center is %s", center_text
+    if (countIndex >= 3) {
+        if ( center_text != "_" ) {
+            text_array[currentIndex] = drawText(center_grid[currentIndex, 0], center_grid[currentIndex, 1], tSide, center_text)
+        }
     }
 	display()
 }
