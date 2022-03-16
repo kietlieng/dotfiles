@@ -100,7 +100,7 @@ let g:gruvbox_contrast_dark = 'dark'
 "set bg=dark
 
 "" youcompleteme: closes top preview window when you leave insert mode
-let g:ycm_autoclose_preview_window_after_insertion = 1
+"" let g:ycm_autoclose_preview_window_after_insertion = 1
 
 " disable default commands
 let mapleader=" "
