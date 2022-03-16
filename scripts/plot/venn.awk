@@ -46,22 +46,35 @@ function drawReference( argReference) {
 
 }
 
-function drawText( argXCordinates, argYCordinates, argSide, argText) {
+function drawText( argXCordinates, argYCordinates, argSide, argText, center) {
    #printf("length of text %f", (length(argText)/2) * 300)
-   return sprintf(" <text transform='translate(  %f, %f) scale(0.9,1)' x='0' y='0.7ex'>%s</text>", (argXCordinates * argSide) - (( length(argText)/2 ) * (FONT_SIZE / 2)), argYCordinates * argSide, argText)
+   if (center == "true") { 
+      return sprintf(" <text transform='translate(  %f, %f) scale(0.9,1)' x='0' y='0.7ex' dominant-baseline='middle' text-anchor='middle'>%s</text>", argXCordinates, argYCordinates * argSide, argText)
+  }
+  else {
+      return sprintf(" <text transform='translate(  %f, %f) scale(0.9,1)' x='0' y='0.7ex'>%s</text>", (argXCordinates * argSide) - (( length(argText) / 2 ) * (FONT_SIZE / 2)), argYCordinates * argSide, argText)
+  }
 }
 
 BEGIN {
-	fg    = "#eeeeee"
-
 	# Bang Wong's colour-safe palette, https://www.nature.com/articles/nmeth.1618
 	# (using just the last five colours)
-	color[0] = "#0072B2"
-	color[1] = "#F0E442"
-	color[2] = "#009E73"
-	color[3] = "#CC79A7"
-	color[4] = "#D55E00"
-	color[5] = fg
+    arrayIndex = 0
+    color[arrayIndex++] = "#0072B2"
+	color[arrayIndex++] = "#F0E442"
+	color[arrayIndex++] = "#009E73"
+	color[arrayIndex++] = "#D55E00"
+	color[arrayIndex++] = "#99ccff"
+	color[arrayIndex++] = "#e69f00"
+	color[arrayIndex++] = "#56b4e9"
+	color[arrayIndex++] = "#ff6699"
+
+    # declare an empty cirle_arrayay via delete statement 
+    delete center_grid[0]
+    delete cirle_array[0]
+    delete coord_grid[0]
+    delete ref_array[0]
+    delete text_array[0]
 }
 
 END {
@@ -70,12 +83,8 @@ END {
     radius = sin(45) * $1
     tSide = $1 * .5
     center_text = $2
-    # declare an empty cirle_arrayay via delete statement 
-    delete center_grid[0]
-    delete cirle_array[0]
-    delete coord_grid[0]
-    delete ref_array[0]
-    delete text_array[0]
+    # search and replace properly
+    gsub("_", " ", center_text)
 
     # parameters
     # venn 1 2 3 4 5
@@ -84,16 +93,16 @@ END {
     
     # venn diagram position depending on number of text
     # top left
-    coord_grid[0,0] = -1
-    coord_grid[0,1] = -1
-    center_grid[0,0] = -1
-    center_grid[0,1] = -1
+    coord_grid[0,0] = -1 * sin(45)
+    coord_grid[0,1] = -1 * sin(45)
+    center_grid[0,0] = -1 * sin(45)
+    center_grid[0,1] = -1 * sin(45)
 
     # top right
-    coord_grid[1,0] = 1
-    coord_grid[1,1] = -1
-    center_grid[1,0] = -1
-    center_grid[1,1] = -1
+    coord_grid[1,0] = 1 * sin(45)
+    coord_grid[1,1] = -1 * sin(45)
+    center_grid[1,0] = -1 * sin(45)
+    center_grid[1,1] = -1 * sin(45)
 
     # bottom 
     coord_grid[2,0] = 0
@@ -102,22 +111,33 @@ END {
     center_grid[2,1] = -1 
 
     # bottom left
-    coord_grid[3,0] = -1
-    coord_grid[3,1] = 1
-    center_grid[3,0] = 0
-    center_grid[3,1] = 0
+    coord_grid[3,0] = -1 * sin(45)
+    coord_grid[3,1] = 1 * sin(45)
+    center_grid[3,0] = 0 * sin(45)
+    center_grid[3,1] = 0 * sin(45)
+
     # bottom right
-    coord_grid[4,0] = 1
-    coord_grid[4,1] = 1
-    center_grid[4,0] = 0
-    center_grid[4,1] = 0
+    coord_grid[4,0] = 1 * sin(45)
+    coord_grid[4,1] = 1 * sin(45)
+    center_grid[4,0] = 0 * sin(45)
+    center_grid[4,1] = 0 * sin(45)
+
     # top
-    coord_grid[5,0] = 0
-    coord_grid[5,1] = -1
+    coord_grid[5,0] = 0 
+    coord_grid[5,1] = -1 
     center_grid[5,0] = 0
     center_grid[5,1] = 0
 
-    
+    coord_grid[6,0] = 1
+    coord_grid[6,1] = 0 
+    center_grid[6,0] = 0
+    center_grid[6,1] = 0
+
+    coord_grid[7,0] = -1
+    coord_grid[7,1] = 0 
+    center_grid[7,0] = 0
+    center_grid[7,1] = 0
+
     FONT_SIZE = 150
     #printf("%s %s", NR, FNR)
     #if ( FNR == 1) {
@@ -139,14 +159,14 @@ END {
         cirle_array[currentIndex] = drawCircle( coord_grid[currentIndex,0], coord_grid[currentIndex,1], radius, tSide, currentIndex)
         ref_array[currentIndex] = drawReference(currentIndex)
         # NOTE: $countIndex is referencing a field positions NOT a number count.  Variables have no dollar sign ($) in front in awk
-        text_array[currentIndex] = drawText(coord_grid[currentIndex, 0], coord_grid[currentIndex, 1], tSide, $countIndex)
+        text_array[currentIndex] = drawText(coord_grid[currentIndex, 0], coord_grid[currentIndex, 1], tSide, $countIndex, "false")
         countIndex++
     }
     currentIndex=(countIndex - 3)
     #printf "center is %s", center_text
     if (countIndex >= 3) {
         if ( center_text != "_" ) {
-            text_array[currentIndex] = drawText(center_grid[currentIndex, 0], center_grid[currentIndex, 1], tSide, center_text)
+            text_array[currentIndex] = drawText(center_grid[currentIndex, 0], center_grid[currentIndex, 1], tSide, center_text, "true")
         }
     }
 	display()

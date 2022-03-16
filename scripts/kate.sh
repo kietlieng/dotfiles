@@ -58,7 +58,7 @@ function vvenn() {
                 shift    
                 ;;
             '-c' )
-                centerText="$2"
+                centerText=$(echo "$2" | sed "s/ /_/g")
                 shift    
                 shift
                 ;;
