@@ -7,6 +7,7 @@ function vsin() {
     seq 0 0.01 8.28 | awk '{ print sin($1), sin($1+1), sin($1+2), sin($1+3), sin($1+4), sin($1+5) }' | plot.awk | isvg
 }
 
+# WIP doesn't actually work right now
 function vsubset() {
     radius=1300
     searchTerm=""
@@ -43,6 +44,7 @@ function vvenn() {
     searchTerm=""
     output=""
     centerText="_"
+    subText="_"
 
     while [[ $# -gt 0 ]]
     do 
@@ -58,20 +60,30 @@ function vvenn() {
                 shift    
                 ;;
             '-c' )
-                centerText=$(echo "$2" | sed "s/ /_/g")
+                centerText="$2"
+                shift    
+                shift
+                ;;
+            '-s' )
+                subText=$(echo "$2" | sed "s/ /_/g")
                 shift    
                 shift
                 ;;
             * )
-                searchTerm="$searchTerm $key"
+                if [[ "$subText" != "_" ]]; then
+                  subText="$subText $key"
+                else
+                  currentTerm=$(echo "$key" | sed "s/ /_/g")
+                  searchTerm="$searchTerm $currentTerm"
+                fi
                 shift
                 ;;
         esac
     done  
-    echo "${radius} \"${centerText}\" ${searchTerm}" 
+    echo "${radius}\n${searchTerm}\n${centerText}\n${subText}"
     if [[ "$output" == "x" ]]; then
-        echo "${radius} ${centerText} ${searchTerm}" | venn.awk 
+        echo "${radius}\n${searchTerm}\n${centerText}\n${subText}" | venn.awk 
     else
-        echo "${radius} ${centerText} ${searchTerm}" | venn.awk | isvg
+        echo "${radius}\n${searchTerm}\n${centerText}\n${subText}" | venn.awk | isvg
     fi
 }
