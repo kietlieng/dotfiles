@@ -1,8 +1,5 @@
 #!/usr/bin/awk -f
 
-# All credits go to thingskatedid for this awesome work on introducing me to awk programming 
-
-
 # This program is a copy of guff, a plot device. https://github.com/silentbicycle/guff
 # My copy here is written in awk instead of C, has no compelling benefit.
 # Public domain. @thingskatedid
@@ -45,15 +42,17 @@ function normalise(	delta) {
 		max[i] = 0
 		min[i] = 0
 
+        # find out max and min
 		for (j = 1; j <= NR; j++) {
 			if (a[i, j] > max[i]) {
 				max[i] = a[i, j]
-			} else
-			if (a[i, j] < min[i]) {
+			} 
+            else if (a[i, j] < min[i]) {
 				min[i] = a[i, j]
 			}
 		}
-
+        
+        # difference
 		delta[i] = max[i] - min[i]
 
 		for (j = 1; j <= NR; j++) {

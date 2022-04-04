@@ -1,6 +1,6 @@
 SCREENSHOT_DIRECTORY=~/lab/screenshots
 
-function mscreen() {
+function mpx() {
   FILE_NAME=$(date +"%y%m%d%H%M")
   FILE_NAME_FULL=$FILE_NAME
   TARGET_DIRECTORY="$MARKDOWN_MEETING_DIRECTORY"

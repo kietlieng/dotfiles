@@ -11,8 +11,18 @@ alias tsource="tmux source-file ~/.tmux.conf"
 function tpane() {
   echo "${@}"
   echo "${#}"
+  #echo "$1"
   target_list=()
+  #target_list=("vim test.txt" "vim test.txt")
+  #echo "${prod_list[*]}"
   split_list=()
+  #if [ "${#}" -gt 0 ]; then
+  #  placeholder=$1
+  #  #if [ "dev" = "$placeholder" ]; then
+  #  #  target_list=( "jsh dev-usw-r4-def-h4 -c" "jsh dev-usw-r6-def-h6 -c" "jsh dev-usw-r7-def-h7 -c" "jsh dev-usw-r8-def-h8 -c" )
+  #  #fi
+  #  target_list+=( $placeholder )
+  #fi
 
   while [[ "${#}" -gt 0 ]]
   do
@@ -51,8 +61,29 @@ function tpane() {
   fi
 }
 
+#function muxname() {
+#  if [[ $# -gt 0 ]]; then
+#    echo "/usr/local/bin/tmux new-session -s $1\;"
+#  fi
+#}
+#
+#function muxopen() {
+#  export mux_command=""
+#  while [[ $# -gt 0 ]]
+#  do
+#    case $1 in
+#    * )
+#      export mux_command="$mux_command $(muxname $1)"
+#      shift
+#      ;;
+#     esac
+#  done
+#  echo "$mux_command"
+#  #eval $mux_command
+#}
+
 # kill last session
-function td() {
+function tk() {
   TM_LISTING=$(tmux ls)
   NO_TM_LISTING=$(tmux ls 2>&1 | grep -v "no server running on")
   if [ "$NO_TM_LISTING" ]; then

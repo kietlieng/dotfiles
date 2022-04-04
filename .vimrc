@@ -4,6 +4,7 @@ set noerrorbells
 " increment alpha characters also
 " set nrformats+=alpha
 
+set termguicolors
 " tabs
 set tabstop=4
 set softtabstop=4
@@ -64,6 +65,7 @@ call plug#begin('~/.vim/plugged')
   "Plug 'hardcoreplayers/oceanic-material'
   " Nah looks good but not functional
   " Plug 'embark-theme/vim', { 'as': 'embark' }
+  Plug 'ghifarit53/tokyonight-vim'
 
 
   "" grep listing
@@ -88,16 +90,24 @@ call plug#begin('~/.vim/plugged')
   "Plug 'kana/vim-smartword'
 call plug#end()
 
+"""""""""""""""""""""""""""""""""""
 colorscheme gruvbox
-"" terminal color 
-""" #10151a
-""" #1E1E1E
+" terminal color 
+"" #10151a
+"" #1E1E1E
 set background=dark
 let g:gruvbox_italic=1
 let g:gruvbox_termcolors=16
 let g:gruvbox_contrast_dark = 'dark'
 "let g:gruvbox_contrast_dark = 'hard'
 "set bg=dark
+"""""""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""""""
+"colorscheme tokyonight
+"let g:tokyonight_style = 'night' " available: night, storm
+"let g:tokyonight_enable_italic = 1
+"""""""""""""""""""""""""""""""""""
 
 "" youcompleteme: closes top preview window when you leave insert mode
 "" let g:ycm_autoclose_preview_window_after_insertion = 1
