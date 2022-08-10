@@ -70,7 +70,7 @@ function mnote() {
     FILE_NAME="${FILE_NAME_DATE}-${FILE_NAME}"
   fi
   FILE_NAME="${FILE_NAME}.md"
-   
+
   full_file_path="${TARGET_DIRECTORY}/${FILE_NAME}"
   echo $full_file_path
   touch $full_file_path
@@ -94,22 +94,22 @@ function msearch() {
         KEY="$1"
         case $KEY in
             '-o')
-                O_OPEN_FILE=true 
+                O_OPEN_FILE=true
                 O_OPEN_OPTION=true
                 shift
                 ;;
             '-g')
-                O_OPEN_GREP=true 
+                O_OPEN_GREP=true
                 O_OPEN_OPTION=true
                 shift
                 ;;
                 # exact match
             '-e')
-                O_GREP_EXACT=true 
+                O_GREP_EXACT=true
                 shift
                 ;;
             '-v')
-                O_GREP_VERBOSE=true 
+                O_GREP_VERBOSE=true
                 shift
                 ;;
             * )
@@ -143,7 +143,7 @@ function msearch() {
           done
         fi
     fi
-  
+
 
     #if [[ "$O_OPEN_OPTION" == 'false' ]] || [[ "$O_OPEN_OPTION" == 'true' && "$O_OPEN_GREP" == 'true' ]] ; then
     if [[ "$O_GREP_VERBOSE" == 'true' ]] ; then
@@ -163,4 +163,12 @@ function msearch() {
           done
         fi
     fi
+}
+
+function mbrowse() {
+    cd ~/lab/meetings
+    fzf_list=$(fzf --preview="cat {}" --preview-window=right:70%:wrap)
+       if (( ${#fzf_list[@]} != 0 )); then
+       vim $fzf_list
+   fi
 }

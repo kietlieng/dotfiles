@@ -1,3 +1,6 @@
 function vx() {
-   vim $(/usr/local/bin/fzf)
+   filesToEdit=$(/usr/local/bin/fzf)
+   if (( ${#filesToEdit[@]} != 0 )); then
+       vim $filesToEdit
+   fi
 }

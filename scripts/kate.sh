@@ -41,8 +41,13 @@ function vsubset() {
 
 function vbub() {
     radius=2000
-    halfRadius=$((radius * 3/5))
-    searchTerm=""
+    plotRange=$((radius * 1/2))
+    radiusRange=$((radius * 3/7))
+    same=""
+    minimumRadius=200
+    isBigger="T"
+    biggerTerm=""
+    smallerTerm=""
     points=""
     debug="0"
     output=""
@@ -55,7 +60,8 @@ function vbub() {
         case $key in
             '-r' )
                 radius=$2
-                halfRadius=$((radius * 3/5))
+                plotRange=$((radius * 1/2))
+                radiusRange=$((radius * 1/7))
                 shift
                 shift
                 ;;
@@ -72,9 +78,12 @@ function vbub() {
                 shift    
                 shift
                 ;;
+            '-fake' )
+                points="816 62 508\n427 673 393"
+                shift
+                ;;
             '-s' )
-                subText=$(echo "$2" | sed "s/ /_/g")
-                shift    
+                isBigger="F"
                 shift
                 ;;
             * )
@@ -82,27 +91,22 @@ function vbub() {
                   subText="$subText $key"
                 else
                   currentTerm=$(echo "$key" | sed "s/ /_/g")
-                  searchTerm="$searchTerm $currentTerm"
 
-                  xNegative=$(shuf -i 0-1 -n1)
-                  yNegative=$(shuf -i 0-1 -n1)
-                  xPoint=$(shuf -i 0-$halfRadius -n1)
-                  yPoint=$(shuf -i 0-$halfRadius -n1)
-                  if [[ $xNegative == "1" ]]; then
-                      xPoint="-${xPoint}"
+                  if [[ "$isBigger" == "T" ]]; then
+                      biggerTerm="$biggerTerm $currentTerm"
+                  else
+                      smallerTerm="$smallerTerm $currentTerm"
                   fi
-                  if [[ $yNegative == "1" ]]; then
-                      yPoint="-${yPoint}"
-                  fi
-                  points="$points ${xPoint} ${yPoint}\n"
+
+                  combineIt=$(python -c "import random; print(str(random.randint(-${plotRange},${plotRange})) + ' ' + str(random.randint(-${plotRange},${plotRange})) + ' ' + str(random.randint(${minimumRadius},${radiusRange})))")
+                  points="$points ${combineIt}\n"
                 fi
                 shift
                 ;;
         esac
     done  
-    totalOutput="${debug}\n${radius}\n${searchTerm}\n${subText}\n${points}"
+    totalOutput="${debug}\n${radius}\n${biggerTerm}\n${smallerTerm}\n${points}"
     echo "$totalOutput"
-    echo "halfRadius ${halfRadius}"
     if [[ "$output" == "x" ]]; then
         echo $totalOutput | bubble.awk 
     else

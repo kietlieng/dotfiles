@@ -1,9 +1,13 @@
-alias tm='tm2'
+alias tm='tmh2'
+alias tmh='tmh2'
 alias tm1='tmux new-session'
-alias tm2='tmux new-session \; split-window -h \; select-pane -L \; attach'
-alias tm3='tmux new-session \; split-window -h \; split-window -h \; select-pane -L \; select-pane -L \; attach \; select-layout even-horizontal'
-alias tm4='tmux new-session \; split-window -h \; split-window -v \; select-pane -L \; split-window -v \; select-pane -U \; attach'
-alias tm6='tmux new-session \; split-window -h \; split-window -h \; select-pane -L \; split-window -v \; select-pane -L \; split-window -v \; select-pane -L \; split-window -v \; select-pane -U \; attach'
+alias tm2='tmux new-session \; split-window -h \; select-pane -L \; set-window-option synchronize-panes on \; attach'
+alias tmh2='tmux new-session \; split-window -v \; select-pane -U \; set-window-option synchronize-panes on \; attach'
+alias tm3='tmux new-session \; split-window -h \; split-window -h \; select-pane -R \; set-window-option synchronize-panes on \; select-layout even-horizontal \; attach'
+alias tmh3='tmux new-session \; split-window -v \; split-window -v \; select-pane -D \; set-window-option synchronize-panes on \; select-layout even-vertical \; attach'
+alias tm4='tmux new-session \; split-window -h \; split-window -v \; select-pane -L \; split-window -v \; select-pane -U \; set-window-option synchronize-panes on \; attach'
+alias tm5='tmux new-session \; split-window -h \; split-window -h \; split-window -h \; split-window -h \; select-pane -R \; set-window-option synchronize-panes on \; select-layout even-horizontal \; attach'
+alias tm6='tmux new-session \; split-window -h \; split-window -h \; select-pane -L \; split-window -v \; select-pane -L \; split-window -v \; select-pane -L \; split-window -v \; select-pane -U \; set-window-option synchronize-panes on \; attach'
 alias tl='tmux ls'
 alias tsource="tmux source-file ~/.tmux.conf"
 

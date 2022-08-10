@@ -1,12 +1,14 @@
 alias gadd='git add '
 alias gcb='git checkout -b'
 alias gco='git checkout '
-alias gdif='git diff '
+alias gd='git diff '
 alias gitfilestatus="git log --name-status --oneline"
 alias glog="git log -p"
 alias gp="git pull"
 alias gpretty="git log --name-only"
-alias gst="git status"
+alias g="git status"
+alias gmmaster="git merge master"
+alias gr="pwd; git status; git rev-parse --abbrev-ref HEAD"
 
 function gcom() {
     if [[ $# -gt 0 ]]; then
@@ -20,7 +22,7 @@ function gwarn() {
   git config pull.rebase false  # merge (the default strategy)
   git config pull.rebase true   # rebase
   git config pull.ff only       # fast-forward only
-} 
+}
 
 function gusers() {
   #git shortlog --summary --numbered
@@ -97,22 +99,50 @@ function gbambooscript(){
 # 1st parameter ticket name
 # n+ parameter description
 function gbranch() {
-    ticket_url="${1%/}"
-    ticket_url="${ticket_url##*/}"
-    shift
-    description=""
-    while [[ $# -gt 0 ]]
-    do
-        description="${description}_${1}"
+    if  [[ $# -gt 0 ]] then
+        ticket_url="${1%/}"
+        ticket_url="${ticket_url##*/}"
         shift
-    done
-    echo "url ${ticket_url}"
-    echo $description
-    git checkout -b "${ticket_url}${description}" master
-    git branch --set-upstream-to=origin/master
+        description=""
+        while [[ $# -gt 0 ]]
+        do
+            description="${description}_${1}"
+            shift
+        done
+        echo "url ${ticket_url}"
+        echo $description
+        #git checkout -b "${ticket_url}${description}" master
+        #git branch --set-upstream-to=origin/master
+        git checkout -b "${ticket_url}${description}" master
+        git branch --set-upstream-to=origin/master
+    else
+        git branch
+    fi
 }
 
-function gclone() { 
+function glogname() {
+    current_directory=$(pwd)
+    ans_directory=~/lab/repos/ansible1
+    # if in ansible repo find it
+    if [[ $current_directory == */lab/repos/ansible* ]]; then
+        echo "in ansible directory $current_directory"
+        glog $(find . -iname "paciolan.info.zone.j2")
+    else
+        cd ~/lab/repos/ansible1
+        pwd
+        echo "explicitly from $ans_directory"
+        glog ~/lab/repos/ansible1/roles/nameserver/templates/prime/zones/paciolan.info.zone.j2
+    fi
+    cd $current_directory
+}
+
+function gjira() {
+  GIT_BRANCH=`git rev-parse --abbrev-ref HEAD`
+  jiraTicket=$(echo  $GIT_BRANCH | cut -d _ -f 1)
+  open "https://paciolan.atlassian.net/browse/${jiraTicket}"
+}
+
+function gclone() {
   echo "$1"
   # removes trailing slashes from parameter
   MUNGED_URL=$(sed "s/https:\/\//git@/g" <<< ${@%/})
@@ -124,7 +154,7 @@ function gclone() {
 function gpush() {
   GIT_BRANCH=`git rev-parse --abbrev-ref HEAD`
   echo $GIT_BRANCH
-  git push origin "${GIT_BRANCH}"
+  git push -f origin "${GIT_BRANCH}"
 
 }
 
@@ -132,7 +162,7 @@ function gpr() {
   GIT_ORIGIN=`git config --list | grep -i remote.origin.url`
   GIT_PR="/-/merge_requests"
   GIT_ORIGIN=$(sed "s/:/\//g" <<< $GIT_ORIGIN)
-  GIT_ORIGIN=$(sed "s/\.git//g" <<< $GIT_ORIGIN) 
+  GIT_ORIGIN=$(sed "s/\.git//g" <<< $GIT_ORIGIN)
   GIT_ORIGIN=$(sed "s/remote\.origin\.url=git@/https\:\/\//g" <<< $GIT_ORIGIN)
   if [[ $GIT_ORIGIN == *github.com* ]];
   then
@@ -140,6 +170,10 @@ function gpr() {
   fi
   echo "${GIT_ORIGIN}${GIT_PR}"
   open "${GIT_ORIGIN}${GIT_PR}"
+}
+
+function glinkx() {
+    glink x
 }
 
 function glink() {
@@ -154,7 +188,7 @@ function glink() {
     # specifically for github
     GIT_ORIGIN=$(sed "s/com:/com\//g" <<< $GIT_ORIGIN)
     # converting @git and remove it
-    GIT_ORIGIN=$(sed "s/\.git//g" <<< $GIT_ORIGIN) 
+    GIT_ORIGIN=$(sed "s/\.git//g" <<< $GIT_ORIGIN)
     GIT_ORIGIN=$(sed "s/remote\.origin\.url=//g" <<< $GIT_ORIGIN)
     GIT_ORIGIN=$(sed "s/git@/https:\/\//g" <<< $GIT_ORIGIN)
     #echo "${GIT_ORIGIN}${GIT_PR}"
@@ -168,22 +202,22 @@ function glink() {
 
 
     anchorPath=`pwd`
-    repoPath=${PWD##*/}   
+    repoPath=${PWD##*/}
     currentFolder=""
-    foundIt="" 
+    foundIt=""
     # found .git in current directory
     for d in $(ls -la | grep -i "\.git\$"); do
         echo "working! ${gitInDirectory}"
-        repoPath=${PWD##*/}   
-        foundIt="true" 
+        repoPath=${PWD##*/}
+        foundIt="true"
         break
     done
 
     if [[ "true" == "$foundIt" ]]; then
         return
     fi
-   
-    # 10 should be good 
+
+    # 10 should be good
     for i in {1..10}
     do
         cd ..
