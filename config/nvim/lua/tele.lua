@@ -57,13 +57,14 @@ function F.dirDepthJump(aDepth)
 
   elseif aDepth == -1 then
 
+    -- find root directory
     local currentRepo = vim.fn.expand('%:p:h')
     local io = require("io")
-    local fOutput = io.popen("cd " .. currentRepo .. "; callgitrootfolder.sh")
+    local fOutput = io.popen("callgitrootfolder " .. currentRepo)
     dirExpression = fOutput:read('*all')
-    local rc = {fOutput:close()}
+    fOutput:close()
 
-    --print(values)
+    print(dirExpression)
 
   else
 

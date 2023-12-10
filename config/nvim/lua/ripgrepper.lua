@@ -28,7 +28,7 @@ function F.grepLevel(fLevel)
 
     local currentRepo = vim.fn.expand('%:p:h')
     local io = require("io")
-    local fOutput = io.popen("cd " .. currentRepo .. "; callgitrootfolder.sh")
+    local fOutput = io.popen("cd " .. currentRepo .. "; callgitrootfolder")
     local gitRoot = fOutput:read('*all')
 
     vim.fn.setreg('r', gitRoot) -- figure out the git root and set the r register to that

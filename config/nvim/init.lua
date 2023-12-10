@@ -1,60 +1,52 @@
 local set = vim.opt
 
 vim.cmd([[set runtimepath+=~/.nvim]]) --set.runtimepath:append { set.runtimepath .. "/.nvim" }
-set.undodir = vim.env.HOME .. '/.nvim/undodir'
 
--- tabs
-set.expandtab   = true
-set.shiftwidth  = 2
-set.showtabline = 2
-set.smartindent = true
-set.softtabstop = 2
-set.tabstop     = 2
+-- undo
+set.undodir  = vim.env.HOME .. '/.nvim/undodir'
+set.undofile = true
 
---set.nrformats     = set.nrformats + 'alpha' -- increase alpha letters. Want numbers for now
---set.termguicolors = true -- set if you want theme challenger deep, feline -- remove if using apple terminal
-set.backup          = false
-set.belloff         = "all"
-set.colorcolumn     = "80"
-set.cursorline      = true
-set.hidden          = true
-set.hlsearch        = false
-set.hlsearch        = true
-set.ignorecase      = true
-set.incsearch       = true
-set.laststatus      = 2
-set.lazyredraw      = true
-set.number          = true
-set.relativenumber  = true
-set.ruler           = true
-set.scrolloff       = 10 -- give at list 10 space before / after cursor
-set.showcmd         = true
-set.signcolumn      = 'yes'
-set.smartcase       = true
-set.swapfile        = false
-set.syntax          = 'on'
-set.timeoutlen      = 1000 -- no delay on escape
-set.ttimeoutlen     = 0    -- no delay on escape
-set.undofile        = true
-set.updatetime      = 100 -- gitgutter delay
-set.viminfo         = "'100,f1" -- persistent marks up to 100
-set.wrap            = true
-
-vim.cmd([[
-
-set statusline=%F
-set title
-set titlestring=%F
-
-]])
-
---set.utf8 = true
-vim.cmd([[highlight ColorColumn ctermbg=0 guibg=lightgrey]])
-
--- https://stackoverflow.com/questions/71152802/how-to-override-color-scheme-in-neovim-lua-config-file
---vim.api.nvim_set_hl(0, "ColorColumn", { ctermbg=0, guibg=lightgrey })
-----vim.api.nvim_set_hl(0, "Comment", { cterm=italic, gui=italic })
---vim.api.nvim_set_hl(0, "Comment", { cterm=strikethrough, gui=strikethrough })
+--set.nrformats    = set.nrformats + 'alpha'                                          -- increase alpha letters. Want numbers for now
+set.background     = "dark"
+set.backup         = false
+set.belloff        = "all"
+set.colorcolumn    = "80"
+set.cursorline     = true
+set.expandtab      = true
+set.fileencoding   = "utf-8"                                                          -- encoding set to utf-8
+set.foldlevel      = 99                                                               -- no folds
+set.hidden         = true
+set.hlsearch       = true
+set.ignorecase     = true
+set.incsearch      = true
+set.laststatus     = 2
+set.lazyredraw     = true
+set.number         = true
+set.relativenumber = true
+set.ruler          = true
+set.scrolloff      = 8                                                                -- give at list X space before / after cursor
+set.shiftwidth     = 2
+set.showcmd        = true
+set.showtabline    = 2
+set.sidescrolloff  = 8                                                                -- scroll page when cursor is 8 spaces from left/right
+set.signcolumn     = 'yes'
+set.smartcase      = true
+set.smartindent    = true
+set.smarttab       = true
+set.softtabstop    = 2
+set.statusline     = "%F"
+set.swapfile       = false
+set.syntax         = 'ON'
+set.tabstop        = 2
+set.termguicolors  = true                                                             -- set if you want theme challenger deep, feline        -- remove if using apple terminal
+set.timeoutlen     = 1000                                                             -- no delay on escape
+set.title          = true
+set.titlestring    = "%F"
+set.ttimeoutlen    = 0                                                                -- no delay on escape
+set.updatetime     = 100                                                              -- gitgutter delay
+set.viminfo        = "'100,f1"                                                        -- persistent marks up to 100
+set.wildignore     = "*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx"
+set.wrap           = true
 
 --- LAZY START -----
 
@@ -90,7 +82,8 @@ require("lazy").setup({
     { "godlygeek/tabular" }, -- sort table values
 
     -- THEMES
-    { "morhetz/gruvbox" },
+    -- { "morhetz/gruvbox" },
+    { "gruvbox-community/gruvbox" }, -- it's morhetz fork but with support
     -- { "sainnhe/gruvbox-material" },
     -- { "olimorris/onedarkpro.nvim", priority = 1000 },
     -- { "tjdevries/colorbuddy.vim" }, { "tjdevries/gruvbuddy.nvim" }, -- don't really like
@@ -100,7 +93,6 @@ require("lazy").setup({
     -- { "hardcoreplayers/oceanic-material" },
     -- { "ghifarit53/tokyonight-vim" },
     -- { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
-
 
     -- coc for preview
     { "neoclide/coc.nvim", branch = 'release' },
@@ -165,44 +157,17 @@ require("lazy").setup({
 
 ----- LAZY END -----
 
----- THEME BEGIN
-
----- onedark theme
---require("onedarkpro").setup({
---  highlights = {
---    Error = {
---      underline = false,
---    },
---  }
---})
-
---vim.cmd.colorscheme "catppuccin" -- catppuccin / catppuccin-latte / catppuccin-frappe / catppuccin-macchiato / catppuccin-mocha
---vim.cmd.colorscheme "challenger_deep"
---vim.cmd.colorscheme "gruvbox-material"
---vim.cmd.colorscheme "challenger_deep"
---vim.cmd.colorscheme "oceanic_material"
---require('colorbuddy').colorscheme('gruvbuddy')
---vim.cmd.colorscheme "onedark_dark" -- onedark / onelight / onedark_vivid / onedark_dark
-
-vim.cmd.colorscheme "gruvbox"
-set.background = "dark" -- vim.o.background = "dark" -- or "light" for light mode
-
----- THEME END
-
-
 -- AUTO COMMANDS BEGIN
 
+-- vim.api.nvim_create_autocmd({"TextChanged", "textChangedI"}, { pattern = "<buffer>", command = "silent update" })  -- doesn't work all the time only on first buffer
+vim.api.nvim_create_autocmd( { "BufNewFile", "BufRead" }, { pattern = "*.md", command = "call NotePreview()", })      -- run the watch command when detecting markup
 vim.api.nvim_create_autocmd( { "VimEnter" }, { pattern = "*", command = ":normal zz" })
-vim.api.nvim_create_autocmd( { "BufNewFile", "BufRead" }, { pattern = "*.md", command = "call NotePreview()", }) --"" run the watch command when detecting markup
--- doesn't work all the time only on first buffer
--- vim.api.nvim_create_autocmd({"TextChanged", "textChangedI"}, { pattern = "<buffer>", command = "silent update" }) -- auto save
 
 -- AUTO COMMANDS END
 
 -- COMMAND BEGIN
 
 vim.cmd([[
-
 
   ""g:fzf_vim.listproc = { list -> fzf#vim#listproc#quickfix(list) } "" currently not working
 
@@ -212,22 +177,7 @@ vim.cmd([[
      \   exe "normal! g`\"" |
      \ endif
 
-  "" airline
-  ""let g:gruvbox_improved_strings         = 1 "" high contrast string (white text / grey background). Not great if alot of strings
-  ""let g:gruvbox_invert_indent_guides     = 1 "" don't use indent guides
-  ""let g:gruvbox_invert_signs             = 1 "" too jarring
-  ""let g:gruvbox_material_background      = 'hard' "" hard / medium / soft
-  let g:airline#extensions#tabline#enabled = 1
-  let g:airline_section_y                  = airline#section#create_left(['path'])
-  let g:airline_theme                      = 'gruvbox'
-  let g:gruvbox_bold                       = 1
-  let g:gruvbox_contrast_dark              = 'hard'
-  let g:gruvbox_improved_warnings          = 1
-  let g:gruvbox_invert_tabline             = 1
-  let g:gruvbox_italic                     = 1
-  let g:gruvbox_italicize_strings          = 1
   let g:loaded_perl_provider               = 0  "" disable perl from checkhealth
-
 
   function! GetBufferList()
     redir =>buflist
@@ -261,7 +211,7 @@ vim.cmd([[
       let l:filename=tolower(expand('%:r'))
       let l:filePath=tolower(expand('%:p:h'))
       let l:previewing=0
-  
+
       "" not in meeting
       if (stridx(l:filePath, 'lab/meetings') == -1) && (stridx(l:filePath, 'lab/notes') == -1)
           if stridx(l:filename, 'readme') > -1 || stridx(l:filename, 'license') > -1 || stridx(l:filename, '-no') > -1
@@ -277,7 +227,7 @@ vim.cmd([[
               :AsyncRun callkittyfocus.sh
           endif
       endif
-  
+
       ":silent !callwin.sh md " reposition windows to reading
       ":silent !callopenbook.sh '%:r' " find the book and open it
       " :) I love this! Runs in the background with no hesitations whatsoever
@@ -285,18 +235,18 @@ vim.cmd([[
       if (l:previewing)
           :AsyncRun callopenbook.sh '%:r'
       endif
-  
+
   endfunction
-  
+
   function! StripTrailingWhitespaces()
       let l = line(".")
       let c = col(".")
       %s/\s\+$//e
       call cursor(l, c)
   endfunction
-  
+
   function! CloseBufferOrVim(saveFirst)
-  
+
       "" if more than 1 buffer close the current buffer only. Otherwise close vim
       if (len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) > 1)
         if a:saveFirst == 1
@@ -313,7 +263,7 @@ vim.cmd([[
           :q!
         endif
       endif
-  
+
   endfunction
 
   autocmd BufNewFile,BufRead * if &syntax == '' | set syntax=yaml | endif "" make syntax yaml if no syntax is found
@@ -340,10 +290,12 @@ require('quotes').setup()     -- yank / delete / change betweet quotes / bracket
 require('treesitter').setup() -- setup syntax for treesitter
 require('snippet-luasnip').setup()                 -- setup snippet engine
 
+
 require("luasnip.loaders.from_vscode").lazy_load() -- lead friendly-snippets support into luasnip
 require('lua-mason-lspconfig').setup()             -- setup syntax for treesitter
 require('lsp-setup').setup()                       -- setup all lsp
 
-require('fun').setup()         -- useless but fun
-
 require('keymap').setup()
+require('fun').setup() -- useless but fun
+
+require('theme').setup() -- needs to be last
