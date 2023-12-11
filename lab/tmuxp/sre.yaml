@@ -1,0 +1,11 @@
+session_name: sre
+windows:
+  - window_name: sre
+    layout: even-horizontal
+    panes:
+      - shell_command:
+          - j sre
+          - node index.js
+      - shell_command:
+          - j sre
+          - vx

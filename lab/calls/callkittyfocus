@@ -1,0 +1,5 @@
+#!/bin/bash
+source ~/lab/scripts/calls/sourceall
+
+sleep 1
+focuskitty

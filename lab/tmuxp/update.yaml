@@ -1,0 +1,9 @@
+session_name: update
+windows:
+  - window_name: update
+    layout: even-vertical
+    panes:
+#      - shell_command:
+#          - glall
+      - shell_command:
+          - brew update; brew upgrade nvim vim kitty tmux yabai curl openssl

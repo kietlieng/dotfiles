@@ -1,0 +1,14 @@
+session_name: devapp
+windows:
+  - window_name: devapp
+    layout: even-vertical
+    panes:
+      - jsh dev- h6 -c
+      - jsh dev- h7 -c
+      - jsh dev- h9 -c
+      - jsh dev- h10 -c
+      - jsh dev- h11 -c
+      - jsh dev- h12 -c
+    options_after:
+      synchronize-panes: on
+

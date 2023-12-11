@@ -1,0 +1,15 @@
+session_name: dns
+windows:
+  - window_name: dns
+    layout: even-vertical
+    panes:
+      - shell_command: # pane no. 1
+          - j did
+      - shell_command:
+          - j dip
+      - shell_command:
+          - j pdns
+      - shell_command:
+          - j nameserver
+    options_after:
+        synchronize-panes: on

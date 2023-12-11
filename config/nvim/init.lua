@@ -45,7 +45,7 @@ set.titlestring    = "%F"
 set.ttimeoutlen    = 0                                                                -- no delay on escape
 set.updatetime     = 100                                                              -- gitgutter delay
 set.viminfo        = "'100,f1"                                                        -- persistent marks up to 100
-set.wildignore     = "*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx"
+set.wildignore     = "*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx"  -- avoid
 set.wrap           = true
 
 --- LAZY START -----

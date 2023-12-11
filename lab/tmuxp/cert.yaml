@@ -1,0 +1,12 @@
+session_name: cert
+windows:
+  - window_name: cert
+    layout: even-vertical
+    panes:
+      - shell_command:
+          - j calert
+          - nvim group.txt
+      - shell_command:
+          - j calert
+          - nvim scancerts.py
+

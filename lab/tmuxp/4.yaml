@@ -1,0 +1,11 @@
+session_name: 4p
+windows:
+  - window_name: 4p
+    layout: even-horizontal
+    panes:
+      - echo 1
+      - echo 2
+      - echo 3
+      - echo 4
+    options_after:
+        synchronize-panes: on

@@ -30,6 +30,7 @@ function syncdot() {
 
     dConfigDir=${destinationDir}/config # config
     dFileDir=${destinationDir}/dotfiles # dot 
+    dKittyDir=${dConfigDir}/kitty 
 
     # lab
     dLabDir=${destinationDir}/lab
@@ -38,7 +39,7 @@ function syncdot() {
     rm -rf $destinationDir/*
 
     # create directories
-    mkdir -p $dConfigDir $dFileDir $dScriptDir
+    mkdir -p $dConfigDir $dFileDir $dScriptDir $dKittyDir
 
     cp ~/.tmux.conf ${dFileDir}/.
     cp ~/.yabairc ${dFileDir}/.
@@ -46,6 +47,13 @@ function syncdot() {
     # copy init
     cp -rf ~/.config/nvim $dConfigDir/nvim
     rm -rf $dConfigDir/nvim/init.lua.*
+
+    cp ~/.config/kitty/kitty.conf $dKittyDir/.
+
+    cp -rf ~/lab/scripts/calls $dLabDir/.
+    cp -rf ~/lab/scripts/tmuxp $dLabDir/.
+    cp -rf ~/lab/scripts/applescript $dLabDir/.
+    cp -rf ~/lab/scripts/plot $dLabDir/.
 
     find $sourceScript -maxdepth 1 -type f  -iname "*.sh" -exec cp {} ${dScriptDir}/. \;
 

@@ -1,0 +1,10 @@
+session_name: 3p
+windows:
+  - window_name: 3p
+    layout: even-horizontal
+    panes:
+      - echo 1
+      - echo 2
+      - echo 3
+    options_after:
+        synchronize-panes: on

@@ -1,0 +1,9 @@
+session_name: dip
+windows:
+  - window_name: dip
+    layout: even-vertical
+    panes:
+      - shell_command:
+          - j dip
+      - shell_command:
+          - j nameserver

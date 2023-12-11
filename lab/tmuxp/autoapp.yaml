@@ -1,0 +1,23 @@
+session_name: autoapp
+windows:
+  - window_name: auto-usw-r14-def-h14
+    panes:
+      - jsh auto-usw-r14-def-h14 -c
+  - window_name: auto-usw-r15-def-h15
+    panes:
+      - jsh auto-usw-r15-def-h15 -c
+  - window_name: auto-usw-r16-def-h16
+    panes:
+      - jsh auto-usw-r16-def-h16 -c
+  - window_name: auto-usw-r2-def-h2
+    panes:
+      - jsh auto-usw-r2-def-h2 -c
+  - window_name: auto-usw-r3-def-h3
+    panes:
+      - jsh auto-usw-r3-def-h3 -c
+  - window_name: auto-usw-r4-def-h4
+    panes:
+      - jsh auto-usw-r4-def-h4 -c
+  - window_name: auto-usw-r5-def-h5
+    panes:
+      - jsh auto-usw-r5-def-h5 -c

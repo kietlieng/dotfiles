@@ -1,0 +1,12 @@
+session_name: 2p
+windows:
+  - window_name: 2p
+    layout: even-horizontal
+    focus: true
+    panes:
+      - shell_command:
+        - echo 1
+      - shell_command:
+        - echo 2
+    options_after:
+        synchronize-panes: on

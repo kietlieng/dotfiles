@@ -1,0 +1,11 @@
+#!/bin/bash
+source ~/lab/scripts/calls/sourceall
+
+# go to the directory first
+cd "$1"
+shift
+
+pwd
+g master
+gp
+g -q $@
