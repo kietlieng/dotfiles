@@ -1,0 +1,28 @@
+- maximum radius needed
+    - for each index
+        - if max done
+        - else find smallest convex hull from all radius
+            - find maximum radius and center of new convex hull
+                - find 3 set of points
+                - find new center from a triangle
+                - set the new center from there
+- work this out
+    - get a set if distances
+    - get a set of coordinates (last touching position)
+        - find shortest set in each quadrant
+        - if we have 4 quadrants (relative to itself)
+            - delete 1 quadrant with longest distance
+        - take the remaining quadrants and figure out the new space
+            - 0: not possible
+            - 1: that means you're at the center
+            - 2: find the midpoint between 2 points.  radius is half
+            - 3: find the convex hull.  Radius is the smallest touching
+- another method:
+    - loop through all index
+        - figure out initial flee slope
+        - head towards that slop until circle edge
+            - record distance
+            - record x, y
+        - find longest distance.  Take new x, y coordinates
+        - testing blah
+

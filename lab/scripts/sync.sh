@@ -50,10 +50,10 @@ function syncdot() {
 
     cp ~/.config/kitty/kitty.conf $dKittyDir/.
 
-    cp -rf ~/lab/scripts/calls $dLabDir/.
-    cp -rf ~/lab/scripts/tmuxp $dLabDir/.
-    cp -rf ~/lab/scripts/applescript $dLabDir/.
-    cp -rf ~/lab/scripts/plot $dLabDir/.
+    cp -rf ~/lab/scripts/calls $dScriptDir/.
+    cp -rf ~/lab/scripts/tmuxp $dScriptDir/.
+    cp -rf ~/lab/scripts/applescript $dScriptDir/.
+    cp -rf ~/lab/scripts/plot $dScriptDir/.
 
     find $sourceScript -maxdepth 1 -type f  -iname "*.sh" -exec cp {} ${dScriptDir}/. \;
 
