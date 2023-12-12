@@ -68,20 +68,27 @@ function F.setup()
     capabilities = capabilities,
   }
 
-  --lspconfig.yamlls.setup {
-  --  --... -- other configuration for setup {}
-  --  settings = {
-  --    yaml = {
-  --      --... -- other settings. note this overrides the lspconfig defaults.
-  --      --schemas = {
-  --      --  ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
-  --      --  ["../path/relative/to/file.yml"] = "/.github/workflows/*",
-  --      --  ["/path/from/root/of/project"] = "/.github/workflows/*",
-  --      --},
-  --    },
-  --  },
-  --  capabilities = capabilities,
-  --}
+  local currentRepo = vim.fn.expand('%:p:h')
+  if (string.find(currentRepo, "dns%-internal%-dev") == nil) and
+     (string.find(currentRepo, "public%-dns%-repo") == nil) and
+     (string.find(currentRepo, "dns%-internal%-%prod") == nil) then
+
+     -- do not setup yaml if any of these are true
+    lspconfig.yamlls.setup {
+      --... -- other configuration for setup {}
+      settings = {
+        yaml = {
+          --... -- other settings. note this overrides the lspconfig defaults.
+          --schemas = {
+          --  ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+          --  ["../path/relative/to/file.yml"] = "/.github/workflows/*",
+          --  ["/path/from/root/of/project"] = "/.github/workflows/*",
+          --},
+        },
+      },
+      capabilities = capabilities,
+    }
+  end
 
   -- Use LspAttach autocommand to only map the following keys
   -- after the language server attaches to the current buffer

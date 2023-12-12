@@ -43,7 +43,7 @@ set.timeoutlen     = 1000                                                       
 set.title          = true
 set.titlestring    = "%F"
 set.ttimeoutlen    = 0                                                                -- no delay on escape
-set.updatetime     = 100                                                              -- gitgutter delay
+set.updatetime     = 750                                                              -- gitgutter delay
 set.viminfo        = "'100,f1"                                                        -- persistent marks up to 100
 set.wildignore     = "*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx"  -- avoid
 set.wrap           = true
@@ -144,11 +144,7 @@ require("lazy").setup({
 
     { "prettier/vim-prettier", build =  'yarn install --frozen-lockfile --production', branch = 'release/0.x' },
 
-
-    { "stevearc/oil.nvim",
-      opts = {},
-      dependencies = { "nvim-tree/nvim-web-devicons" },
-    },
+    { "stevearc/oil.nvim", opts = {}, dependencies = { "nvim-tree/nvim-web-devicons" }, },
 
     -- useless but fun
     { "Eandrju/cellular-automaton.nvim" }, -- makes it look like sand droplets
@@ -162,6 +158,28 @@ require("lazy").setup({
 -- vim.api.nvim_create_autocmd({"TextChanged", "textChangedI"}, { pattern = "<buffer>", command = "silent update" })  -- doesn't work all the time only on first buffer
 vim.api.nvim_create_autocmd( { "BufNewFile", "BufRead" }, { pattern = "*.md", command = "call NotePreview()", })      -- run the watch command when detecting markup
 vim.api.nvim_create_autocmd( { "VimEnter" }, { pattern = "*", command = ":normal zz" })
+
+vim.api.nvim_create_autocmd( { "BufWinEnter" }, -- disable yaml if buf path has the following
+  { pattern = { "*.yaml", "*.yml" },
+  callback = function()
+
+    local bufferRepo = vim.fn.expand('%:p')
+
+    --vim.api.nvim_out_write(bufferRepo .. "\n") -- debug
+
+    -- if you find it shut it down
+    if (string.find(bufferRepo, "dns%-internal%-dev")) or
+       (string.find(bufferRepo, "public%-dns%-repo")) or
+       (string.find(bufferRepo, "dns%-internal%-prod")) then
+
+      vim.cmd(':LspStop ' .. vim.fn.bufnr('%'))
+
+    end
+  end,
+
+  }
+
+)
 
 -- AUTO COMMANDS END
 
@@ -292,7 +310,7 @@ require('snippet-luasnip').setup()                 -- setup snippet engine
 
 
 require("luasnip.loaders.from_vscode").lazy_load() -- lead friendly-snippets support into luasnip
-require('lua-mason-lspconfig').setup()             -- setup syntax for treesitter
+require('mason-setup').setup()             -- setup syntax for treesitter
 require('lsp-setup').setup()                       -- setup all lsp
 
 require('keymap').setup()
