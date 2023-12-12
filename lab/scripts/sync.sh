@@ -25,6 +25,8 @@ function syncfromlast() {
 
 function syncdot() {
 
+    setopt localoptions rmstarsilent
+
     sourceScript=~/lab/scripts
     destinationDir=~/lab/repos/dotfiles
 
@@ -56,6 +58,8 @@ function syncdot() {
     cp -rf ~/lab/scripts/plot $dScriptDir/.
 
     find $sourceScript -maxdepth 1 -type f  -iname "*.sh" -exec cp {} ${dScriptDir}/. \;
+
+    cd $destinationDir
 
 }
 
