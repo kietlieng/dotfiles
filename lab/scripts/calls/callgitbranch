@@ -5,6 +5,7 @@ source ~/lab/scripts/calls/sourceall
 cd "$1"
 shift
 
+
 pwd
 g master
 gp

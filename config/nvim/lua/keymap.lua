@@ -185,12 +185,12 @@ function F.setup()
   map( "n", "<LEADER>jlu", ":lua require('tele').dirJump('lua')<CR>", G_SILENT_NO_REMAP )
   map( "n", "<LEADER>jscript", ":lua require('tele').dirJump('script')<CR>", G_SILENT_NO_REMAP )
   map( "n", "<LEADER>jtm", ":lua require('tele').dirJump('tmuxp')<CR>", G_SILENT_NO_REMAP )
-  map( "n", "<LEADER>jirule", ":lua require('tele').dirJump('irules')<CR>", G_SILENT_NO_REMAP )
+  map( "n", "<LEADER>jrule", ":lua require('tele').dirJump('irules')<CR>", G_SILENT_NO_REMAP )
 
   -- edits using :next instead of :e to open multiple files
 
   map( "n", "<LEADER>vidd", ":next ~/lab/repos/edge/dns-internal-dev/zones/paciolan.info.yaml <CR>", G_SILENT_NO_REMAP )                                                                                      -- dns dev
-  map( "n", "<LEADER>virule", ":next ~/lab/repos/irules-engine/modules/download_irule.py <CR>", G_SILENT_NO_REMAP )                                                                                           -- dns dev
+  map( "n", "<LEADER>vrule", ":next ~/lab/repos/irules-engine/modules/download_irule.py <CR>", G_SILENT_NO_REMAP )                                                                                           -- dns dev
   --map( "n", "<LEADER>vidp", ":next ~/lab/repos/nameserver/roles/nsupdate/templates/fwd/db.oc2.evenue.net.j2.zone.fwd ~/lab/repos/edge/dns-internal-prod/zones/oc2.evenue.net.yaml <CR>", G_SILENT_NO_REMAP )  -- dns prod
   map( "n", "<LEADER>vidp", ":next ~/lab/repos/nameserver/roles/*/*/*/db.oc2.evenue.net.j2.zone.fwd ~/lab/repos/edge/dns-internal-prod/zones/oc2.evenue.net.yaml <CR>", G_SILENT_NO_REMAP )  -- dns prod
   map( "n", "<LEADER>vir", ":next ~/.config/nvim/init.lua ~/.config/nvim/lua/keymap.lua <CR>", G_SILENT_NO_REMAP )                                                                                            -- edit init file

@@ -5,5 +5,7 @@ windows:
     panes:
 #      - shell_command:
 #          - glall
+#- shell_command:
+#          - brew update; brew upgrade nvim vim kitty tmux yabai curl openssl ncurses
       - shell_command:
-          - brew update; brew upgrade nvim vim kitty tmux yabai curl openssl
+          - brew update; brew upgrade

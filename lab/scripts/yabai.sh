@@ -1,11 +1,13 @@
 alias bal="y bal"
 alias rot="yrot"
-alias rotoff="ycheckrot of"
+alias rotoff="ycheckrot off"
 alias roton="ycheckrot topdown"
 alias ybal="y bal"
 alias ybot="yo b"
 alias ydisplay="yabai -m query --displays"
 alias yf="y f"
+alias yfoff="y f; ycheckrot off"
+alias yfon="y f; ycheckrot topdown"
 alias yfire="y fire"
 alias yleft="yo l"
 alias yob="yo b"
@@ -181,7 +183,9 @@ function yo() {
     yWidth=$(yabai -m query --displays | jq ".[] | select(.index==$yContext)" | jq '.frame.w' )
     yHeight=$(yabai -m query --displays | jq ".[] | select(.index==$yContext)" | jq '.frame.h' )
     yHHalf=$((yHeight / 2))
+    yHHalf=${yHHalf%.*} # need int cast 
     yWHalf=$((yWidth / 2))
+    yWHalf=${yWHalf%.*} # need int cast 
 
     #echo "yContext $yContext"
     #echo "yDisplays $yDisplays"
