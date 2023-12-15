@@ -28,6 +28,7 @@ function ycte() {
 
 }
 
+# move windows
 function yWindowMove() {
 
     yDisplays=$(yabai -m query --displays | jq '.[].index' | grep -i -o '[0-9]' | wc -l)
@@ -461,7 +462,9 @@ function ycheckrot() {
   yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty"))')
   yDisplayIndex=$(echo "$yTargetDisplays" | jq '.display' | head -n 1) 
   yHeight=$(yabai -m query --displays | jq ".[] | select(.index==$yDisplayIndex) | .frame.h")
+  yHeight=${yHeight%.*} # need int cast
   yHeightTolerance=$((yHeight - 50))
+  yHeightTolerance=${yHeightTolerance%.*} # need int cast
   yAllHeights=$(echo $yTargetDisplays | jq ".frame | .h")
   yInstanceCount=$(echo $yTargetDisplays | jq ".frame | .h" | wc -l)
 
@@ -478,6 +481,7 @@ function ycheckrot() {
   for eachHeight in $(echo "$yAllHeights" | sed 's/ /\n/g'); do
 
     #echo "$yHeightTolerance < |$eachHeight| < $yHeight"
+    eachHeight=${eachHeight%.*}
     if [[ $yHeightTolerance -lt $eachHeight ]] && [[ $eachHeight -lt $yHeight ]]; then 
 
       rot 

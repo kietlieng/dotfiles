@@ -33,8 +33,8 @@ function F.setup()
 
   -- copy word / WORD
 
-  map( "n", "<LEADER>V", 'viw"*yy<ESC>', G_SILENT_NO_REMAP ) -- copy word
-  map( "n", "<LEADER>v", 'viW"*yy<ESC>', G_SILENT_NO_REMAP ) -- copy WORD
+  map( "n", "<LEADER>V", 'viw"*y<ESC>', G_SILENT_NO_REMAP ) -- copy word
+  map( "n", "<LEADER>v", 'viW"*y<ESC>', G_SILENT_NO_REMAP ) -- copy WORD
 
   -- save and quit override
   --map( "n", "QQ", "<cmd>lua require('buffer').CloseBufferOrVim(0)<CR>", G_SILENT_NO_REMAP ) -- Quit without saving. Buffer aware. Will close 1 buffer at a time.
@@ -47,8 +47,11 @@ function F.setup()
   -- clipboard copy
 
   map( "n", "<LEADER>**", ":lua require('reg').toClipboard('/')<CR>", G_SILENT_NO_REMAP )  -- yank to clipboard register
-  map( "n", "<LEADER>y", 'mcggVG"*yy<CR>`c', G_SILENT_NO_REMAP )                           -- copy everything
-  map( "v", "<LEADER>y", '"*yy', G_SILENT_NO_REMAP )                                       -- copy everything in visual
+  map( "n", "<LEADER>y", 'mcggVG"*y<CR>`c', G_SILENT_NO_REMAP )                           -- copy everything
+  map( "v", "<LEADER>y", '"*y', G_SILENT_NO_REMAP )                                       -- copy everything in visual
+
+  map( "n", "<LEADER>d", 'V"*y<CR>dd', G_SILENT_NO_REMAP )                                -- cut to clipboard
+  map( "v", "<LEADER>d", '"*ygvd', G_SILENT_NO_REMAP )                                     -- cut to clipboard
 
   map( "n", "<LEADER>ba", "vip<C-v>$A", G_SILENT_NO_REMAP )         -- block insert end
   map( "n", "<LEADER>bb", "vip<C-v>^", G_SILENT_NO_REMAP )          -- block insert begin

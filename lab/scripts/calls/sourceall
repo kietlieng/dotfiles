@@ -6,8 +6,14 @@ shopt -s expand_aliases # need this to expand alias otherwise it won't be recogn
 for f in $(find ~/lab/scripts -type f -iname "*.sh" | sort);
 do
     #if [[ "$f" != *"jump"* && "$f" != *"gruvbox_256palette_osx.sh"* && "$f" != *"edit"* && "$f" != *"centos.sh"* ]]
-    if [[ "$f" != *"jump"* && "$f" != *"gruvbox_256palette_osx.sh"* && "$f" != *"centos.sh"* ]]
+    if [[ "$f" != *"jump"* && "$f" != *"gruvbox_256palette_osx.sh"* && "$f" != *"centos.sh"* && "$f" != *"nosource"* ]]
     then
+
         source $f
+
+#    else
+#
+#        echo "skipping $f"
+#
     fi
 done
