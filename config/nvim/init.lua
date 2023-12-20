@@ -6,8 +6,8 @@ vim.cmd([[set runtimepath+=~/.nvim]]) --set.runtimepath:append { set.runtimepath
 set.undodir  = vim.env.HOME .. '/.nvim/undodir'
 set.undofile = true
 
---set.nrformats    = set.nrformats + 'alpha'                                          -- increase alpha letters. Want numbers for now
-set.background     = "dark"
+--set.background     = "dark" -- should be set in theme
+--set.nrformats      = set.nrformats + 'alpha'                                          -- increase alpha letters. Want numbers for now
 set.backup         = false
 set.belloff        = "all"
 set.colorcolumn    = "80"

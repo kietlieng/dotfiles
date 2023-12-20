@@ -53,7 +53,9 @@ function F.setup()
   map( "n", "<LEADER>d", 'V"*y<CR>dd', G_SILENT_NO_REMAP )                                -- cut to clipboard
   map( "v", "<LEADER>d", '"*ygvd', G_SILENT_NO_REMAP )                                     -- cut to clipboard
 
-  map( "n", "<LEADER>bA", 'mcgg<C-v>G0o0', G_SILENT_NO_REMAP )      -- block edit mode from front
+  --map( "n", "<LEADER>bA", 'mcgg<C-v>G0o0', G_SILENT_NO_REMAP )      -- block edit mode from front
+  map( "n", "<LEADER>bAc", ":lua require('comments').comments(true)<CR>", G_SILENT_NO_REMAP )
+  map( "n", "<LEADER>bAC", ":lua require('comments').comments(false)<CR>", G_SILENT_NO_REMAP )
   map( "n", "<LEADER>ba", "vip<C-v>$A", G_SILENT_NO_REMAP )         -- block insert end
   map( "n", "<LEADER>bb", "vip<C-v>^", G_SILENT_NO_REMAP )          -- block insert begin
   map( "n", "<LEADER>bi", "Vip<C-v>I", G_SILENT_NO_REMAP )          -- block insert end
@@ -136,21 +138,25 @@ function F.setup()
   map( "n", "<LEADER>unumber", ":set nrformats=bin,hex<CR>", G_NO_REMAP )
 
   -- visual move
+  --
   map( "v", "J", ":m '>+1<CR>gv=gv", G_NO_REMAP )
   map( "v", "K", ":m '<-2<CR>gv=gv", G_NO_REMAP )
 
   --map( "n", "<LEADER>pp", ":PrettierAsync<CR>", G_SILENT_NO_REMAP ) -- prettier
 
   -- move windows
+
   -- nmap <LEADER>win :silent !callwin md<CR>
   map( "n", "<LEADER>sx", ":call StripTrailingWhitespaces()<CR>", G_SILENT_NO_REMAP )
 
   -- marks
-  map({"n", "v"}, "<LEADER>mv", "dd`tp``", G_SILENT_NO_REMAP ) -- paste to mark t and jump back to last location
-  map( "n", "<LEADER>ml", ":marks<CR>", G_SILENT_NO_REMAP ) -- list marks
+
+  map({"n", "v"}, "<LEADER>mv", "dd`tp``", G_SILENT_NO_REMAP )  -- paste to mark t and jump back to last location
+  map( "n", "<LEADER>ml", ":marks<CR>", G_SILENT_NO_REMAP )     -- list marks
 
 
   -- markdown visual
+  --
   --map( "n", "<LEADER>mc", ":CocCommand markmap.create<CR>", G_SILENT_NO_REMAP ) -- never use
   map( "n", "<LEADER>md", ":MarkdownPreviewToggle<CR>", G_SILENT_NO_REMAP )
   map( "n", "<LEADER>mm", ":CocCommand markmap.watch<CR>", G_SILENT_NO_REMAP )
@@ -168,12 +174,14 @@ function F.setup()
   map( "n", "<LEADER>oscript", ":Oil --float ~/lab/scripts<CR>", { desc = "Scripts" } )
 
   ---- See `:help vim.diagnostic.*` for documentation on any of the below functions
+
   --map( "n", '<space>e', vim.diagnostic.open_float )
   --map( "n", '<space>q', vim.diagnostic.setloclist )
   --map( "n", '[d', vim.diagnostic.goto_prev )
   --map( "n", ']d', vim.diagnostic.goto_next )
 
   ---- tmux navigation covered by tmux setting
+
   --map( "n", "<C-h>", ":wincmd h<CR>", G_SILENT_NO_REMAP )
   --map( "n", "<C-j>", ":wincmd j<CR>", G_SILENT_NO_REMAP )
   --map( "n", "<C-k>", ":wincmd k<CR>", G_SILENT_NO_REMAP )
@@ -200,7 +208,7 @@ function F.setup()
   map( "n", "<LEADER>vidd", ":next ~/lab/repos/edge/dns-internal-dev/zones/paciolan.info.yaml <CR>", G_SILENT_NO_REMAP )                                                                                      -- dns dev
   map( "n", "<LEADER>vrule", ":next ~/lab/repos/irules-engine/modules/download_irule.py <CR>", G_SILENT_NO_REMAP )                                                                                           -- dns dev
   --map( "n", "<LEADER>vidp", ":next ~/lab/repos/nameserver/roles/nsupdate/templates/fwd/db.oc2.evenue.net.j2.zone.fwd ~/lab/repos/edge/dns-internal-prod/zones/oc2.evenue.net.yaml <CR>", G_SILENT_NO_REMAP )  -- dns prod
-  map( "n", "<LEADER>vidp", ":next ~/lab/repos/nameserver/roles/*/*/*/db.oc2.evenue.net.j2.zone.fwd ~/lab/repos/edge/dns-internal-prod/zones/oc2.evenue.net.yaml <CR>", G_SILENT_NO_REMAP )  -- dns prod
+  map( "n", "<LEADER>vidp", ":next ~/lab/repos/nameserver/roles/nsupdate/templates/fwd/db.oc2.evenue.net.j2.zone.fwd ~/lab/repos/edge/dns-internal-prod/zones/oc2.evenue.net.yaml <CR>", G_SILENT_NO_REMAP )  -- dns prod
   map( "n", "<LEADER>vir", ":next ~/.config/nvim/init.lua ~/.config/nvim/lua/keymap.lua <CR>", G_SILENT_NO_REMAP )                                                                                            -- edit init file
   map( "n", "<LEADER>vipd", ":next ~/lab/repos/edge/public-dns-repo/zones/evenue.net.yaml <CR>", G_SILENT_NO_REMAP )                                                                                          -- dns public
 
