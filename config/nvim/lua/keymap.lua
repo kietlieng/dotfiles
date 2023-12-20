@@ -53,6 +53,7 @@ function F.setup()
   map( "n", "<LEADER>d", 'V"*y<CR>dd', G_SILENT_NO_REMAP )                                -- cut to clipboard
   map( "v", "<LEADER>d", '"*ygvd', G_SILENT_NO_REMAP )                                     -- cut to clipboard
 
+  map( "n", "<LEADER>bA", 'mcgg<C-v>G0o0', G_SILENT_NO_REMAP )      -- block edit mode from front
   map( "n", "<LEADER>ba", "vip<C-v>$A", G_SILENT_NO_REMAP )         -- block insert end
   map( "n", "<LEADER>bb", "vip<C-v>^", G_SILENT_NO_REMAP )          -- block insert begin
   map( "n", "<LEADER>bi", "Vip<C-v>I", G_SILENT_NO_REMAP )          -- block insert end
@@ -129,6 +130,10 @@ function F.setup()
 
   -- uploads
   map( "n", "<LEADER>uupcert", ":!callterminal '%:p:h' upcert<CR>", G_NO_REMAP )
+
+  -- change incremental commands
+  map( "n", "<LEADER>ualpha", ":set nrformats=bin,hex,alpha<CR>", G_NO_REMAP )
+  map( "n", "<LEADER>unumber", ":set nrformats=bin,hex<CR>", G_NO_REMAP )
 
   -- visual move
   map( "v", "J", ":m '>+1<CR>gv=gv", G_NO_REMAP )

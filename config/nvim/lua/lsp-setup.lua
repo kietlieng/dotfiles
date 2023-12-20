@@ -68,12 +68,12 @@ function F.setup()
     capabilities = capabilities,
   }
 
-  local currentRepo = vim.fn.expand('%:p:h')
-  if (string.find(currentRepo, "dns%-internal%-dev") == nil) and
-     (string.find(currentRepo, "public%-dns%-repo") == nil) and
-     (string.find(currentRepo, "dns%-internal%-%prod") == nil) then
+  --local currentRepo = vim.fn.expand('%:p:h')
+  --if (string.find(currentRepo, "dns%-internal%-dev") == nil) and
+  --   (string.find(currentRepo, "public%-dns%-repo") == nil) and
+  --   (string.find(currentRepo, "dns%-internal%-%prod") == nil) then
 
-     -- do not setup yaml if any of these are true
+    -- do not setup yaml if any of these are true
     lspconfig.yamlls.setup {
       --... -- other configuration for setup {}
       settings = {
@@ -88,7 +88,8 @@ function F.setup()
       },
       capabilities = capabilities,
     }
-  end
+
+  --end
 
   -- Use LspAttach autocommand to only map the following keys
   -- after the language server attaches to the current buffer

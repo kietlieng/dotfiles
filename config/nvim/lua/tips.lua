@@ -20,4 +20,3 @@
 -- >>= Navigation =<<
 -- buffer navigation
 -- shortcuts
-

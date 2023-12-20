@@ -67,9 +67,9 @@ set.rtp:prepend(lazypath)
 require("lazy").setup({
 
     -- search
-    { "junegunn/fzf", build = "./install --bin" }, -- build it internally to have it avaliable
+    { "junegunn/fzf", build = "./install --bin", config = function () require('lua-fzf').setup() end, }, -- setup snippet engine
     { "junegunn/fzf.vim" },
-    { "jremmen/vim-ripgrep" },
+    { "jremmen/vim-ripgrep", config = function() require('ripgrepper').setup() end, }, -- setup ripgrepper bang command to use register r
     { "mileszs/ack.vim" }, -- grep listing
 
     { "tpope/vim-surround" },
@@ -77,8 +77,7 @@ require("lazy").setup({
     { "tpope/vim-fugitive" }, -- git operations in git
     { "airblade/vim-gitgutter" },
     { "vim-airline/vim-airline" },
-    --{ "feline-nvim/feline.nvim',  branch = '0.5-compat" },
-
+    --{ "feline-nvim/feline.nvim',  branch = '0.5-compat", config = function () require('lua-feline').setup() require('feline').winbar.setup() end, },
     { "godlygeek/tabular" }, -- sort table values
 
     -- THEMES
@@ -99,16 +98,18 @@ require("lazy").setup({
     { "iamcco/markdown-preview.nvim", build = 'cd app && yarn install' },
 
     --{ "kana/vim-smartword" }, -- great for navigation of words with quotes
+    { "wellle/targets.vim", config = function () require('targets').setup() end }, -- arguement text objects.
 
     { "skywind3000/asyncrun.vim" }, --  " run jobs in the background
 
     { "ryanoasis/vim-devicons" }, -- icons for plugin
     { "nvim-tree/nvim-web-devicons" }, -- icons to plugins
     { "nvim-lua/plenary.nvim" }, -- no idea what this does but it's required by other plugins
-    { "ThePrimeagen/harpoon" }, -- navigation
+    { "ThePrimeagen/harpoon", config = function () require('lua-harpoon').setup() end, }, -- navigation
     { "nvim-telescope/telescope.nvim", tag = '0.1.3' },
-    { "nvim-telescope/telescope-fzf-native.nvim", build = 'make' },
-    { "nvim-treesitter/nvim-treesitter", build = ':TSUpdate' },
+    { "nvim-telescope/telescope-fzf-native.nvim", build = 'make', config = function () require('tele').setup() require('telescope').load_extension('fzf') end, },
+    { "nvim-treesitter/nvim-treesitter", build = ':TSUpdate', config = function () require('treesitter').setup() end, }, -- setup syntax for treesitter
+
     { "lewis6991/tree-sitter-tcl", build = 'make' }, -- tcl syntax
     { "williamboman/mason.nvim" },
     { "williamboman/mason-lspconfig.nvim" },
@@ -144,7 +145,7 @@ require("lazy").setup({
 
     { "prettier/vim-prettier", build =  'yarn install --frozen-lockfile --production', branch = 'release/0.x' },
 
-    { "stevearc/oil.nvim", opts = {}, dependencies = { "nvim-tree/nvim-web-devicons" }, },
+    { "stevearc/oil.nvim", opts = {}, dependencies = { "nvim-tree/nvim-web-devicons" }, config = function () require("lua-oil").setup() end, }, -- oil setup
 
     -- useless but fun
     { "Eandrju/cellular-automaton.nvim" }, -- makes it look like sand droplets
@@ -293,27 +294,10 @@ vim.cmd([[
 
 -- COMMAND END
 
---require('lua-feline').setup() feline
---require('feline').winbar.setup()
-
-require('ripgrepper').setup()              -- setup ripgrepper bang command to use register r
-
-require('tele').setup()                    -- telescope setup
-require('telescope').load_extension('fzf')
-
-require("lua-oil").setup()    -- oil setup
-require('lua-fzf').setup()    -- setup snippet engine
-require('lua-harpoon').setup()
-require('quotes').setup()     -- yank / delete / change betweet quotes / brackets / parens
-require('treesitter').setup() -- setup syntax for treesitter
-require('snippet-luasnip').setup()                 -- setup snippet engine
-
-
-require("luasnip.loaders.from_vscode").lazy_load() -- lead friendly-snippets support into luasnip
-require('mason-setup').setup()             -- setup syntax for treesitter
-require('lsp-setup').setup()                       -- setup all lsp
-
-require('keymap').setup()
-require('fun').setup() -- useless but fun
-
-require('theme').setup() -- needs to be last
+require('snippet-luasnip').setup()                  -- setup snippet engine
+require("luasnip.loaders.from_vscode").lazy_load()  -- lead friendly-snippets support into luasnip
+require('mason-setup').setup()                      -- setup syntax for treesitter
+require('lsp-setup').setup()                        -- setup all lsp
+require('keymap').setup()                           -- key mapping
+require('fun').setup()                              -- useless but fun
+require('theme').setup()                            -- needs to be last
