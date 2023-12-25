@@ -47,22 +47,41 @@ function F.setup()
   -- clipboard copy
 
   map( "n", "<LEADER>**", ":lua require('reg').toClipboard('/')<CR>", G_SILENT_NO_REMAP )  -- yank to clipboard register
-  map( "n", "<LEADER>y", 'mcggVG"*y<CR>`c', G_SILENT_NO_REMAP )                           -- copy everything
-  map( "v", "<LEADER>y", '"*y', G_SILENT_NO_REMAP )                                       -- copy everything in visual
+  map( "n", "<LEADER>y", 'mcggVG"*y<CR>`c', G_SILENT_NO_REMAP )                            -- copy everything
+  map( "v", "<LEADER>y", '"*y', G_SILENT_NO_REMAP )                                        -- copy everything in visual
 
-  map( "n", "<LEADER>d", 'V"*y<CR>dd', G_SILENT_NO_REMAP )                                -- cut to clipboard
-  map( "v", "<LEADER>d", '"*ygvd', G_SILENT_NO_REMAP )                                     -- cut to clipboard
+  map( "n", "<LEADER>d", 'V"*y<CR>dd', G_SILENT_NO_REMAP )  -- cut to clipboard
+  map( "v", "<LEADER>d", '"*ygvd', G_SILENT_NO_REMAP )      -- cut to clipboard
 
-  --map( "n", "<LEADER>bA", 'mcgg<C-v>G0o0', G_SILENT_NO_REMAP )      -- block edit mode from front
-  map( "n", "<LEADER>bAc", ":lua require('comments').comments(true)<CR>", G_SILENT_NO_REMAP )
-  map( "n", "<LEADER>bAC", ":lua require('comments').comments(false)<CR>", G_SILENT_NO_REMAP )
-  map( "n", "<LEADER>ba", "vip<C-v>$A", G_SILENT_NO_REMAP )         -- block insert end
-  map( "n", "<LEADER>bb", "vip<C-v>^", G_SILENT_NO_REMAP )          -- block insert begin
-  map( "n", "<LEADER>bi", "Vip<C-v>I", G_SILENT_NO_REMAP )          -- block insert end
-  map( "n", "<LEADER>bp", "vi{<C-v>^", G_SILENT_NO_REMAP )          -- select { block begin
+  -- comments
+
+
+  -- map( "n", "<LEADER>bA", 'mcgg<C-v>G0o0', G_SILENT_NO_REMAP )  -- block edit mode from front
+
+  map( "n", "<LEADER>fn", ":lua require('comments').next()<CR>", G_SILENT_NO_REMAP )                         -- global comment
+
+
+  map( "n", "<LEADER>bc", ":lua require('comments').comments(false, true, false)<CR>", G_SILENT_NO_REMAP )   -- block comment
+  map( "n", "<LEADER>bu", ":lua require('comments').comments(false, false, false)<CR>", G_SILENT_NO_REMAP )  -- block uncomment
+
+  map( "n", "<LEADER>BC", ":lua require('comments').comments(true, true, false)<CR>", G_SILENT_NO_REMAP )    -- global comment
+  map( "n", "<LEADER>BU", ":lua require('comments').comments(true, false, false)<CR>", G_SILENT_NO_REMAP )   -- glubal uncomment
+
+  map( "v", "<LEADER>BC", ":lua require('comments').comments(true, true, true)<CR>", G_SILENT_NO_REMAP )     -- invert global comment
+
+  map( "n", "<LEADER>bb", "vip<C-v>^", G_SILENT_NO_REMAP )                                                   -- block insert begin
+
+  map( "n", "<LEADER>ba", "vip<C-v>$A", G_SILENT_NO_REMAP )                                                  -- block insert end
+  map( "n", "<LEADER>bi", "Vip<C-v>I", G_SILENT_NO_REMAP )                                                   -- block insert end
+
+  -- sort
+
   map( "n", "<LEADER>bs", "vip:'<,'>sort<CR>", G_SILENT_NO_REMAP )  -- block sort
-  map( "n", "<LEADER>bt", "vip:'<,'>Tabularize/=", G_NO_REMAP )     -- tab
-  map( "v", "<LEADER>bt", ":Tabularize/=", G_NO_REMAP )             -- tab visual
+
+  -- table
+
+  map( "n", "<LEADER>bt", "vip:'<,'>Tabularize/=", G_NO_REMAP )  -- tab
+  map( "v", "<LEADER>bt", ":Tabularize/=", G_NO_REMAP )          -- tab visual
 
   -- search and replace
 
