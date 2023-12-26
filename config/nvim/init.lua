@@ -302,4 +302,4 @@ require('mason-setup').setup()                      -- setup syntax for treesitt
 require('lsp-setup').setup()                        -- setup all lsp
 require('keymap').setup()                           -- key mapping
 require('fun').setup()                              -- useless but fun
---require('theme').setup()                            -- needs to be last
+require('theme-dark').setup()                            -- needs to be last
