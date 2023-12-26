@@ -7,7 +7,6 @@ function F.comments(aAll, aCommentOut, aInvert)
   local fileExtension     = vim.fn.expand('%:e')
   local markerOffsetStart = "-1"
   local markerOffsetEnd   = "+1"
-  local row               = 0
   local markerStart       = 0
   local markerEnd         = 0
   local lineTotal         = vim.fn.line('$')
@@ -30,9 +29,7 @@ function F.comments(aAll, aCommentOut, aInvert)
       markerStart = vim.fn.line("'<")
       markerEnd = vim.fn.line("'>")
 
-      local message = "start: " .. markerStart .. " end:" .. markerEnd .. " total:" .. lineTotal
-
-      --vim.notify(message, "info", { title = "debug" })
+      --vim.notify("markOffsetEnd " .. tostring(markerOffsetEnd), "info", { title = "debug" })
 
       if markerStart ==  1 then
         markerOffsetStart = "-1"

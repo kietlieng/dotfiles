@@ -55,9 +55,6 @@ function F.setup()
 
   -- comments
 
-
-  -- map( "n", "<LEADER>bA", 'mcgg<C-v>G0o0', G_SILENT_NO_REMAP )  -- block edit mode from front
-
   map( "n", "<LEADER>fn", ":lua require('comments').next()<CR>", G_SILENT_NO_REMAP )                         -- global comment
 
 
