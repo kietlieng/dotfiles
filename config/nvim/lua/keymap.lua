@@ -23,7 +23,7 @@ function F.setup()
   map( "n", "<LEADER>3/", "<cmd>lua require('tele').dirDepthJump(-2)<CR>", G_SILENT_NO_REMAP )  -- search from cwd
 
   -- grep string in file
-  --map( "n", "<LEADERrr", ":Rg<CR>", G_NO_REMAP ) -- ripgrep current directory
+  --map( "n", "<LEADER>", ":Rg<CR>", G_NO_REMAP ) -- ripgrep current directory
 
   map( "n", "<LEADER>R", "<cmd>lua require('ripgrepper').grepLevel(-1)<CR>", G_NO_REMAP )   -- grep from git root
   map( "n", "<LEADER>r", "<cmd>lua require('ripgrepper').grepLevel(0)<CR>", G_NO_REMAP )    -- grep from current

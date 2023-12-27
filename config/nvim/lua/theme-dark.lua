@@ -4,8 +4,6 @@ function F.setup()
 
   vim.cmd([[
 
-    ""highlight ColorColumn ctermbg=0 guibg=lightgrey
-
     highlight Normal ctermbg=NONE ctermfg=NONE guibg=NONE
     highlight ColorColumn ctermfg=NONE ctermbg=NONE guibg=NONE
     highlight clear SignColumn
