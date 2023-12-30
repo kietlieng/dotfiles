@@ -233,7 +233,7 @@ vim.cmd([[
       let l:filePath=tolower(expand('%:p:h'))
       let l:previewing=0
 
-      "" not in meeting
+      "" not in meetings / notes / not a license or have a '-no'
       if (stridx(l:filePath, 'lab/meetings') == -1) && (stridx(l:filePath, 'lab/notes') == -1)
           if stridx(l:filename, 'readme') > -1 || stridx(l:filename, 'license') > -1 || stridx(l:filename, '-no') > -1
               "":echo "Do nothing"
