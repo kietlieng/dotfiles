@@ -26,43 +26,15 @@ function F.setup()
 
   cmp.setup({
 
-    mapping = {
+    mapping = cmp.mapping.preset.insert({
 
-      ["<Tab>"] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          cmp.select_next_item()
-          -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
-          -- that way you will only jump inside the snippet region
-        elseif ls.expand_or_jumpable() then
-          ls.expand_or_jump()
-        elseif has_words_before() then
-          cmp.complete()
-        else
-          fallback()
-        end
-      end, { "i", "s" }),
-
-      ["<S-Tab>"] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          cmp.select_prev_item()
-        elseif ls.jumpable(-1) then
-          ls.jump(-1)
-        else
-          fallback()
-        end
-      end, { "i", "s" }),
-
-      ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
-      ['<C-d>'] = cmp.mapping.scroll_docs(4), -- Down
-      ['<C-j>'] = cmp.mapping.select_next_item(),
-      ['<C-k>'] = cmp.mapping.select_prev_item(),
+      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
       ['<C-Space>'] = cmp.mapping.complete(),
-      ['<CR>'] = cmp.mapping.confirm {
-        behavior = cmp.ConfirmBehavior.Replace,
-        select = true,
-      },
+      ['<C-e>'] = cmp.mapping.abort(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 
-    },
+    }),
 
     snippet = {
       expand = function(args)
@@ -75,24 +47,22 @@ function F.setup()
 
       end,
     },
+
+    window = {
+      completion = cmp.config.window.bordered(),
+      documentation = cmp.config.window.bordered(),
+    },
     sources = cmp.config.sources({
-      { name = "nvim_lsp" },
-      { name = "nvim_lsp_signature_help" },
-      { name = "nvim_lua" },
-      { name = "luasnip" },
-      { name = "path" },
+      --{ name = "nvim_lsp" },
+      --{ name = "nvim_lsp_signature_help" },
+      --{ name = "nvim_lua" },
+      { name = "luasnip", option = { show_autosnippets = true } },
+      --{ name = "path" },
     },
     {
       { name = "buffer", keyword_length = 3 },
     }),
 
-    --sources = {
-
-    --  { name = 'nvim_lsp' },
-    --  { name = 'luasnip' },
-    --  { name = 'buffer' },
-
-    --},
   })
 
   ls.add_snippets(nil, {

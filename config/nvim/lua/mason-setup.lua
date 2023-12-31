@@ -24,6 +24,7 @@ function F.setup()
       "cssls",
       "docker_compose_language_service",
       "dockerls",
+      "eslint",
       "html",
       "jqls",
       "jsonls",

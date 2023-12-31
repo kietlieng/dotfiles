@@ -152,6 +152,7 @@ require("lazy").setup({
     -- useless but fun
     { "Eandrju/cellular-automaton.nvim" }, -- makes it look like sand droplets
 
+    { "nvimtools/none-ls.nvim", config = function() require('none-ls').setup() end, requires = { "nvim-lua/plenary.nvim" } }, -- community supported null-ls
 })
 
 ----- LAZY END -----
