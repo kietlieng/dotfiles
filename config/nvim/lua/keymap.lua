@@ -44,52 +44,56 @@ function F.setup()
 
   -- comments
   -- map( "n", "<LEADER>fn", ":lua require('comments').next()<CR>", G_SILENT_NO_REMAP )                         -- test search function
-  map("v", "<LEADER>CC", ":lua require('comments').comments(false, false, false, true)<CR>", G_SILENT_NO_REMAP)   -- comment out selected
-  map("n", "<LEADER>cc", ":lua require('comments').comments(true, true, false, false)<CR>", G_SILENT_NO_REMAP)   -- global comment
-  map("n", "<LEADER>cu", ":lua require('comments').comments(true, false, false, false)<CR>", G_SILENT_NO_REMAP)  -- glubal uncomment
-  map("v", "<LEADER>cc", ":lua require('comments').comments(true, true, true, false)<CR>", G_SILENT_NO_REMAP)    -- global comment invert
+  map("n", "<LEADER>cc", ":lua require('comments').comments(false, true, false, true, true)<CR>", G_SILENT_NO_REMAP)  -- comment out selected normal
+  map("v", "<LEADER>cc", ":lua require('comments').comments(false, true, false, true, false)<CR>", G_SILENT_NO_REMAP)  -- comment out selected visual
+  map("n", "<LEADER>cu", ":lua require('comments').comments(false, false, false, true, true)<CR>", G_SILENT_NO_REMAP)  -- comment out selected normal
+  map("v", "<LEADER>cu", ":lua require('comments').comments(false, false, false, true, false)<CR>", G_SILENT_NO_REMAP)  -- comment out selected visual
 
-  map("n", "<LEADER>bc", ":lua require('comments').comments(false, true, false, false)<CR>", G_SILENT_NO_REMAP)   -- block comment
-  map("n", "<LEADER>bu", ":lua require('comments').comments(false, false, false, false)<CR>", G_SILENT_NO_REMAP)  -- block uncomment
-  map("v", "<LEADER>bc", ":lua require('comments').comments(false, true, true, false)<CR>", G_SILENT_NO_REMAP)     -- block comment invert
+  map("n", "<LEADER>CC", ":lua require('comments').comments(true, true, false, false, true)<CR>", G_SILENT_NO_REMAP)   -- global comment
+  map("n", "<LEADER>CU", ":lua require('comments').comments(true, false, false, false, true)<CR>", G_SILENT_NO_REMAP)  -- glubal uncomment
+  map("v", "<LEADER>CC", ":lua require('comments').comments(true, true, true, false, false)<CR>", G_SILENT_NO_REMAP)    -- global comment invert
+
+  map("n", "<LEADER>bc", ":lua require('comments').comments(false, true, false, false, true)<CR>", G_SILENT_NO_REMAP)   -- block comment
+  map("n", "<LEADER>bu", ":lua require('comments').comments(false, false, false, false, true)<CR>", G_SILENT_NO_REMAP)  -- block uncomment
+  map("v", "<LEADER>bc", ":lua require('comments').comments(false, true, true, false, false)<CR>", G_SILENT_NO_REMAP)    -- block comment invert
 
   -- block manipulation
-  map("n", "<LEADER>ba", "vip<C-v>$A", G_SILENT_NO_REMAP)       -- block insert end
-  map("n", "<LEADER>bb", "vip<C-v>^o", G_SILENT_NO_REMAP)       -- block
-  map("n", "<LEADER>bi", "Vip<C-v>I", G_SILENT_NO_REMAP)        -- block insert begining
-  map("n", "<LEADER>bs", "vip:'<,'>sort<CR>", G_SILENT_NO_REMAP) -- block sort
-  map("n", "<LEADER>bt", "vip:'<,'>Tabularize/=", G_NO_REMAP)   -- table
-  map("v", "<LEADER>bt", ":Tabularize/=", G_NO_REMAP)           -- table visual
+  map("n", "<LEADER>ba", "vip<C-v>$A", G_SILENT_NO_REMAP)         -- block insert end
+  map("n", "<LEADER>bb", "vip<C-v>^o", G_SILENT_NO_REMAP)         -- block
+  map("n", "<LEADER>bi", "Vip<C-v>I", G_SILENT_NO_REMAP)          -- block insert begining
+  map("n", "<LEADER>bs", "vip:'<,'>sort<CR>", G_SILENT_NO_REMAP)  -- block sort
+  map("n", "<LEADER>bt", "vip:'<,'>Tabularize/=", G_NO_REMAP)     -- table
+  map("v", "<LEADER>bt", ":Tabularize/=", G_NO_REMAP)             -- table visual
 
   -- search and replace
   --map( "n", "<LEADER>bd", ":bufdo %s//<C-r>./gc<CR>", G_NO_REMAP ) -- repeat replace
   -- https://github.com/kaddkaka/vim_examples/blob/main/README.md#repeat-last-change-in-all-of-file-global-repeat-similar-to-g
-  map("n", "<LEADER>sG", ":%s//<C-r>./gc<CR>", G_NO_REMAP)        -- repeat replace from normal mode
-  map("n", "<LEADER>sg", ":%s//<C-r>./g<CR>", G_NO_REMAP)         -- repeat replace from normal mode
-  map("n", "<LEADER>sc", ":%s///gn<CR>", G_NO_REMAP)              -- search count
-  map("n", "<LEADER>sR", ":%s///gc<LEFT><LEFT><LEFT>", G_NO_REMAP) -- search and replace with prompt
-  map("n", "<LEADER>sr", ":%s///g<LEFT><LEFT>", G_NO_REMAP)       -- search and replace all
-  map("v", "<LEADER>sR", ":s///gc<LEFT><LEFT><LEFT>", G_NO_REMAP) -- tab visual
-  map("v", "<LEADER>sr", ":s///g<LEFT><LEFT>", G_NO_REMAP)        -- tab visual
+  map("n", "<LEADER>sG", ":%s//<C-r>./gc<CR>", G_NO_REMAP)          -- repeat replace from normal mode
+  map("n", "<LEADER>sg", ":%s//<C-r>./g<CR>", G_NO_REMAP)           -- repeat replace from normal mode
+  map("n", "<LEADER>sc", ":%s///gn<CR>", G_NO_REMAP)                -- search count
+  map("n", "<LEADER>sR", ":%s///gc<LEFT><LEFT><LEFT>", G_NO_REMAP)  -- search and replace with prompt
+  map("n", "<LEADER>sr", ":%s///g<LEFT><LEFT>", G_NO_REMAP)         -- search and replace all
+  map("v", "<LEADER>sR", ":s///gc<LEFT><LEFT><LEFT>", G_NO_REMAP)   -- tab visual
+  map("v", "<LEADER>sr", ":s///g<LEFT><LEFT>", G_NO_REMAP)          -- tab visual
 
   map("n", "<C-t>", ":!callterminal '%:p:h' ", G_NO_REMAP)        -- terminal runs
 
   -- G KEYS: git commands
 
   -- git
-  map("n", "<LEADER>gB", ":!callterminal '%:p:h' g ", G_NO_REMAP)                  -- create branch
-  map("n", "<LEADER>ga", ":Git add %<CR>", G_NO_REMAP)                             -- add current file
-  map("n", "<LEADER>gb", ":!callterminal '%:p:h' g $(pbpaste) ", G_NO_REMAP)       -- create new branch
-  map("n", "<LEADER>gc", ":Git commit<CR>", G_NO_REMAP)                            -- commit
-  map("n", "<LEADER>gd", ":Git diff<CR>", G_NO_REMAP)                              -- diff
-  map("n", "<LEADER>gl", ":silent !callterminal '%:p:h' glink<CR>", G_NO_REMAP)    -- link
-  map("n", "<LEADER>gL", ":!callterminalless '%:p:h' glog<CR>", G_NO_REMAP)        -- link
-  map("n", "<LEADER>gm", ":!callterminal '%:p:h' g master<CR>", G_NO_REMAP)        -- checkout master
-  map("n", "<LEADER>go", ":!callterminal '%:p:h' gco", G_NO_REMAP)                 -- checkout a specific branch
-  map("n", "<LEADER>gP", ":!callterminal '%:p:h' gp<CR>", G_NO_REMAP)              -- pull
-  map("n", "<LEADER>gp", ":!callterminal '%:p:h' gpush -p '%:p:h'<CR>", G_NO_REMAP) -- push
-  map("n", "<LEADER>greset", ":!callterminal '%:p:h' greset<CR>", G_NO_REMAP)      -- reset
-  map("n", "<LEADER>gs", ":!callterminal '%:p:h' g<CR>", G_NO_REMAP)               -- status
+  map("n", "<LEADER>gB", ":!callterminal '%:p:h' g ", G_NO_REMAP)                    -- create branch
+  map("n", "<LEADER>gL", ":!callterminalless '%:p:h' glog<CR>", G_NO_REMAP)          -- link
+  map("n", "<LEADER>gP", ":!callterminal '%:p:h' gp<CR>", G_NO_REMAP)                -- pull
+  map("n", "<LEADER>ga", ":Git add %<CR>", G_NO_REMAP)                               -- add current file
+  map("n", "<LEADER>gb", ":!callterminal '%:p:h' g $(pbpaste) ", G_NO_REMAP)         -- create new branch
+  map("n", "<LEADER>gc", ":Git commit<CR>", G_NO_REMAP)                              -- commit
+  map("n", "<LEADER>gd", ":Git diff<CR>", G_NO_REMAP)                                -- diff
+  map("n", "<LEADER>gl", ":silent !callterminal '%:p:h' glink<CR>", G_NO_REMAP)      -- link
+  map("n", "<LEADER>gm", ":!callterminal '%:p:h' g master<CR>", G_NO_REMAP)          -- checkout master
+  map("n", "<LEADER>go", ":!callterminal '%:p:h' gco", G_NO_REMAP)                   -- checkout a specific branch
+  map("n", "<LEADER>gp", ":!callterminal '%:p:h' gpush -p '%:p:h'<CR>", G_NO_REMAP)  -- push
+  map("n", "<LEADER>greset", ":!callterminal '%:p:h' greset<CR>", G_NO_REMAP)        -- reset
+  map("n", "<LEADER>gs", ":!callterminal '%:p:h' g<CR>", G_NO_REMAP)                 -- status
 
   -- U KEYS: Utility keys that are infrequently used
   map("n", "<LEADER>usource", ":source ~/.config/nvim/init.lua<CR>", G_SILENT_NO_REMAP) -- source file not working as expecting

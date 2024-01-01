@@ -1,6 +1,6 @@
 local F = {}
 
-function F.comments(aAll, aCommentOut, aInvert, aSelectedOnly)
+function F.comments(aAll, aCommentOut, aInvert, aSelectedOnly, aNormalMode)
 
   local commentCharacter  = ""
   local currentLine       = vim.fn.line('.')
@@ -13,8 +13,9 @@ function F.comments(aAll, aCommentOut, aInvert, aSelectedOnly)
   local lineTotal         = vim.fn.line('$')
   local enableEndMark     = true
 
-  vim.cmd.normal("ml") -- set mark
+  print("mode " .. vim.fn.mode())
 
+  vim.cmd.normal("ml") -- set mark
 
   if filename == 'kitty.conf' then
     commentCharacter = "#"
@@ -31,7 +32,25 @@ function F.comments(aAll, aCommentOut, aInvert, aSelectedOnly)
 
   if aSelectedOnly then
 
-    vim.cmd(":silent '<,'>s/^/" .. commentCharacter .. "/")
+    --print("mode " .. vim.fn.mode())
+
+    if aCommentOut then
+
+      if aNormalMode then
+        vim.cmd(":silent s/^/" .. commentCharacter .. "/")
+      else
+        vim.cmd(":silent '<,'>s/^/" .. commentCharacter .. "/")
+      end
+
+    else -- uncomment
+
+      if aNormalMode then
+        vim.cmd(":silent s/^" .. commentCharacter .. "//")
+      else
+        vim.cmd(":silent '<,'>s/^" .. commentCharacter .. "//")
+      end
+
+    end
 
   else
 
