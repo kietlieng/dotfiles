@@ -75,7 +75,7 @@ require("lazy").setup({
     { "tpope/vim-surround" },
 
     { "tpope/vim-fugitive" }, -- git operations in git
-    { "airblade/vim-gitgutter" },
+    { "airblade/vim-gitgutter", config = function() require('gitgutter').setup() end }, -- Git gutter.  Different than fugitive
     { "vim-airline/vim-airline", config = function() require('airline').setup() end },
     --{ "feline-nvim/feline.nvim',  branch = '0.5-compat", config = function() require('lua-feline').setup() require('feline').winbar.setup() end, },
     { "godlygeek/tabular" }, -- sort table values

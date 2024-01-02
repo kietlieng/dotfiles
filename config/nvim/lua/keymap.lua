@@ -42,12 +42,12 @@ function F.setup()
   map("n", "<LEADER>d", 'V"*y<CR>dd', G_SILENT_NO_REMAP)                               -- cut to clipboard
   map("v", "<LEADER>d", '"*ygvd', G_SILENT_NO_REMAP)                                   -- cut to clipboard
 
-  -- comments
+  ----- comment code
   -- map( "n", "<LEADER>fn", ":lua require('comments').next()<CR>", G_SILENT_NO_REMAP )                         -- test search function
   map("n", "<LEADER>cc", ":lua require('comments').comments(false, true, false, true, true)<CR>", G_SILENT_NO_REMAP)  -- comment out selected normal
   map("v", "<LEADER>cc", ":lua require('comments').comments(false, true, false, true, false)<CR>", G_SILENT_NO_REMAP)  -- comment out selected visual
-  map("n", "<LEADER>cu", ":lua require('comments').comments(false, false, false, true, true)<CR>", G_SILENT_NO_REMAP)  -- comment out selected normal
-  map("v", "<LEADER>cu", ":lua require('comments').comments(false, false, false, true, false)<CR>", G_SILENT_NO_REMAP)  -- comment out selected visual
+  map("n", "<LEADER>cu", ":lua require('comments').comments(false, false, false, true, true)<CR>", G_SILENT_NO_REMAP)  -- uncomment out selected normal
+  map("v", "<LEADER>cu", ":lua require('comments').comments(false, false, false, true, false)<CR>", G_SILENT_NO_REMAP)  -- uncomment out selected visual
 
   map("n", "<LEADER>CC", ":lua require('comments').comments(true, true, false, false, true)<CR>", G_SILENT_NO_REMAP)   -- global comment
   map("n", "<LEADER>CU", ":lua require('comments').comments(true, false, false, false, true)<CR>", G_SILENT_NO_REMAP)  -- glubal uncomment
@@ -81,6 +81,7 @@ function F.setup()
   -- G KEYS: git commands
 
   -- git
+  map("n", "<LEADER>gn", ":GitGutterNextHunk<CR>", G_NO_REMAP)                       -- next githunk
   map("n", "<LEADER>gB", ":!callterminal '%:p:h' g ", G_NO_REMAP)                    -- create branch
   map("n", "<LEADER>gL", ":!callterminalless '%:p:h' glog<CR>", G_NO_REMAP)          -- link
   map("n", "<LEADER>gP", ":!callterminal '%:p:h' gp<CR>", G_NO_REMAP)                -- pull
