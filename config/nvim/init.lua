@@ -71,9 +71,7 @@ require("lazy").setup({
     { "junegunn/fzf.vim" },
     { "jremmen/vim-ripgrep", config = function() require('ripgrepper').setup() end, }, -- setup ripgrepper bang command to use register r
     { "mileszs/ack.vim" }, -- grep listing
-
     { "tpope/vim-surround" },
-
     { "tpope/vim-fugitive" }, -- git operations in git
     { "airblade/vim-gitgutter", config = function() require('gitgutter').setup() end }, -- Git gutter.  Different than fugitive
     { "vim-airline/vim-airline", config = function() require('airline').setup() end },
