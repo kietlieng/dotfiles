@@ -105,39 +105,39 @@ function F.setup()
   map("n", "<LEADER>gs", ":!callterminal '%:p:h' g<CR>", G_NO_REMAP)                 -- status
 
   -- U KEYS: Utility keys that are infrequently used
-  map("n", "<LEADER>usource", ":source ~/.config/nvim/init.lua<CR>", G_SILENT_NO_REMAP) -- source file not working as expecting
+  map("n", "<LEADER>zsource", ":source ~/.config/nvim/init.lua<CR>", G_SILENT_NO_REMAP) -- source file not working as expecting
 
   --map( "n", "<C-c>", ":call ToggleList(\"Quickfix List\", 'c')<CR>", G_SILENT_NO_REMAP )
   --map( "n", "<C-c>", ":copen<CR>", G_SILENT_NO_REMAP )
-  map("n", "<LEADER>uc", ":call ToggleList(\"Quickfix List\", 'c')<CR>", G_SILENT_NO_REMAP)
+  map("n", "<LEADER>zc", ":call ToggleList(\"Quickfix List\", 'c')<CR>", G_SILENT_NO_REMAP)
 
-  map("n", "<LEADER>ulz", ":Lazy<CR>", G_NO_REMAP) -- open Lazy
+  map("n", "<LEADER>zlz", ":Lazy<CR>", G_NO_REMAP) -- open Lazy
 
   -- Lspinfo
   map("n", "<LEADER>p", ":LspStop bufnr()<CR>", G_NO_REMAP) -- disable lsp
-  map("n", "<LEADER>uhealth", ":CheckHealth<CR>", G_NO_REMAP)
-  map("n", "<LEADER>uli", ":LspInfo<CR>", G_NO_REMAP)
-  map("n", "<LEADER>ull", ":LspLog<CR>", G_NO_REMAP)
-  map("n", "<LEADER>uln", ":LspInstall<CR>", G_NO_REMAP)
-  map("n", "<LEADER>uml", ":MasonLog<CR>", G_NO_REMAP)
-  map("n", "<LEADER>umn", ":MasonInstall<space>", G_NO_REMAP)
-  map("n", "<LEADER>umu", ":MasonUpdate<CR>", G_NO_REMAP)
+  map("n", "<LEADER>zhealth", ":CheckHealth<CR>", G_NO_REMAP)
+  map("n", "<LEADER>zli", ":LspInfo<CR>", G_NO_REMAP)
+  map("n", "<LEADER>zll", ":LspLog<CR>", G_NO_REMAP)
+  map("n", "<LEADER>zln", ":LspInstall<CR>", G_NO_REMAP)
+  map("n", "<LEADER>zml", ":MasonLog<CR>", G_NO_REMAP)
+  map("n", "<LEADER>zmn", ":MasonInstall<space>", G_NO_REMAP)
+  map("n", "<LEADER>zmu", ":MasonUpdate<CR>", G_NO_REMAP)
 
   map("n", "<C-n>", ":bn<CR>", G_SILENT_NO_REMAP)       -- buffer next
   map("n", "<C-p>", ":bp<CR>", G_SILENT_NO_REMAP)       -- buffer previous
   map("n", "<LEADER>bd", ":bd<CR>", G_SILENT_NO_REMAP)  -- buffer delete
   map("n", "<LEADER>bl", ":ls<CR>", G_SILENT_NO_REMAP)  -- buffer list
 
-  map("n", "<LEADER>sort", "mcggVG:sort<CR>`ck<CR>", G_SILENT_NO_REMAP)
-  map("v", "<LEADER>sort", ":sort<CR>", G_SILENT_NO_REMAP)
+  map("n", "<LEADER>ss", "mcggVG:sort<CR>`ck<CR>", G_SILENT_NO_REMAP)
+  map("v", "<LEADER>ss", ":sort<CR>", G_SILENT_NO_REMAP)
 
   map("n", "<LEADER>==", "gg=G<CR>", G_SILENT_NO_REMAP) -- format
-  map("n", "<LEADER>ujson", ":%!/opt/homebrew/bin/python3 -m json.tool<CR>", G_SILENT_NO_REMAP)
+  map("n", "<LEADER>zjson", ":%!/opt/homebrew/bin/python3 -m json.tool<CR>", G_SILENT_NO_REMAP)
 
-  map("n", "<LEADER>uupcert", ":!callterminal '%:p:h' upcert<CR>", G_NO_REMAP) -- uploads
+  map("n", "<LEADER>zupcert", ":!callterminal '%:p:h' upcert<CR>", G_NO_REMAP) -- uploads
 
-  map("n", "<LEADER>ualpha", ":set nrformats=bin,hex,alpha<CR>", G_NO_REMAP)  -- change incremental alpha
-  map("n", "<LEADER>unumber", ":set nrformats=bin,hex<CR>", G_NO_REMAP)       -- change incremental number: default
+  map("n", "<LEADER>zalpha", ":set nrformats=bin,hex,alpha<CR>", G_NO_REMAP)  -- change incremental alpha
+  map("n", "<LEADER>znumber", ":set nrformats=bin,hex<CR>", G_NO_REMAP)       -- change incremental number: default
 
   map("v", "J", ":m '>+1<CR>gv=gv", G_NO_REMAP)                               -- visual move down
   map("v", "K", ":m '<-2<CR>gv=gv", G_NO_REMAP)                               -- visual move up
@@ -201,7 +201,7 @@ function F.setup()
   map("n", "<LEADER>vidd", ":next ~/lab/repos/edge/dns-internal-dev/zones/paciolan.info.yaml <CR>", G_SILENT_NO_REMAP) -- dns dev
   map("n", "<LEADER>vipd", ":next ~/lab/repos/edge/public-dns-repo/zones/evenue.net.yaml <CR>", G_SILENT_NO_REMAP) -- dns public
   map("n", "<LEADER>vir", ":next ~/.config/nvim/lua/keymap.lua ~/.config/nvim/init.lua <CR>", G_SILENT_NO_REMAP)  -- edit init file
-  map("n", "<LEADER>virule", ":next ~/lab/repos/irules-engine/modules/download_irule.py <CR>", G_SILENT_NO_REMAP) -- dns dev
+  map("n", "<LEADER>vrule", ":next ~/lab/repos/irules-engine/modules/download_irule.py <CR>", G_SILENT_NO_REMAP) -- dns dev
 
   --map("n", "<LEADER>gf", vim.lsp.buf.format, {})                                                                  -- have no idea what this does right now
 end

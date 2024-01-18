@@ -2,6 +2,9 @@ alias bal="y bal"
 alias rot="yrot"
 alias rotoff="ycheckrot off"
 alias roton="ycheckrot topdown"
+alias yanchortop="yanchor top"
+alias yanchorbot="yanchor bot"
+alias yanchoroff="yanchor off"
 alias ybal="y bal"
 alias ybot="yo b"
 alias ydisplay="yabai -m query --displays"
@@ -348,7 +351,7 @@ function y() {
                 yabai -m config window_placement second_child
                 shift
                 ;;
-            'fire' )
+            'fire' ) # manage fire windows also
 
                 fireIndexList=$(yabai -m rule --list | grep -i "firefox")
 
@@ -437,6 +440,104 @@ function ywin() {
 
 }
 
+function yanchor() {
+
+  yCurrentDisplay=$(yabai -m query --windows | jq '.[] | select(."has-focus")')
+  yYValue=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .frame.y')
+  yYValue=${yYValue%.*} # need int cast
+  yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty"))')
+  yInstanceCount=$(echo $yTargetDisplays | jq ".frame | .h" | wc -l)
+  yInstanceCount=$((yInstanceCount)) # sting to int cast
+  yInstanceLimit=10
+
+  # don't rotate if only 1 window or more than 5 windows 
+  if [[ $yInstanceCount -lt 2 ]] || [[ $yInstanceCount -gt $yInstanceLimit ]]; then
+
+    return
+
+  fi
+  # whatever value throw it in there 
+  while [[ $# -gt 0 ]]; do
+
+    echo "$1" > ~/.yanchor
+    shift
+
+  done
+
+  #echo $yCurrentDisplay
+  yAnchorValue=$(cat ~/.yanchor) 
+  
+  #echo "anchor value $yAnchorValue"
+  #echo "yYValue $yYValue"
+  #echo "yInstanceCount |$yInstanceCount|"
+
+  # if it's not either we don't want to look at this.
+  if [[ $yAnchorValue != "top" ]] && [[ $yAnchorValue != "bot" ]]; then
+    
+    echo "returning"
+    return 
+
+  fi
+
+  if [[ $yAnchorValue == "bot" ]]; then
+
+#    echo "bot"
+
+    if [[ $yYValue -lt 50 ]]; then
+
+      # only rotate 2 times if count is > 2
+      # otherwise a single rotation will work
+      if [[ $yInstanceCount -gt 2 ]]; then
+
+        if [[ $yInstanceCount == 3 ]]; then
+          #echo "rot 1"
+          rot 1
+#      echo "Top need to rotate to bot"
+        else 
+#          echo "rot"
+          rot 
+        fi
+
+      else 
+      
+        rot 1
+
+      fi
+
+    fi
+
+  elif [[ $yAnchorValue == "top" ]]; then
+
+#    echo "top"
+
+    if [[ $yYValue -gt 50 ]]; then
+
+      # only rotate 2 times if count > 2
+      # otherwise a single rotation will work
+      if [[ $yInstanceCount -gt 2 ]]; then
+
+        if [[ $yInstanceCount == 3 ]]; then
+#          echo "rot 1"
+          rot 1
+        else
+#          echo "rot"
+          rot
+        fi
+#      echo "Top need to rotate to bot"
+
+      else 
+      
+        rot 1
+#      echo "Bot need to rotate to top"
+
+      fi
+
+    fi
+
+  fi
+
+}
+
 # check and then rotate
 function ycheckrot() {
 
@@ -458,7 +559,6 @@ function ycheckrot() {
 
   fi
 
-
   yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty"))')
   yDisplayIndex=$(echo "$yTargetDisplays" | jq '.display' | head -n 1) 
   yHeight=$(yabai -m query --displays | jq ".[] | select(.index==$yDisplayIndex) | .frame.h")
@@ -467,6 +567,8 @@ function ycheckrot() {
   yHeightTolerance=${yHeightTolerance%.*} # need int cast
   yAllHeights=$(echo $yTargetDisplays | jq ".frame | .h")
   yInstanceCount=$(echo $yTargetDisplays | jq ".frame | .h" | wc -l)
+  yInstanceCount=$((yInstanceCount)) # string to int cast
+  yRotated="f"
 
 
   if [[ $yInstanceCount -lt 2 ]]; then
@@ -478,6 +580,7 @@ function ycheckrot() {
   #echo "$yHeight > $yHeightTolerance. $yTargetDisplays $yAllHeights"
   #for currentIP in $(echo $sCurrentURI | sed 's/:/\n/g')
 
+
   for eachHeight in $(echo "$yAllHeights" | sed 's/ /\n/g'); do
 
     #echo "$yHeightTolerance < |$eachHeight| < $yHeight"
@@ -485,14 +588,20 @@ function ycheckrot() {
     if [[ $yHeightTolerance -lt $eachHeight ]] && [[ $eachHeight -lt $yHeight ]]; then 
 
       rot 
-
-      return
+      yRotated="t"
+      break
 
     fi
 
   done
 
-  # rot
+  # we only want to check for anchor when we rotate
+  if [[ $yRotated == "t" ]]; then
+
+    yanchor
+
+  fi
+
 }
 
 # rotate the window orientation
