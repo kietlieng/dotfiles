@@ -50,7 +50,7 @@ function syncdot() {
     cp -rf ~/.config/nvim $dConfigDir/nvim
     rm -rf $dConfigDir/nvim/init.lua.*
 
-    cp ~/.config/kitty/kitty.conf $dKittyDir/.
+    cp -rf ~/.config/kitty/* $dKittyDir/.
 
     cp -rf ~/lab/scripts/calls $dScriptDir/.
     cp -rf ~/lab/scripts/tmuxp $dScriptDir/.
@@ -68,7 +68,7 @@ function upcert() {
   echo -n "\n\nUpload runner6 "
   rsync -av -a --exclude='.git/' ~/lab/repos/cert-alert dev-runner6:~/.
   echo -n "\n\nUpload gltest server "
-  rsync -av -a --exclude='.git/' ~/lab/repos/cert-alert gltest:~/.
+  rsync -av -a --exclude='.git/' ~/lab/repos/cert-alert centos@gltest:~/.
   echo -n "\n\nUpload prod aws ansible "
   rsync -av -a --exclude='.git/' ~/lab/repos/cert-alert j-ans:~/.
 

@@ -562,6 +562,14 @@ function yanchor() {
   yInstanceCount=$(echo $yTargetDisplays | jq ".frame | .h" | wc -l)
   yInstanceCount=$((yInstanceCount)) # sting to int cast
   yInstanceLimit=10
+  yOrientation=$(cat ~/.yrotate) 
+  
+  # don't try to anchor anything if it's not top down.  I don't have the logic for left right yet :D 
+  if [[ $yOrientation != "topdown" ]]; then
+    
+    return 
+
+  fi
 
   #echo "yTargetDisplays $yTargetDisplays"
   # don't rotate if only 1 window or more than 5 windows 
