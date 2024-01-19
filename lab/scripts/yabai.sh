@@ -2,16 +2,19 @@ alias bal="y bal"
 alias rot="yrot"
 alias rotoff="ycheckrot off"
 alias roton="ycheckrot topdown"
-alias yanchortop="yanchor top"
+alias rotshow="cat ~/.yrotate"
 alias yanchorbot="yanchor bot"
 alias yanchoroff="yanchor off"
+alias yanchorshow="cat ~/.yanchor"
+alias yanchortop="yanchor top"
 alias ybal="y bal"
 alias ybot="yo b"
 alias ydisplay="yabai -m query --displays"
 alias yf="y f"
+alias yfire="y fire"
 alias yfoff="y f; ycheckrot off"
 alias yfon="y f; ycheckrot topdown"
-alias yfire="y fire"
+alias yh="y h"
 alias yleft="yo l"
 alias yob="yo b"
 alias yol="yo l"
@@ -48,19 +51,25 @@ function yWindowMove() {
         key="$1"
         case $key in
             '-d' )
+
                 yDirection="$2"
                 shift
                 shift
                 ;;
+
             '-a' ) # app
+
                 yQuery=".[] | select(.app | test(\"$2\"; \"i\"))";
                 shift
                 shift
                 ;;
+
             * )
+
                 yQuery=".[] | select(.title | test(\"$key\"; \"i\"))";
                 shift
                 ;;
+
         esac
     done
 
@@ -131,61 +140,120 @@ function yo() {
 
     #y f
     yPosition='right'
+    yPositionAbbr='r'
     targetWindow="y$yPosition"
+    yPositionChange="f"
 
     while [[ $# -gt 0 ]]; do
       key="$1"
+
       case "$key" in
-      'top' )
-          yPosition='top'
-          targetWindow="y$yPosition"
-          shift
+
+        'top' )
+
+            yPosition='top'
+            targetWindow="y$yPosition"
+            yPositionAbbr='t'
+            yPositionChange="t"
+
+            shift
+            ;;
+
+        't' )
+
+            yPosition='top'
+            targetWindow="yot"
+            yPositionAbbr='t'
+            yPositionChange="t"
+
+            shift
+            ;;
+
+        'right' )
+
+            yPosition='right'
+            targetWindow="y$yPosition"
+            yPositionAbbr='r'
+            yPositionChange="t"
+
+            shift
+            ;;
+
+        'r' )
+
+            yPosition='right'
+            targetWindow="yor"
+            yPositionAbbr='r'
+            yPositionChange="t"
+
+            shift
+            ;;
+
+        'left' )
+
+            yPosition='left'
+            targetWindow="y$yPosition"
+            yPositionAbbr='l'
+            yPositionChange="t"
+
+            shift
+            ;;
+
+        'l' )
+
+            yPosition='left'
+            targetWindow="yol"
+            yPositionAbbr='l'
+            yPositionChange="t"
+
+            shift
+            ;;
+
+        'bottom' )
+
+            yPosition='bottom'
+            targetWindow="y$yPosition"
+            yPositionAbbr='b'
+            yPositionChange="t"
+
+            shift
+            ;;
+
+        'b' )
+
+            yPosition='bottom'
+            targetWindow="yob"
+            yPositionAbbr='b'
+            yPositionChange="t"
+
+            shift
+            ;;
+
+        '-title' )
+
+            targetWindow="$2"
+            shift
+            shift
+            ;;
+
+          *) # do nothing?
+            echo "$key"
+            shift
           ;;
-      't' )
-          yPosition='top'
-          targetWindow="yot"
-          shift
-          ;;
-      'right' )
-          yPosition='right'
-          targetWindow="y$yPosition"
-          shift
-          ;;
-      'r' )
-          yPosition='right'
-          targetWindow="yor"
-          shift
-          ;;
-      'left' )
-          yPosition='left'
-          targetWindow="y$yPosition"
-          shift
-          ;;
-      'l' )
-          yPosition='left'
-          targetWindow="yol"
-          shift
-          ;;
-      'bottom' )
-          yPosition='bottom'
-          targetWindow="y$yPosition"
-          shift
-          ;;
-      'b' )
-          yPosition='bottom'
-          targetWindow="yob"
-          shift
-          ;;
-        *) # do nothing?
-          echo "$key"
-          shift
-        ;;
+
       esac
     done
+  
+    if [[ $yPositionChange == "t" ]]; then
+      
+      echo "$yPositionAbbr" > ~/.yposition
+
+    fi
 
     yContext=$(yabai -m query --windows | jq ".[] | select(.title | contains(\"$targetWindow\"))" | jq '.display' )
     yWidth=$(yabai -m query --displays | jq ".[] | select(.index==$yContext)" | jq '.frame.w' )
     yHeight=$(yabai -m query --displays | jq ".[] | select(.index==$yContext)" | jq '.frame.h' )
+
     yHHalf=$((yHeight / 2))
     yHHalf=${yHHalf%.*} # need int cast 
     yWHalf=$((yWidth / 2))
@@ -323,33 +391,54 @@ function y() {
                 yabai -m space --balance
                 shift
                 ;;
-            'f' )
-                yabai -m space --toggle padding
+            'f' ) # full.  Don't toggle
+                #yabai -m space --toggle padding
+                yabai -m space --padding abs:0:0:0:0
                 shift
+                ;;
+            'h' ) # half
+
+                position=$(cat ~/.yposition)
+#                echo "position $position"
+                yo "$position" -title "yh"
+                shift
+
                 ;;
             'first' )
+
                 yabai -m config window_placement first_child
                 shift
+
                 ;;
             'topleft' )
+
                 yabai -m config window_placement first_child
                 shift
+
                 ;;
             'left' )
+
                 yabai -m config window_placement first_child
                 shift
+
                 ;;
             'right' )
+
                 yabai -m config window_placement second_child
                 shift
+
                 ;;
             'bottomright' )
+
                 yabai -m config window_placement second_child
                 shift
+
                 ;;
             'second' )
+
                 yabai -m config window_placement second_child
                 shift
+
                 ;;
             'fire' ) # manage fire windows also
 
@@ -440,19 +529,45 @@ function ywin() {
 
 }
 
+function yistop() {
+
+#  echo "isTop"
+
+  yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty")) | select(."is-visible") | select(."is-minimized"|not)')
+  yDisplayIndex=$(echo "$yTargetDisplays" | jq '.display' | head -n 1) 
+  yHeight=$(yabai -m query --displays | jq ".[] | select(.index==$yDisplayIndex) | .frame.h")
+  yHeight=${yHeight%.*}
+  yHeight=$((yHeight))
+  yHeight=$((yHeight / 2))
+  yHeight=$((yHeight - 50))
+#  yHeightTolerance=$((yHeight + 50))
+  yYValue=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .frame.y')
+#  echo "yYValue |$yYValue| |$yHeight|"
+  
+  if [[ $yYValue -lt $yHeight ]]; then
+    echo "t"
+  else 
+    echo "f"
+  fi
+
+}
+
 function yanchor() {
+  #echo "yanchor"
 
   yCurrentDisplay=$(yabai -m query --windows | jq '.[] | select(."has-focus")')
   yYValue=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .frame.y')
-  yYValue=${yYValue%.*} # need int cast
-  yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty"))')
+  yYValue=${yYValue%.*} 
+  yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty")) | select(."is-visible") | select(."is-minimized"|not)')
   yInstanceCount=$(echo $yTargetDisplays | jq ".frame | .h" | wc -l)
   yInstanceCount=$((yInstanceCount)) # sting to int cast
   yInstanceLimit=10
 
+  #echo "yTargetDisplays $yTargetDisplays"
   # don't rotate if only 1 window or more than 5 windows 
   if [[ $yInstanceCount -lt 2 ]] || [[ $yInstanceCount -gt $yInstanceLimit ]]; then
 
+    echo "counts $yInstanceCount returning"
     return
 
   fi
@@ -468,7 +583,7 @@ function yanchor() {
   yAnchorValue=$(cat ~/.yanchor) 
   
   #echo "anchor value $yAnchorValue"
-  #echo "yYValue $yYValue"
+#  echo "yYValue $yYValue"
   #echo "yInstanceCount |$yInstanceCount|"
 
   # if it's not either we don't want to look at this.
@@ -487,52 +602,35 @@ function yanchor() {
 
       # only rotate 2 times if count is > 2
       # otherwise a single rotation will work
-      if [[ $yInstanceCount -gt 2 ]]; then
+      isTop=$(yistop)
+#      echo "yistop |$isTop|"
 
-        if [[ $yInstanceCount == 3 ]]; then
-          #echo "rot 1"
-          rot 1
-#      echo "Top need to rotate to bot"
-        else 
-#          echo "rot"
-          rot 
-        fi
+      # if equal true then keep rotating
+      while [[ $isTop == "t" ]]; do
 
-      else 
-      
-        rot 1
+        rot 
+        isTop=$(yistop)
+#        echo "isTop $isTop"
 
-      fi
+      done
 
     fi
 
   elif [[ $yAnchorValue == "top" ]]; then
 
-#    echo "top"
+    echo "top"
 
-    if [[ $yYValue -gt 50 ]]; then
+    # only rotate 2 times if count is > 2
+    # otherwise a single rotation will work
+    isTop=$(yistop)
+#      echo "yistop |$isTop|"
 
-      # only rotate 2 times if count > 2
-      # otherwise a single rotation will work
-      if [[ $yInstanceCount -gt 2 ]]; then
-
-        if [[ $yInstanceCount == 3 ]]; then
-#          echo "rot 1"
-          rot 1
-        else
-#          echo "rot"
-          rot
-        fi
-#      echo "Top need to rotate to bot"
-
-      else 
-      
-        rot 1
-#      echo "Bot need to rotate to top"
-
-      fi
-
-    fi
+    # if equal false then keep rotating
+    while [[ $isTop == "f" ]]; do
+      rot 
+      isTop=$(yistop)
+#      echo "isTop $isTop"
+    done
 
   fi
 
@@ -559,7 +657,7 @@ function ycheckrot() {
 
   fi
 
-  yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty"))')
+  yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty")) | select(."is-visible") | select(."is-minimized"|not)')
   yDisplayIndex=$(echo "$yTargetDisplays" | jq '.display' | head -n 1) 
   yHeight=$(yabai -m query --displays | jq ".[] | select(.index==$yDisplayIndex) | .frame.h")
   yHeight=${yHeight%.*} # need int cast
@@ -569,7 +667,6 @@ function ycheckrot() {
   yInstanceCount=$(echo $yTargetDisplays | jq ".frame | .h" | wc -l)
   yInstanceCount=$((yInstanceCount)) # string to int cast
   yRotated="f"
-
 
   if [[ $yInstanceCount -lt 2 ]]; then
 
@@ -587,6 +684,7 @@ function ycheckrot() {
     eachHeight=${eachHeight%.*}
     if [[ $yHeightTolerance -lt $eachHeight ]] && [[ $eachHeight -lt $yHeight ]]; then 
 
+#      echo "rotate"
       rot 
       yRotated="t"
       break
@@ -598,6 +696,7 @@ function ycheckrot() {
   # we only want to check for anchor when we rotate
   if [[ $yRotated == "t" ]]; then
 
+#    echo "yanchor call"
     yanchor
 
   fi
