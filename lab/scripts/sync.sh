@@ -66,9 +66,9 @@ function syncdot() {
 function upcert() {
 
   echo -n "\n\nUpload runner6 "
-  rsync -av -a --exclude='.git/' ~/lab/repos/cert-alert dev-runner6:~/.
+  rsync -av -a --exclude='.git/' ~/lab/repos/cert-alert etadm@dev-runner6:~/.
   echo -n "\n\nUpload gltest server "
-  rsync -av -a --exclude='.git/' ~/lab/repos/cert-alert centos@gltest:~/.
+  rsync -av -a --exclude='.git/' ~/lab/repos/cert-alert centos@glupgrade:~/.
   echo -n "\n\nUpload prod aws ansible "
   rsync -av -a --exclude='.git/' ~/lab/repos/cert-alert j-ans:~/.
 

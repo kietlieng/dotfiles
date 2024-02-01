@@ -49,10 +49,12 @@ function F.comments(aRegular, aNormalMode, aAll, aCommentOut, aInvert, aBuffer)
   if filename == 'kitty.conf' or
      filename == 'config' or -- might be ssh config
      filename == 'skhdrc' or -- hotkeys
+     filename == '.zshrc' or
      fileExtension == 'tf' or
      fileExtension == 'yaml' or
      fileExtension == 'py' or
      fileExtension == 'sh' or
+     fileExtension == 'zsh' or
      fileExtension == 'fwd' then
 
     commentCharacter = "#"

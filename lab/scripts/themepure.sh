@@ -70,10 +70,6 @@
 #	PROMPT+=$prompt_indicator
 #	...
 
-
-
-
-
 alias dat="da t"
 alias daf="da f"
 

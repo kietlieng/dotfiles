@@ -1,29 +1,27 @@
 alias bal="y bal"
 alias rot="yrot"
-alias rotoff="ycheckrot off"
-alias roton="ycheckrot topdown"
+alias rotf="ycheckrot off"
+alias rotn="ycheckrot topdown"
 alias rotshow="cat ~/.yrotate"
 alias yanchorbot="yanchor bot"
 alias yanchoroff="yanchor off"
 alias yanchorshow="cat ~/.yanchor"
 alias yanchortop="yanchor top"
 alias ybal="y bal"
-alias ybot="yo b"
 alias ydisplay="yabai -m query --displays"
 alias yf="y f"
+alias yfb="y f bal"
+alias yff="y f; ycheckrot off; rot 2"
 alias yfire="y fire"
-alias yfoff="y f; ycheckrot off"
-alias yfon="y f; ycheckrot topdown"
+alias yfn="y f; ycheckrot topdown"
 alias yh="y h"
-alias yleft="yo l"
+alias yhf="y h; ycheckrot off; rot 2"
+alias yhn="y h; ycheckrot topdown"
 alias yob="yo b"
 alias yol="yo l"
 alias yor="yo r"
-alias yoright="yo r"
 alias yot="yo t"
-alias ypbl="y f bal"
 alias yrestart="y restart"
-alias ytop="yo t"
 
 export width_size="100"
 
@@ -602,6 +600,9 @@ function yanchor() {
 
   fi
 
+
+  yRotationLimit=3
+  yRotationCount=0
   if [[ $yAnchorValue == "bot" ]]; then
 
 #    echo "bot"
@@ -619,6 +620,11 @@ function yanchor() {
         rot 
         isTop=$(yistop)
 #        echo "isTop $isTop"
+        # infinite loop pervention
+        yRotationCount=$((yRotationCount + 1))
+        if [[ $yRotationCount -gt $yRotationLimit ]]; then
+          break
+        fi
 
       done
 
@@ -638,6 +644,13 @@ function yanchor() {
       rot 
       isTop=$(yistop)
 #      echo "isTop $isTop"
+
+      # infinite loop pervention
+      yRotationCount=$((yRotationCount + 1))
+      if [[ $yRotationCount -gt $yRotationLimit ]]; then
+        break
+      fi
+
     done
 
   fi
@@ -833,7 +846,7 @@ function ytake() {
 }
 
 # flip with pane on x axis
-function yy() {
+function xx() {
 
     yabai -m space --mirror y-axis
     if [[ $# -gt 0 ]]; then
@@ -843,7 +856,7 @@ function yy() {
 }
 
 # flip with pane on y axis
-function xx() {
+function yy() {
 
     yabai -m space --mirror x-axis
     if [[ $# -gt 0 ]]; then
