@@ -3,6 +3,10 @@ alias rot="yrot"
 alias rotf="ycheckrot off"
 alias rotn="ycheckrot topdown"
 alias rotshow="cat ~/.yrotate"
+alias w1="yo t l"
+alias w2="yo t r"
+alias w3="yo b l"
+alias w4="yo b r"
 alias yanchorbot="yanchor bot"
 alias yanchoroff="yanchor off"
 alias yanchorshow="cat ~/.yanchor"
@@ -18,9 +22,13 @@ alias yh="y h"
 alias yhf="y h; ycheckrot off; rot 2"
 alias yhn="y h; ycheckrot topdown"
 alias yob="yo b"
+alias yobl="yo b l"
+alias yobr="yo b r"
 alias yol="yo l"
 alias yor="yo r"
 alias yot="yo t"
+alias yotl="yo t l"
+alias yotr="yo t r"
 alias yrestart="y restart"
 
 export width_size="100"
@@ -142,87 +150,66 @@ function yo() {
     targetWindow="y$yPosition"
     yPositionChange="f"
 
+    #yContext=$(yabai -m query --windows | jq ".[] | select(.title | contains(\"$targetWindow\"))" | jq '.display' )
+    yContext=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .display')
+    yWidth=$(yabai -m query --displays | jq ".[] | select(.index==$yContext)" | jq '.frame.w' )
+    yHeight=$(yabai -m query --displays | jq ".[] | select(.index==$yContext)" | jq '.frame.h' )
+
+    yHHalf=$((yHeight / 2))
+    yHHalf=${yHHalf%.*} # need int cast 
+    yWHalf=$((yWidth / 2))
+    yWHalf=${yWHalf%.*} # need int cast 
+
+    yBPadding=0
+    yLPadding=0
+    yRPadding=0
+    yTPadding=0
+
     while [[ $# -gt 0 ]]; do
       key="$1"
 
       case "$key" in
 
-        'top' )
+        'top' | 't' )
 
             yPosition='top'
             targetWindow="y$yPosition"
             yPositionAbbr='t'
             yPositionChange="t"
+            yBPadding=$yHHalf
 
             shift
             ;;
 
-        't' )
-
-            yPosition='top'
-            targetWindow="yot"
-            yPositionAbbr='t'
-            yPositionChange="t"
-
-            shift
-            ;;
-
-        'right' )
+        'right' | 'r' )
 
             yPosition='right'
             targetWindow="y$yPosition"
             yPositionAbbr='r'
             yPositionChange="t"
+            yLPadding=$yWHalf
 
             shift
             ;;
 
-        'r' )
-
-            yPosition='right'
-            targetWindow="yor"
-            yPositionAbbr='r'
-            yPositionChange="t"
-
-            shift
-            ;;
-
-        'left' )
+        'left' | 'l' )
 
             yPosition='left'
             targetWindow="y$yPosition"
             yPositionAbbr='l'
             yPositionChange="t"
+            yRPadding=$yWHalf
 
             shift
             ;;
 
-        'l' )
-
-            yPosition='left'
-            targetWindow="yol"
-            yPositionAbbr='l'
-            yPositionChange="t"
-
-            shift
-            ;;
-
-        'bottom' )
+        'bottom' | 'b' )
 
             yPosition='bottom'
             targetWindow="y$yPosition"
             yPositionAbbr='b'
             yPositionChange="t"
-
-            shift
-            ;;
-
-        'b' )
-
-            yPosition='bottom'
-            targetWindow="yob"
-            yPositionAbbr='b'
-            yPositionChange="t"
+            yTPadding=$yHHalf
 
             shift
             ;;
@@ -248,15 +235,6 @@ function yo() {
 
     fi
 
-    yContext=$(yabai -m query --windows | jq ".[] | select(.title | contains(\"$targetWindow\"))" | jq '.display' )
-    yWidth=$(yabai -m query --displays | jq ".[] | select(.index==$yContext)" | jq '.frame.w' )
-    yHeight=$(yabai -m query --displays | jq ".[] | select(.index==$yContext)" | jq '.frame.h' )
-
-    yHHalf=$((yHeight / 2))
-    yHHalf=${yHHalf%.*} # need int cast 
-    yWHalf=$((yWidth / 2))
-    yWHalf=${yWHalf%.*} # need int cast 
-
     #echo "yContext $yContext"
     #echo "yDisplays $yDisplays"
     #echo "yWidth $yWidth"
@@ -264,15 +242,17 @@ function yo() {
 
     yabai -m space --padding abs:0:0:0:0
     # padding goes like this TOP:BOTTOM:LEFT:RIGHT
-    if [[ $yPosition == 'top' ]]; then
-      yabai -m space --padding abs:0:$yHHalf:0:0
-    elif [[ $yPosition == 'bottom' ]]; then
-      yabai -m space --padding abs:$yHHalf:0:0:0
-    elif [[ $yPosition == 'right' ]]; then
-      yabai -m space --padding abs:0:0:$yWHalf:0
-    elif [[ $yPosition == 'left' ]]; then
-      yabai -m space --padding abs:0:0:0:$yWHalf
-    fi
+    yabai -m space --padding "abs:$yTPadding:$yBPadding:$yLPadding:$yRPadding"
+
+#    if [[ $yPosition == 'top' ]]; then
+#      yabai -m space --padding "abs:0:$yHHalf:0:0"
+#    elif [[ $yPosition == 'bottom' ]]; then
+#      yabai -m space --padding "abs:$yHHalf:0:0:0"
+#    elif [[ $yPosition == 'right' ]]; then
+#      yabai -m space --padding "abs:0:0:$yWHalf:0"
+#    elif [[ $yPosition == 'left' ]]; then
+#      yabai -m space --padding "abs:0:0:0:$yWHalf"
+#    fi
 
 }
 

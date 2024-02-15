@@ -8,4 +8,4 @@ windows:
 #- shell_command:
 #          - brew update; brew upgrade nvim vim kitty tmux yabai curl openssl ncurses
       - shell_command:
-          - brew update; brew upgrade
+          - brew update; brew upgrade; omz update;

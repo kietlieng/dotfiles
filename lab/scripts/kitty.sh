@@ -20,7 +20,7 @@ function kreplacelauncher() {
   sudo cp -rf ~/lab/repos/kitty/kitty/launcher/kitty.app /Applications/.
 }
 
-function kdebugfont() {
+function kfontdebug() {
   kitty --debug-font-fallback
 }
 

@@ -11,7 +11,7 @@
 # sudo yabai --load-sa
 #
 # unmanage everything except for kitty
-yabai -m rule --add app="^[^k].*$" manage=off
+yabai -m rule --add app="^[^kW].*$" manage=off
 #yabai -m rule --add app="^[^k].*$" manage=off space=2
 
 # global settings

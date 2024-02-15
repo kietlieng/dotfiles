@@ -50,6 +50,7 @@ function F.comments(aRegular, aNormalMode, aAll, aCommentOut, aInvert, aBuffer)
      filename == 'config' or -- might be ssh config
      filename == 'skhdrc' or -- hotkeys
      filename == '.zshrc' or
+     filename == '.gitlab-ci.yml' or
      fileExtension == 'tf' or
      fileExtension == 'yaml' or
      fileExtension == 'py' or
