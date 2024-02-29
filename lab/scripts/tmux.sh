@@ -169,7 +169,7 @@ function ta() {
         echo "attach to $1"
         tmux attach -t "$1"
     else
-        echo "attach auto"
+        echo "auto attach"
         tmux attach
     fi
 }

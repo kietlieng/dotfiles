@@ -105,7 +105,7 @@ function F.setup()
   map("n", "<LEADER>gs", ":!callterminal '%:p:h' g<CR>", G_NO_REMAP)                 -- status
 
   -- U KEYS: Utility keys that are infrequently used
-  map("n", "<LEADER>zsource", ":source ~/.config/nvim/init.lua<CR>", G_SILENT_NO_REMAP) -- source file not working as expecting
+  map("n", "<LEADER><SPACE>source", ":source ~/.config/nvim/init.lua<CR>", G_SILENT_NO_REMAP) -- source file not working as expecting
 
   --map( "n", "<C-c>", ":call ToggleList(\"Quickfix List\", 'c')<CR>", G_SILENT_NO_REMAP )
   --map( "n", "<C-c>", ":copen<CR>", G_SILENT_NO_REMAP )
@@ -132,15 +132,18 @@ function F.setup()
   map("v", "<LEADER>ss", ":sort<CR>", G_SILENT_NO_REMAP)
 
   map("n", "<LEADER>==", "gg=G<CR>", G_SILENT_NO_REMAP) -- format
-  map("n", "<LEADER>zjson", ":%!/opt/homebrew/bin/python3 -m json.tool<CR>", G_SILENT_NO_REMAP)
+--  map("n", "<LEADER>zjson", ":%!/opt/homebrew/opt/python@3.11/libexec/bin/python3 -m json.tool<CR>", G_SILENT_NO_REMAP)
+  map("n", "<LEADER><SPACE>json", ":%!jq<CR>", G_SILENT_NO_REMAP)  -- jq format
+  map("v", "<LEADER><SPACE>json", ":!jq<CR>", G_NO_REMAP)             -- jq format 
 
-  map("n", "<LEADER>zupcert", ":!callterminal '%:p:h' upcert<CR>", G_NO_REMAP) -- uploads
+  map("n", "<LEADER><SPACE>upcert", ":!callterminal '%:p:h' upcert<CR>", G_NO_REMAP) -- uploads
 
-  map("n", "<LEADER>zalpha", ":set nrformats=bin,hex,alpha<CR>", G_NO_REMAP)  -- change incremental alpha
-  map("n", "<LEADER>znumber", ":set nrformats=bin,hex<CR>", G_NO_REMAP)       -- change incremental number: default
+  map("n", "<LEADER><SPACE>alpha", ":set nrformats=bin,hex,alpha<CR>", G_NO_REMAP)  -- change incremental alpha
+  map("n", "<LEADER><SPACE>number", ":set nrformats=bin,hex<CR>", G_NO_REMAP)       -- change incremental number: default
 
   map("v", "J", ":m '>+1<CR>gv=gv", G_NO_REMAP)                               -- visual move down
   map("v", "K", ":m '<-2<CR>gv=gv", G_NO_REMAP)                               -- visual move up
+
 
   --map( "n", "<LEADER>pp", ":PrettierAsync<CR>", G_SILENT_NO_REMAP ) -- prettier
 

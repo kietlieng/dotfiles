@@ -1,3 +1,5 @@
+alias krebuild="kpull && kbuild && kreplacelauncher"
+
 function kterm() {
   kitty +kitten ssh "$1"
 }
