@@ -1,4 +1,5 @@
-local set = vim.opt
+local set      = vim.opt
+local swnumber = 2
 
 vim.cmd([[set runtimepath+=~/.nvim]]) --set.runtimepath:append { set.runtimepath .. "/.nvim" }
 
@@ -25,7 +26,7 @@ set.number         = true
 set.relativenumber = true
 set.ruler          = true
 set.scrolloff      = 8                                                                -- give at list X space before / after cursor
-set.shiftwidth     = 2
+set.shiftwidth     = swnumber
 set.showcmd        = true
 set.showtabline    = 2
 set.sidescrolloff  = 8                                                                -- scroll page when cursor is 8 spaces from left/right
@@ -47,6 +48,18 @@ set.updatetime     = 100                                                        
 set.viminfo        = "'100,f1"                                                        -- persistent marks up to 100
 set.wildignore     = "*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx"  -- avoid
 set.wrap           = true
+
+set.listchars      = {
+  tab = "│ ",
+  trail = "·",
+  extends = "»",
+  precedes = "«",
+  nbsp = "+",
+  eol = "↲",
+  space = ".",
+  conceal = "┊" ,
+  multispace = "│" .. string.rep(" ", swnumber - 1)
+}
 
 --- LAZY START -----
 

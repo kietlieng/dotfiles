@@ -73,3 +73,11 @@ function upcert() {
   rsync -av -a --exclude='.git/' ~/lab/repos/cert-alert j-ans:~/.
 
 }
+
+
+function upocto() {
+  echo "up ans"
+  rsync -av -a --exclude='.git/' ~/lab/repos/edge/dns-internal-prod  centos@j-ans:~/.
+  echo "up 196"
+  rsync -av -a --exclude='.git/' ~/lab/repos/edge/dns-internal-prod  j-196:~/.
+}

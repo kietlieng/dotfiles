@@ -105,7 +105,9 @@ function F.setup()
   map("n", "<LEADER>gs", ":!callterminal '%:p:h' g<CR>", G_NO_REMAP)                 -- status
 
   -- U KEYS: Utility keys that are infrequently used
-  map("n", "<LEADER><SPACE>source", ":source ~/.config/nvim/init.lua<CR>", G_SILENT_NO_REMAP) -- source file not working as expecting
+  map("n", "<LEADER><SPACE>source", ":source ~/.config/nvim/init.lua<CR>", G_SILENT_NO_REMAP)  -- source file not working as expecting
+  map("n", "<LEADER><SPACE>sp", ":%!cat -s<CR>", G_SILENT_NO_REMAP)                             -- trim mulitple consecutive lines to one
+  map("v", "<LEADER><SPACE>sp", "'<,'>! cat -s<CR>", G_SILENT_NO_REMAP)                         -- trim multiple consecutive lines to one
 
   --map( "n", "<C-c>", ":call ToggleList(\"Quickfix List\", 'c')<CR>", G_SILENT_NO_REMAP )
   --map( "n", "<C-c>", ":copen<CR>", G_SILENT_NO_REMAP )
@@ -136,7 +138,8 @@ function F.setup()
   map("n", "<LEADER><SPACE>json", ":%!jq<CR>", G_SILENT_NO_REMAP)  -- jq format
   map("v", "<LEADER><SPACE>json", ":!jq<CR>", G_NO_REMAP)             -- jq format 
 
-  map("n", "<LEADER><SPACE>upcert", ":!callterminal '%:p:h' upcert<CR>", G_NO_REMAP) -- uploads
+  map("n", "<LEADER><SPACE>cert", ":!callterminal '%:p:h' upcert<CR>", G_NO_REMAP) -- uploads
+  map("n", "<LEADER><SPACE>octo", ":!callterminal '%:p:h' upocto<CR>", G_NO_REMAP) -- uploads
 
   map("n", "<LEADER><SPACE>alpha", ":set nrformats=bin,hex,alpha<CR>", G_NO_REMAP)  -- change incremental alpha
   map("n", "<LEADER><SPACE>number", ":set nrformats=bin,hex<CR>", G_NO_REMAP)       -- change incremental number: default

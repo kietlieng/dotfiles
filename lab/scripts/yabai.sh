@@ -19,6 +19,7 @@ alias yff="y f; ycheckrot off; rot 2"
 alias yfire="y fire"
 alias yfn="y f; ycheckrot topdown"
 alias yh="y h"
+alias yhh="y 3"
 alias yhf="y h; ycheckrot off; rot 2"
 alias yhn="y h; ycheckrot topdown"
 alias yob="yo b"
@@ -30,6 +31,7 @@ alias yot="yo t"
 alias yotl="yo t l"
 alias yotr="yo t r"
 alias yrestart="y restart"
+alias ytail="tail -f /tmp/yabai_klieng.err.log /tmp/yabai_klieng.out.log"
 
 export width_size="100"
 
@@ -160,6 +162,10 @@ function yo() {
     yWHalf=$((yWidth / 2))
     yWHalf=${yWHalf%.*} # need int cast 
 
+    # we want the third only
+    yWHalf3=$((yWidth / 3))
+    yWHalf3=${yWHalf3%.*} # need int cast 
+
     yBPadding=0
     yLPadding=0
     yRPadding=0
@@ -169,7 +175,14 @@ function yo() {
       key="$1"
 
       case "$key" in
+        
+        '3' )
 
+            yWHalf=$yWHalf3
+
+            shift
+            ;;
+        
         'top' | 't' )
 
             yPosition='top'
@@ -348,152 +361,188 @@ function ymanage() {
 
 # base command for yabai
 function y() {
+  noCommands="true"
 
-    while [[ $# -gt 0 ]]; do
-        key="$1"
-        case $key in
+  while [[ $# -gt 0 ]]; do
+    noCommands="false"
 
-            'stack' )
-                yabai -m config layout stack
-                shift
-                ;;
-            'bsp' )
-                yabai -m config layout bsp
-                shift
-                ;;
-            'float' )
-                yabai -m config layout float
-                shift
-                ;;
-            'bal' )
-                yabai -m space --balance
-                shift
-                ;;
-            'f' ) # full.  Don't toggle
-                #yabai -m space --toggle padding
-                yabai -m space --padding abs:0:0:0:0
-                shift
-                ;;
-            'h' ) # half
+    key="$1"
+    case $key in
 
-                position=$(cat ~/.yposition)
-#                echo "position $position"
-                yo "$position" -title "yh"
-                shift
+      'stack' )
+        yabai -m config layout stack
+        shift
+        ;;
+      'bsp' )
+        yabai -m config layout bsp
+        shift
+        ;;
+      'float' )
+        yabai -m config layout float
+        shift
+        ;;
+      'bal' )
+        yabai -m space --balance
+        shift
+        ;;
+      'f' ) # full.  Don't toggle
 
-                ;;
-            'first' )
+        #yabai -m space --toggle padding
+        yabai -m space --padding abs:0:0:0:0
+        shift
+        ;;
 
-                yabai -m config window_placement first_child
-                shift
+      'h' ) # half
 
-                ;;
-            'topleft' )
+        position=$(cat ~/.yposition)
+        #                echo "position $position"
+        yo "$position" -title "yh"
+        shift
+        ;;
 
-                yabai -m config window_placement first_child
-                shift
+      '3' ) # half
 
-                ;;
-            'left' )
+        position=$(cat ~/.yposition)
+        #                echo "position $position"
+        yo 3 "$position" -title "yh"
+        shift
+        ;;
 
-                yabai -m config window_placement first_child
-                shift
+      'first' )
 
-                ;;
-            'right' )
+        yabai -m config window_placement first_child
+        shift
+        ;;
 
-                yabai -m config window_placement second_child
-                shift
+      'topleft' )
 
-                ;;
-            'bottomright' )
+        yabai -m config window_placement first_child
+        shift
+        ;;
 
-                yabai -m config window_placement second_child
-                shift
+      'left' )
 
-                ;;
-            'second' )
+        yabai -m config window_placement first_child
+        shift
+        ;;
 
-                yabai -m config window_placement second_child
-                shift
+      'right' )
 
-                ;;
-            'fire' ) # manage fire windows also
+        yabai -m config window_placement second_child
+        shift
+        ;;
 
-                fireIndexList=$(yabai -m rule --list | grep -i "firefox")
+      'bottomright' )
 
-                # if there is a manage index for fire that means it's managed
-                # unmanage it
-                if [[ $fireIndexList ]]; then
+        yabai -m config window_placement second_child
+        shift
+        ;;
 
-                    #echo "unmanage"
+      'second' )
 
-                    # unmanage firefox
-                    yabai -m rule --add app="^Firefox$" manage=off
+        yabai -m config window_placement second_child
+        shift
+        ;;
 
-                    # get all indexes we need to delete but in reverse order because the indexs moves when you start deleting indexes
-                    fireIndexList=$(yabai -m rule --list | jq '.[] | select(.app | contains("Firefox")) | .index' | sort -r)
-                    for fireIndex in $($fireIndexList); do
-                        #echo "index is $fireIndex"
-                        yabai -m rule --remove "$fireIndex"
-                    done
+      'fire' ) # manage fire windows also
 
-                else
+        fireIndexList=$(yabai -m rule --list | grep -i "firefox")
 
-                    #echo "manage"
-                    # manage it
-                    yabai -m rule --add app="^Firefox$" manage=on
+        # if there is a manage index for fire that means it's managed
+        # unmanage it
+        if [[ $fireIndexList ]]; then
 
-                fi
+            #echo "unmanage"
 
-                shift
-                ;;
+            # unmanage firefox
+            yabai -m rule --add app="^Firefox$" manage=off
 
-            'rlist' )
+            # get all indexes we need to delete but in reverse order because the indexs moves when you start deleting indexes
+            fireIndexList=$(yabai -m rule --list | jq '.[] | select(.app | contains("Firefox")) | .index' | sort -r)
+            for fireIndex in $($fireIndexList); do
+              #echo "index is $fireIndex"
+              yabai -m rule --remove "$fireIndex"
+            done
 
-                yabai -m rule --list
+          else
 
-                shift
-                ;;
+            #echo "manage"
+            # manage it
+            yabai -m rule --add app="^Firefox$" manage=on
 
-            'stick' )
-                yabai -m window --toggle sticky
-                shift
-                ;;
-            'start' )
-                #brew services start yabai
-                yabai --start-service
-                shift
-                ;;
-            'stop' )
-                #brew services stop yabai
-                yabai --stop-service
-                shift
-                ;;
-            'status' )
-                #brew services info yabai
-                echo "no more brew services info yabai.  yabai doesn't have a status check"
-                shift
-                ;;
-            'restart' )
-                #brew services stop yabai && brew services start yabai
-                yabai --stop-service && yabai --start-service
-                shift
-                ;;
-            'load' )
-                yabai -m signal --add event=dock_did_restart action=\"sudo yabai --load-sa\"
-                shift
-                ;;
-            'sa' )
-                sudo yabai --load-sa
-                shift
-                ;;
-            * )
-                echo "unknown option $key"
-                shift
-                ;;
-        esac
-    done
+        fi
+
+        shift
+        ;;
+
+      'rlist' )
+
+        yabai -m rule --list
+        shift
+        ;;
+
+      'stick' )
+
+        yabai -m window --toggle sticky
+        shift
+        ;;
+
+      'start' )
+
+        #brew services start yabai
+        yabai --start-service
+        shift
+        ;;
+
+      'stop' )
+
+        #brew services stop yabai
+        yabai --stop-service
+        shift
+        ;;
+
+      'status' )
+
+        #brew services info yabai
+        echo "no more brew services info yabai.  yabai doesn't have a status check"
+        shift
+        ;;
+
+      'restart' )
+
+        #brew services stop yabai && brew services start yabai
+        yabai --stop-service && yabai --start-service
+        shift
+        ;;
+
+      'load' )
+
+        yabai -m signal --add event=dock_did_restart action=\"sudo yabai --load-sa\"
+        shift
+        ;;
+
+      'sa' )
+
+        sudo yabai --load-sa
+        shift
+        ;;
+
+      * )
+
+        echo "unknown option $key"
+        shift
+        ;;
+
+    esac
+
+  done
+
+
+  if [[ $noCommands == "true" ]]; then
+
+    yabai --help
+    
+  fi
 }
 
 # find a windown and output the display
