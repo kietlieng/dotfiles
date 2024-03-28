@@ -29,7 +29,7 @@ function F.dirJump(aTarget)
   elseif aTarget == 'lua' then
     dirTarget = "~/.config/nvim"
   elseif aTarget == 'dns_public' then
-    dirTarget = "~/lab/repos/edge/public-dns-repo/zones"
+        dirTarget = "~/lab/repos/edge/public-dns-repo/zones"
   elseif aTarget == 'script' then
     dirTarget = "~/lab/scripts"
   elseif aTarget == 'tmuxp' then

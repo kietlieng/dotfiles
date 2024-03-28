@@ -1,0 +1,4 @@
+#!/bin/bash
+source ~/lab/scripts/calls/sourceall
+
+yh

@@ -102,8 +102,10 @@ require("lazy").setup({
     -- { "olimorris/onedarkpro.nvim", priority = 1000 },
     -- { "sainnhe/gruvbox-material", config = function() require('g-material').setup() end },
     -- { "tjdevries/colorbuddy.vim" }, { "tjdevries/gruvbuddy.nvim" }, -- don't really like
+    --{ "xero/miasma.nvim", lazy = false, priority = 1000, config = function() vim.cmd("colorscheme miasma") end, }, -- way too gloomy
     -- { "morhetz/gruvbox", config = function() require('gruvbox').setup() end  }, -- it's morhetz fork but with support },
-    { "gruvbox-community/gruvbox", config = function() require('gruvbox').setup() end  }, -- it's morhetz fork but with support
+    --{ "GlennLeo/cobalt2", config = function() require('theme-cobalt2').setup() end }, -- try it
+    { "gruvbox-community/gruvbox", config = function() require('theme-gruvbox').setup() end  }, -- it's morhetz fork but with support
 
     -- coc for preview
 
@@ -121,7 +123,13 @@ require("lazy").setup({
     { "ThePrimeagen/harpoon", config = function() require('lua-harpoon').setup() end, }, -- navigation
     { "nvim-telescope/telescope.nvim", tag = '0.1.3' },
     { "nvim-telescope/telescope-fzf-native.nvim", build = 'make', config = function() require('tele').setup() require('telescope').load_extension('fzf') end, },
+    --{ 'nvim-treesitter/nvim-tree-docs' }, -- never got it working
     { "nvim-treesitter/nvim-treesitter", build = ':TSUpdate', config = function() require('treesitter').setup() end, }, -- setup syntax for treesitter
+
+    -- DOC SECTION --
+--    { 'heavenshell/vim-jsdoc', build = 'make install', { 'for': ['javascript', 'javascript.jsx','typescript']  } },
+    -- DOC SECTION --
+
 
     { "lewis6991/tree-sitter-tcl", build = 'make' }, -- tcl syntax
     { "williamboman/mason.nvim" },

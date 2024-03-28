@@ -63,6 +63,13 @@ function syncdot() {
 
 }
 
+function upad21() {
+  
+  echo "rsync -av compare.sh ~/lab/repos/edge/public-dns-repo/scripts/dnscompare.sh j-dnscompare:~/dnscompare/."
+  rsync -av compare.sh ~/lab/repos/edge/public-dns-repo/scripts/dnscompare.sh j-dnscompare:~/dnscompare/.
+
+}
+
 function upcert() {
 
   echo -n "\n\nUpload runner6 "
@@ -73,7 +80,6 @@ function upcert() {
   rsync -av -a --exclude='.git/' ~/lab/repos/cert-alert j-ans:~/.
 
 }
-
 
 function upocto() {
   echo "up ans"

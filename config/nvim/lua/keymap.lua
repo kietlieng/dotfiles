@@ -138,6 +138,7 @@ function F.setup()
   map("n", "<LEADER><SPACE>json", ":%!jq<CR>", G_SILENT_NO_REMAP)  -- jq format
   map("v", "<LEADER><SPACE>json", ":!jq<CR>", G_NO_REMAP)             -- jq format 
 
+  map("n", "<LEADER><SPACE>ad", ":!callterminal '%:p:h' upad21<CR>", G_NO_REMAP) -- uploads
   map("n", "<LEADER><SPACE>cert", ":!callterminal '%:p:h' upcert<CR>", G_NO_REMAP) -- uploads
   map("n", "<LEADER><SPACE>octo", ":!callterminal '%:p:h' upocto<CR>", G_NO_REMAP) -- uploads
 

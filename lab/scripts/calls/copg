@@ -1,0 +1,3 @@
+source ~/lab/scripts/calls/sourceall
+
+cop -n g

@@ -53,11 +53,11 @@ function F.setup()
       documentation = cmp.config.window.bordered(),
     },
     sources = cmp.config.sources({
-      --{ name = "nvim_lsp" },
-      --{ name = "nvim_lsp_signature_help" },
-      --{ name = "nvim_lua" },
+      { name = "nvim_lsp" },
+      { name = "nvim_lsp_signature_help" },
+      { name = "nvim_lua" },
       { name = "luasnip", option = { show_autosnippets = true } },
-      --{ name = "path" },
+      { name = "path" },
     },
     {
       { name = "buffer", keyword_length = 3 },
@@ -81,8 +81,36 @@ function F.setup()
         func(date, {}),
 
       }),
-    },
-  })
+      snip(
+      {
+        trig = "argwhile",
+        namr = "bashwhile",
+        dscr = "Create while loop"
+      },
+      {
+
+        text({
+          "key=''",
+          "",
+          "while [[ $# -gt 0 ]]; do",
+          "",
+          "  key=\"$1\"",
+          "  shift",
+          "",
+          "  case \"$key\" in",
+          "    '')",
+          "      echo 1",
+          "      ;;",
+          "    *)",
+          "      echo default",
+          "      ;;",
+          "  esac",
+          "  ",
+          "done",
+          ""}),
+        }),
+      },
+    })
 
 
   vim.keymap.set({ "i", "s" }, "<C-k>", function()

@@ -54,6 +54,7 @@ function F.comments(aRegular, aNormalMode, aAll, aCommentOut, aInvert, aBuffer)
      filename == '.gitlab-ci.yml' or
      fileExtension == 'tf' or
      fileExtension == 'yaml' or
+     fileExtension == 'yml' or
      fileExtension == 'py' or
      fileExtension == 'sh' or
      fileExtension == 'zsh' or
@@ -232,7 +233,6 @@ function F.comments(aRegular, aNormalMode, aAll, aCommentOut, aInvert, aBuffer)
   vim.cmd("noh")       -- turn off highlight
 
 end
-
 
 function F.next()
 

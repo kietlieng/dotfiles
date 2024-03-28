@@ -7,6 +7,7 @@ alias w1="yo t l"
 alias w2="yo t r"
 alias w3="yo b l"
 alias w4="yo b r"
+alias yH="y h"
 alias yanchorbot="yanchor bot"
 alias yanchoroff="yanchor off"
 alias yanchorshow="cat ~/.yanchor"
@@ -18,19 +19,26 @@ alias yfb="y f bal"
 alias yff="y f; ycheckrot off; rot 2"
 alias yfire="y fire"
 alias yfn="y f; ycheckrot topdown"
-alias yh="y h"
-alias yhh="y 3"
+alias yh="y 3"
 alias yhf="y h; ycheckrot off; rot 2"
 alias yhn="y h; ycheckrot topdown"
+alias yoL="yo l"
+alias yoR="yo r"
 alias yob="yo b"
 alias yobl="yo b l"
 alias yobr="yo b r"
-alias yol="yo l"
-alias yor="yo r"
+alias yoc="yo center"
+alias yol="yo 3 l"
+alias yoll="yo l"
+alias yor="yo 3 r"
+alias yorr="yo r"
 alias yot="yo t"
 alias yotl="yo t l"
 alias yotr="yo t r"
+alias ypadding="y padding"
 alias yrestart="y restart"
+alias ysph="ysp h"
+alias yspv="ysp v"
 alias ytail="tail -f /tmp/yabai_klieng.err.log /tmp/yabai_klieng.out.log"
 
 export width_size="100"
@@ -176,6 +184,14 @@ function yo() {
 
       case "$key" in
         
+        'center' )
+
+            yWHalf=$yWHalf3
+            yLPadding=$yWHalf3
+            yRPadding=$yWHalf3
+
+            shift
+            ;;
         '3' )
 
             yWHalf=$yWHalf3
@@ -201,6 +217,7 @@ function yo() {
             yPositionAbbr='r'
             yPositionChange="t"
             yLPadding=$yWHalf
+            yabai -m config window_placement second_child
 
             shift
             ;;
@@ -212,6 +229,7 @@ function yo() {
             yPositionAbbr='l'
             yPositionChange="t"
             yRPadding=$yWHalf
+            yabai -m config window_placement first_child
 
             shift
             ;;
@@ -269,6 +287,7 @@ function yo() {
 
 }
 
+# yision
 function yison() {
     yMessage=$(yabai -m query --displays 2>&1)
     #echo "message $yMessage"
@@ -367,29 +386,27 @@ function y() {
     noCommands="false"
 
     key="$1"
+    shift
     case $key in
 
       'stack' )
         yabai -m config layout stack
-        shift
         ;;
       'bsp' )
         yabai -m config layout bsp
-        shift
         ;;
       'float' )
         yabai -m config layout float
-        shift
         ;;
       'bal' )
         yabai -m space --balance
-        shift
         ;;
-      'f' ) # full.  Don't toggle
+      'padding' ) 
+        yabai -m space --toggle padding
+        ;;
 
-        #yabai -m space --toggle padding
+      'f' ) # full.  Don't toggle
         yabai -m space --padding abs:0:0:0:0
-        shift
         ;;
 
       'h' ) # half
@@ -397,7 +414,6 @@ function y() {
         position=$(cat ~/.yposition)
         #                echo "position $position"
         yo "$position" -title "yh"
-        shift
         ;;
 
       '3' ) # half
@@ -405,43 +421,36 @@ function y() {
         position=$(cat ~/.yposition)
         #                echo "position $position"
         yo 3 "$position" -title "yh"
-        shift
         ;;
 
       'first' )
 
         yabai -m config window_placement first_child
-        shift
         ;;
 
       'topleft' )
 
         yabai -m config window_placement first_child
-        shift
         ;;
 
       'left' )
 
         yabai -m config window_placement first_child
-        shift
         ;;
 
       'right' )
 
         yabai -m config window_placement second_child
-        shift
         ;;
 
       'bottomright' )
 
         yabai -m config window_placement second_child
-        shift
         ;;
 
       'second' )
 
         yabai -m config window_placement second_child
-        shift
         ;;
 
       'fire' ) # manage fire windows also
@@ -478,59 +487,50 @@ function y() {
       'rlist' )
 
         yabai -m rule --list
-        shift
         ;;
 
       'stick' )
 
         yabai -m window --toggle sticky
-        shift
         ;;
 
       'start' )
 
         #brew services start yabai
         yabai --start-service
-        shift
         ;;
 
       'stop' )
 
         #brew services stop yabai
         yabai --stop-service
-        shift
         ;;
 
       'status' )
 
         #brew services info yabai
         echo "no more brew services info yabai.  yabai doesn't have a status check"
-        shift
         ;;
 
       'restart' )
 
         #brew services stop yabai && brew services start yabai
         yabai --stop-service && yabai --start-service
-        shift
         ;;
 
       'load' )
 
         yabai -m signal --add event=dock_did_restart action=\"sudo yabai --load-sa\"
-        shift
         ;;
 
       'sa' )
 
         sudo yabai --load-sa
-        shift
         ;;
 
       * )
 
         echo "unknown option $key"
-        shift
         ;;
 
     esac
@@ -898,12 +898,189 @@ function yy() {
 function ysh() {
     #!/bin/bash
 
-    win=$(yabai -m query --windows --window first | jq '.id')
+    win=$(yabai -m query --windows --window last | jq '.id')
 
     while : ; do
-        yabai -m window "$win" --swap next &> /dev/null
+        yabai -m window "$win" --swap prev &> /dev/null
         if [[ $? -eq 1 ]]; then
             break
         fi
     done
 }
+
+function ysp() {
+  
+  if [[ $# -gt 0 ]]; then
+    while [[ $# -gt 0 ]]; do
+
+      key="$1"
+      shift
+
+      case "$key" in
+        'h' ) yabai -m config split_type horizontal
+        ;;
+
+        'v' ) yabai -m config split_type vertical
+        ;;
+
+        *) echo "do nothing"
+        ;;
+
+      esac
+      
+    done
+
+  else
+
+    yabai -m config split_type auto
+
+  fi
+}
+
+function yshift() {
+
+  shouldFocus="f"
+  while [[ $# -gt 0 ]]; do
+    
+    key="$1"
+    shift
+    case "$key" in
+      '-f' ) shouldFocus="t"
+      ;;
+      *)
+      ;;
+    esac
+
+  done
+
+  yCurrentApp=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .app')
+#  echo "$yCurrentApp" >> /tmp/yContext
+  
+  leftPadding=$(yabai -m config --space 1 left_padding)
+  rightPadding=$(yabai -m config --space 1 right_padding)
+
+  rightShift="t"
+
+  # anchored on left side
+  if [[ $leftPadding -eq 0 ]] && [[ $rightPadding -gt 0 ]]; then
+    rightShift="f"
+# left padding I don't care about as much 
+#  elif [[ $leftPadding -eq 0 ]] && [[ $rightPadding -eq 0 ]]; then
+#    rightShift="f"
+  fi
+
+  # cycle through counter clockwise
+  if [[ $rightShift == "f" ]]; then
+
+    if [[ "$yCurrentApp" != '"kitty"' ]] && [[ "$shouldFocus" == "t" ]]; then
+
+      win=$(yabai -m query --windows --window last | jq '.id')
+      yabai -m window "$win" --focus
+#      echo "not working" >> /tmp/yContext
+
+
+    else
+      win=$(yabai -m query --windows --window first | jq '.id')
+
+      while : ; do
+          yabai -m window "$win" --swap next &> /dev/null
+      #    yabai -m window "$win" --focus mouse
+          if [[ $? -eq 1 ]]; then
+              break
+          fi
+
+#          echo "working" >> /tmp/yContext
+
+      done
+      if [[ $shouldFocus == 't' ]]; then
+        yabai -m window "$win" --focus
+      fi
+
+  #    if [[ $# -gt 0 ]]; then
+  #      yabai -m window "$win" --focus
+  #    fi
+    fi
+
+  else
+
+    if [[ "$yCurrentApp" != '"kitty"' ]] && [[ "$shouldFocus" == "t" ]]; then
+
+      win=$(yabai -m query --windows --window first | jq '.id')
+      yabai -m window "$win" --focus
+#      echo "not working2 $yCurrentApp" >> /tmp/yContext
+#      echo "$shouldFocus" >> /tmp/yContext
+
+    else
+
+      # cycle through clockwise
+      win=$(yabai -m query --windows --window last | jq '.id')
+
+      while : ; do
+
+          yabai -m window "$win" --swap prev &> /dev/null
+      #    yabai -m window "$win" --focus mouse
+          if [[ $? -eq 1 ]]; then
+              break
+          fi
+
+#          echo "working2" >> /tmp/yContext
+
+      done
+      if [[ $shouldFocus == 't' ]]; then
+        yabai -m window "$win" --focus
+      fi
+
+    fi
+
+  fi
+
+}
+
+# Not the same as toggling which will turn off padding.  
+# Leaves padding on set
+function ytogpadding() {
+
+  leftPadding=$(yabai -m config --space 1 left_padding)
+  leftPadding=${leftPadding%.*} # need int cast 
+  rightPadding=$(yabai -m config --space 1 right_padding)
+  rightPadding=${rightPadding%.*} # need int cast 
+
+  echo "$leftPadding $rightPadding"
+  # if have padding
+  if [[ $leftPadding -gt 0 ]] || [[ $rightPadding -gt 0 ]]; then
+    yf
+  else
+    yh
+  fi
+
+}
+
+function yfocus() {
+
+  leftPadding=$(yabai -m config --space 1 left_padding)
+  leftPadding=${leftPadding%.*} # need int cast 
+  rightPadding=$(yabai -m config --space 1 right_padding)
+  rightPadding=${rightPadding%.*} # need int cast 
+
+  rightShift="t"
+
+  # anchored on left side
+  if [[ $leftPadding -eq 0 ]] && [[ $rightPadding -gt 0 ]]; then
+    rightShift="f"
+  elif [[ $leftPadding -eq 0 ]] && [[ $rightPadding -eq 0 ]]; then
+    rightShift="f"
+  fi
+
+  # cycle through counter clockwise
+  if [[ $rightShift == "f" ]]; then
+
+    yabai -m window --focus east
+
+  else
+
+    yabai -m window --focus west
+
+  fi
+
+}
+
