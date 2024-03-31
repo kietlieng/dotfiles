@@ -100,7 +100,7 @@ function F.setup()
   map("n", "<LEADER>gl", ":silent !callterminal '%:p:h' glink<CR>", G_NO_REMAP)      -- link
   map("n", "<LEADER>gm", ":!callterminal '%:p:h' g master<CR>", G_NO_REMAP)          -- checkout master
   map("n", "<LEADER>go", ":!callterminal '%:p:h' gco", G_NO_REMAP)                   -- checkout a specific branch
-  map("n", "<LEADER>gp", ":!callterminal '%:p:h' gpush -p '%:p:h'<CR>", G_NO_REMAP)  -- push
+  map("n", "<LEADER>gpush", ":!callterminal '%:p:h' gpush -p '%:p:h'<CR>", G_NO_REMAP)  -- push
   map("n", "<LEADER>greset", ":!callterminal '%:p:h' greset<CR>", G_NO_REMAP)        -- reset
   map("n", "<LEADER>gs", ":!callterminal '%:p:h' g<CR>", G_NO_REMAP)                 -- status
 
@@ -163,7 +163,8 @@ function F.setup()
   --map( "n", "<LEADER>mc", ":CocCommand markmap.create<CR>", G_SILENT_NO_REMAP ) -- never use
   map("n", "<LEADER>md", ":MarkdownPreviewToggle<CR>", G_SILENT_NO_REMAP)                      -- regular preview
   map("n", "<LEADER>mm", ":CocCommand markmap.watch<CR>", G_SILENT_NO_REMAP)                   -- mind map
-  map("n", "<LEADER>mp", ":silent !callpx<SPACE>-v<SPACE>%:p:h<SPACE>%:r<SPACE>", G_NO_REMAP)  -- get screenshot
+--  map("n", "<LEADER>mp", ":silent !callpx<SPACE>-v<SPACE>%:p:h<SPACE>%:r<SPACE>", G_NO_REMAP)  -- get screenshot
+  map("n", "<LEADER>mp", ":silent !callterminal '%:p:h' mpx -v '%:p:h' '%:r' ", G_NO_REMAP)  -- get screenshot
 
   --map( "n", "j", "gj", G_SILENT_NO_REMAP ) -- wrapped text movement. Be careful the regular j needs to be expressed elsewhere
   --map( "n", "k", "gk", G_SILENT_NO_REMAP ) -- wrapped text movement. Be careful the regular k needs to be expressed elsewhere

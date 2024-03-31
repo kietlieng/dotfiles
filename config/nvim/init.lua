@@ -123,7 +123,7 @@ require("lazy").setup({
     { "ThePrimeagen/harpoon", config = function() require('lua-harpoon').setup() end, }, -- navigation
     { "nvim-telescope/telescope.nvim", tag = '0.1.3' },
     { "nvim-telescope/telescope-fzf-native.nvim", build = 'make', config = function() require('tele').setup() require('telescope').load_extension('fzf') end, },
-    --{ 'nvim-treesitter/nvim-tree-docs' }, -- never got it working
+    { 'nvim-treesitter/nvim-tree-docs' }, -- never got it working
     { "nvim-treesitter/nvim-treesitter", build = ':TSUpdate', config = function() require('treesitter').setup() end, }, -- setup syntax for treesitter
 
     -- DOC SECTION --

@@ -37,15 +37,16 @@ alias yotl="yo t l"
 alias yotr="yo t r"
 alias ypadding="y padding"
 alias yrestart="y restart"
-alias ysph="ysp h"
-alias yspv="ysp v"
+alias yoa="y spa"
+alias yoh="y sph"
+alias yov="y spv"
 alias ytail="tail -f /tmp/yabai_klieng.err.log /tmp/yabai_klieng.out.log"
 
 export width_size="100"
 
 function ycte() {
 
-    yt $@
+    yt "$@"
     exit
 
 }
@@ -97,7 +98,7 @@ function yWindowMove() {
     #echo "windowsID $yWindowIDs"
     #echo "yCurrentDisplay $yCurrentDisplay"
 
-    for yWindowID in $(echo "$yWindowIDs"); do
+    for yWindowID in $yWindowIDs; do
 
         #echo "target window: $yWindowID"
         yabai -m window "$yWindowID" --display "$yDirection" 2> /dev/null
@@ -155,9 +156,7 @@ function yo() {
     if [[ $(yison) == "off" ]]; then return; fi
 
     #y f
-    yPosition='right'
     yPositionAbbr='r'
-    targetWindow="y$yPosition"
     yPositionChange="f"
 
     #yContext=$(yabai -m query --windows | jq ".[] | select(.title | contains(\"$targetWindow\"))" | jq '.display' )
@@ -201,8 +200,6 @@ function yo() {
         
         'top' | 't' )
 
-            yPosition='top'
-            targetWindow="y$yPosition"
             yPositionAbbr='t'
             yPositionChange="t"
             yBPadding=$yHHalf
@@ -212,8 +209,6 @@ function yo() {
 
         'right' | 'r' )
 
-            yPosition='right'
-            targetWindow="y$yPosition"
             yPositionAbbr='r'
             yPositionChange="t"
             yLPadding=$yWHalf
@@ -224,8 +219,6 @@ function yo() {
 
         'left' | 'l' )
 
-            yPosition='left'
-            targetWindow="y$yPosition"
             yPositionAbbr='l'
             yPositionChange="t"
             yRPadding=$yWHalf
@@ -236,19 +229,10 @@ function yo() {
 
         'bottom' | 'b' )
 
-            yPosition='bottom'
-            targetWindow="y$yPosition"
             yPositionAbbr='b'
             yPositionChange="t"
             yTPadding=$yHHalf
 
-            shift
-            ;;
-
-        '-title' )
-
-            targetWindow="$2"
-            shift
             shift
             ;;
 
@@ -392,15 +376,19 @@ function y() {
       'stack' )
         yabai -m config layout stack
         ;;
+
       'bsp' )
         yabai -m config layout bsp
         ;;
+
       'float' )
         yabai -m config layout float
         ;;
+
       'bal' )
         yabai -m space --balance
         ;;
+
       'padding' ) 
         yabai -m space --toggle padding
         ;;
@@ -421,6 +409,18 @@ function y() {
         position=$(cat ~/.yposition)
         #                echo "position $position"
         yo 3 "$position" -title "yh"
+        ;;
+
+      'sph' ) # split horizontal
+        yabai -m config split_type horizontal
+        ;;
+
+      'spv' ) # split vertical
+        yabai -m config split_type vertical
+        ;;
+
+      'spa' ) # split auto
+        yabai -m config split_type auto
         ;;
 
       'first' )
@@ -586,7 +586,7 @@ function yanchor() {
   yYValue=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .frame.y')
   yYValue=${yYValue%.*} 
   yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty")) | select(."is-visible") | select(."is-minimized"|not)')
-  yInstanceCount=$(echo $yTargetDisplays | jq ".frame | .h" | wc -l)
+  yInstanceCount=$(echo "$yTargetDisplays" | jq ".frame | .h" | wc -l)
   yInstanceCount=$((yInstanceCount)) # sting to int cast
   yInstanceLimit=10
   yOrientation=$(cat ~/.yrotate) 
@@ -713,8 +713,8 @@ function ycheckrot() {
   yHeight=${yHeight%.*} # need int cast
   yHeightTolerance=$((yHeight - 50))
   yHeightTolerance=${yHeightTolerance%.*} # need int cast
-  yAllHeights=$(echo $yTargetDisplays | jq ".frame | .h")
-  yInstanceCount=$(echo $yTargetDisplays | jq ".frame | .h" | wc -l)
+  yAllHeights=$(echo "$yTargetDisplays" | jq ".frame | .h")
+  yInstanceCount=$(echo "$yTargetDisplays" | jq ".frame | .h" | wc -l)
   yInstanceCount=$((yInstanceCount)) # string to int cast
   yRotated="f"
 
@@ -747,7 +747,7 @@ function ycheckrot() {
   if [[ $yRotated == "t" ]]; then
 
 #    echo "yanchor call"
-    yanchor
+    yanchor "$@"
 
   fi
 
@@ -908,35 +908,6 @@ function ysh() {
     done
 }
 
-function ysp() {
-  
-  if [[ $# -gt 0 ]]; then
-    while [[ $# -gt 0 ]]; do
-
-      key="$1"
-      shift
-
-      case "$key" in
-        'h' ) yabai -m config split_type horizontal
-        ;;
-
-        'v' ) yabai -m config split_type vertical
-        ;;
-
-        *) echo "do nothing"
-        ;;
-
-      esac
-      
-    done
-
-  else
-
-    yabai -m config split_type auto
-
-  fi
-}
-
 function yshift() {
 
   shouldFocus="f"
@@ -954,7 +925,8 @@ function yshift() {
   done
 
   yCurrentApp=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .app')
-#  echo "$yCurrentApp" >> /tmp/yContext
+
+  echo "$yCurrentApp" >> /tmp/yContext
   
   leftPadding=$(yabai -m config --space 1 left_padding)
   rightPadding=$(yabai -m config --space 1 right_padding)
@@ -975,12 +947,17 @@ function yshift() {
     if [[ "$yCurrentApp" != '"kitty"' ]] && [[ "$shouldFocus" == "t" ]]; then
 
       win=$(yabai -m query --windows --window last | jq '.id')
+      echo "last" >> /tmp/yContext
+      yabai -m query --windows --window last >> /tmp/yContext
       yabai -m window "$win" --focus
 #      echo "not working" >> /tmp/yContext
 
 
     else
       win=$(yabai -m query --windows --window first | jq '.id')
+
+      echo "first" >> /tmp/yContext
+      yabai -m query --windows --window first >> /tmp/yContext
 
       while : ; do
           yabai -m window "$win" --swap next &> /dev/null
@@ -1006,6 +983,10 @@ function yshift() {
     if [[ "$yCurrentApp" != '"kitty"' ]] && [[ "$shouldFocus" == "t" ]]; then
 
       win=$(yabai -m query --windows --window first | jq '.id')
+      echo "first2" >> /tmp/yContext
+      output=$(yabai -m query --windows --window first)
+      echo "$output" >> /tmp/yContext
+      yabai -m query --windows --window first | jq '.id' >> /tmp/yContext
       yabai -m window "$win" --focus
 #      echo "not working2 $yCurrentApp" >> /tmp/yContext
 #      echo "$shouldFocus" >> /tmp/yContext
@@ -1014,6 +995,7 @@ function yshift() {
 
       # cycle through clockwise
       win=$(yabai -m query --windows --window last | jq '.id')
+      echo "last2" >> /tmp/yContext
 
       while : ; do
 
@@ -1038,7 +1020,85 @@ function yshift() {
 
 # Not the same as toggling which will turn off padding.  
 # Leaves padding on set
+function ytoganchor() {
+
+#  yContext=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .display')
+  yContext=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty"))' | jq '.display' | head -n 1)
+
+#  echo "$yContext"
+#  return
+
+  yWidth=$(yabai -m query --displays | jq ".[] | select(.index==$yContext)" | jq '.frame.w' )
+
+  # we want the third only
+  yWHalf3=$((yWidth / 3))
+  yWHalf3=${yWHalf3%.*} # need int cast 
+
+  leftPadding=$(yabai -m config --space 1 left_padding)
+  leftPadding=${leftPadding%.*} # need int cast 
+  rightPadding=$(yabai -m config --space 1 right_padding)
+  rightPadding=${rightPadding%.*} # need int cast 
+
+  echo "$leftPadding $rightPadding"
+  # is center do nothing
+  if [[ $leftPadding -gt 0 ]] && [[ $rightPadding -gt 0 ]]; then
+
+    echo "do nothing"
+
+  # if left or right has padding figure out which 
+  elif [[ $leftPadding -gt 0 ]] || [[ $rightPadding -gt 0 ]]; then
+
+    # assume left padding
+    currentAnchor='r'
+    currentPadding=$leftPadding
+
+    # or else right padding
+    if [[ $rightPadding -gt 0 ]]; then
+      currentAnchor='l'
+      currentPadding=$rightPadding
+    fi
+
+    # if greater than 1 third, meaning it's half split
+    if [[ $currentPadding -gt $yWHalf3 ]]; then
+
+      # hugging left side
+      if [[ $currentAnchor == 'l' ]]; then
+        yoR
+      else
+        yoL
+      fi
+
+    # it's about 2 / 3 split
+    else 
+
+      # hugging left side
+      if [[ $currentAnchor == 'l' ]]; then
+        yor
+      else
+        yol
+      fi
+
+    fi
+
+  fi
+
+}
+
+# Not the same as toggling which will turn off padding.  
+# Leaves padding on set
 function ytogpadding() {
+
+#  yContext=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .display')
+  yContext=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty"))' | jq '.display' | head -n 1)
+
+#  echo "$yContext"
+#  return
+
+  yWidth=$(yabai -m query --displays | jq ".[] | select(.index==$yContext)" | jq '.frame.w' )
+
+  # we want the third only
+  yWHalf3=$((yWidth / 3))
+  yWHalf3=${yWHalf3%.*} # need int cast 
 
   leftPadding=$(yabai -m config --space 1 left_padding)
   leftPadding=${leftPadding%.*} # need int cast 
@@ -1048,9 +1108,18 @@ function ytogpadding() {
   echo "$leftPadding $rightPadding"
   # if have padding
   if [[ $leftPadding -gt 0 ]] || [[ $rightPadding -gt 0 ]]; then
-    yf
+
+    # if greater than 1 third
+    if [[ $leftPadding -gt $yWHalf3 ]] || [[ $rightPadding -gt $yWHalf3 ]]; then
+      yh
+    else
+      yf
+    fi
+
   else
-    yh
+
+    yH
+
   fi
 
 }
@@ -1083,4 +1152,3 @@ function yfocus() {
   fi
 
 }
-
