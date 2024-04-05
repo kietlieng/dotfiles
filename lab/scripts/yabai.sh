@@ -1030,6 +1030,7 @@ function ytoganchor() {
 
   yWidth=$(yabai -m query --displays | jq ".[] | select(.index==$yContext)" | jq '.frame.w' )
 
+  echo "yWidth is $yWidth"
   # we want the third only
   yWHalf3=$((yWidth / 3))
   yWHalf3=${yWHalf3%.*} # need int cast 
@@ -1106,14 +1107,24 @@ function ytogpadding() {
   rightPadding=${rightPadding%.*} # need int cast 
 
   echo "$leftPadding $rightPadding"
-  # if have padding
+
+  # if we have padding
   if [[ $leftPadding -gt 0 ]] || [[ $rightPadding -gt 0 ]]; then
 
     # if greater than 1 third
-    if [[ $leftPadding -gt $yWHalf3 ]] || [[ $rightPadding -gt $yWHalf3 ]]; then
-      yh
-    else
+    # if center move left
+    if [[ $leftPadding -eq $yWHalf3 ]] && [[ $rightPadding -eq $yWHalf3 ]]; then
+
       yf
+
+    elif [[ $leftPadding -gt $yWHalf3 ]] || [[ $rightPadding -gt $yWHalf3 ]]; then
+
+      yh
+
+    else
+
+      yoc
+
     fi
 
   else

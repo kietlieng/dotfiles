@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/opt/homebrew/bin/zsh
+
 source ~/lab/scripts/calls/sourceall
 
 # go to the directory first

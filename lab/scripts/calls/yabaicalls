@@ -1,4 +1,0 @@
-#!/bin/bash
-source ~/lab/scripts/calls/sourceall
-
-eval "$@"

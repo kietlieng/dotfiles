@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/opt/homebrew/bin/zsh
 
 # https://unix.stackexchange.com/questions/1496/why-doesnt-my-bash-script-recognize-aliases
-shopt -s expand_aliases # need this to expand alias otherwise it won't be recognized
+#shopt -s expand_aliases # need this to expand alias otherwise it won't be recognized
 
 for f in $(find ~/lab/scripts -type f -iname "*.sh" | sort);
 do
