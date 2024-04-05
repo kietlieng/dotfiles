@@ -95,15 +95,19 @@ function F.setup()
   map("n", "<LEADER>glog", ":!callterminalless '%:p:h' glog<CR>", G_NO_REMAP)          -- link
   map("n", "<LEADER>gpull", ":!callterminal '%:p:h' gp<CR>", G_NO_REMAP)               -- pull
   map("n", "<LEADER>ga", ":Git add %<CR>", G_NO_REMAP)                                 -- add current file
-  map("n", "<LEADER>gA", ":G<CR>/Unstaged<CR>j", G_NO_REMAP)                                        -- staging chunks.  Select file >.  Add chunk visual mode, select, s to add chunk
   map("n", "<LEADER>gb", ":!callterminal '%:p:h' g $(pbpaste) ", G_NO_REMAP)           -- create new branch
-  map("n", "<LEADER>gc", ":Git commit<CR>", G_NO_REMAP)                                -- commit
+  map("n", "<LEADER>gcom", ":Git commit<CR>", G_NO_REMAP)                              -- commit
   map("n", "<LEADER>glink", ":silent !callterminal '%:p:h' glink<CR>", G_NO_REMAP)     -- link
   map("n", "<LEADER>gm", ":!callterminal '%:p:h' g master<CR>", G_NO_REMAP)            -- checkout master
-  map("n", "<LEADER>go", ":!callterminal '%:p:h' gco", G_NO_REMAP)                     -- checkout a specific branch
+  map("n", "<LEADER>gco", ":!callterminal '%:p:h' gco", G_NO_REMAP)                    -- checkout a specific branch
   map("n", "<LEADER>gpush", ":!callterminal '%:p:h' gpush -p '%:p:h'<CR>", G_NO_REMAP) -- push
   map("n", "<LEADER>greset", ":!callterminal '%:p:h' greset<CR>", G_NO_REMAP)          -- reset
-  map("n", "<LEADER>gs", ":!callterminal '%:p:h' g<CR>", G_NO_REMAP)                   -- status
+  map("n", "<LEADER>G", ":!callterminal '%:p:h' g<CR>", G_NO_REMAP)                    -- status
+
+  map("n", "<LEADER>gA", ":G<CR>/Unstaged<CR>j", G_NO_REMAP) -- staging chunks.
+                                                             -- Select file then >
+                                                             -- Add chunk via visual mode select
+                                                             -- s to add chunk
 
   -- U KEYS: Utility keys that are infrequently used
   map("n", "<LEADER><SPACE>source", ":source ~/.config/nvim/init.lua<CR>", G_SILENT_NO_REMAP)  -- source file not working as expecting
@@ -142,6 +146,7 @@ function F.setup()
   map("n", "<LEADER><SPACE>ad", ":!callterminal '%:p:h' upad21<CR>", G_NO_REMAP) -- uploads
   map("n", "<LEADER><SPACE>cert", ":!callterminal '%:p:h' upcert<CR>", G_NO_REMAP) -- uploads
   map("n", "<LEADER><SPACE>octo", ":!callterminal '%:p:h' upocto<CR>", G_NO_REMAP) -- uploads
+  map("n", "<LEADER><SPACE>syncdot", ":!callterminal '%:p:h' syncdot<CR>", G_NO_REMAP) -- uploads
 
   map("n", "<LEADER><SPACE>alpha", ":set nrformats=bin,hex,alpha<CR>", G_NO_REMAP)  -- change incremental alpha
   map("n", "<LEADER><SPACE>number", ":set nrformats=bin,hex<CR>", G_NO_REMAP)       -- change incremental number: default
