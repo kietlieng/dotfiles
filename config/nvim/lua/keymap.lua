@@ -90,19 +90,19 @@ function F.setup()
   -- git
 -- map("n", "<LEADER>gd", ":Git diff<CR>", G_NO_REMAP)                            -- diff
 
-  map("n", "<LEADER>gn", ":GitGutterNextHunk<CR>", G_NO_REMAP)                         -- next githunk
-  map("n", "<LEADER>gB", ":!callterminal '%:p:h' g ", G_NO_REMAP)                      -- create branch
-  map("n", "<LEADER>glog", ":!callterminalless '%:p:h' glog<CR>", G_NO_REMAP)          -- link
-  map("n", "<LEADER>gpull", ":!callterminal '%:p:h' gp<CR>", G_NO_REMAP)               -- pull
-  map("n", "<LEADER>ga", ":Git add %<CR>", G_NO_REMAP)                                 -- add current file
-  map("n", "<LEADER>gb", ":!callterminal '%:p:h' g $(pbpaste) ", G_NO_REMAP)           -- create new branch
-  map("n", "<LEADER>gcom", ":Git commit<CR>", G_NO_REMAP)                              -- commit
-  map("n", "<LEADER>glink", ":silent !callterminal '%:p:h' glink<CR>", G_NO_REMAP)     -- link
-  map("n", "<LEADER>gm", ":!callterminal '%:p:h' g master<CR>", G_NO_REMAP)            -- checkout master
-  map("n", "<LEADER>gco", ":!callterminal '%:p:h' gco", G_NO_REMAP)                    -- checkout a specific branch
-  map("n", "<LEADER>gpush", ":!callterminal '%:p:h' gpush -p '%:p:h'<CR>", G_NO_REMAP) -- push
-  map("n", "<LEADER>greset", ":!callterminal '%:p:h' greset<CR>", G_NO_REMAP)          -- reset
-  map("n", "<LEADER>G", ":!callterminal '%:p:h' g<CR>", G_NO_REMAP)                    -- status
+  map("n", "<LEADER>gn", ":GitGutterNextHunk<CR>", G_NO_REMAP)                      -- next githunk
+  map("n", "<LEADER>gB", ":!callterminal '%:p:h' g ", G_NO_REMAP)                   -- create branch
+  map("n", "<LEADER>gl", ":!callterminalless '%:p:h' glog<CR>", G_NO_REMAP)         -- link
+  map("n", "<LEADER>gpull", ":!callterminal '%:p:h' gp<CR>", G_NO_REMAP)            -- pull
+  map("n", "<LEADER>ga", ":Git add %<CR>", G_NO_REMAP)                              -- add current file
+  map("n", "<LEADER>gb", ":!callterminal '%:p:h' g $(pbpaste) ", G_NO_REMAP)        -- create new branch
+  map("n", "<LEADER>gc", ":Git commit<CR>", G_NO_REMAP)                             -- commit
+  map("n", "<LEADER>glink", ":silent !callterminal '%:p:h' glink<CR>", G_NO_REMAP)  -- link
+  map("n", "<LEADER>gm", ":!callterminal '%:p:h' g master<CR>", G_NO_REMAP)         -- checkout master
+  map("n", "<LEADER>gco", ":!callterminal '%:p:h' gco", G_NO_REMAP)                 -- checkout a specific branch
+  map("n", "<LEADER>gp", ":!callterminal '%:p:h' gpush -p '%:p:h'<CR>", G_NO_REMAP) -- push
+  map("n", "<LEADER>greset", ":!callterminal '%:p:h' greset<CR>", G_NO_REMAP)       -- reset
+  map("n", "<LEADER>G", ":!callterminal '%:p:h' g<CR>", G_NO_REMAP)                 -- status
 
   map("n", "<LEADER>gA", ":G<CR>/Unstaged<CR>j", G_NO_REMAP) -- staging chunks.
                                                              -- Select file then >
