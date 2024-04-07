@@ -1,0 +1,21 @@
+#!/opt/homebrew/bin/zsh
+
+source ~/lab/scripts/calls/sourceall
+
+# go to the directory first
+cd "$1"
+# capture function call
+functionCall="$2"
+shift
+shift
+
+# assume all the rest are comments
+functionArg=""
+while [[ $# -gt 0 ]]; do
+
+  functionArg="$functionArg $1"
+  shift
+  
+done
+
+eval "$functionCall '$functionArg'"

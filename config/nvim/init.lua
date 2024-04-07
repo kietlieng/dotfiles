@@ -84,35 +84,21 @@ require("lazy").setup({
     { "junegunn/fzf.vim" },
     { "jremmen/vim-ripgrep", config = function() require('ripgrepper').setup() end, }, -- setup ripgrepper bang command to use register r
     { "mileszs/ack.vim" }, -- grep listing
-    { "tpope/vim-surround" },
+
+    { "tpope/vim-surround" }, -- surround functionality
     { "tpope/vim-fugitive" }, -- git operations in git
     { "airblade/vim-gitgutter", config = function() require('gitgutter').setup() end }, -- Git gutter.  Different than fugitive
+
     { "vim-airline/vim-airline", config = function() require('airline').setup() end },
-    --{ "feline-nvim/feline.nvim',  branch = '0.5-compat", config = function() require('lua-feline').setup() require('feline').winbar.setup() end, },
+    --{ "feline-nvim/feline.nvim',  branch = '0.5-compat", config = function() require('lua-feline').setup() require('feline').winbar.setup() end, }, -- using airline
     { "godlygeek/tabular" }, -- sort table values
-
-    -- THEMES
-
-    -- { "blueshirts/darcula" },
-    -- { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
-    -- { "challenger-deep-theme/vim" }, -- everything is too bright
-    -- { "embark-theme/vim", as = 'embark' }, -- looks good but not functional
-    -- { "ghifarit53/tokyonight-vim" },
-    -- { "hardcoreplayers/oceanic-material", config = function() require('oceanic-material').setup() end },
-    -- { "olimorris/onedarkpro.nvim", priority = 1000 },
-    -- { "sainnhe/gruvbox-material", config = function() require('g-material').setup() end },
-    -- { "tjdevries/colorbuddy.vim" }, { "tjdevries/gruvbuddy.nvim" }, -- don't really like
-    --{ "xero/miasma.nvim", lazy = false, priority = 1000, config = function() vim.cmd("colorscheme miasma") end, }, -- way too gloomy
-    -- { "morhetz/gruvbox", config = function() require('gruvbox').setup() end  }, -- it's morhetz fork but with support },
-    --{ "GlennLeo/cobalt2", config = function() require('theme-cobalt2').setup() end }, -- try it
-    { "gruvbox-community/gruvbox", config = function() require('theme-gruvbox').setup() end  }, -- it's morhetz fork but with support
 
     -- coc for preview
 
     { "neoclide/coc.nvim", branch = 'release' },
     { "iamcco/markdown-preview.nvim", build = 'cd app && yarn install' },
 
-    --{ "kana/vim-smartword" }, -- great for navigation of words with quotes
+    --{ "kana/vim-smartword" }, -- great for navigation of words with quotes, haven't found a need to use it
     { "wellle/targets.vim", config = function() require('targets').setup() end }, -- arguement text objects.
 
     { "skywind3000/asyncrun.vim" }, --  " run jobs in the background
@@ -125,10 +111,6 @@ require("lazy").setup({
     { "nvim-telescope/telescope-fzf-native.nvim", build = 'make', config = function() require('tele').setup() require('telescope').load_extension('fzf') end, },
     { 'nvim-treesitter/nvim-tree-docs' }, -- never got it working
     { "nvim-treesitter/nvim-treesitter", build = ':TSUpdate', config = function() require('treesitter').setup() end, }, -- setup syntax for treesitter
-
-    -- DOC SECTION --
---    { 'heavenshell/vim-jsdoc', build = 'make install', { 'for': ['javascript', 'javascript.jsx','typescript']  } },
-    -- DOC SECTION --
 
 
     { "lewis6991/tree-sitter-tcl", build = 'make' }, -- tcl syntax
@@ -145,33 +127,61 @@ require("lazy").setup({
     { "hrsh7th/cmp-cmdline" },
     { "hrsh7th/nvim-cmp" }, -- https://github.com/hrsh7th/nvim-cmp/wiki/List-of-sources
 
-    ---- For vsnip users.
-    --{ "hrsh7th/cmp-vsnip" },
-    --{ "hrsh7th/vim-vsnip" },
-
     -- For luasnip users.
     { "L3MON4D3/LuaSnip", version = "2.*", build = "make install_jsregexp" },
     { "saadparwaiz1/cmp_luasnip" },
     { "hrsh7th/cmp-nvim-lsp-signature-help" },
 
+    ---- For vsnip users.
+    -- { "hrsh7th/cmp-vsnip" },
+    -- { "hrsh7th/vim-vsnip" },
     ---- For ultisnips users.
-    --{ "SirVer/ultisnips" },
-    --{ "quangnguyen30192/cmp-nvim-ultisnips" },
-
+    -- { "SirVer/ultisnips" },
+    -- { "quangnguyen30192/cmp-nvim-ultisnips" },
     ---- For snippy users.
-    --{ "dcampos/nvim-snippy" },
-    --{ "dcampos/cmp-snippy" },
+    -- { "dcampos/nvim-snippy" },
+    -- { "dcampos/cmp-snippy" },
 
     ----- CMP end -----
 
-    { "prettier/vim-prettier", build =  'yarn install --frozen-lockfile --production', branch = 'release/0.x' },
-
+--    { "prettier/vim-prettier", build =  'yarn install --frozen-lockfile --production', branch = 'release/0.x' }, -- don't think I'm using at all
     { "stevearc/oil.nvim", opts = {}, dependencies = { "nvim-tree/nvim-web-devicons" }, config = function() require("lua-oil").setup() end, }, -- oil setup
+
+    -- THEMES
+
+    -- { "blueshirts/darcula" },
+    -- { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+    -- { "challenger-deep-theme/vim" },                                                                               -- everything is too bright
+    -- { "embark-theme/vim", as = 'embark' },                                                                         -- looks good but not functional
+    -- { "ghifarit53/tokyonight-vim" },
+    -- { "hardcoreplayers/oceanic-material", config = function() require('oceanic-material').setup() end },           -- meh
+    -- { "olimorris/onedarkpro.nvim", priority = 1000 },
+    -- { "sainnhe/gruvbox-material", config = function() require('g-material').setup() end },
+    -- { "tjdevries/colorbuddy.vim" }, { "tjdevries/gruvbuddy.nvim" },                                                -- don't really like
+    -- { "xero/miasma.nvim", lazy = false, priority = 1000, config = function() vim.cmd("colorscheme miasma") end, }, -- way too gloomy
+    -- { "morhetz/gruvbox", config = function() require('gruvbox').setup() end  },                                    -- it's morhetz fork but with support },
+    -- { "GlennLeo/cobalt2", config = function() require('theme-cobalt2').setup() end },                              -- try it
+
+    { "gruvbox-community/gruvbox", config = function() require('theme-gruvbox').setup() end  }, -- it's morhetz fork but with support.  Best thing around
+
 
     -- useless but fun
     { "Eandrju/cellular-automaton.nvim" }, -- makes it look like sand droplets
 
-    { "nvimtools/none-ls.nvim", config = function() require('none-ls').setup() end, requires = { "nvim-lua/plenary.nvim" } }, -- community supported null-ls
+
+    -- not enabled but has potential
+
+    -- all in one lsp / prettier / diagnostics--{ "nvimtools/none-ls.nvim", config = function() require('none-ls').setup() end, requires = { "nvim-lua/plenary.nvim" } }, -- community supported null-ls.  Haven't really used it
+    --{ 'echasnovski/mini.nvim', version = false, -- messes with current customization settings.  Will try again later
+    --  config =
+    --    function()
+    --      require('mini.animate').setup()
+    --      require('mini.comment').setup()
+    --    end,
+    --}, -- mini suite of libraries
+    --{ 'heavenshell/vim-jsdoc', build = 'make install', { 'for': ['javascript', 'javascript.jsx','typescript']  } }, -- for docs 
+
+
 })
 
 ----- LAZY END -----
