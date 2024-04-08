@@ -15,15 +15,16 @@ function F.setup()
 
   -- find files with telescope
   map("n", "<LEADER>/", "<cmd>lua require('tele').dirDepthJump(-1)<CR>", G_SILENT_NO_REMAP)   -- search from git root
-  map("n", "<LEADER>?", "<cmd>lua require('tele').dirDepthJump(0)<CR>", G_SILENT_NO_REMAP)    -- search from current
+  map("n", "<LEADER>?", "<cmd>lua require('tele').dirDepthJump(0)<CR>", G_SILENT_NO_REMAP)    -- search from current directory
+  map("n", "<LEADER>,", "<cmd>lua require('tele').dirDepthJump(-99)<CR>", G_SILENT_NO_REMAP)  -- search from current directory root
   map("n", "<LEADER>1/", "<cmd>lua require('tele').dirDepthJump(1)<CR>", G_SILENT_NO_REMAP)   -- search from 1 up
   map("n", "<LEADER>2/", "<cmd>lua require('tele').dirDepthJump(2)<CR>", G_SILENT_NO_REMAP)   -- search from 2 up
   map("n", "<LEADER>4/", "<cmd>lua require('tele').dirDepthJump(-2)<CR>", G_SILENT_NO_REMAP)  -- search from cwd
 
   -- grep string in file
   --map( "n", "<LEADER>", ":Rg<CR>", G_NO_REMAP ) -- ripgrep current directory
+  map("n", "<LEADER>r", "<cmd>lua require('ripgrepper').grepLevel(0)<CR>", G_NO_REMAP)    -- grep from current directory
   map("n", "<LEADER>R", "<cmd>lua require('ripgrepper').grepLevel(-1)<CR>", G_NO_REMAP)   -- grep from git root
-  map("n", "<LEADER>r", "<cmd>lua require('ripgrepper').grepLevel(0)<CR>", G_NO_REMAP)    -- grep from current
   map("n", "<LEADER>1r", "<cmd>lua require('ripgrepper').grepLevel(1)<CR>", G_NO_REMAP)   -- grep from 1 parent up
   map("n", "<LEADER>2r", "<cmd>lua require('ripgrepper').grepLevel(2)<CR>", G_NO_REMAP)   -- grep from 2 parent up
   map("n", "<LEADER>4r", "<cmd>lua require('ripgrepper').grepLevel(-2)<CR>", G_NO_REMAP)  -- grep from cwd
@@ -115,7 +116,7 @@ function F.setup()
   -- U KEYS: Utility keys that are infrequently used
   map("n", "<LEADER><SPACE>source", ":source ~/.config/nvim/init.lua<CR>", G_SILENT_NO_REMAP)  -- source file not working as expecting
   map("n", "<LEADER><SPACE>sp", ":%!cat -s<CR>", G_SILENT_NO_REMAP)                             -- trim mulitple consecutive lines to one
-  map("v", "<LEADER><SPACE>sp", "'<,'>! cat -s<CR>", G_SILENT_NO_REMAP)                         -- trim multiple consecutive lines to one
+  map("v", "<LEADER><SPACE>sp", "'<,'>!cat -s<CR>", G_SILENT_NO_REMAP)                         -- trim multiple consecutive lines to one
 
   --map( "n", "<C-c>", ":call ToggleList(\"Quickfix List\", 'c')<CR>", G_SILENT_NO_REMAP )
   --map( "n", "<C-c>", ":copen<CR>", G_SILENT_NO_REMAP )
@@ -124,7 +125,7 @@ function F.setup()
   map("n", "<LEADER>zlz", ":Lazy<CR>", G_NO_REMAP) -- open Lazy
 
   -- Lspinfo
-  map("n", "<LEADER>p", ":LspStop bufnr()<CR>", G_NO_REMAP) -- disable lsp
+  map("n", "<LEADER>zsp", ":LspStop bufnr()<CR>", G_NO_REMAP) -- disable lsp
   map("n", "<LEADER>zhealth", ":CheckHealth<CR>", G_NO_REMAP)
   map("n", "<LEADER>zli", ":LspInfo<CR>", G_NO_REMAP)
   map("n", "<LEADER>zll", ":LspLog<CR>", G_NO_REMAP)
@@ -146,10 +147,10 @@ function F.setup()
   map("n", "<LEADER><SPACE>json", ":%!jq<CR>", G_SILENT_NO_REMAP)  -- jq format
   map("v", "<LEADER><SPACE>json", ":!jq<CR>", G_NO_REMAP)             -- jq format 
 
-  map("n", "<LEADER><SPACE>ad", ":!callterminal '%:p:h' upad21<CR>", G_NO_REMAP) -- uploads
-  map("n", "<LEADER><SPACE>cert", ":!callterminal '%:p:h' upcert<CR>", G_NO_REMAP) -- uploads
-  map("n", "<LEADER><SPACE>octo", ":!callterminal '%:p:h' upocto<CR>", G_NO_REMAP) -- uploads
-  map("n", "<LEADER><SPACE>syncdot", ":!callterminal '%:p:h' syncdot<CR>", G_NO_REMAP) -- uploads
+  map("n", "<LEADER>uad", ":!callterminal '%:p:h' upad21<CR>", G_NO_REMAP) -- uploads
+  map("n", "<LEADER>ucert", ":!callterminal '%:p:h' upcert<CR>", G_NO_REMAP) -- uploads
+  map("n", "<LEADER>uocto", ":!callterminal '%:p:h' upocto<CR>", G_NO_REMAP) -- uploads
+  map("n", "<LEADER>usyncdot", ":!callterminal '%:p:h' syncdot<CR>", G_NO_REMAP) -- uploads
 
   map("n", "<LEADER><SPACE>alpha", ":set nrformats=bin,hex,alpha<CR>", G_NO_REMAP)  -- change incremental alpha
   map("n", "<LEADER><SPACE>number", ":set nrformats=bin,hex<CR>", G_NO_REMAP)       -- change incremental number: default

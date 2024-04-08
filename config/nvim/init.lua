@@ -144,7 +144,7 @@ require("lazy").setup({
 
     ----- CMP end -----
 
---    { "prettier/vim-prettier", build =  'yarn install --frozen-lockfile --production', branch = 'release/0.x' }, -- don't think I'm using at all
+    --{ "prettier/vim-prettier", build =  'yarn install --frozen-lockfile --production', branch = 'release/0.x' }, -- don't think I'm using at all
     { "stevearc/oil.nvim", opts = {}, dependencies = { "nvim-tree/nvim-web-devicons" }, config = function() require("lua-oil").setup() end, }, -- oil setup
 
     -- THEMES
@@ -164,23 +164,16 @@ require("lazy").setup({
 
     { "gruvbox-community/gruvbox", config = function() require('theme-gruvbox').setup() end  }, -- it's morhetz fork but with support.  Best thing around
 
-
-    -- useless but fun
-    { "Eandrju/cellular-automaton.nvim" }, -- makes it look like sand droplets
-
+    -- messes with current customization settings.  Will try again later. mini suite of modules that might me handy
+    { 'echasnovski/mini.nvim', version = false, config = function() require('mini').setup() end, },
 
     -- not enabled but has potential
 
     -- all in one lsp / prettier / diagnostics--{ "nvimtools/none-ls.nvim", config = function() require('none-ls').setup() end, requires = { "nvim-lua/plenary.nvim" } }, -- community supported null-ls.  Haven't really used it
-    --{ 'echasnovski/mini.nvim', version = false, -- messes with current customization settings.  Will try again later
-    --  config =
-    --    function()
-    --      require('mini.animate').setup()
-    --      require('mini.comment').setup()
-    --    end,
-    --}, -- mini suite of libraries
-    --{ 'heavenshell/vim-jsdoc', build = 'make install', { 'for': ['javascript', 'javascript.jsx','typescript']  } }, -- for docs 
+    --{ 'heavenshell/vim-jsdoc', build = 'make install', { 'for': ['javascript', 'javascript.jsx','typescript']  } }, -- for docs
 
+    -- useless but fun
+    { "Eandrju/cellular-automaton.nvim" }, -- makes it look like sand droplets
 
 })
 

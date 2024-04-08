@@ -1,0 +1,5 @@
+#!/opt/homebrew/bin/zsh
+
+source ~/lab/scripts/calls/sourceall
+
+mpx -h -d $@

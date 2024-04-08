@@ -57,7 +57,8 @@ function F.dirDepthJump(aDepth)
 
   elseif aDepth == -1 then
 
-    -- find root directory
+    -- find root directory of the file open.  Sometimes will open a file 
+    -- from a separate location than your current one
     local currentRepo = vim.fn.expand('%:p:h')
     local io = require("io")
     local fOutput = io.popen("callgitrootfolder " .. currentRepo)
@@ -68,7 +69,18 @@ function F.dirDepthJump(aDepth)
 
   else
 
-    if aDepth > 0 then
+    if aDepth == -99 then
+
+      -- find root directory of where vim ran.  This doesn't account for 
+      -- the location of the directory the current file is open from.  Just where
+      -- the vim program is running from 
+      local fOutput = io.popen("callgitrootfolder")
+      dirExpression = fOutput:read('*all')
+      fOutput:close()
+
+--      print(dirExpression)
+
+    elseif aDepth > 0 then
 
       while aDepth > 0 do
 
