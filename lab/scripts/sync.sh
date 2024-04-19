@@ -38,10 +38,13 @@ function syncdot() {
     dLabDir=${destinationDir}/lab
     dScriptDir=${dLabDir}/scripts
 
+    # puretheme
+    dPure=${destinationDir}/.oh-my-zsh/themes/pure/
+
     rm -rf $destinationDir/*
 
     # create directories
-    mkdir -p $dConfigDir $dFileDir $dScriptDir $dKittyDir
+    mkdir -p $dConfigDir $dFileDir $dScriptDir $dKittyDir $dPure
 
     cp ~/.tmux.conf ${dFileDir}/.
     cp ~/.yabairc ${dFileDir}/.
@@ -56,6 +59,8 @@ function syncdot() {
     cp -rf ~/lab/scripts/tmuxp $dScriptDir/.
     cp -rf ~/lab/scripts/applescript $dScriptDir/.
     cp -rf ~/lab/scripts/plot $dScriptDir/.
+
+    cp ~/.oh-my-zsh/themes/pure/pure.zsh $dPure/.
 
     find $sourceScript -maxdepth 1 -type f  -iname "*.sh" -exec cp {} ${dScriptDir}/. \;
 
