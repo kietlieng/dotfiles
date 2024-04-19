@@ -150,7 +150,7 @@ function ym() {
 
 }
 
-# yabai change window padding
+# yabai change window padding aka yabai orient
 function yo() {
 
     if [[ $(yison) == "off" ]]; then return; fi
@@ -213,7 +213,7 @@ function yo() {
             yPositionChange="t"
             yLPadding=$yWHalf
             yabai -m config window_placement second_child
-
+#            yabai -m config window_placement first_child
             shift
             ;;
 
@@ -223,7 +223,7 @@ function yo() {
             yPositionChange="t"
             yRPadding=$yWHalf
             yabai -m config window_placement first_child
-
+#            yabai -m config window_placement second_child
             shift
             ;;
 
@@ -259,20 +259,11 @@ function yo() {
     # padding goes like this TOP:BOTTOM:LEFT:RIGHT
     yabai -m space --padding "abs:$yTPadding:$yBPadding:$yLPadding:$yRPadding"
 
-#    if [[ $yPosition == 'top' ]]; then
-#      yabai -m space --padding "abs:0:$yHHalf:0:0"
-#    elif [[ $yPosition == 'bottom' ]]; then
-#      yabai -m space --padding "abs:$yHHalf:0:0:0"
-#    elif [[ $yPosition == 'right' ]]; then
-#      yabai -m space --padding "abs:0:0:$yWHalf:0"
-#    elif [[ $yPosition == 'left' ]]; then
-#      yabai -m space --padding "abs:0:0:0:$yWHalf"
-#    fi
-
 }
 
 # yision
 function yison() {
+
     yMessage=$(yabai -m query --displays 2>&1)
     #echo "message $yMessage"
     if [[ "$yMessage" = *"failed to connect to socket"* ]]; then
@@ -280,6 +271,7 @@ function yison() {
       #https://stackoverflow.com/questions/11141120/exit-function-stack-without-exiting-shell
       #kill -INT $$
     fi
+
 }
 
 # don't know what I wanted to do with this
@@ -1108,30 +1100,54 @@ function ytogpadding() {
 
   echo "$leftPadding $rightPadding"
 
-  # if we have padding
-  if [[ $leftPadding -gt 0 ]] || [[ $rightPadding -gt 0 ]]; then
+  currentPadding=$leftPadding
 
-    # if greater than 1 third
-    # if center move left
-    if [[ $leftPadding -eq $yWHalf3 ]] && [[ $rightPadding -eq $yWHalf3 ]]; then
+  if [[ $rightPadding -gt 0 ]]; then
 
-      yf
+    currentPadding=$rightPadding
 
-    elif [[ $leftPadding -gt $yWHalf3 ]] || [[ $rightPadding -gt $yWHalf3 ]]; then
+  fi
+
+
+  # it's half
+  if [[ $currentPadding -gt $yWHalf3 ]]; then
 
       yh
 
-    else
+  elif [[ $currentPadding -gt 0 ]]; then # it's 1/3 padding
 
-      yoc
-
-    fi
+      yf
 
   else
 
-    yH
+      yH
 
   fi
+
+#  # if we have padding
+#  if [[ $leftPadding -gt 0 ]] || [[ $rightPadding -gt 0 ]]; then
+#
+#    # if greater than 1 third
+#    # if center move left
+#    if [[ $leftPadding -eq $yWHalf3 ]] && [[ $rightPadding -eq $yWHalf3 ]]; then
+#
+#      yf
+#
+#    elif [[ $leftPadding -gt $yWHalf3 ]] || [[ $rightPadding -gt $yWHalf3 ]]; then
+#
+#      yh
+#
+#    else
+#
+#      yoc
+#
+#    fi
+#
+#  else
+#
+#    yH
+#
+#  fi
 
 }
 

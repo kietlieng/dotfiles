@@ -81,12 +81,12 @@ KL_STATUS_SYMBOL_ARRAY=()
 #KL_STATUS_SYMBOL_ARRAY+=("(⌐▨ʭ▨)" "(/// -)" "(✖ ‿ ✖)" "𐂠  𐂠 " "(◔ ‿◔)" "(°‿°)") # Kanye emo up-for-anything double rainbow
 KL_STATUS_SYMBOL_ARRAY+=("(⌐▨ʭ▨)") # Kanye 
 #KL_STATUS_SYMBOL_ARRAY+=("᯾  ᷄♩⌡ ᷄|" "⺰ ᷄♩⌡ ᷄|" "ᱭ  ᷄♩ ᷄|" "᱉  ᷄♩ ᷄|" "᱑  ᷄♩ ᷄|" "␦ ᷄♩ ᷄|")
-KL_STATUS_SYMBOL_ARRAY+=("l- -l" "0_0꧞") # Batman ex-convict
+KL_STATUS_SYMBOL_ARRAY+=("/l- -l" "0_0꧞") # Batman ex-convict
 KL_STATUS_SYMBOL_ARRAY+=("(⌐〇ϟ_〇)" "⎩O_O⎭") # Harry potter Lego
 
 # animals
 #KL_STATUS_SYMBOL_ARRAY+=("ࡄࡄࡄɅࡄ " ">++(º>" "><  º>" "彡:⊑>" "ϵ('Θ')϶" "彡:D") #shark fish fish-bone squid blowfish jelly fish
-KL_STATUS_SYMBOL_ARRAY+=("ࡄࡄࡄɅࡄ " "><  º>" "彡:⊑>") #shark fish squid
+KL_STATUS_SYMBOL_ARRAY+=("ࡄࡄࡄɅࡄ" "><  º>" "彡:⊑>") #shark fish squid
 #KL_STATUS_SYMBOL_ARRAY+=("~~( )ᢄ:>" "('v')" "\\_O<") # mouse chick duck
 #KL_STATUS_SYMBOL_ARRAY+=(",≘,e" "(｀(●●)´)") # turtle pig
 #KL_STATUS_SYMBOL_ARRAY+=("{O ٧ O}" "@..@" "@ᓆ " "^. .^") # owl frog snail cat
@@ -95,13 +95,14 @@ KL_STATUS_SYMBOL_ARRAY+=("ࡄࡄࡄɅࡄ " "><  º>" "彡:⊑>") #shark fish squ
 
 # Games
 #KL_STATUS_SYMBOL_ARRAY+=("[+..••]" "(✜..᠅)" "(+[_]᠅)") # nes, snes, vita
-KL_STATUS_SYMBOL_ARRAY+=("[+..••]") # nes
-KL_STATUS_SYMBOL_ARRAY+=("⊒⟮⑉⑉)﹚୦୦୦" "<(-''-)>" "𐤔ᜠᜰ_ᯓ ࡄᝪ") # megaman kirby sonic
-KL_STATUS_SYMBOL_ARRAY+=("ᯓ 〛ⱃ⳻)" "⟭ᕲৡࡇ 𒊹𖣇") # mario bullet, rtype
+KL_STATUS_SYMBOL_ARRAY+=("[+..••]" "(✜..᠅)") # nes, snes
+#KL_STATUS_SYMBOL_ARRAY+=("⊒⟮⑉⑉)﹚୦୦୦") # megaman 
+KL_STATUS_SYMBOL_ARRAY+=("<(-''-)>" "𐤔ᜠᜰ_ᯓࡄᝪ") # kirby sonic
+KL_STATUS_SYMBOL_ARRAY+=("ᯓ〛ⱃ⳻)" "⟭ᕲৡࡇ 𒊹𖣇") # mario bullet, rtype
 #KL_STATUS_SYMBOL_ARRAY+=("𖣠 ⦿๏ᯓ(〄)" "𖣠 ⦿๏ᯓ(✇)" "𖣠 ⦿๏ᯓ(*)") # metroid morph ball
 KL_STATUS_SYMBOL_ARRAY+=("𖣠 ⦿๏ ᯓ〄") # metroid morph ball
 #KL_STATUS_SYMBOL_ARRAY+=("██▇(〇⪧ ᐊ〇)" "██▇(ᑕl⪧ᐊᑐ)") # Tron lightcycle
-KL_STATUS_SYMBOL_ARRAY+=("██▇(〇⪧ ᐊ〇)") # Tron lightcycle
+KL_STATUS_SYMBOL_ARRAY+=("██▇(〇⪧ᐊ〇)") # Tron lightcycle
 #KL_STATUS_SYMBOL_ARRAY+=("1⌐ࠏ෴ࠏ" "໒2▀෴▀ࠒ" "4t▀෴▀J" "4␦▀෴▀")
 #KL_STATUS_SYMBOL_ARRAY+=("4t▀෴▀J") # kanye west
 

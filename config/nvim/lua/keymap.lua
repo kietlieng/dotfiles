@@ -14,12 +14,12 @@ function F.setup()
   map("n", ":", ";", G_SILENT_NO_REMAP)  -- swap for ; cause I'm not using it often enough
 
   -- find files with telescope
-  map("n", "<LEADER>/", "<cmd>lua require('tele').dirDepthJump(-1)<CR>", G_SILENT_NO_REMAP)   -- search from git root
-  map("n", "<LEADER>?", "<cmd>lua require('tele').dirDepthJump(0)<CR>", G_SILENT_NO_REMAP)    -- search from current directory
-  map("n", "<LEADER>,", "<cmd>lua require('tele').dirDepthJump(-99)<CR>", G_SILENT_NO_REMAP)  -- search from current directory root
-  map("n", "<LEADER>1/", "<cmd>lua require('tele').dirDepthJump(1)<CR>", G_SILENT_NO_REMAP)   -- search from 1 up
-  map("n", "<LEADER>2/", "<cmd>lua require('tele').dirDepthJump(2)<CR>", G_SILENT_NO_REMAP)   -- search from 2 up
-  map("n", "<LEADER>4/", "<cmd>lua require('tele').dirDepthJump(-2)<CR>", G_SILENT_NO_REMAP)  -- search from cwd
+  map("n", "<LEADER>/", "<cmd>lua require('tele').dirDepthJump(-1)<CR>", G_SILENT_NO_REMAP)     -- search from git root
+  map("n", "<LEADER>?", "<cmd>lua require('tele').dirDepthJump(0)<CR>", G_SILENT_NO_REMAP)      -- search from current directory
+  map("n", "<LEADER><LT>", "<cmd>lua require('tele').dirDepthJump(-99)<CR>", G_SILENT_NO_REMAP) -- search from current directory root
+  map("n", "<LEADER>1/", "<cmd>lua require('tele').dirDepthJump(1)<CR>", G_SILENT_NO_REMAP)     -- search from 1 up
+  map("n", "<LEADER>2/", "<cmd>lua require('tele').dirDepthJump(2)<CR>", G_SILENT_NO_REMAP)     -- search from 2 up
+  map("n", "<LEADER>4/", "<cmd>lua require('tele').dirDepthJump(-2)<CR>", G_SILENT_NO_REMAP)    -- search from cwd
 
   -- grep string in file
   --map( "n", "<LEADER>", ":Rg<CR>", G_NO_REMAP ) -- ripgrep current directory
@@ -96,13 +96,16 @@ function F.setup()
   map("n", "<LEADER>gl", ":!callterminalless '%:p:h' glog<CR>", G_NO_REMAP)           -- link
   map("n", "<LEADER>gpull", ":!callterminal '%:p:h' gp<CR>", G_NO_REMAP)              -- pull
   map("n", "<LEADER>ga", ":Git add %<CR>", G_NO_REMAP)                                -- add current file
+--  map("n", "<LEADER>Ga", ":Git add %<CR>!callterminal2count '%:p:h' gcpush '' && echo 'testing'<LEFT>", G_NO_REMAP)  -- Add commit and push
+  map("n", "<LEADER>Ga", ':lua require("taskrunner").gitAddCommentAndPush(\'\')<LEFT><LEFT>', G_NO_REMAP)  -- Add, commit and push
+--  map("n", "<C-h>", ':lua require( "harpoon.ui").nav_next()<CR>', G_SILENT_NO_REMAP)                -- next
   map("n", "<LEADER>gb", ":!callterminal '%:p:h' g $(pbpaste) ", G_NO_REMAP)          -- create new branch
   map("n", "<LEADER>gc", ":Git commit<CR>", G_NO_REMAP)                               -- commit
-  map("n", "<LEADER>gC", ":!callterminal2count '%:p:h' gcpush ''<LEFT>", G_NO_REMAP)  -- commit and push
+  map("n", "<LEADER>Gc", ":!callterminal2count '%:p:h' gcpush ''<LEFT>", G_NO_REMAP)  -- commit and push
   map("n", "<LEADER>gs", ":!callterminal2count '%:p:h' gcpushs ''<LEFT>", G_NO_REMAP) -- commit and push silent
   map("n", "<LEADER>glink", ":silent !callterminal '%:p:h' glink<CR>", G_NO_REMAP)    -- link
   map("n", "<LEADER>gm", ":!callterminal '%:p:h' g master<CR>", G_NO_REMAP)           -- checkout master
-  map("n", "<LEADER>gco", ":!callterminal '%:p:h' gco", G_NO_REMAP)                   -- checkout a specific branch
+--  map("n", "<LEADER>gco", ":!callterminal '%:p:h' gco", G_NO_REMAP)                   -- checkout a specific branch
   map("n", "<LEADER>gp", ":!callterminal '%:p:h' gpush -p '%:p:h'<CR>", G_NO_REMAP)   -- push
   map("n", "<LEADER>gP", ":!callterminal '%:p:h' gpushs -p '%:p:h'<CR>", G_NO_REMAP)  -- push silent
   map("n", "<LEADER>greset", ":!callterminal '%:p:h' greset<CR>", G_NO_REMAP)         -- reset
@@ -173,7 +176,6 @@ function F.setup()
   --map( "n", "<LEADER>mc", ":CocCommand markmap.create<CR>", G_SILENT_NO_REMAP ) -- never use
   map("n", "<LEADER>md", ":MarkdownPreviewToggle<CR>", G_SILENT_NO_REMAP)                      -- regular preview
   map("n", "<LEADER>mm", ":CocCommand markmap.watch<CR>", G_SILENT_NO_REMAP)                   -- mind map
---  map("n", "<LEADER>mp", ":silent !callpx<SPACE>-v<SPACE>%:p:h<SPACE>%:r<SPACE>", G_NO_REMAP)  -- get screenshot
   map("n", "<LEADER>mp", ":silent !callterminal '%:p:h' mpx -v '%:p:h' '%:r' ", G_NO_REMAP)  -- get screenshot
 
   --map( "n", "j", "gj", G_SILENT_NO_REMAP ) -- wrapped text movement. Be careful the regular j needs to be expressed elsewhere
@@ -219,7 +221,9 @@ function F.setup()
   map("n", "<LEADER>vidd", ":next ~/lab/repos/edge/dns-internal-dev/zones/paciolan.info.yaml <CR>", G_SILENT_NO_REMAP) -- dns dev
   map("n", "<LEADER>vipd", ":next ~/lab/repos/edge/public-dns-repo/zones/evenue.net.yaml <CR>", G_SILENT_NO_REMAP) -- dns public
   map("n", "<LEADER>vir", ":next ~/.config/nvim/lua/keymap.lua ~/.config/nvim/init.lua <CR>", G_SILENT_NO_REMAP)  -- edit init file
-  map("n", "<LEADER>vrule", ":next ~/lab/repos/irules-engine/modules/download_irule.py <CR>", G_SILENT_NO_REMAP) -- dns dev
+  map("n", "<LEADER>virule", ":next ~/lab/repos/irules-engine/modules/download_irule.py <CR>", G_SILENT_NO_REMAP) -- dns dev
+  map("n", "<LEADER>visre", ":next ~/lab/repos/srebot/src/index.js <CR>", G_SILENT_NO_REMAP) -- dns dev
+  map("n", "<LEADER>vijob", ":next ~/lab/repos/sre-jobqueue/src/index.js <CR>", G_SILENT_NO_REMAP) -- dns dev
 
   --map("n", "<LEADER>gf", vim.lsp.buf.format, {})                                                                  -- have no idea what this does right now
 end

@@ -10,5 +10,7 @@ shift
 if [[ $# == 0 ]]; then
   g 
 else
-  eval "$@"
+  functionCall="$1"
+  shift
+  eval "$functionCall \"$@\""
 fi

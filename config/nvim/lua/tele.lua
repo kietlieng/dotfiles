@@ -6,12 +6,20 @@ function F.setup()
   -- telescope setup
   require('telescope').setup {
       extensions = {
-          fzy_native = {
-              override_generic_sorter = false,
-              override_file_sorter = true,
-          }
+          fzf = {
+            fuzzy = true,                    -- false will only do exact matching
+            override_generic_sorter = true,  -- override the generic sorter
+            override_file_sorter = true,     -- override the file sorter
+            case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+          },
+--          fzy_native = {
+--              override_generic_sorter = true,
+--              override_file_sorter = true,
+--          }
       }
   }
+
+  require('telescope').load_extension('fzf')
 
 end
 
@@ -71,8 +79,8 @@ function F.dirDepthJump(aDepth)
 
     if aDepth == -99 then
 
-      -- find root directory of where vim ran.  This doesn't account for 
-      -- the location of the directory the current file is open from.  Just where
+      -- find root directory of where vim ran. This doesn't account for 
+      -- the location of the directory the current file is open from. Just where
       -- the vim program is running from 
       local fOutput = io.popen("callgitrootfolder")
       dirExpression = fOutput:read('*all')
