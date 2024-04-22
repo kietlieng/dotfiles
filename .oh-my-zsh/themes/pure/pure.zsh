@@ -136,9 +136,11 @@ prompt_pure_preprompt_render() {
 	# Initialize the preprompt array.
 	local -a preprompt_parts
 
+
   if [[ $KL_PURE_THEME_ENABLE == "True" ]]; then
      preprompt_parts+='%(?.%F{$KL_PURE_EMOJI_SUCCESS_COLOR}.%F{$KL_PURE_EMOJI_ERROR_COLOR})${PURE_EMOJI}%f'
   fi
+
 	# Suspended jobs in background.
 	if ((${(M)#jobstates:#suspended:*} != 0)); then
 		preprompt_parts+='%F{$prompt_pure_colors[suspended_jobs]}✦'
@@ -250,7 +252,7 @@ prompt_pure_precmd() {
 	prompt_pure_reset_prompt_symbol
 
 	# Print the preprompt.
-	# kl remove spaces inbetween
+	# kl remove spaces inbetween records
 #	prompt_pure_preprompt_render "precmd"
 
 	if [[ -n $ZSH_THEME ]]; then

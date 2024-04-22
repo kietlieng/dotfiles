@@ -7,4 +7,11 @@ function F.gitAddCommentAndPush(argCommand)
 
 end
 
+function F.gitAddAllCommentAndPush(argCommand)
+
+    vim.cmd("!callgitaddall '%:p:h'")      -- add all
+    vim.cmd("!callterminal2count '%:p:h' gcpush '" .. argCommand .. "'")
+
+end
+
 return F

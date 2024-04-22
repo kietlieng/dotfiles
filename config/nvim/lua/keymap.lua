@@ -88,28 +88,35 @@ function F.setup()
 
   -- G KEYS: git commands
 
-  -- git
+  -- git conventions: [Gg][action]
+  -- g: git
+  -- G: CAPITAL G means do the command and push 
+  -- example:
+  --   - ga: add current file
+  --   - Ga: add current file, commit and push
+  --   - GA: add all, commit and push
+  --   - gc: git commit message
+  --   - Gc: git commit message and push
 -- map("n", "<LEADER>gd", ":Git diff<CR>", G_NO_REMAP)                            -- diff
 
-  map("n", "<LEADER>gn", ":GitGutterNextHunk<CR>", G_NO_REMAP)                        -- next githunk
-  map("n", "<LEADER>gB", ":!callterminal '%:p:h' g ", G_NO_REMAP)                     -- create branch
-  map("n", "<LEADER>gl", ":!callterminalless '%:p:h' glog<CR>", G_NO_REMAP)           -- link
-  map("n", "<LEADER>gpull", ":!callterminal '%:p:h' gp<CR>", G_NO_REMAP)              -- pull
-  map("n", "<LEADER>ga", ":Git add %<CR>", G_NO_REMAP)                                -- add current file
---  map("n", "<LEADER>Ga", ":Git add %<CR>!callterminal2count '%:p:h' gcpush '' && echo 'testing'<LEFT>", G_NO_REMAP)  -- Add commit and push
-  map("n", "<LEADER>Ga", ':lua require("taskrunner").gitAddCommentAndPush(\'\')<LEFT><LEFT>', G_NO_REMAP)  -- Add, commit and push
---  map("n", "<C-h>", ':lua require( "harpoon.ui").nav_next()<CR>', G_SILENT_NO_REMAP)                -- next
-  map("n", "<LEADER>gb", ":!callterminal '%:p:h' g $(pbpaste) ", G_NO_REMAP)          -- create new branch
-  map("n", "<LEADER>gc", ":Git commit<CR>", G_NO_REMAP)                               -- commit
-  map("n", "<LEADER>Gc", ":!callterminal2count '%:p:h' gcpush ''<LEFT>", G_NO_REMAP)  -- commit and push
-  map("n", "<LEADER>gs", ":!callterminal2count '%:p:h' gcpushs ''<LEFT>", G_NO_REMAP) -- commit and push silent
-  map("n", "<LEADER>glink", ":silent !callterminal '%:p:h' glink<CR>", G_NO_REMAP)    -- link
-  map("n", "<LEADER>gm", ":!callterminal '%:p:h' g master<CR>", G_NO_REMAP)           -- checkout master
---  map("n", "<LEADER>gco", ":!callterminal '%:p:h' gco", G_NO_REMAP)                   -- checkout a specific branch
-  map("n", "<LEADER>gp", ":!callterminal '%:p:h' gpush -p '%:p:h'<CR>", G_NO_REMAP)   -- push
-  map("n", "<LEADER>gP", ":!callterminal '%:p:h' gpushs -p '%:p:h'<CR>", G_NO_REMAP)  -- push silent
-  map("n", "<LEADER>greset", ":!callterminal '%:p:h' greset<CR>", G_NO_REMAP)         -- reset
-  map("n", "<LEADER>G", ":!callterminal '%:p:h' g<CR>", G_NO_REMAP)                   -- status
+  map("n", "<LEADER>gn", ":GitGutterNextHunk<CR>", G_NO_REMAP)                                               -- next githunk
+  map("n", "<LEADER>gB", ":!callterminal '%:p:h' g ", G_NO_REMAP)                                            -- create branch
+  map("n", "<LEADER>gl", ":!callterminalless '%:p:h' glog<CR>", G_NO_REMAP)                                  -- link
+  map("n", "<LEADER>gpull", ":!callterminal '%:p:h' gp<CR>", G_NO_REMAP)                                     -- pull
+  map("n", "<LEADER>ga", ":Git add %<CR>", G_NO_REMAP)                                                       -- add current file
+  map("n", "<LEADER>Ga", ':lua require("taskrunner").gitAddCommentAndPush(\'\')<LEFT><LEFT>', G_NO_REMAP)    -- Add, commit and push
+  map("n", "<LEADER>GA", ':lua require("taskrunner").gitAddAllCommentAndPush(\'\')<LEFT><LEFT>', G_NO_REMAP) -- Add, commit and push
+  map("n", "<LEADER>gb", ":!callterminal '%:p:h' g $(pbpaste) ", G_NO_REMAP)                                 -- create new branch
+  map("n", "<LEADER>gc", ":Git commit<CR>", G_NO_REMAP)                                                      -- commit
+  map("n", "<LEADER>Gc", ":!callterminal2count '%:p:h' gcpush ''<LEFT>", G_NO_REMAP)                         -- commit and push
+  map("n", "<LEADER>gs", ":!callterminal2count '%:p:h' gcpushs ''<LEFT>", G_NO_REMAP)                        -- commit and push silent
+  map("n", "<LEADER>glink", ":silent !callterminal '%:p:h' glink<CR>", G_NO_REMAP)                           -- link
+  map("n", "<LEADER>gm", ":!callterminal '%:p:h' g master<CR>", G_NO_REMAP)                                  -- checkout master
+                                                                                                             -- map("n", "<LEADER>gco", ":!callterminal '%:p:h' gco", G_NO_REMAP)                  -- checkout a specific branch
+  map("n", "<LEADER>gp", ":!callterminal '%:p:h' gpush -p '%:p:h'<CR>", G_NO_REMAP)                          -- push
+  map("n", "<LEADER>gP", ":!callterminal '%:p:h' gpushs -p '%:p:h'<CR>", G_NO_REMAP)                         -- push silent
+  map("n", "<LEADER>greset", ":!callterminal '%:p:h' greset<CR>", G_NO_REMAP)                                -- reset
+  map("n", "<LEADER>G", ":!callterminal '%:p:h' g<CR>", G_NO_REMAP)                                          -- status
 
   map("n", "<LEADER>gA", ":G<CR>/Unstaged<CR>j", G_NO_REMAP) -- staging chunks
                                                              -- Select file then >
@@ -153,7 +160,7 @@ function F.setup()
   map("n", "<LEADER>uad", ":!callterminal '%:p:h' upad21<CR>", G_NO_REMAP) -- uploads
   map("n", "<LEADER>ucert", ":!callterminal '%:p:h' upcert<CR>", G_NO_REMAP) -- uploads
   map("n", "<LEADER>uocto", ":!callterminal '%:p:h' upocto<CR>", G_NO_REMAP) -- uploads
-  map("n", "<LEADER>usyncdot", ":!callterminal '%:p:h' syncdot<CR>", G_NO_REMAP) -- uploads
+  map("n", "<LEADER>usdot", ":!callterminal '%:p:h' syncdot<CR>", G_NO_REMAP) -- uploads syncdot
 
   map("n", "<LEADER><SPACE>alpha", ":set nrformats=bin,hex,alpha<CR>", G_NO_REMAP)  -- change incremental alpha
   map("n", "<LEADER><SPACE>number", ":set nrformats=bin,hex<CR>", G_NO_REMAP)       -- change incremental number: default

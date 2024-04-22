@@ -77,6 +77,7 @@ end
 
 set.rtp:prepend(lazypath)
 
+-- lazystart
 require("lazy").setup({
 
     -- search

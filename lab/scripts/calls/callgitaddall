@@ -1,0 +1,13 @@
+#!/opt/homebrew/bin/zsh
+
+source ~/lab/scripts/calls/sourceall
+
+# go to the directory first
+cd "$1"
+shift
+
+# edited files are listed from git root path.  Go to root path 
+groot
+
+# add all users
+ga $(git status --porcelain | awk '{ if ($1 == "M") print $2}')
