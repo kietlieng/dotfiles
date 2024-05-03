@@ -5,21 +5,22 @@ function F.setup()
 
   -- telescope setup
   require('telescope').setup {
-      extensions = {
-          fzf = {
-            fuzzy = true,                    -- false will only do exact matching
-            override_generic_sorter = true,  -- override the generic sorter
-            override_file_sorter = true,     -- override the file sorter
-            case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-          },
---          fzy_native = {
---              override_generic_sorter = true,
---              override_file_sorter = true,
---          }
-      }
+    extensions = {
+      fzf = {
+        fuzzy = true,                    -- false will only do exact matching
+        override_generic_sorter = true,  -- override the generic sorter
+        override_file_sorter = true,     -- override the file sorter
+        case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+      },
+      --          fzy_native = {
+      --              override_generic_sorter = true,
+      --              override_file_sorter = true,
+      --          }
+    }
   }
 
   require('telescope').load_extension('fzf')
+  require('telescope').load_extension('file_browser')
 
 end
 
@@ -105,11 +106,13 @@ function F.dirDepthJump(aDepth)
 
   if dirExpression == "" then
 
-    require('telescope.builtin').find_files { }
+    value = require('telescope.builtin').find_files { }
+    print(value)
 
   else
 
-    require('telescope.builtin').find_files { cwd = vim.fn.expand(dirExpression) }
+    value = require('telescope.builtin').find_files { cwd = vim.fn.expand(dirExpression) }
+    print(value)
 
   end
 

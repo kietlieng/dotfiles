@@ -125,8 +125,8 @@ function F.setup()
 
   -- U KEYS: Utility keys that are infrequently used
   map("n", "<LEADER><SPACE>source", ":source ~/.config/nvim/init.lua<CR>", G_SILENT_NO_REMAP)  -- source file not working as expecting
-  map("n", "<LEADER><SPACE>sp", ":%!cat -s<CR>", G_SILENT_NO_REMAP)                             -- trim mulitple consecutive lines to one
-  map("v", "<LEADER><SPACE>sp", "'<,'>!cat -s<CR>", G_SILENT_NO_REMAP)                         -- trim multiple consecutive lines to one
+  map("n", "<LEADER>sp", ":%!cat -s<CR>", G_SILENT_NO_REMAP)                             -- trim mulitple consecutive lines to one
+  map("v", "<LEADER>sp", "'<,'>!cat -s<CR>", G_SILENT_NO_REMAP)                         -- trim multiple consecutive lines to one
 
   --map( "n", "<C-c>", ":call ToggleList(\"Quickfix List\", 'c')<CR>", G_SILENT_NO_REMAP )
   --map( "n", "<C-c>", ":copen<CR>", G_SILENT_NO_REMAP )
@@ -231,6 +231,11 @@ function F.setup()
   map("n", "<LEADER>virule", ":next ~/lab/repos/irules-engine/modules/download_irule.py <CR>", G_SILENT_NO_REMAP) -- dns dev
   map("n", "<LEADER>visre", ":next ~/lab/repos/srebot/src/index.js <CR>", G_SILENT_NO_REMAP) -- dns dev
   map("n", "<LEADER>vijob", ":next ~/lab/repos/sre-jobqueue/src/index.js <CR>", G_SILENT_NO_REMAP) -- dns dev
+
+  map("n", "<LEADER>vh", ":vsplit<CR>lua require('tele').dirDepthJump(-1)<CR>", G_SILENT_NO_REMAP) -- dns dev
+  map("n", "<LEADER>vv", ":hsplit<CR>lua require('tele').dirDepthJump(-1)<CR>", G_SILENT_NO_REMAP) -- dns dev
+--  map("n", "<LEADER>pt", ":lua require('precognition').toggle()<CR>", G_SILENT_NO_REMAP) -- precog toggle
+--  map("n", "<LEADER>pp", ":lua require('precognition').peek()<CR>", G_SILENT_NO_REMAP)   -- precog peek
 
   --map("n", "<LEADER>gf", vim.lsp.buf.format, {})                                                                  -- have no idea what this does right now
 end

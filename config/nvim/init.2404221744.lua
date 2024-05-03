@@ -80,9 +80,6 @@ set.rtp:prepend(lazypath)
 -- lazystart
 require("lazy").setup({
 
-    -- syntax zellij
-    { "imsnif/kdl.vim" },
-
     -- search
     { "junegunn/fzf", build = "./install --bin", config = function() require('lua-fzf').setup() end, }, -- setup snippet engine
     { "junegunn/fzf.vim" },
@@ -102,20 +99,8 @@ require("lazy").setup({
     { "neoclide/coc.nvim", branch = 'release' },
     { "iamcco/markdown-preview.nvim", build = 'cd app && yarn install' },
 
-    -- NAVIGATION ---
-    { "folke/flash.nvim",
-      event = "VeryLazy",
-      opts = {},
-      keys = {
-        { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
---        { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
---        { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
---        { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
---        { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
-      },
-    },
     --{ "kana/vim-smartword" }, -- great for navigation of words with quotes, haven't found a need to use it
-    --{ "wellle/targets.vim", config = function() require('targets').setup() end }, -- arguement text objects.  Don't know if I'm using them enough
+    { "wellle/targets.vim", config = function() require('targets').setup() end }, -- arguement text objects.
 
     { "skywind3000/asyncrun.vim" }, --  " run jobs in the background
 
@@ -124,7 +109,6 @@ require("lazy").setup({
     { "nvim-lua/plenary.nvim" }, -- no idea what this does but it's required by other plugins
     { "ThePrimeagen/harpoon", config = function() require('lua-harpoon').setup() end, }, -- navigation
     { "nvim-telescope/telescope.nvim", tag = '0.1.3' },
---    { "nvim-telescope/telescope-file-browser.nvim" },
     { "nvim-telescope/telescope-fzf-native.nvim",
       build = 'make',
       config = function()
@@ -196,7 +180,6 @@ require("lazy").setup({
 
     -- useless but fun
     { "Eandrju/cellular-automaton.nvim" }, -- makes it look like sand droplets
---    { "tris203/precognition.nvim", config = function() require('lua-precog').setup() end, }, -- experimental.  cool idea.  Needs more characters though
 
 })
 

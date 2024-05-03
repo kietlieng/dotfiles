@@ -3,6 +3,7 @@
 alias gD="git diff --staged"
 alias gP="gpush"
 alias ga='git add'
+alias gbr="g -branch"
 alias gco="git checkout "
 alias gd='git diff'
 alias gfetch="git fetch --all"
@@ -246,7 +247,8 @@ function g() {
   fi
 
   currentDirectory=$(pwd)
-  branchFilename=~/lab/scripts/.tmp/gitBranchName
+  branchFilename=~/.gitBranchName
+  useLastBranch='f'
   currentBranch=`git rev-parse --abbrev-ref HEAD`
   descOfTicket=""
   otherSwitches="f"
@@ -262,6 +264,11 @@ function g() {
 
       '-f' )
         trimPaths='-f'
+        ;;
+
+      '-branch' ) # last branch
+
+        descOfTicket=$(cat $branchFilename)
         ;;
 
       '-prune' )
@@ -322,11 +329,6 @@ function g() {
         git branch -D "$branchName"
         otherSwitches="t"
         shift
-        ;;
-
-      'branch' ) # last branch
-
-        descOfTicket=$(cat $branchFilename)
         ;;
 
       * )
