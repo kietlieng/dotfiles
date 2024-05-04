@@ -106,14 +106,8 @@ require("lazy").setup({
     { "folke/flash.nvim",
       event = "VeryLazy",
       opts = {},
-      keys = {
-        { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
---        { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
---        { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
---        { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
---        { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
-      },
-    },
+--      config = function() require('lua-flash').setup() end,
+      keys = function() require('lua-flash').keys() end, },
     --{ "kana/vim-smartword" }, -- great for navigation of words with quotes, haven't found a need to use it
     --{ "wellle/targets.vim", config = function() require('targets').setup() end }, -- arguement text objects.  Don't know if I'm using them enough
 
@@ -122,15 +116,10 @@ require("lazy").setup({
     { "ryanoasis/vim-devicons" }, -- icons for plugin
     { "nvim-tree/nvim-web-devicons" }, -- icons to plugins
     { "nvim-lua/plenary.nvim" }, -- no idea what this does but it's required by other plugins
-    { "ThePrimeagen/harpoon", config = function() require('lua-harpoon').setup() end, }, -- navigation
+    { "ThePrimeagen/harpoon", config = function() require('lua-harpoon').setup() end, }, -- navigation.  Not really using it 
     { "nvim-telescope/telescope.nvim", tag = '0.1.3' },
 --    { "nvim-telescope/telescope-file-browser.nvim" },
-    { "nvim-telescope/telescope-fzf-native.nvim",
-      build = 'make',
-      config = function()
-        require('tele').setup()
-      end,
-    },
+    { "nvim-telescope/telescope-fzf-native.nvim", build = 'make', config = function() require('tele').setup() end, },
     { 'nvim-treesitter/nvim-tree-docs' }, -- never got it working
     { "nvim-treesitter/nvim-treesitter", build = ':TSUpdate', config = function() require('treesitter').setup() end, }, -- setup syntax for treesitter
 
@@ -342,6 +331,7 @@ vim.cmd([[
 
 -- COMMAND END
 
+require('lua-flash').start()
 require('snippet-luasnip').setup()                  -- setup snippet engine
 require("luasnip.loaders.from_vscode").lazy_load()  -- lead friendly-snippets support into luasnip
 require('mason-setup').setup()                      -- setup syntax for treesitter

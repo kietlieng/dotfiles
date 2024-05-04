@@ -202,16 +202,11 @@ function F.setup()
   --map( "n", '[d', vim.diagnostic.goto_prev )
   --map( "n", ']d', vim.diagnostic.goto_next )
 
-  --map( "n", "<C-h>", ":wincmd h<CR>", G_SILENT_NO_REMAP ) -- tmux navigation covered by tmux setting
-  --map( "n", "<C-j>", ":wincmd j<CR>", G_SILENT_NO_REMAP ) -- tmux navigation covered by tmux setting
-  --map( "n", "<C-k>", ":wincmd k<CR>", G_SILENT_NO_REMAP ) -- tmux navigation covered by tmux setting
-  --map( "n", "<C-l>", ":wincmd l<CR>", G_SILENT_NO_REMAP ) -- tmux navigation covered by tmux setting
-
   -- harpoon shortcuts
-  map("n", "<C-h>", ':lua require( "harpoon.ui").nav_next()<CR>', G_SILENT_NO_REMAP)                -- next
-  map("n", "<C-l>", ':lua require( "harpoon.ui").nav_prev()<CR>', G_SILENT_NO_REMAP)                -- prev
-  map("n", "<LEADER>ha", ':lua require( "harpoon.mark").add_file()<CR>', G_SILENT_NO_REMAP)         -- harpoon add
-  map("n", "<LEADER>hm", ':lua require( "harpoon.ui").toggle_quick_menu()<CR>', G_SILENT_NO_REMAP)  -- harpoon menu
+--  map("n", "<C-h>", ':lua require( "harpoon.ui").nav_next()<CR>', G_SILENT_NO_REMAP)                -- next
+--  map("n", "<C-l>", ':lua require( "harpoon.ui").nav_prev()<CR>', G_SILENT_NO_REMAP)                -- prev
+--  map("n", "<LEADER>ha", ':lua require( "harpoon.mark").add_file()<CR>', G_SILENT_NO_REMAP)         -- harpoon add
+--  map("n", "<LEADER>hm", ':lua require( "harpoon.ui").toggle_quick_menu()<CR>', G_SILENT_NO_REMAP)  -- harpoon menu
 
   -- telescope to move around
   map("n", "<LEADER>jbig", ":lua require('tele').dirJump('bigip')<CR>", G_SILENT_NO_REMAP)
@@ -232,8 +227,16 @@ function F.setup()
   map("n", "<LEADER>visre", ":next ~/lab/repos/srebot/src/index.js <CR>", G_SILENT_NO_REMAP) -- dns dev
   map("n", "<LEADER>vijob", ":next ~/lab/repos/sre-jobqueue/src/index.js <CR>", G_SILENT_NO_REMAP) -- dns dev
 
-  map("n", "<LEADER>vh", ":vsplit<CR>lua require('tele').dirDepthJump(-1)<CR>", G_SILENT_NO_REMAP) -- dns dev
-  map("n", "<LEADER>vv", ":hsplit<CR>lua require('tele').dirDepthJump(-1)<CR>", G_SILENT_NO_REMAP) -- dns dev
+  -- flash 
+  map("n", "<c-s>", "<cmd>lua require('flash').toggle()<CR>", G_NO_REMAP)    -- flash toggle
+
+--  USER <C-w><C-w> to toggle between them
+--  map("n", "<C-k>", ":wincmd k<CR>", G_SILENT_NO_REMAP) -- up
+--  map("n", "<C-j>", ":wincmd j<CR>", G_SILENT_NO_REMAP) -- down
+--  map("n", "<C-l>", ":wincmd l<CR>", G_SILENT_NO_REMAP) -- right 
+--  map("n", "<C-h>", ":wincmd h<CR>", G_SILENT_NO_REMAP) -- left
+  map("n", "<LEADER>J", ":only<CR>", G_SILENT_NO_REMAP) -- join all windows
+
 --  map("n", "<LEADER>pt", ":lua require('precognition').toggle()<CR>", G_SILENT_NO_REMAP) -- precog toggle
 --  map("n", "<LEADER>pp", ":lua require('precognition').peek()<CR>", G_SILENT_NO_REMAP)   -- precog peek
 
