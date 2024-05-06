@@ -91,6 +91,8 @@ require("lazy").setup({
 
     { "tpope/vim-surround" }, -- surround functionality
     { "tpope/vim-fugitive" }, -- git operations in git
+    --{ "tpope/vim-abolish" }, -- change variables.  abolish: change part of text, subvert substitution with parts of word, coercion change variable cases
+
     { "airblade/vim-gitgutter", config = function() require('gitgutter').setup() end }, -- Git gutter.  Different than fugitive
 
     { "vim-airline/vim-airline", config = function() require('airline').setup() end },
@@ -103,11 +105,11 @@ require("lazy").setup({
     { "iamcco/markdown-preview.nvim", build = 'cd app && yarn install' },
 
     -- NAVIGATION ---
-    { "folke/flash.nvim",
-      event = "VeryLazy",
-      opts = {},
---      config = function() require('lua-flash').setup() end,
-      keys = function() require('lua-flash').keys() end, },
+    --{ "folke/flash.nvim",
+    --  event = "VeryLazy",
+    --  opts = {},
+    --  --config = function() require('lua-flash').setup() end,
+    --  keys = function() require('lua-flash').keys() end, },
     --{ "kana/vim-smartword" }, -- great for navigation of words with quotes, haven't found a need to use it
     --{ "wellle/targets.vim", config = function() require('targets').setup() end }, -- arguement text objects.  Don't know if I'm using them enough
 
@@ -118,7 +120,7 @@ require("lazy").setup({
     { "nvim-lua/plenary.nvim" }, -- no idea what this does but it's required by other plugins
     { "ThePrimeagen/harpoon", config = function() require('lua-harpoon').setup() end, }, -- navigation.  Not really using it 
     { "nvim-telescope/telescope.nvim", tag = '0.1.3' },
---    { "nvim-telescope/telescope-file-browser.nvim" },
+    --{ "nvim-telescope/telescope-file-browser.nvim" },
     { "nvim-telescope/telescope-fzf-native.nvim", build = 'make', config = function() require('tele').setup() end, },
     { 'nvim-treesitter/nvim-tree-docs' }, -- never got it working
     { "nvim-treesitter/nvim-treesitter", build = ':TSUpdate', config = function() require('treesitter').setup() end, }, -- setup syntax for treesitter
@@ -185,7 +187,7 @@ require("lazy").setup({
 
     -- useless but fun
     { "Eandrju/cellular-automaton.nvim" }, -- makes it look like sand droplets
---    { "tris203/precognition.nvim", config = function() require('lua-precog').setup() end, }, -- experimental.  cool idea.  Needs more characters though
+    --{ "tris203/precognition.nvim", config = function() require('lua-precog').setup() end, }, -- experimental.  cool idea.  Needs more characters though
 
 })
 
@@ -331,7 +333,7 @@ vim.cmd([[
 
 -- COMMAND END
 
-require('lua-flash').start()
+--require('lua-flash').start()
 require('snippet-luasnip').setup()                  -- setup snippet engine
 require("luasnip.loaders.from_vscode").lazy_load()  -- lead friendly-snippets support into luasnip
 require('mason-setup').setup()                      -- setup syntax for treesitter

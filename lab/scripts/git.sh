@@ -248,11 +248,10 @@ function g() {
 
   currentDirectory=$(pwd)
   branchFilename=~/.gitBranchName
-  useLastBranch='f'
   currentBranch=`git rev-parse --abbrev-ref HEAD`
   descOfTicket=""
   otherSwitches="f"
-  trackingBranch="master"
+  trackingBranch=$(glbranchdefault)
   trimPaths=''
 
   while [[ $# -gt 0 ]];
@@ -274,7 +273,7 @@ function g() {
       '-prune' )
 
         # delete all merged local branchs
-        mergedBranches=$(git branch --merged origin/master | grep -iv "master\|develop\|$currentBranch")
+        mergedBranches=$(git branch --merged origin/$trackingBranch | grep -iv "master\|develop\|$currentBranch\|$trackingBranch")
         if [[ $mergedBranches ]]; then
           echo $mergedBranches | xargs git branch -d
         else
@@ -352,7 +351,7 @@ function g() {
       #echo "Found!"
       git checkout $descOfTicket
     else
-      #echo "New branch"
+      echo "New branch"
       # checkout from master
       git checkout -b "${descOfTicket}" $trackingBranch
       # set comparison to master
@@ -577,6 +576,21 @@ function gclonebase() {
   gclone $@
 }
 
+function gisgitlab() {
+
+  echo "$1"
+  # removes trailing slashes from parameter
+  mungedURL="${1%/}"
+
+  # if gitlabdev
+  if [[ $mungedURL == *"gitlabdev.paciolan.info"* ]]; then
+    echo "t"
+  else
+    echo "f"
+  fi
+
+}
+
 function gclone() {
   echo "$1"
   # removes trailing slashes from parameter
@@ -604,6 +618,7 @@ function gclone() {
     echo "2 $mungedURL.git"
     git clone "$mungedURL.git"
   fi
+
 }
 
 function gpr() {
