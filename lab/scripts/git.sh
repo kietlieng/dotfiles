@@ -400,7 +400,10 @@ function g() {
     cd $currentDirectory
     git status --untracked-files=no
 
+  fi
 
+  if [[ $(glreachable) == "n" ]]; then
+    echo "repo: unreachable!!!"
   fi
 
 }

@@ -105,11 +105,11 @@ require("lazy").setup({
     { "iamcco/markdown-preview.nvim", build = 'cd app && yarn install' },
 
     -- NAVIGATION ---
-    --{ "folke/flash.nvim",
-    --  event = "VeryLazy",
-    --  opts = {},
-    --  --config = function() require('lua-flash').setup() end,
-    --  keys = function() require('lua-flash').keys() end, },
+    { "folke/flash.nvim",
+      event = "VeryLazy",
+      opts = {},
+      --config = function() require('lua-flash').setup() end,
+      keys = function() require('lua-flash').keys() end, },
     --{ "kana/vim-smartword" }, -- great for navigation of words with quotes, haven't found a need to use it
     --{ "wellle/targets.vim", config = function() require('targets').setup() end }, -- arguement text objects.  Don't know if I'm using them enough
 
@@ -333,7 +333,7 @@ vim.cmd([[
 
 -- COMMAND END
 
---require('lua-flash').start()
+require('lua-flash').start()
 require('snippet-luasnip').setup()                  -- setup snippet engine
 require("luasnip.loaders.from_vscode").lazy_load()  -- lead friendly-snippets support into luasnip
 require('mason-setup').setup()                      -- setup syntax for treesitter

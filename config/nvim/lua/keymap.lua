@@ -101,7 +101,8 @@ function F.setup()
 
   map("n", "<LEADER>gn", ":GitGutterNextHunk<CR>", G_NO_REMAP)                                               -- next githunk
   map("n", "<LEADER>gB", ":!callterminal '%:p:h' g ", G_NO_REMAP)                                            -- create branch
-  map("n", "<LEADER>gl", ":!callterminalless '%:p:h' glog<CR>", G_NO_REMAP)                                  -- link
+                                                                                                             -- map("n", "<LEADER>gl", ":!callterminalless '%:p:h' glog<CR>", G_NO_REMAP) -- git log but it's not working out for me
+  map("n", "<LEADER>gl", ":silent !callterminal '%:p:h' glink<CR>", G_NO_REMAP)                              -- link
   map("n", "<LEADER>gpull", ":!callterminal '%:p:h' gp<CR>", G_NO_REMAP)                                     -- pull
   map("n", "<LEADER>ga", ":Git add %<CR>", G_NO_REMAP)                                                       -- add current file
   map("n", "<LEADER>Ga", ':lua require("taskrunner").gitAddCommentAndPush(\'\')<LEFT><LEFT>', G_NO_REMAP)    -- Add, commit and push
@@ -110,9 +111,8 @@ function F.setup()
   map("n", "<LEADER>gc", ":Git commit<CR>", G_NO_REMAP)                                                      -- commit
   map("n", "<LEADER>Gc", ":!callterminal2count '%:p:h' gcpush ''<LEFT>", G_NO_REMAP)                         -- commit and push
   map("n", "<LEADER>gs", ":!callterminal2count '%:p:h' gcpushs ''<LEFT>", G_NO_REMAP)                        -- commit and push silent
-  map("n", "<LEADER>glink", ":silent !callterminal '%:p:h' glink<CR>", G_NO_REMAP)                           -- link
   map("n", "<LEADER>gm", ":!callterminal '%:p:h' g master<CR>", G_NO_REMAP)                                  -- checkout master
-                                                                                                             -- map("n", "<LEADER>gco", ":!callterminal '%:p:h' gco", G_NO_REMAP)                  -- checkout a specific branch
+  -- map("n", "<LEADER>gco", ":!callterminal '%:p:h' gco", G_NO_REMAP)                  -- checkout a specific branch
   map("n", "<LEADER>gp", ":!callterminal '%:p:h' gpush -p '%:p:h'<CR>", G_NO_REMAP)                          -- push
   map("n", "<LEADER>gP", ":!callterminal '%:p:h' gpushs -p '%:p:h'<CR>", G_NO_REMAP)                         -- push silent
   map("n", "<LEADER>greset", ":!callterminal '%:p:h' greset<CR>", G_NO_REMAP)                                -- reset
@@ -135,14 +135,14 @@ function F.setup()
   map("n", "<LEADER>zlz", ":Lazy<CR>", G_NO_REMAP) -- open Lazy
 
   -- Lspinfo
-  map("n", "<LEADER>zsp", ":LspStop bufnr()<CR>", G_NO_REMAP) -- disable lsp
-  map("n", "<LEADER>zhealth", ":CheckHealth<CR>", G_NO_REMAP)
-  map("n", "<LEADER>zli", ":LspInfo<CR>", G_NO_REMAP)
-  map("n", "<LEADER>zll", ":LspLog<CR>", G_NO_REMAP)
-  map("n", "<LEADER>zln", ":LspInstall<CR>", G_NO_REMAP)
-  map("n", "<LEADER>zml", ":MasonLog<CR>", G_NO_REMAP)
-  map("n", "<LEADER>zmn", ":MasonInstall<SPACE>", G_NO_REMAP)
-  map("n", "<LEADER>zmu", ":MasonUpdate<CR>", G_NO_REMAP)
+  map("n", "<LEADER>lst", ":LspStop bufnr()<CR>", G_NO_REMAP) -- disable lsp
+  map("n", "<LEADER>lhealth", ":CheckHealth<CR>", G_NO_REMAP)
+  map("n", "<LEADER>linfo", ":LspInfo<CR>", G_NO_REMAP)
+  map("n", "<LEADER>llog", ":LspLog<CR>", G_NO_REMAP)
+  map("n", "<LEADER>linstall", ":LspInstall<CR>", G_NO_REMAP)
+  map("n", "<LEADER>lml", ":MasonLog<CR>", G_NO_REMAP)
+  map("n", "<LEADER>lmi", ":MasonInstall<SPACE>", G_NO_REMAP)
+  map("n", "<LEADER>lmu", ":MasonUpdate<CR>", G_NO_REMAP)
 
   map("n", "<C-n>", ":bn<CR>", G_SILENT_NO_REMAP)       -- buffer next
   map("n", "<C-p>", ":bp<CR>", G_SILENT_NO_REMAP)       -- buffer previous
@@ -235,7 +235,7 @@ function F.setup()
 --  map("n", "<C-j>", ":wincmd j<CR>", G_SILENT_NO_REMAP) -- down
 --  map("n", "<C-l>", ":wincmd l<CR>", G_SILENT_NO_REMAP) -- right 
 --  map("n", "<C-h>", ":wincmd h<CR>", G_SILENT_NO_REMAP) -- left
-  map("n", "<LEADER>J", ":only<CR>", G_SILENT_NO_REMAP) -- join all windows
+  map("n", "<LEADER>wj", ":only<CR>", G_SILENT_NO_REMAP) -- join all windows
 
 --  map("n", "<LEADER>pt", ":lua require('precognition').toggle()<CR>", G_SILENT_NO_REMAP) -- precog toggle
 --  map("n", "<LEADER>pp", ":lua require('precognition').peek()<CR>", G_SILENT_NO_REMAP)   -- precog peek
