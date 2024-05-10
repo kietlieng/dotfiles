@@ -24,10 +24,12 @@ alias yhf="y h; ycheckrot off; rot 2"
 alias yhn="y h; ycheckrot topdown"
 alias yoL="yo l"
 alias yoR="yo r"
+alias yoa="y spa"
 alias yob="yo b"
 alias yobl="yo b l"
 alias yobr="yo b r"
 alias yoc="yo center"
+alias yoh="y sph"
 alias yol="yo 3 l"
 alias yoll="yo l"
 alias yor="yo 3 r"
@@ -35,11 +37,13 @@ alias yorr="yo r"
 alias yot="yo t"
 alias yotl="yo t l"
 alias yotr="yo t r"
+alias yov="y spv"
 alias ypadding="y padding"
 alias yrestart="y restart"
-alias yoa="y spa"
-alias yoh="y sph"
-alias yov="y spv"
+alias yspd="y sp-"
+alias yspi="y sp+"
+alias ytdebug="yspi"
+alias yteven="yspd"
 alias ytail="tail -f /tmp/yabai_klieng.err.log /tmp/yabai_klieng.out.log"
 
 export width_size="100"
@@ -394,6 +398,16 @@ function y() {
         position=$(cat ~/.yposition)
         #                echo "position $position"
         yo "$position" -title "yh"
+        ;;
+      
+      'sp+' )
+
+        yabai -m window --ratio rel:0.2
+        ;;
+
+      'sp-' )
+
+        yabai -m window --ratio rel:-0.2
         ;;
 
       '3' ) # half

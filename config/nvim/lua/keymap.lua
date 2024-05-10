@@ -126,7 +126,7 @@ function F.setup()
   -- U KEYS: Utility keys that are infrequently used
   map("n", "<LEADER><SPACE>source", ":source ~/.config/nvim/init.lua<CR>", G_SILENT_NO_REMAP)  -- source file not working as expecting
   map("n", "<LEADER>sp", ":%!cat -s<CR>", G_SILENT_NO_REMAP)                             -- trim mulitple consecutive lines to one
-  map("v", "<LEADER>sp", "'<,'>!cat -s<CR>", G_SILENT_NO_REMAP)                         -- trim multiple consecutive lines to one
+  map("v", "<LEADER>sp", ":'<,'>!cat -s<CR>", G_SILENT_NO_REMAP)                         -- trim multiple consecutive lines to one
 
   --map( "n", "<C-c>", ":call ToggleList(\"Quickfix List\", 'c')<CR>", G_SILENT_NO_REMAP )
   --map( "n", "<C-c>", ":copen<CR>", G_SILENT_NO_REMAP )
