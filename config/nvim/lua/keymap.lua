@@ -149,8 +149,11 @@ function F.setup()
   map("n", "<LEADER>bd", ":bd<CR>", G_SILENT_NO_REMAP)  -- buffer delete
   map("n", "<LEADER>bl", ":ls<CR>", G_SILENT_NO_REMAP)  -- buffer list
 
-  map("n", "<LEADER>ss", "mcggVG:sort<CR>`ck<CR>", G_SILENT_NO_REMAP)
-  map("v", "<LEADER>ss", ":sort<CR>", G_SILENT_NO_REMAP)
+  map("n", "<LEADER>ss", "mcggVG:sort<CR>`ck<CR>", G_SILENT_NO_REMAP) -- sort
+  map("v", "<LEADER>ss", ":sort<CR>", G_SILENT_NO_REMAP) -- sort
+
+  map("n", "<LEADER>ff", "mcvi{c<CR><CR><CR><UP><UP><ESC>p<CR>vi{:'<,'>!cat -s<CR>`c<DOWN>", G_SILENT_NO_REMAP) -- format the function mark it 
+  map("n", "<LEADER>FF", "mcvi{c<CR><CR><CR><UP><UP><ESC>p<CR>vi{:'<,'>!cat -s<CR>`c<DOWN>vip:'<,'>Tabularize/=<CR>", G_NO_REMAP) -- format the function and paragraph
 
   map("n", "<LEADER>==", "gg=G<CR>", G_SILENT_NO_REMAP) -- format
 --  map("n", "<LEADER>zjson", ":%!/opt/homebrew/opt/python@3.11/libexec/bin/python3 -m json.tool<CR>", G_SILENT_NO_REMAP)
