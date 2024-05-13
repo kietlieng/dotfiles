@@ -6,6 +6,7 @@ alias ga='git add'
 alias gbr="g -branch"
 alias gco="git checkout "
 alias gd='git diff'
+alias gdstaged='git diff --staged'
 alias gfetch="git fetch --all"
 alias gfiles="git log --name-only --oneline"
 alias glines="git log -p --unified=0"

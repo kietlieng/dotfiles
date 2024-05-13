@@ -10,6 +10,7 @@ local F = {}
 function F.comments(aRegular, aNormalMode, aAll, aCommentOut, aInvert, aBuffer)
 
   local commentCharacter  = "\\/\\/"
+  local lastSearchPattern = vim.fn.getreg("/")
   local currentLine       = vim.fn.line('.')
   local fileExtension     = vim.fn.expand('%:e')
   local filename          = vim.fn.expand('%:t')
@@ -229,8 +230,9 @@ function F.comments(aRegular, aNormalMode, aAll, aCommentOut, aInvert, aBuffer)
     end
   end
 
-  vim.cmd.normal("`l") -- go back to mark
+  vim.cmd(cmdMode .. "/" .. lastSearchPattern)
   vim.cmd("noh")       -- turn off highlight
+  vim.cmd.normal("`l") -- go back to mark
 
 end
 

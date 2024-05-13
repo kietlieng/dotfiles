@@ -70,8 +70,8 @@ function F.setup()
   map("n", "<LEADER>bb", "vip<C-v>^o", G_SILENT_NO_REMAP)         -- block
   map("n", "<LEADER>bi", "Vip<C-v>I", G_SILENT_NO_REMAP)          -- block insert begining
   map("n", "<LEADER>bs", "vip:'<,'>sort<CR>", G_SILENT_NO_REMAP)  -- block sort
-  map("n", "<LEADER>bt", "vip:'<,'>Tabularize/ = ", G_NO_REMAP)     -- table
-  map("v", "<LEADER>bt", ":Tabularize/ = ", G_NO_REMAP)             -- table visual
+  map("n", "<LEADER>bt", "vip:'<,'>Tabularize/=<LEFT>", G_NO_REMAP)     -- table
+  map("v", "<LEADER>bt", ":Tabularize/=<LEFT>", G_NO_REMAP)             -- table visual
 
   -- search and replace
   --map( "n", "<LEADER>bd", ":bufdo %s//<C-r>./gc<CR>", G_NO_REMAP ) -- repeat replace
