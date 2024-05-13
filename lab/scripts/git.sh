@@ -262,7 +262,15 @@ function g() {
     case $key in
 
       '-f' )
+
         trimPaths='-f'
+        ;;
+
+      '-brefresh' )
+
+#        echo "refresh"
+        gllocalbranchdefault "-unset"
+        return
         ;;
 
       '-branch' ) # last branch

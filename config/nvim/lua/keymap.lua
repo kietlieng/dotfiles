@@ -70,8 +70,8 @@ function F.setup()
   map("n", "<LEADER>bb", "vip<C-v>^o", G_SILENT_NO_REMAP)         -- block
   map("n", "<LEADER>bi", "Vip<C-v>I", G_SILENT_NO_REMAP)          -- block insert begining
   map("n", "<LEADER>bs", "vip:'<,'>sort<CR>", G_SILENT_NO_REMAP)  -- block sort
-  map("n", "<LEADER>bt", "vip:'<,'>Tabularize/=", G_NO_REMAP)     -- table
-  map("v", "<LEADER>bt", ":Tabularize/=", G_NO_REMAP)             -- table visual
+  map("n", "<LEADER>bt", "vip:'<,'>Tabularize/ = ", G_NO_REMAP)     -- table
+  map("v", "<LEADER>bt", ":Tabularize/ = ", G_NO_REMAP)             -- table visual
 
   -- search and replace
   --map( "n", "<LEADER>bd", ":bufdo %s//<C-r>./gc<CR>", G_NO_REMAP ) -- repeat replace
@@ -152,7 +152,7 @@ function F.setup()
   map("n", "<LEADER>ss", "mcggVG:sort<CR>`ck<CR>", G_SILENT_NO_REMAP) -- sort
   map("v", "<LEADER>ss", ":sort<CR>", G_SILENT_NO_REMAP) -- sort
 
-  map("n", "<LEADER>ff", "mcvi{c<CR><CR><CR><UP><UP><ESC>p<CR>vi{:'<,'>!cat -s<CR>`c<DOWN>", G_SILENT_NO_REMAP) -- format the function mark it 
+  map("n", "<LEADER>ff", "mcvi{c<CR><CR><CR><UP><UP><ESC>p<CR>vi{:'<,'>!cat -s<CR>`c<DOWN>", G_SILENT_NO_REMAP) -- format the function
   map("n", "<LEADER>FF", "mcvi{c<CR><CR><CR><UP><UP><ESC>p<CR>vi{:'<,'>!cat -s<CR>`c<DOWN>vip:'<,'>Tabularize/=<CR>", G_NO_REMAP) -- format the function and paragraph
 
   map("n", "<LEADER>==", "gg=G<CR>", G_SILENT_NO_REMAP) -- format

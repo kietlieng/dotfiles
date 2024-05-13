@@ -1,6 +1,6 @@
 alias bal="y bal"
 alias rot="yrot"
-alias rotf="ycheckrot off"
+alias rotf="ycheckrot off; rot"
 alias rotn="ycheckrot topdown"
 alias rotshow="cat ~/.yrotate"
 alias w1="yo t l"

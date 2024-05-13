@@ -7,7 +7,8 @@ function pxo() {
 
 function mpx() {
     echo "mpx $@" > /tmp/debugcommand
-    fileNameDate=$(date +"%y%m%d%H%M")
+#    fileNameDate=$(date +"%y%m%d%H%M")
+    fileNameDate=$(date +"%y%m%d")
     fileName=""
     fileNameFull=$fileName
     targetDirectory="$MARKDOWN_MEETING_DIRECTORY"
@@ -67,7 +68,7 @@ function mpx() {
 }
 
 function mnote() {
-    fileNameDate=$(date +"%y%m%d%H")
+    fileNameDate=$(date +"%y%m%d")
     fileName=""
     useDate=true
     targetDirectory="$MARKDOWN_MEETING_DIRECTORY"
