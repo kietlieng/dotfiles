@@ -28,9 +28,11 @@ function F.readJumpFiles(argType)
     if jumpResults then
       coroutine.wrap(function()
         local results = fzf.fzf("rg --files " .. jumpResults[1], "--ansi")
+
         if results then
           vim.cmd(':r ' .. results[1])
         end
+
       end)()
     end
   end)()
