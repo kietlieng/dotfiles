@@ -102,7 +102,7 @@ require("lazy").setup({
     { "imsnif/kdl.vim" },
 
     -- search
-    { "junegunn/fzf", build = "./install --bin", config = function() require('lua-fzf').setup() end, }, -- setup snippet engine
+    { "junegunn/fzf", build = "./install --bin", }, -- setup snippet engine
     { "junegunn/fzf.vim" },
     { "vijaymarupudi/nvim-fzf" },
     { "jremmen/vim-ripgrep", config = function() require('ripgrepper').setup() end, }, -- setup ripgrepper bang command to use register r

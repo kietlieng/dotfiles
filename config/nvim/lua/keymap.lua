@@ -48,9 +48,10 @@ function F.setup()
   map("v", "<LEADER>d", '"*ygvd', G_SILENT_NO_REMAP)                                           -- cut to clipboard
 
   -- read in values from file
-  map("n", "<LEADER>rt", "<cmd>lua require('readfiles').browse('tmp')<CR>", G_SILENT_NO_REMAP)     -- search from git root
-  map("n", "<LEADER>rr", "<cmd>lua require('readfiles').browse('')<CR>", G_SILENT_NO_REMAP)     -- search from git root
-  map("n", "<LEADER>RR", "<cmd>lua require('readfiles').browse('currentFileDirectory')<CR>", G_SILENT_NO_REMAP)     -- search from git root
+  map("n", "<LEADER>rt", "<cmd>lua require('lua-fzf').readFiles('tmp')<CR>", G_SILENT_NO_REMAP)     -- search from git root
+  map("n", "<LEADER>rr", "<cmd>lua require('lua-fzf').readFiles('')<CR>", G_SILENT_NO_REMAP)     -- search from git root
+  map("n", "<LEADER>RR", "<cmd>lua require('lua-fzf').readFiles('currentFileDirectory')<CR>", G_SILENT_NO_REMAP)     -- search from git root
+  map("n", "<LEADER>rj", "<cmd>lua require('lua-fzf').readJumpFiles()<CR>", G_SILENT_NO_REMAP)     -- search from git root
 
   ----- comment code
   -- function F.comments(aRegular, aNormalMode, aAll, aCommentOut, aInvert, aBuffer)

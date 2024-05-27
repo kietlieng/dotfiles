@@ -1,31 +1,41 @@
 local F = {}
+local fzf = require("fzf")
 
-function F.setup()
+function F.readFiles(argType)
 
-  -- do nothing for now
+  local argPath = ''
+
+  if argType == 'tmp' then
+    argPath = ' /tmp'
+  elseif argType == 'currentFileDirectory' then -- currentDirectory
+    argPath = ' ' .. vim.fn.expand('%:p:h')
+  end
+
+  coroutine.wrap(function()
+    local result = fzf.fzf("rg --files " .. argPath, "--ansi")
+    if result then
+      vim.cmd(':r ' .. argPath .. '/' .. result[1])
+    end
+  end)()
 
 end
 
+function F.readJumpFiles(argType)
+
+  local jumpResults = ''
+  coroutine.wrap(function()
+    jumpResults = fzf.fzf("cat ~/.jumpscript | awk -F'^' '{print $2}'", "--ansi")
+    if jumpResults then
+      coroutine.wrap(function()
+        local results = fzf.fzf("rg --files " .. jumpResults[1], "--ansi")
+        if results then
+          vim.cmd(':r ' .. results[1])
+        end
+      end)()
+    end
+  end)()
+
+end
+
+
 return F
---+  vim.api.nvim_create_autocmd('FileType', {
---    group = vim.g.user.event,
---    pattern = 'fzf',
---     callback = fzf_window_setup,
---;    desc = '(fzf.vim) Adjust settings on enter fzf window',
---  })
---.  vim.api.nvim_create_autocmd('ColorScheme', {
---    group = vim.g.user.event,
---    callback = function()
---5      vim.api.nvim_set_hl(0, 'fzf1', { bg = 'NONE' })
---5      vim.api.nvim_set_hl(0, 'fzf2', { bg = 'NONE' })
---5      vim.api.nvim_set_hl(0, 'fzf3', { bg = 'NONE' })
---    end,
---  })
---'  vim.api.nvim_create_autocmd('User', {
---    group = vim.g.user.event,
---    pattern = 'FzfStatusLine',
---    callback = function(args)
---R      vim.wo[vim.fn.bufwinid(args.buf)].statusline = '%#fzf1# > %#fzf2#fz%#fzf3#f'
---    end,
---)    desc = '(fzf.vim) Custom highlights',
---  })
