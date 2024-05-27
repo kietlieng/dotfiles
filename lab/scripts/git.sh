@@ -11,7 +11,7 @@ alias gfetch="git fetch --all"
 alias gfiles="git log --name-only --oneline"
 alias glines="git log -p --unified=0"
 alias glog="git log -p"
-alias glogname="git log --name-only"
+alias glogfiles="git log --name-only"
 alias gmmaster="git merge master"
 alias gprune="g -prune"
 alias gpull="git pull --all"
@@ -19,7 +19,10 @@ alias grebaseabort='git rebase --abort'
 alias grebasedelete='rm -fr ".git/rebase-merge"'
 alias gslist="git stash list"
 alias gsstack="git log --name-status --oneline"
+alias gtrack="git update-index --no-assume-unchanged "
 alias guadd='git restore --staged'
+alias guntrack="git update-index --assume-unchanged "
+alias guntracklist="git ls-files -v | grep \"^[[:lower:]]\""
 alias spop="git stash pop"
 alias spush="git stash push"
 
@@ -634,6 +637,7 @@ function gclone() {
 }
 
 function gpr() {
+
   gitOrigin=`git config --list | grep -i remote.origin.url`
   gitPR="/-/merge_requests"
   gitOrigin=$(echo "$gitOrigin" | sed "s/:/\//g")
@@ -645,4 +649,6 @@ function gpr() {
   fi
   echo "${gitOrigin}${gitPR}"
   open "${gitOrigin}${gitPR}"
+
 }
+

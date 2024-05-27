@@ -47,8 +47,9 @@ set.ttimeoutlen    = 0                                                          
 set.updatetime     = 100                                                              -- gitgutter delay
 set.viminfo        = "'100,f1"                                                        -- persistent marks up to 100
 set.wildignore     = "*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx"  -- avoid
---set.wrap           = true
-set.wrap           = false
+set.wrap           = true
+--set.wrap           = false
+set.guicursor      = 'a:blinkon100'
 
 set.listchars      = {
   tab = "│ ",
@@ -81,12 +82,29 @@ set.rtp:prepend(lazypath)
 -- lazystart
 require("lazy").setup({
 
+    -- gitlab duo 
+    {
+      'git@gitlab.com:gitlab-org/editor-extensions/gitlab.vim.git',
+        event = { 'BufReadPre', 'BufNewFile' }, -- Activate when a file is created/opened
+        ft = { 'go', 'javascript', 'python', 'ruby', 'bash' }, -- Activate when a supported filetype is open
+        cond = function()
+--          return vim.env.GITLAB_TOKEN ~= nil and vim.env.GITLAB_TOKEN ~= '' -- Only activate if token is present in environment variable (remove to use interactive workflow)
+        end,
+        opts = {
+          statusline = {
+            enabled = true, -- Hook into the builtin statusline to indicate the status of the GitLab Duo Code Suggestions integration
+          },
+        },
+      },
+
+
     -- syntax zellij
     { "imsnif/kdl.vim" },
 
     -- search
     { "junegunn/fzf", build = "./install --bin", config = function() require('lua-fzf').setup() end, }, -- setup snippet engine
     { "junegunn/fzf.vim" },
+    { "vijaymarupudi/nvim-fzf" },
     { "jremmen/vim-ripgrep", config = function() require('ripgrepper').setup() end, }, -- setup ripgrepper bang command to use register r
     { "mileszs/ack.vim" }, -- grep listing
 
@@ -121,7 +139,7 @@ require("lazy").setup({
     { "nvim-lua/plenary.nvim" }, -- no idea what this does but it's required by other plugins
     { "ThePrimeagen/harpoon", config = function() require('lua-harpoon').setup() end, }, -- navigation.  Not really using it 
     { "nvim-telescope/telescope.nvim", tag = '0.1.3' },
-    --{ "nvim-telescope/telescope-file-browser.nvim" },
+    { "nvim-telescope/telescope-file-browser.nvim", dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }, config = function() require('lua-tele-file-browser').setup() end,  },
     { "nvim-telescope/telescope-fzf-native.nvim", build = 'make', config = function() require('tele').setup() end, },
     { 'nvim-treesitter/nvim-tree-docs' }, -- never got it working
     { "nvim-treesitter/nvim-treesitter", build = ':TSUpdate', config = function() require('treesitter').setup() end, }, -- setup syntax for treesitter
@@ -175,11 +193,32 @@ require("lazy").setup({
     -- { "xero/miasma.nvim", lazy = false, priority = 1000, config = function() vim.cmd("colorscheme miasma") end, }, -- way too gloomy
     -- { "morhetz/gruvbox", config = function() require('gruvbox').setup() end  },                                    -- it's morhetz fork but with support },
     -- { "GlennLeo/cobalt2", config = function() require('theme-cobalt2').setup() end },                              -- try it
+    -- { "diegoulloao/neofusion.nvim", config = function() require('theme-neofusion').setup() end  }, -- too dark
 
     { "gruvbox-community/gruvbox", config = function() require('theme-gruvbox').setup() end  }, -- it's morhetz fork but with support.  Best thing around
 
+
+--    {
+--      "folke/noice.nvim",
+--      event = "VeryLazy",
+--      opts = {
+--        -- add any options here
+--      },
+--      dependencies = {
+--        -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+--        "MunifTanjim/nui.nvim",
+--        -- OPTIONAL:
+--        --   `nvim-notify` is only needed, if you want to use the notification view.
+--        --   If not available, we use `mini` as the fallback
+--        "rcarriga/nvim-notify",
+--      },
+--      config = function() require('noice-lua').setup() end,
+--    },
+
+
     -- messes with current customization settings.  Will try again later. mini suite of modules that might me handy
-    { 'echasnovski/mini.nvim', version = false, config = function() require('mini').setup() end, },
+    -- { 'echasnovski/mini.nvim', version = false, config = function() require('mini').setup() end, },
+
 
     -- not enabled but has potential
 

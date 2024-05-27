@@ -62,6 +62,7 @@ function F.dirDepthJump(aDepth)
 
   if aDepth == -2 then
 
+
     dirExpression = ''
 
   elseif aDepth == -1 then

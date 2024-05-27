@@ -23,8 +23,8 @@ function F.setup()
 
   -- grep string in file
   --map( "n", "<LEADER>", ":Rg<CR>", G_NO_REMAP ) -- ripgrep current directory
-  map("n", "<LEADER>r", "<cmd>lua require('ripgrepper').grepLevel(0)<CR>", G_NO_REMAP)    -- grep from current directory
-  map("n", "<LEADER>R", "<cmd>lua require('ripgrepper').grepLevel(-1)<CR>", G_NO_REMAP)   -- grep from git root
+  map("n", "<LEADER>gr", "<cmd>lua require('ripgrepper').grepLevel(0)<CR>", G_NO_REMAP)    -- grep from current directory
+  map("n", "<LEADER>GR", "<cmd>lua require('ripgrepper').grepLevel(-1)<CR>", G_NO_REMAP)   -- grep from git root
   map("n", "<LEADER>1r", "<cmd>lua require('ripgrepper').grepLevel(1)<CR>", G_NO_REMAP)   -- grep from 1 parent up
   map("n", "<LEADER>2r", "<cmd>lua require('ripgrepper').grepLevel(2)<CR>", G_NO_REMAP)   -- grep from 2 parent up
   map("n", "<LEADER>4r", "<cmd>lua require('ripgrepper').grepLevel(-2)<CR>", G_NO_REMAP)  -- grep from cwd
@@ -46,6 +46,11 @@ function F.setup()
   map("v", "<LEADER>y", '"*y', G_SILENT_NO_REMAP)                                              -- copy everything in visual
   map("n", "<LEADER>d", 'V"*y<CR>dd', G_SILENT_NO_REMAP)                                       -- cut to clipboard
   map("v", "<LEADER>d", '"*ygvd', G_SILENT_NO_REMAP)                                           -- cut to clipboard
+
+  -- read in values from file
+  map("n", "<LEADER>rt", "<cmd>lua require('readfiles').browse('tmp')<CR>", G_SILENT_NO_REMAP)     -- search from git root
+  map("n", "<LEADER>rr", "<cmd>lua require('readfiles').browse('')<CR>", G_SILENT_NO_REMAP)     -- search from git root
+  map("n", "<LEADER>RR", "<cmd>lua require('readfiles').browse('currentFileDirectory')<CR>", G_SILENT_NO_REMAP)     -- search from git root
 
   ----- comment code
   -- function F.comments(aRegular, aNormalMode, aAll, aCommentOut, aInvert, aBuffer)
@@ -115,7 +120,7 @@ function F.setup()
   -- map("n", "<LEADER>gco", ":!callterminal '%:p:h' gco", G_NO_REMAP)                  -- checkout a specific branch
   map("n", "<LEADER>gp", ":!callterminal '%:p:h' gpush -p '%:p:h'<CR>", G_NO_REMAP)                          -- push
   map("n", "<LEADER>gP", ":!callterminal '%:p:h' gpushs -p '%:p:h'<CR>", G_NO_REMAP)                         -- push silent
-  map("n", "<LEADER>greset", ":!callterminal '%:p:h' greset<CR>", G_NO_REMAP)                                -- reset
+--  map("n", "<LEADER>greset", ":!callterminal '%:p:h' greset<CR>", G_NO_REMAP)                                -- reset
   map("n", "<LEADER>G", ":!callterminal '%:p:h' g<CR>", G_NO_REMAP)                                          -- status
 
   map("n", "<LEADER>gA", ":G<CR>/Unstaged<CR>j", G_NO_REMAP) -- staging chunks
@@ -153,7 +158,8 @@ function F.setup()
   map("v", "<LEADER>ss", ":sort<CR>", G_SILENT_NO_REMAP) -- sort
 
   map("n", "<LEADER>ff", "mcvi{c<CR><CR><CR><UP><UP><ESC>p<CR>vi{:'<,'>!cat -s<CR>`c<DOWN>", G_SILENT_NO_REMAP) -- format the function
-  map("n", "<LEADER>FF", "mcvi{c<CR><CR><CR><UP><UP><ESC>p<CR>vi{:'<,'>!cat -s<CR>`c<DOWN>vip:'<,'>Tabularize/=<CR>", G_NO_REMAP) -- format the function and paragraph
+  map("n", "<LEADER>FF", "mcvi{c<CR><CR><CR><UP><UP><ESC>p<CR>vi{:'<,'>!cat -s<CR>`c<DOWN><DOWN>vip:'<,'>Tabularize/=<CR>", G_NO_REMAP) -- format the function and paragraph
+  map("n", "<LEADER>fb", "mc:%!black - -q<CR>`c", G_SILENT_NO_REMAP) -- python format stytle black
 
   map("n", "<LEADER>==", "gg=G<CR>", G_SILENT_NO_REMAP) -- format
 --  map("n", "<LEADER>zjson", ":%!/opt/homebrew/opt/python@3.11/libexec/bin/python3 -m json.tool<CR>", G_SILENT_NO_REMAP)
@@ -231,7 +237,7 @@ function F.setup()
   map("n", "<LEADER>vijob", ":next ~/lab/repos/sre-jobqueue/src/index.js <CR>", G_SILENT_NO_REMAP) -- dns dev
 
   -- flash 
-  map("n", "<c-s>", "<cmd>lua require('flash').toggle()<CR>", G_NO_REMAP)    -- flash toggle
+  --map("n", "<c-s>", "<cmd>lua require('flash').toggle()<CR>", G_NO_REMAP)    -- flash toggle
 
 --  USER <C-w><C-w> to toggle between them
 --  map("n", "<C-k>", ":wincmd k<CR>", G_SILENT_NO_REMAP) -- up
@@ -244,6 +250,11 @@ function F.setup()
 --  map("n", "<LEADER>pp", ":lua require('precognition').peek()<CR>", G_SILENT_NO_REMAP)   -- precog peek
 
   --map("n", "<LEADER>gf", vim.lsp.buf.format, {})                                                                  -- have no idea what this does right now
+
+  -- gitlab duo
+  ---- Toggle Code Suggestions on/off with CTRL-g in normal mode:
+  map('n', '<LEADER>du', '<Plug>(GitLabToggleCodeSuggestions)')
+
 end
 
 return F

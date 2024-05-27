@@ -230,7 +230,7 @@ function F.comments(aRegular, aNormalMode, aAll, aCommentOut, aInvert, aBuffer)
     end
   end
 
-  vim.cmd(cmdMode .. "/" .. lastSearchPattern)
+  vim.cmd(":silent! /" .. lastSearchPattern)
   vim.cmd("noh")       -- turn off highlight
   vim.cmd.normal("`l") -- go back to mark
 

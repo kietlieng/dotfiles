@@ -30,3 +30,14 @@ function kfonts() {
   kitty +list-fonts --psnames
 }
 
+function ktheme() {
+
+  switchTheme=$(ls -1 ~/.config/kitty/kitty-themes/themes | /opt/homebrew/bin/fzf)
+  if [[ $switchTheme ]]; then
+
+    echo "~/.config/kitty/kitty-themes/themes/$switchTheme"
+    kitty @ set-colors -a ~/.config/kitty/kitty-themes/themes/$switchTheme
+
+  fi
+
+}
