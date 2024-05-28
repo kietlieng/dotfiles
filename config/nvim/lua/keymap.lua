@@ -53,6 +53,9 @@ function F.setup()
   map("n", "<LEADER>RR", "<cmd>lua require('lua-fzf').readFiles('currentFileDirectory')<CR>", G_SILENT_NO_REMAP)     -- search from git root
   map("n", "<LEADER>rj", "<cmd>lua require('lua-fzf').readJumpFiles()<CR>", G_SILENT_NO_REMAP)     -- search from git root
 
+  map("n", "<LEADER>jj", "<cmd>lua require('lua-fzf').openJumpFiles()<CR>", G_SILENT_NO_REMAP)     -- Jump script to vim :) 
+  map("n", "<LEADER>jw", "<cmd>lua require('lua-fzf').openWorkingJumpFile()<CR>", G_SILENT_NO_REMAP)     -- Jump script to vim :) 
+
   ----- comment code
   -- function F.comments(aRegular, aNormalMode, aAll, aCommentOut, aInvert, aBuffer)
   -- map( "n", "<LEADER>fn", ":lua require('comments').next()<CR>", G_SILENT_NO_REMAP )                         -- test search function

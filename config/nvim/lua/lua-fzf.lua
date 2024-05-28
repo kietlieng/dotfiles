@@ -20,24 +20,51 @@ function F.readFiles(argType)
 
 end
 
-function F.readJumpFiles(argType)
+function F.readJumpFiles()
 
   local jumpResults = ''
+  local results = ''
   coroutine.wrap(function()
+
     jumpResults = fzf.fzf("cat ~/.jumpscript | awk -F'^' '{print $2}'", "--ansi")
     if jumpResults then
-      coroutine.wrap(function()
+
         local results = fzf.fzf("rg --files " .. jumpResults[1], "--ansi")
 
         if results then
           vim.cmd(':r ' .. results[1])
         end
 
-      end)()
     end
   end)()
 
 end
 
+
+function F.openJumpFiles()
+
+  local jumpResults = ''
+  coroutine.wrap(function()
+    jumpResults = fzf.fzf("cat ~/.jumpscript | awk -F'^' '{print $2}'", "--ansi")
+    if jumpResults then
+        require('telescope.builtin').find_files { cwd = vim.fn.expand(jumpResults[1]) }
+    end
+  end)()
+
+end
+
+function F.openWorkingJumpFile()
+
+  local jumpResults = ''
+
+
+  local io = require("io")
+  local fOutput = io.popen("cat ~/.jumplist")
+  jumpResults = fOutput:read('*all')
+  fOutput:close()
+
+  require('telescope.builtin').find_files { cwd = jumpResults }
+
+end
 
 return F
