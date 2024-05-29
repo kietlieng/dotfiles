@@ -33,45 +33,6 @@ function xignore() {
 
 }
 
-# edit files if found
-function xv() {
-
-    fileTargets=()
-
-    # big ip
-    fileTargets+=("bigipapi.py")
-    fileTargets+=("makefile")
-    fileTargets+=("Makefile")
-
-    # node js
-    # sre bot stuff
-    fileTargets+=("app.js")
-    fileTargets+=("console.py")
-    fileTargets+=("index.html")
-    fileTargets+=("index.js")
-
-    # dns entries
-    fileTargets+=("evenue.net.yaml")
-    fileTargets+=("oc2.evenue.net.yaml")
-    fileTargets+=("paciolan.com.yaml")
-    fileTargets+=("paciolan.info.yaml")
-
-    fileFound=()
-    for target in "${fileTargets[@]}"; do
-        if [[ -f "$target" ]]; then
-            fileFound+=("$target")
-        fi
-    done
-
-    echo "${fileFound[@]} ${#fileFound[@]}"
-    if [[ ${#fileFound[@]} -gt 0 ]]; then
-        nvim "${fileFound[@]}"
-        #echo "nvim $foundFile"
-        #eval "nvim $foundFile"
-    fi
-
-}
-
 # find docker file
 function xd() {
     vfile "Dockerfile"
