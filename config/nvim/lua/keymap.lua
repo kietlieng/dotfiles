@@ -167,8 +167,8 @@ function F.setup()
 
   map("n", "<LEADER>==", "gg=G<CR>", G_SILENT_NO_REMAP) -- format
 --  map("n", "<LEADER>zjson", ":%!/opt/homebrew/opt/python@3.11/libexec/bin/python3 -m json.tool<CR>", G_SILENT_NO_REMAP)
-  map("n", "<LEADER><SPACE>json", ":%!jq<CR>", G_SILENT_NO_REMAP)  -- jq format
-  map("v", "<LEADER><SPACE>json", ":!jq<CR>", G_NO_REMAP)             -- jq format 
+  map("n", "<LEADER><SPACE>fjson", ":%!jq<CR>", G_SILENT_NO_REMAP)  -- jq format
+  map("v", "<LEADER><SPACE>fjson", ":!jq<CR>", G_NO_REMAP)             -- jq format 
 
   map("n", "<LEADER>uad", ":!callterminal '%:p:h' upad21<CR>", G_NO_REMAP) -- uploads
   map("n", "<LEADER>ucert", ":!callterminal '%:p:h' upcert<CR>", G_NO_REMAP) -- uploads
