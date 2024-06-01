@@ -231,6 +231,13 @@ function useBasename() {
 
 }
 
+# git stash then switch branch
+function gstashit() {
+  git stash push
+  g $@
+  git stash pop
+}
+
 # g command is short hand for a number of things
 # list branchs and tracking branch
 # find the parent repo folder if you're nested within the repository folder
@@ -270,7 +277,7 @@ function g() {
         trimPaths='-f'
         ;;
 
-      '-brefresh' )
+      '-branchdefault' )
 
 #        echo "refresh"
         gllocalbranchdefault "-unset"

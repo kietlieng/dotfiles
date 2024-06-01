@@ -585,8 +585,9 @@ function lastBreadcrumb() {
 }
 
 # rm all files unneeded
-function deleteall() {
+function deletemisc() {
 
+  echo "delete .DS_Store, __pycache__ directories / files"
   deletedsstore
   deletepycache
 
@@ -763,47 +764,118 @@ function c() {
   
   local scriptDir=~/lab/scripts
   local targetDir="$scriptDir/1first"
-  local sFilename=""
   local searchExt=".sh"
+  local yamlDir=~/lab/scripts/tmuxp
+  local defaultSearch=""
+  local searchTerm="$defaultSearch"
+  local sFilename="$defaultSearch"
+  local shExt=".sh"
+  local yamlExt=".yaml"
 
-  echo "" > "/tmp/script-query"
-  filesToEdit=$(rg --files ~/lab/scripts | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 {}' --bind 'change:execute(echo {q} > /tmp/script-query)' --bind 'ctrl-r:execute(echo "" > /tmp/script-query)')
-  
-  local editFiles=()
-  for tempFile in $(echo "$filesToEdit"); do
-    editFiles+=("$tempFile")
+  while [[ $# -gt 0 ]]; do
+
+    key="$1"
+
+    case "$key" in
+
+      '-y' )
+        # yaml file.  Assume they want the directory ~/lab/scripts/tmuxp
+        searchExt=".yaml"
+        targetDir=$yamlDir
+        shift
+        ;;
+
+      * )
+        if [[ "$searchTerm" == "$defaultSearch" ]] ; then
+            searchTerm="$key*"
+        else
+            searchTerm="$searchTerm$key*"
+        fi
+        shift
+        ;;
+    esac
+
   done
 
-  # if you have files edit them
-  if [[ "$editFiles" ]]; then
-    nvim $editFiles
-    return
+
+  sFilename=$(echo $searchTerm | sed "s/*//g")
+  #echo "filename $sFilename"
+
+  if [[ "$sFilename" == "sh" ]] ; then
+      sFilename="jumpssh"
+      searchTerm="jumpssh"
+  elif [[ "$sFilename" == "jump" ]] ; then
+      sFilename="jumpscript"
+      searchTerm="jumpscript"
+  elif [[ "$sFilename" == "s" ]] ; then
+      sFilename="settings"
+      searchTerm="settings"
+  elif [[ "$sFilename" == "c" ]] ; then
+      sFilename="confluent"
+      searchTerm="confluent"
+  elif [[ "$sFilename" == "y" ]] ; then
+      sFilename="yabai"
+      searchTerm="yabai"
+  elif [[ "$sFilename" == "-" ]] ; then
+
+      echo "\n----- $scriptDir -----\n"
+      ls $scriptDir
+      echo "\n----- $yamlDir -----\n"
+      ls $yamlDir
+      return
   fi
 
-  local scriptQuery=$(cat /tmp/script-query)
-  
-  sFilename="$scriptQuery"
-  # if this file does not exists go digging for it
-  if [[ $scriptQuery ]]; then
-      #echo "$scriptDir/$sFilename.sh"
 
-      read -qr "ANSWER?Create $targetDir/$sFilename$searchExt?"
+  local targetFiles=""
+  if [[ $searchTerm ]]; then
+    targetFiles=$(find ~/lab/scripts -type f -iname "*$searchTerm$shExt" -o -iname "*$searchTerm$yamlExt")
+    echo "Targets $targetFiles"
 
-      case $ANSWER in
-          [yY] )
-              echo "|$ANSWER| yes"
-              nvim "$targetDir/$sFilename$searchExt"
-              break
-              ;;
-          [nN] )
-              echo "|$ANSWER| no"
-              break
-              ;;
-          * )
-              echo "Yes or No answers please"
-              ;;
-      esac
+    if [[ $targetFiles ]]; then
+      nvim $(echo "$targetFiles")
+    fi
 
+  else
+
+    echo "" > "/tmp/script-query"
+    filesToEdit=$(rg --files ~/lab/scripts | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 {}' --bind 'change:execute(echo {q} > /tmp/script-query)' --bind 'ctrl-r:execute(echo "" > /tmp/script-query)')
+    
+    local editFiles=()
+    for tempFile in $(echo "$filesToEdit"); do
+      editFiles+=("$tempFile")
+    done
+
+    # if you have files edit them
+    if [[ "$editFiles" ]]; then
+      nvim $editFiles
+      return
+    fi
+
+    local scriptQuery=$(cat /tmp/script-query)
+    
+    sFilename="$scriptQuery"
+    # if this file does not exists go digging for it
+    if [[ $scriptQuery ]]; then
+        #echo "$scriptDir/$sFilename.sh"
+
+        read -qr "ANSWER?Create $targetDir/$sFilename$searchExt?"
+
+        case $ANSWER in
+            [yY] )
+                echo "|$ANSWER| yes"
+                nvim "$targetDir/$sFilename$searchExt"
+                break
+                ;;
+            [nN] )
+                echo "|$ANSWER| no"
+                break
+                ;;
+            * )
+                echo "Yes or No answers please"
+                ;;
+        esac
+
+    fi
   fi
 
 }
