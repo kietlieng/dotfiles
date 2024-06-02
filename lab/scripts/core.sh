@@ -771,6 +771,7 @@ function c() {
   local sFilename="$defaultSearch"
   local shExt=".sh"
   local yamlExt=".yaml"
+  local filesToEdit=""
 
   while [[ $# -gt 0 ]]; do
 
@@ -826,13 +827,15 @@ function c() {
   fi
 
 
-  local targetFiles=""
+  local scriptQuery=$searchTerm
   if [[ $searchTerm ]]; then
-    targetFiles=$(find ~/lab/scripts -type f -iname "*$searchTerm$shExt" -o -iname "*$searchTerm$yamlExt")
-    echo "Targets $targetFiles"
 
-    if [[ $targetFiles ]]; then
-      nvim $(echo "$targetFiles")
+    filesToEdit=$(find ~/lab/scripts -type f -iname "*$searchTerm$shExt" -o -iname "*$searchTerm$yamlExt")
+    echo "Targets $filesToEdit"
+
+    if [[ $filesToEdit ]]; then
+      nvim $(echo "$filesToEdit")
+      return
     fi
 
   else
@@ -851,31 +854,32 @@ function c() {
       return
     fi
 
-    local scriptQuery=$(cat /tmp/script-query)
-    
-    sFilename="$scriptQuery"
-    # if this file does not exists go digging for it
-    if [[ $scriptQuery ]]; then
-        #echo "$scriptDir/$sFilename.sh"
+  fi
 
-        read -qr "ANSWER?Create $targetDir/$sFilename$searchExt?"
+  scriptQuery=$(cat /tmp/script-query)
+  
+  sFilename="$scriptQuery"
+  # if this file does not exists go digging for it
+  if [[ $scriptQuery ]]; then
+      #echo "$scriptDir/$sFilename.sh"
 
-        case $ANSWER in
-            [yY] )
-                echo "|$ANSWER| yes"
-                nvim "$targetDir/$sFilename$searchExt"
-                break
-                ;;
-            [nN] )
-                echo "|$ANSWER| no"
-                break
-                ;;
-            * )
-                echo "Yes or No answers please"
-                ;;
-        esac
+      read -qr "ANSWER?Create $targetDir/$sFilename$searchExt?"
 
-    fi
+      case $ANSWER in
+          [yY] )
+              echo "|$ANSWER| yes"
+              nvim "$targetDir/$sFilename$searchExt"
+              break
+              ;;
+          [nN] )
+              echo "|$ANSWER| no"
+              break
+              ;;
+          * )
+              echo "Yes or No answers please"
+              ;;
+      esac
+
   fi
 
 }
