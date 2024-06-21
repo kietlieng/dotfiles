@@ -1,8 +1,8 @@
-alias ccore="c cor"
+alias ccore="c core"
 alias ce="c edit"
 alias cl="c -"
 alias cy="c y"
-alias jote="jot blah"
+alias jote="jot -query ''"
 alias lint="yamllint "
 alias siteblock="hfile"
 alias siteunblock="hfile unblock"
@@ -59,6 +59,79 @@ function vfile() {
     echo ""
 }
 
+
+# arg1 directory
+# arg2 default value of query
+# returns:
+# - list of results if there are files
+# - the filename of the query value in file /tmp/query-[hash] that way you can retrieve the value that you want and do something with it
+function fzfpreview() {
+
+  local searchDirectory=$1
+  local defaultQuery=$2
+  local hashDir=$(md5 -q -s $searchDirectory)
+  local queryFile="/tmp/query-$hashDir"
+
+  local filesToEdit=$(rg --files $searchDirectory | fzf --multi --preview "bat --style=numbers --color=always --line-range :500 {}" --bind "change:execute(echo {q} > $queryFile)" --bind "ctrl-r:execute(echo \"\" > $queryFile)" --query "$defaultQuery")
+
+  if [[ ${#filesToEdit[@]} != 0 ]]; then
+
+    editFiles=($(echo "$filesToEdit" | sed -r 's/\n/ /g'))
+    echo "$filesToEdit"
+
+  else
+
+    echo "$queryFile"
+
+  fi
+
+
+}
+
+
+function xtmp() {
+
+  local tempResults=$(fzfpreview /tmp)
+  local editFiles=()
+  for element in $(echo $tempResults | tr '\n' ' '); do
+    editFiles+=("$element")
+  done
+
+  if [ ${#editFiles[@]} -gt 0 ]; then
+    nvim -f $editFiles
+  fi
+
+
+}
+
+# copy file from /tmp/ folder
+function a() {
+
+  echo "" | pbcopy
+  local tempResults=$(fzfpreview /tmp redirect-)
+
+  if [[ $tempResults != "query-"* ]]; then
+
+    cat $tempResults | pbcopy
+
+  fi
+
+}
+
+# copy file from /tmp/ folder
+function q() {
+
+  echo "" | pbcopy
+  local tempResults=$(fzfpreview /tmp dns-)
+
+  if [[ $tempResults != "query-"* ]]; then
+
+    cat $tempResults | pbcopy
+
+  fi
+
+}
+
 # go into fzf for searching files and edit
 function x() {
 
@@ -89,6 +162,7 @@ function x() {
             ;;
           *) echo default
           ;;
+
         esac
 
     done
@@ -458,25 +532,38 @@ function vcom() {
 # jot will create file in /tmp
 function jot() {
 
-    fileScratch="nap"
+    local fileScratch="nap"
+    local jotQuery="nap-"
 
     while [[ $# -gt 0 ]]; do
 
-        fileScratch="${fileScratch}-${1}"
-        shift
+      key="$1"
+      shift
 
+      case "$key" in
+
+        '-query')
+          jotQuery="$1"
+          shift
+          ;;
+
+        *)
+          fileScratch="${fileScratch}-${key}"
+          ;;
+      esac
+        
     done
 
     # no filename
     if [[ $fileScratch != "nap" ]]; then
 
       nvim "/tmp/${fileScratch}"
-      echo "/tmp/${fileScratch}"
+      echo "blah /tmp/${fileScratch}"
 
     else
 
       echo "" > /tmp/fzf-query
-      filesToEdit=$(ls -1 /tmp/ | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 /tmp/{}' --query "nap-"  --bind 'change:execute(echo {q} > /tmp/fzf-query)' --bind 'ctrl-r:execute(echo "" > /tmp/fzf-query)')
+      filesToEdit=$(ls -1 /tmp/ | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 /tmp/{}' --query "$jotQuery"  --bind 'change:execute(echo {q} > /tmp/fzf-query)' --bind 'ctrl-r:execute(echo "" > /tmp/fzf-query)')
       
       editFiles=()
       for tempFile in $(echo "$filesToEdit"); do
@@ -499,6 +586,7 @@ function jot() {
 function xshot() {
 
   local currentDir=$(pwd)
+
   local fzfDefaultCommandBackup=$FZF_DEFAULT_COMMAND
   unset FZF_DEFAULT_COMMAND
 
@@ -513,21 +601,18 @@ function xshot() {
 
 function xtail() {
 
-  filesToEdit=$(ls -1 /tmp/ | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 /tmp/{}')
-  editFiles=($(echo "$filesToEdit" | sed -r 's/\n/ /g'))
+  local currentDirectory=$(pwd)
+  local tailFiles=$(fzfpreview $currentDirectory)
 
   local tailList=()
-  for element in $editFiles; do
-    echo "iterate through list?"
-    tailList+=("/tmp/$element")
+  for element in $(echo $tailFiles | tr '\n' ' '); do
+    tailList+=("$element")
   done
 
-  #  nvim $editFiles
   if [ ${#tailList[@]} -gt 0 ]; then
-#    echo "list has something"
-#    echo "list |$tailList|"
     tail -f $tailList
   fi
+
 
 }
 
@@ -590,6 +675,7 @@ function deletemisc() {
   echo "delete .DS_Store, __pycache__ directories / files"
   deletedsstore
   deletepycache
+  deletemacfiles
 
 }
 
@@ -604,6 +690,12 @@ function deletedsstore() {
 function deletepycache() {
 
   find . -iname "__pycache__" -type d -exec rm -rf "{}" \;
+
+}
+
+function deletemacfiles() {
+
+  find . -iname "__MACOSX" -type f -delete
 
 }
 
@@ -879,104 +971,6 @@ function c() {
               echo "Yes or No answers please"
               ;;
       esac
-
-  fi
-
-}
-
-function cx() {
-
-  scriptDir=~/lab/scripts
-  yamlDir=~/lab/scripts/tmuxp
-  targetDir="$scriptDir/1first"
-  defaultSearch="alias"
-  searchTerm="$defaultSearch"
-  sFilename="$defaultSearch"
-  searchExt=".sh"
-  shExt=".sh"
-  yamlExt=".yaml"
-
-  while [[ $# -gt 0 ]]; do
-
-    key="$1"
-
-    case "$key" in
-
-      '-y' )
-        # yaml file.  Assume they want the directory ~/lab/scripts/tmuxp
-        searchExt=".yaml"
-        targetDir=$yamlDir
-        shift
-        ;;
-
-      * )
-        if [[ "$searchTerm" == "$defaultSearch" ]] ; then
-            searchTerm="$key*"
-        else
-            searchTerm="$searchTerm$key*"
-        fi
-        shift
-        ;;
-    esac
-
-  done
-
-
-  sFilename=$(echo $searchTerm | sed "s/*//g")
-  #echo "filename $sFilename"
-
-  if [[ "$sFilename" == "sh" ]] ; then
-      sFilename="jumpssh"
-      searchTerm="jumpssh"
-  elif [[ "$sFilename" == "jump" ]] ; then
-      sFilename="jumpscript"
-      searchTerm="jumpscript"
-  elif [[ "$sFilename" == "s" ]] ; then
-      sFilename="settings"
-      searchTerm="settings"
-  elif [[ "$sFilename" == "c" ]] ; then
-      sFilename="confluent"
-      searchTerm="confluent"
-  elif [[ "$sFilename" == "y" ]] ; then
-      sFilename="yabai"
-      searchTerm="yabai"
-  elif [[ "$sFilename" == "-" ]] ; then
-
-      echo "\n----- $scriptDir -----\n"
-      ls $scriptDir
-      echo "\n----- $yamlDir -----\n"
-      ls $yamlDir
-      return
-  fi
-
-  targetFiles=$(find ~/lab/scripts -type f -iname "*$searchTerm$shExt" -o -iname "*$searchTerm$yamlExt")
-   echo "Targets $targetFiles"
-
-  # if this file does not exists go digging for it
-  if [[ $targetFiles == "" ]]; then
-      #echo "$scriptDir/$sFilename.sh"
-
-      read -qr "ANSWER?Create $targetDir/$sFilename$searchExt?"
-
-      case $ANSWER in
-          [yY] )
-              echo "|$ANSWER| yes"
-              nvim "$targetDir/$sFilename$searchExt"
-              break
-              ;;
-          [nN] )
-              echo "|$ANSWER| no"
-              break
-              ;;
-          * )
-              echo "Yes or No answers please"
-              ;;
-      esac
-
-  else
-
-      # listing of sh
-      nvim $(echo "$targetFiles")
 
   fi
 

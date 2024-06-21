@@ -234,6 +234,7 @@ function useBasename() {
 # git stash then switch branch
 function gstashit() {
   git stash push
+  sleep 2
   g $@
   git stash pop
 }

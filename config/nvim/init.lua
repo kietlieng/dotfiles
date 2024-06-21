@@ -3,6 +3,10 @@ local swnumber = 2
 
 vim.cmd([[set runtimepath+=~/.nvim]]) --set.runtimepath:append { set.runtimepath .. "/.nvim" }
 
+-- wrap
+set.wrap           = true
+--set.wrap           = false
+
 -- undo
 set.undodir  = vim.env.HOME .. '/.nvim/undodir'
 set.undofile = true
@@ -47,8 +51,6 @@ set.ttimeoutlen    = 0                                                          
 set.updatetime     = 100                                                              -- gitgutter delay
 set.viminfo        = "'100,f1"                                                        -- persistent marks up to 100
 set.wildignore     = "*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx"  -- avoid
---set.wrap           = true
-set.wrap           = false
 set.guicursor      = 'a:blinkon100'
 
 set.listchars      = {
@@ -196,6 +198,7 @@ require("lazy").setup({
     -- { "diegoulloao/neofusion.nvim", config = function() require('theme-neofusion').setup() end  }, -- too dark
 
     { "gruvbox-community/gruvbox", config = function() require('theme-gruvbox').setup() end  }, -- it's morhetz fork but with support.  Best thing around
+--    { "joshdick/onedark.vim", config = function() require('theme-onedark').setup() end  }, -- it's morhetz fork but with support.  Best thing around
 
 
 --    {

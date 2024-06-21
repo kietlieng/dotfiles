@@ -40,12 +40,14 @@ function F.setup()
   map("n", "zZ", ":wq!<CR>", G_SILENT_NO_REMAP)                       -- save and quit
 
   -- clipboard copy
-  map("n", "<LEADER>**", ":lua require('reg').toClipboard('/')<CR>", G_SILENT_NO_REMAP)        -- yank to clipboard register
-  map("n", "<LEADER>Y", 'mcggVG"*y<CR>`c', G_SILENT_NO_REMAP)                                  -- copy everything
-  map("n", "<LEADER>y", "mlviWy:lua require('word').word()<CR>`l", G_SILENT_NO_REMAP)  -- copy WORD strip set characters from both ends
-  map("v", "<LEADER>y", '"*y', G_SILENT_NO_REMAP)                                              -- copy everything in visual
-  map("n", "<LEADER>d", 'V"*y<CR>dd', G_SILENT_NO_REMAP)                                       -- cut to clipboard
-  map("v", "<LEADER>d", '"*ygvd', G_SILENT_NO_REMAP)                                           -- cut to clipboard
+
+  map("n", "<LEADER>**", ":lua require('reg').toClipboard('/')<CR>", G_SILENT_NO_REMAP) -- yank to clipboard register
+  map("n", "<LEADER>Y", 'mcggVG"*y<CR>`c', G_SILENT_NO_REMAP)                           -- copy everything
+  map("n", "<LEADER>y", "mlviWy:lua require('word').word()<CR>`l", G_SILENT_NO_REMAP)   -- copy WORD strip set characters from both ends
+  map("n", "<LEADER>l", 'V"*y', G_SILENT_NO_REMAP)                                      -- copy current line to clipboard
+  map("v", "<LEADER>y", '"*y', G_SILENT_NO_REMAP)                                       -- copy everything in visual
+  map("n", "<LEADER>d", 'V"*y<CR>dd', G_SILENT_NO_REMAP)                                -- cut to clipboard
+  map("v", "<LEADER>d", '"*ygvd', G_SILENT_NO_REMAP)                                    -- cut to clipboard
 
   -- read in values from file
   map("n", "<LEADER>rt", "<cmd>lua require('lua-fzf').readFiles('tmp')<CR>", G_SILENT_NO_REMAP)     -- search from git root
@@ -78,8 +80,8 @@ function F.setup()
   map("n", "<LEADER>ba", "vip<C-v>$A", G_SILENT_NO_REMAP)         -- block insert end
   map("n", "<LEADER>bb", "vip<C-v>^o", G_SILENT_NO_REMAP)         -- block
   map("n", "<LEADER>bi", "Vip<C-v>I", G_SILENT_NO_REMAP)          -- block insert begining
-  map("n", "<LEADER>bs", "vip:'<,'>sort<CR>", G_SILENT_NO_REMAP)  -- block sort
-  map("n", "<LEADER>bt", "vip:'<,'>Tabularize/=<LEFT>", G_NO_REMAP)     -- table
+  map("n", "<LEADER>bs", "mcvip:'<,'>sort<CR>`c", G_SILENT_NO_REMAP)  -- block sort
+  map("n", "<LEADER>bt", "mcvip:'<,'>Tabularize/=<LEFT>", G_NO_REMAP)     -- table
   map("v", "<LEADER>bt", ":Tabularize/=<LEFT>", G_NO_REMAP)             -- table visual
 
   -- search and replace
@@ -163,7 +165,7 @@ function F.setup()
 
   map("n", "<LEADER>ff", "mcvi{c<CR><CR><CR><UP><UP><ESC>p<CR>vi{:'<,'>!cat -s<CR>`c<DOWN>", G_SILENT_NO_REMAP) -- format the function
   map("n", "<LEADER>FF", "mcvi{c<CR><CR><CR><UP><UP><ESC>p<CR>vi{:'<,'>!cat -s<CR>`c<DOWN><DOWN>vip:'<,'>Tabularize/=<CR>", G_NO_REMAP) -- format the function and paragraph
-  map("n", "<LEADER>fb", "mc:%!black - -q<CR>`c", G_SILENT_NO_REMAP) -- python format stytle black
+  map("n", "<LEADER>fblack", "mc:%!black - -q<CR>`c", G_SILENT_NO_REMAP) -- python format stytle black
 
   map("n", "<LEADER>==", "gg=G<CR>", G_SILENT_NO_REMAP) -- format
 --  map("n", "<LEADER>zjson", ":%!/opt/homebrew/opt/python@3.11/libexec/bin/python3 -m json.tool<CR>", G_SILENT_NO_REMAP)
@@ -173,7 +175,7 @@ function F.setup()
   map("n", "<LEADER>uad", ":!callterminal '%:p:h' upad21<CR>", G_NO_REMAP) -- uploads
   map("n", "<LEADER>ucert", ":!callterminal '%:p:h' upcert<CR>", G_NO_REMAP) -- uploads
   map("n", "<LEADER>uocto", ":!callterminal '%:p:h' upocto<CR>", G_NO_REMAP) -- uploads
-  map("n", "<LEADER>usdot", ":!callterminal '%:p:h' syncdot<CR>", G_NO_REMAP) -- uploads syncdot
+  map("n", "<LEADER>udot", ":!callterminal '%:p:h' syncdot<CR>", G_NO_REMAP) -- uploads syncdot
 
   map("n", "<LEADER><SPACE>alpha", ":set nrformats=bin,hex,alpha<CR>", G_NO_REMAP)  -- change incremental alpha
   map("n", "<LEADER><SPACE>number", ":set nrformats=bin,hex<CR>", G_NO_REMAP)       -- change incremental number: default

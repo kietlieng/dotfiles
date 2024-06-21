@@ -14,7 +14,7 @@ function F.readFiles(argType)
   coroutine.wrap(function()
     local result = fzf.fzf("rg --files " .. argPath, "--ansi")
     if result then
-      vim.cmd(':r ' .. argPath .. '/' .. result[1])
+      vim.cmd(':r ' .. result[1])
     end
   end)()
 

@@ -7,7 +7,7 @@ alias w1="yo t l"
 alias w2="yo t r"
 alias w3="yo b l"
 alias w4="yo b r"
-alias yH="y h"
+alias yH="y 3"
 alias yanchorbot="yanchor bot"
 alias yanchoroff="yanchor off"
 alias yanchorshow="cat ~/.yanchor"
@@ -19,20 +19,20 @@ alias yfb="y f bal"
 alias yff="y f; ycheckrot off; rot 2"
 alias yfire="y fire"
 alias yfn="y f; ycheckrot topdown"
-alias yh="y 3"
+alias yh="y h"
 alias yhf="y h; ycheckrot off; rot 2"
 alias yhn="y h; ycheckrot topdown"
-alias yoL="yo l"
-alias yoR="yo r"
+alias yoL="yo 3 l"
+alias yoR="yo 3 r"
 alias yoa="y spa"
 alias yob="yo b"
 alias yobl="yo b l"
 alias yobr="yo b r"
 alias yoc="yo center"
 alias yoh="y sph"
-alias yol="yo 3 l"
+alias yol="yo l"
 alias yoll="yo l"
-alias yor="yo 3 r"
+alias yor="yo r"
 alias yorr="yo r"
 alias yot="yo t"
 alias yotl="yo t l"
@@ -42,9 +42,9 @@ alias ypadding="y padding"
 alias yrestart="y restart"
 alias yspd="y sp-"
 alias yspi="y sp+"
+alias ytail="tail -f /tmp/yabai_klieng.err.log /tmp/yabai_klieng.out.log"
 alias ytdebug="yspi"
 alias yteven="yspd"
-alias ytail="tail -f /tmp/yabai_klieng.err.log /tmp/yabai_klieng.out.log"
 
 export width_size="100"
 
@@ -1125,42 +1125,20 @@ function ytogpadding() {
 
   # it's half
   if [[ $currentPadding -gt $yWHalf3 ]]; then
-
-      yh
-
-  elif [[ $currentPadding -gt 0 ]]; then # it's 1/3 padding
-
-      yf
-
-  else
-
       yH
-
+  elif [[ $currentPadding -gt 0 ]]; then # it's 1/3 padding
+      yf
+  else
+      yh
   fi
 
-#  # if we have padding
-#  if [[ $leftPadding -gt 0 ]] || [[ $rightPadding -gt 0 ]]; then
-#
-#    # if greater than 1 third
-#    # if center move left
-#    if [[ $leftPadding -eq $yWHalf3 ]] && [[ $rightPadding -eq $yWHalf3 ]]; then
-#
-#      yf
-#
-#    elif [[ $leftPadding -gt $yWHalf3 ]] || [[ $rightPadding -gt $yWHalf3 ]]; then
-#
+#  # it's half
+#  if [[ $currentPadding -gt $yWHalf3 ]]; then
 #      yh
-#
-#    else
-#
-#      yoc
-#
-#    fi
-#
+#  elif [[ $currentPadding -gt 0 ]]; then # it's 1/3 padding
+#      yf
 #  else
-#
-#    yH
-#
+#      yH
 #  fi
 
 }
