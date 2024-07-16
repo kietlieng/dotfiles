@@ -104,34 +104,6 @@ function xtmp() {
 
 }
 
-# copy file from /tmp/ folder
-function a() {
-
-  echo "" | pbcopy
-  local tempResults=$(fzfpreview /tmp redirect-)
-
-  if [[ $tempResults != "query-"* ]]; then
-
-    cat $tempResults | pbcopy
-
-  fi
-
-}
-
-# copy file from /tmp/ folder
-function q() {
-
-  echo "" | pbcopy
-  local tempResults=$(fzfpreview /tmp dns-)
-
-  if [[ $tempResults != "query-"* ]]; then
-
-    cat $tempResults | pbcopy
-
-  fi
-
-}
-
 # go into fzf for searching files and edit
 function x() {
 
@@ -322,12 +294,37 @@ function gxcd() {
     gx -ci $@
 }
 
+# match all from file a to file b in order
+# Meaning: file a: go line by line.  Match to file b.  Output 
+function gxab() {
+  local fileA="$1"
+  local fileB="$2"
+  local results=""
+  local currentResults=""
+
+  while read line; do
+
+    currentResults=$(grep -i "$line" $fileB)
+    if [[ $currentResults ]]; then
+      echo $currentResults
+      results="$results\n$currentResults"
+    else
+      results="$results\n$currentResults"
+    fi
+
+  done <$fileA
+
+  echo "$results" | pbcopy
+  echo "$results" > /tmp/ab.txt
+
+}
+
 # grep recursive
 function gx() {
-    searchExpression='.*'
-    shouldList='false'
-    searchCICD='f'
-    targetFile="*"
+    local searchExpression='.*'
+    local shouldList='false'
+    local searchCICD='f'
+    local targetFile="*"
 
     while [[ $# -gt 0 ]]
     do
@@ -1062,4 +1059,19 @@ function hbackup() {
 function catcp() {
   cat $1 | pbcopy
   cat $1
+}
+
+
+# requires wonderword
+function gentitle() {
+    
+  local wonderwordadjective=$(wonderwords -w -p adjective)
+  local wonderwordnoun=$(wonderwords -w -p noun)
+
+  export RANDOM_TITLE="$wonderwordadjective-$wonderwordnoun"
+
+  if [[ $# -gt 0 ]]; then
+    echo $RANDOM_TITLE
+  fi
+
 }

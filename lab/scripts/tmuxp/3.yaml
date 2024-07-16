@@ -1,10 +1,10 @@
-session_name: 3p
+session_name: 3p-$RANDOM_TITLE
 windows:
-  - window_name: 3p
+  - window_name: 3p-$RANDOM_TITLE
     layout: even-horizontal
     panes:
-      - echo 1
-      - echo 2
-      - echo 3
+      -
+      -
+      -
     options_after:
         synchronize-panes: on

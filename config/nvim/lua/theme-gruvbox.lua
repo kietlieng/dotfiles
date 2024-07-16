@@ -28,7 +28,9 @@ function F.setup()
     highlight TabLineSel ctermfg=NONE ctermbg=NONE
     highlight StatusLine ctermbg=NONE ctermfg=NONE
 
+
   ]])
+--    highlight Comment ctermfg=NONE ctermbg=NONE
 end
 
 

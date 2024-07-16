@@ -44,7 +44,7 @@ function F.setup()
   map("n", "<LEADER>**", ":lua require('reg').toClipboard('/')<CR>", G_SILENT_NO_REMAP) -- yank to clipboard register
   map("n", "<LEADER>Y", 'mcggVG"*y<CR>`c', G_SILENT_NO_REMAP)                           -- copy everything
   map("n", "<LEADER>y", "mlviWy:lua require('word').word()<CR>`l", G_SILENT_NO_REMAP)   -- copy WORD strip set characters from both ends
-  map("n", "<LEADER>l", 'V"*y', G_SILENT_NO_REMAP)                                      -- copy current line to clipboard
+  map("n", "<LEADER>l", 'mlV"*y<CR>`l', G_SILENT_NO_REMAP)                                      -- copy current line to clipboard
   map("v", "<LEADER>y", '"*y', G_SILENT_NO_REMAP)                                       -- copy everything in visual
   map("n", "<LEADER>d", 'V"*y<CR>dd', G_SILENT_NO_REMAP)                                -- cut to clipboard
   map("v", "<LEADER>d", '"*ygvd', G_SILENT_NO_REMAP)                                    -- cut to clipboard
@@ -146,14 +146,14 @@ function F.setup()
   map("n", "<LEADER>zlz", ":Lazy<CR>", G_NO_REMAP) -- open Lazy
 
   -- Lspinfo
-  map("n", "<LEADER>lst", ":LspStop bufnr()<CR>", G_NO_REMAP) -- disable lsp
-  map("n", "<LEADER>lhealth", ":CheckHealth<CR>", G_NO_REMAP)
-  map("n", "<LEADER>linfo", ":LspInfo<CR>", G_NO_REMAP)
-  map("n", "<LEADER>llog", ":LspLog<CR>", G_NO_REMAP)
-  map("n", "<LEADER>linstall", ":LspInstall<CR>", G_NO_REMAP)
-  map("n", "<LEADER>lml", ":MasonLog<CR>", G_NO_REMAP)
-  map("n", "<LEADER>lmi", ":MasonInstall<SPACE>", G_NO_REMAP)
-  map("n", "<LEADER>lmu", ":MasonUpdate<CR>", G_NO_REMAP)
+  map("n", "<LEADER>Lst", ":LspStop bufnr()<CR>", G_NO_REMAP) -- disable lsp
+  map("n", "<LEADER>Lhealth", ":CheckHealth<CR>", G_NO_REMAP)
+  map("n", "<LEADER>Linfo", ":LspInfo<CR>", G_NO_REMAP)
+  map("n", "<LEADER>Llog", ":LspLog<CR>", G_NO_REMAP)
+  map("n", "<LEADER>Linstall", ":LspInstall<CR>", G_NO_REMAP)
+  map("n", "<LEADER>Lml", ":MasonLog<CR>", G_NO_REMAP)
+  map("n", "<LEADER>Lmi", ":MasonInstall<SPACE>", G_NO_REMAP)
+  map("n", "<LEADER>Lmu", ":MasonUpdate<CR>", G_NO_REMAP)
 
   map("n", "<C-n>", ":bn<CR>", G_SILENT_NO_REMAP)       -- buffer next
   map("n", "<C-p>", ":bp<CR>", G_SILENT_NO_REMAP)       -- buffer previous
@@ -250,6 +250,7 @@ function F.setup()
 --  map("n", "<C-j>", ":wincmd j<CR>", G_SILENT_NO_REMAP) -- down
 --  map("n", "<C-l>", ":wincmd l<CR>", G_SILENT_NO_REMAP) -- right 
 --  map("n", "<C-h>", ":wincmd h<CR>", G_SILENT_NO_REMAP) -- left
+
   map("n", "<LEADER>wj", ":only<CR>", G_SILENT_NO_REMAP) -- join all windows
 
 --  map("n", "<LEADER>pt", ":lua require('precognition').toggle()<CR>", G_SILENT_NO_REMAP) -- precog toggle

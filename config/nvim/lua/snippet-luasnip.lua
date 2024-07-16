@@ -102,14 +102,14 @@ function F.setup()
       }),
       snip(
       {
-        trig = "argwhile",
-        namr = "bashwhile",
+        trig = "argloop",
+        namr = "argloop",
         dscr = "Create while loop"
       },
       {
 
         text({
-          "key=''",
+          "local key=''",
           "",
           "while [[ $# -gt 0 ]]; do",
           "",

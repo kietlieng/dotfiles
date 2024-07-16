@@ -1,7 +1,0 @@
-session_name: work
-windows:
-  - window_name: work
-  - window_name: suppressed
-  - window_name: default
-  - window_name: mixed
-

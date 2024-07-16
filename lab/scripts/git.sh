@@ -512,14 +512,6 @@ function gpush() {
   fi
 }
 
-function glinkx() {
-  glink x
-}
-
-function glinkci() {
-  glink c
-}
-
 function gtrack() {
   gitBranch=`git rev-parse --abbrev-ref HEAD`
   git branch --set-upstream-to=origin/$gitBranch $gitBranch
@@ -570,8 +562,7 @@ function ggetorg() {
 
     #gitBranch=`git rev-parse --abbrev-ref HEAD`
     #git branch --set-upstream-to=origin/$remoteBranch $gitBranch
-  }
-
+}
 
 # change origin
 function gorg() {

@@ -1,25 +1,25 @@
-session_name: suppress
+session_name: suppress-$RANDOM_TITLE
 suppress_history: false
 windows:
-  - window_name: appended
+  - window_name: appended-$RANDOM_TITLE
     focus: true
     layout: even-vertical
     suppress_history: false
     panes:
       - echo "window in the history!"
 
-  - window_name: suppressed
+  - window_name: suppressed-$RANDOM_TITLE
     layout: even-vertical
     suppress_history: true
     panes:
       - echo "window not in the history!"
 
-  - window_name: default
+  - window_name: default-$RANDOM_TITLE
     layout: even-vertical
     panes:
       - echo "session in the history!"
 
-  - window_name: mixed
+  - window_name: mixed-$RANDOM_TITLE
     layout: even-vertical
     suppress_history: false
     panes:
@@ -31,4 +31,3 @@ windows:
         suppress_history: true
       - shell_command:
           - echo "window in the history!"
-

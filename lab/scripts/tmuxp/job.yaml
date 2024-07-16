@@ -1,6 +1,6 @@
-session_name: job
+session_name: job-$RANDOM_TITLE
 windows:
-  - window_name: job
+  - window_name: job-$RANDOM_TITLE
     layout: even-horizontal
     panes:
       - shell_command:

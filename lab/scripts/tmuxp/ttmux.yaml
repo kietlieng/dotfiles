@@ -1,0 +1,8 @@
+session_name: tmux-$RANDOM_TITLE
+windows:
+  - window_name: config-$RANDOM_TITLE
+    panes:
+      - vitmux
+  - window_name: script-$RANDOM_TITLE
+    panes:
+      - c tmux

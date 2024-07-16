@@ -1,4 +1,5 @@
-#!/opt/homebrew/bin/python3
+#!/opt/homebrew/opt/python@3.11/libexec/bin/python
+
 import os, sys, getopt, math, pprint, cv2
 import numpy as np
 import matplotlib.pyplot as plt

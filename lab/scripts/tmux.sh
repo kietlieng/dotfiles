@@ -1,4 +1,8 @@
-#alias tm='tm1'
+alias T='t -d'
+alias tt='t -t'
+alias TT='t -d -t'
+alias TM='t -d main'
+alias tm='t main'
 alias tmh='tm2'
 alias tm1='tmux new-session'
 alias tm2='tmux new-session \; split-window -v \; select-pane -U \; set-window-option synchronize-panes on \; attach'
@@ -8,7 +12,7 @@ alias tmv3='tmux new-session \; split-window -h \; split-window -h \; select-pan
 alias tm4='tmux new-session \; split-window -h \; split-window -v \; select-pane -L \; split-window -v \; select-pane -U \; set-window-option synchronize-panes on \; attach'
 alias tm5='tmux new-session \; split-window -h \; split-window -h \; split-window -h \; split-window -h \; select-pane -R \; set-window-option synchronize-panes on \; select-layout even-horizontal \; attach'
 alias tm6='tmux new-session \; split-window -h \; split-window -h \; select-pane -L \; split-window -v \; select-pane -L \; split-window -v \; select-pane -L \; split-window -v \; select-pane -U \; set-window-option synchronize-panes on \; attach'
-alias tsource="tmux source-file ~/.tmux.conf"
+alias tsource="tmux source ~/.tmux.conf"
 
 
 function tl() {
@@ -16,9 +20,13 @@ function tl() {
 }
 
 function t() {
-  loadTarget=""
-  loadDir=~/lab/scripts/tmuxp
-  listMatches='f'
+
+  local loadTarget=""
+  local loadDir=~/lab/scripts/tmuxp
+  local listMatches='f'
+  local detachmode='f'
+  local templateMode='f'
+  local currentTemplate=$(cat ~/.tmuxdefault)
 
   while [[ $# -gt 0 ]]; do
 
@@ -26,6 +34,14 @@ function t() {
     case "$key" in
       '-l' ) 
         listMatches='t'
+        shift
+        ;;
+      '-d' ) 
+        detachmode='t'
+        shift
+        ;;
+      '-t' ) 
+        templateMode='t'
         shift
         ;;
       *)
@@ -36,6 +52,12 @@ function t() {
     esac
 
   done
+
+  if [[ $templateMode == 't' ]]; then
+
+    loadTarget="*$currentTemplate*"
+
+  fi
 
   if [[ $loadTarget != ""  ]]; then
 
@@ -51,29 +73,56 @@ function t() {
 
     fileIndex=1
 
-    for yFile in "${targetFiles[@]}"; do
+    if [[ $fileSize -eq 0 ]]; then
 
-      #echo "index is $fileIndex"
+      echo "no match"
 
-      if [[ $listMatches == 't' ]]; then
-          echo "$yFile"
-      else
-        if [[ $fileIndex -lt $fileSize ]]; then
+    else
 
-          tmuxp load -d "$yFile"
-          #echo "load and detach"
+      for yFile in "${targetFiles[@]}"; do
 
+        #echo "index is $fileIndex"
+
+        if [[ $listMatches == 't' ]]; then
+            echo "$yFile"
         else
 
-          tmuxp load "$yFile"
-          #echo "load and attach"
+          gentitle
+          # attach to th elast index only? 
+          if [[ $fileIndex -lt $fileSize ]]; then
 
+
+            if [[ $detachmode == 't' ]]; then
+              echo "tmuxp load -d \"$yFile\"" >> /tmp/log-tmux
+              tmuxp load -d "$yFile"
+            else
+              tmuxp load -a "$yFile" 
+            fi
+
+          else
+
+            if [[ $detachmode == 't' ]]; then
+
+              echo "begin tmuxp load -d \"$yFile\"" >> /tmp/log-tmux
+              tmuxp load -d "$yFile"
+
+            else
+
+              echo "begin tmuxp load -a \"$yFile\"" >> /tmp/log-tmux
+              echo "RANDOM_TITLE -a \"$yFile\" $RANDOM_TITLE" >> /tmp/log-tmux
+              tmuxp load -a "$yFile"
+
+            fi
+            #echo "load and attach"
+
+          fi
         fi
-      fi
 
-      fileIndex=$((fileIndex + 1))
+        fileIndex=$((fileIndex + 1))
 
-    done
+      done
+
+    fi
 
     # this one works
     #results=$(find $loadDir -maxdepth 1 -iname "${loadTarget}.yaml")
@@ -86,12 +135,14 @@ function t() {
     echo "loading $loadDir"
     ls -l "$loadDir"
     tmux ls
+    echo -n "tmux default: "
+    cat ~/.tmuxdefault
 
   fi
 
 }
 
-
+# ? 
 function tmx() {
     echo "${@}"
     echo "${#}"
@@ -172,4 +223,133 @@ function ta() {
         echo "auto attach"
         tmux attach
     fi
+}
+
+function calltmuxcreatewindow() {
+  
+  local key=''
+  local currentTemplate=$(cat ~/.tmuxdefault)
+  echo "$currentTemplate"
+  local currentAttach=$(tmux ls | grep -i attached | awk -F':' '{print $1}')
+  local OLD_RANDOM_TITLE=$(tmux ls | grep -i attached | awk -F':' '{print $1}' | cut -d "-" -f2-)
+  local detachMode='f'
+
+  while [[ $# -gt 0 ]]; do
+
+    key="$1"
+    shift
+
+    case "$key" in
+      '-detach')
+        detachMode='t'
+        ;;
+      *)
+        ;;
+    esac
+    
+  done
+  
+  echo "" > /tmp/log-tmux
+  if [[ $currentTemplate != '' ]]; then
+
+    # if you have one that's currently attached
+    if [[ $currentAttach ]]; then
+
+      if [[ $detachMode == 't' ]]; then
+        echo "detach $currentTemplate" >> /tmp/log-tmux
+        tmux send-keys -t "$currentAttach" "TT $currentTemplate" Enter
+      else
+        echo "attach $currentTemplate" >> /tmp/log-tmux
+        tmux send-keys -t "$currentAttach" "tt $currentTemplate" Enter
+      fi
+
+    else
+
+      if [[ $detachMode == 't' ]]; then
+        TT $currentTemplate
+      else
+        tt $currentTemplate
+      fi
+
+    fi
+
+  else
+
+    if [[ $currentAttach ]]; then
+
+      echo "has current attached \"$currentAttach\""
+      gentitle
+      tmux new-window -a -n "$RANDOM_TITLE" -t $currentAttach
+      tmux split-window -v -t "$RANDOM_TITLE" \; select-pane -U \;
+
+      # don't move to last window
+      echo $#
+      if [[ $# == 0 ]]; then
+
+        tmux select-window -t +1
+
+      else
+
+        echo "select new window"
+
+      fi
+
+    fi
+
+  fi
+
+}
+
+#function calltmuxcreatewindowx() {
+#  
+#  local currentAttach=$(tmux ls | grep -i attached | awk -F':' '{print $1}')
+#  local currentTemplate=""
+#
+#  if [[ $currentAttach ]]; then
+#
+#    currentTemplate=$(cat ~/.tmuxdefault)
+#
+#    echo "has current attached \"$currentAttach\""
+#    gentitle
+#    tmux new-window -a -n "$RANDOM_TITLE" -t $currentAttach
+##    tmux split-window -v -t "$RANDOM_TITLE" \; select-pane -U
+#    tmux split-window -v -t "$RANDOM_TITLE"
+#
+#    # don't move to last window
+#    echo $#
+#    if [[ $# == 0 ]]; then
+#
+#      tmux select-window -t +1
+#
+#    else
+#
+#      echo "select new window"
+#
+#    fi
+#
+#  fi
+#
+#}
+
+# set tmux default value
+function ttemplate() {
+
+  local key=''
+  local tmuxdefault=""
+
+  while [[ $# -gt 0 ]]; do
+
+    key="$1"
+    shift
+
+    case "$key" in
+      *)
+        tmuxdefault="$key"
+        ;;
+    esac
+    
+  done
+
+  echo "$tmuxdefault" > ~/.tmuxdefault
+
 }

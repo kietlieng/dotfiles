@@ -1,6 +1,6 @@
-session_name: devapp
+session_name: devapp-$RANDOM_TITLE
 windows:
-  - window_name: devapp
+  - window_name: devapp-$RANDOM_TITLE
     layout: even-vertical
     panes:
       - jsh dev- h6 -c

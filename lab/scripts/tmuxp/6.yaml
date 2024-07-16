@@ -1,13 +1,13 @@
-session_name: 6p
+session_name: 6p-$RANDOM_TITLE
 windows:
-  - window_name: 6p
+  - window_name: 6p-$RANDOM_TITLE
     layout: even-vertical
     panes:
-      - echo 1
-      - echo 2
-      - echo 3
-      - echo 4
-      - echo 5
-      - echo 6
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
     options_after:
         synchronize-panes: on

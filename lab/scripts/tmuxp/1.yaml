@@ -1,8 +1,7 @@
-session_name: 2p
+session_name: 2p-$RANDOM_TITLE
 windows:
-  - window_name: 2p
+  - window_name: 2p-$RANDOM_TITLE
     layout: even-horizontal
     focus: true
     panes:
-      - shell_command:
-        - echo 1
+      -

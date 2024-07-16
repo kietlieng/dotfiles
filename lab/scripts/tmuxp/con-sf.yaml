@@ -1,15 +1,15 @@
-session_name: con-sf
+session_name: con-sf-$RANDOM_TITLE
 windows:
-  - window_name: sf1
+  - window_name: sf1-$RANDOM_TITLE
     layout: even-vertical
     panes:
       - shell_command:
           - psh con sf1 -u centos
-  - window_name: sf2
+  - window_name: sf2-$RANDOM_TITLE
     panes:
       - shell_command:
           - psh con sf2 -u centos
-  - window_name: sf3
+  - window_name: sf3-$RANDOM_TITLE
     panes:
       - shell_command:
           - psh con sf3 -u centos

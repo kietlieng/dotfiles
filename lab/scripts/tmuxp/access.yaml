@@ -1,0 +1,9 @@
+session_name: access-$RANDOM_TITLE
+windows:
+  - window_name: access-$RANDOM_TITLE
+    layout: even-vertical
+    panes:
+      - shell_command:
+        - j iaccess
+        focus: true
+      - j iaccess

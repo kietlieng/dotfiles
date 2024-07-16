@@ -1,11 +1,11 @@
-session_name: sre
+session_name: sre-$RANDOM_TITLE
 windows:
-  - window_name: sre
-    layout: even-horizontal
+  - window_name: sre-$RANDOM_TITLE
+    layout: even-vertical
     panes:
       - shell_command:
           - j sre
           - node index.js
       - shell_command:
           - j sre
-          - vx
+          - vim index.js

@@ -4,8 +4,8 @@ local swnumber = 2
 vim.cmd([[set runtimepath+=~/.nvim]]) --set.runtimepath:append { set.runtimepath .. "/.nvim" }
 
 -- wrap
-set.wrap           = true
---set.wrap           = false
+--set.wrap           = true
+set.wrap           = false
 
 -- undo
 set.undodir  = vim.env.HOME .. '/.nvim/undodir'
@@ -24,7 +24,6 @@ set.hidden         = true
 set.hlsearch       = true
 set.ignorecase     = true
 set.incsearch      = true
-set.laststatus     = 2
 set.lazyredraw     = true
 set.number         = true
 set.relativenumber = true
@@ -40,6 +39,7 @@ set.smartindent    = true
 set.smarttab       = true
 set.softtabstop    = 2
 set.statusline     = "%F"
+set.laststatus     = 2
 set.swapfile       = false
 set.syntax         = 'ON'
 set.tabstop        = 2
@@ -139,7 +139,7 @@ require("lazy").setup({
     { "ryanoasis/vim-devicons" }, -- icons for plugin
     { "nvim-tree/nvim-web-devicons" }, -- icons to plugins
     { "nvim-lua/plenary.nvim" }, -- no idea what this does but it's required by other plugins
-    { "ThePrimeagen/harpoon", config = function() require('lua-harpoon').setup() end, }, -- navigation.  Not really using it 
+--    { "ThePrimeagen/harpoon", config = function() require('lua-harpoon').setup() end, }, -- navigation.  Not really using it 
     { "nvim-telescope/telescope.nvim", tag = '0.1.3' },
     { "nvim-telescope/telescope-file-browser.nvim", dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }, config = function() require('lua-tele-file-browser').setup() end,  },
     { "nvim-telescope/telescope-fzf-native.nvim", build = 'make', config = function() require('tele').setup() end, },
@@ -152,6 +152,24 @@ require("lazy").setup({
     { "williamboman/mason-lspconfig.nvim" },
     { "neovim/nvim-lspconfig" },
     { "rafamadriz/friendly-snippets" },
+
+
+    { "christoomey/vim-tmux-navigator",
+      cmd = {
+        "TmuxNavigateLeft",
+        "TmuxNavigateDown",
+        "TmuxNavigateUp",
+        "TmuxNavigateRight",
+        "TmuxNavigatePrevious",
+      },
+      keys = {
+        { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+        { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
+        { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
+        { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
+        { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+      },
+    },
 
     ----- CMP begin -----
 

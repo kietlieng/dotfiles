@@ -47,12 +47,13 @@ function F.comments(aRegular, aNormalMode, aAll, aCommentOut, aInvert, aBuffer)
 
   vim.cmd.normal("ml") -- set mark
 
-  if filename == 'kitty.conf' or
-     filename == 'config' or -- might be ssh config
-     filename == 'skhdrc' or -- hotkeys
-     filename == '.zshrc' or
-     filename == '.yabairc' or
-     filename == '.gitlab-ci.yml' or
+  if filename      == 'kitty.conf' or
+     filename      == 'config' or -- might be ssh config
+     filename      == 'skhdrc' or -- hotkeys
+     filename      == '.zshrc' or
+     filename      == '.yabairc' or
+     filename      == '.gitlab-ci.yml' or
+     filename      == '.tmux.conf' or
      fileExtension == 'tf' or
      fileExtension == 'yaml' or
      fileExtension == 'yml' or
