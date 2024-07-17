@@ -1,0 +1,7 @@
+session_name: blank-$RANDOM_TITLE
+windows:
+  - window_name: blank-$RANDOM_TITLE
+    layout: even-vertical
+    panes:
+      -
+        focus: true

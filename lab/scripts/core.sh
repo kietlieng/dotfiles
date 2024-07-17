@@ -1062,6 +1062,34 @@ function catcp() {
 }
 
 
+# printing functions 
+
+# put echo into file
+function pecho() {
+
+  local message=""
+  key=''
+
+  while [[ $# -gt 0 ]]; do
+
+    message="$message $1"
+    shift
+    
+  done
+
+  local fname="${funcstack[2]}"
+  echo "$fname:$message" >> /tmp/log-gecho
+
+}
+
+# get echo from file.  Then empty
+function gecho() {
+  
+  cat /tmp/gecho
+  echo "" > /tmp/log-gecho
+
+}
+
 # requires wonderword
 function gentitle() {
     

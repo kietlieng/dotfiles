@@ -69,22 +69,22 @@ function t() {
     fileSize=${#targetFiles[@]}
 
     #prinf "targetFiles %s\n" "${targetFiles[@]}"
-    #echo "filesize $fileSize"
+    #pecho "filesize $fileSize"
 
     fileIndex=1
 
     if [[ $fileSize -eq 0 ]]; then
 
-      echo "no match"
+      pecho "no match"
 
     else
 
       for yFile in "${targetFiles[@]}"; do
 
-        #echo "index is $fileIndex"
+        #pecho "index is $fileIndex"
 
         if [[ $listMatches == 't' ]]; then
-            echo "$yFile"
+            pecho "$yFile"
         else
 
           gentitle
@@ -93,7 +93,7 @@ function t() {
 
 
             if [[ $detachmode == 't' ]]; then
-              echo "tmuxp load -d \"$yFile\"" >> /tmp/log-tmux
+              pecho "tmuxp load -d \"$yFile\""
               tmuxp load -d "$yFile"
             else
               tmuxp load -a "$yFile" 
@@ -103,17 +103,17 @@ function t() {
 
             if [[ $detachmode == 't' ]]; then
 
-              echo "begin tmuxp load -d \"$yFile\"" >> /tmp/log-tmux
+              pecho "begin tmuxp load -d \"$yFile\""
               tmuxp load -d "$yFile"
 
             else
 
-              echo "begin tmuxp load -a \"$yFile\"" >> /tmp/log-tmux
-              echo "RANDOM_TITLE -a \"$yFile\" $RANDOM_TITLE" >> /tmp/log-tmux
+              pecho "begin tmuxp load -a \"$yFile\"" 
+              pecho "RANDOM_TITLE -a \"$yFile\" $RANDOM_TITLE" 
               tmuxp load -a "$yFile"
 
             fi
-            #echo "load and attach"
+            #pecho "load and attach"
 
           fi
         fi
@@ -132,69 +132,15 @@ function t() {
 
   else
 
-    echo "loading $loadDir"
-    ls -l "$loadDir"
+    echo "\nLoading $loadDir"
+    ls "$loadDir"
+    echo "\nSessions:"
     tmux ls
-    echo -n "tmux default: "
+    echo -n "\ntmux default: "
     cat ~/.tmuxdefault
 
   fi
 
-}
-
-# ? 
-function tmx() {
-    echo "${@}"
-    echo "${#}"
-    #echo "$1"
-    target_list=()
-    #target_list=("nvim test.txt" "nvim test.txt")
-    #echo "${prod_list[*]}"
-    #split_list=()
-    #if [ "${#}" -gt 0 ]; then
-    #  placeholder=$1
-    #  #if [ "dev" = "$placeholder" ]; then
-    #  #  target_list=( "jsh dev-usw-r4-def-h4 -c" "jsh dev-usw-r6-def-h6 -c" "jsh dev-usw-r7-def-h7 -c" "jsh dev-usw-r8-def-h8 -c" )
-    #  #fi
-    #  target_list+=( $placeholder )
-    #fi
-
-    while [[ "${#}" -gt 0 ]]
-    do
-        target_list+=( "$1" )
-        shift
-    done
-    #echo "working!? ${target_list[@]}"
-    # means you're not in a session
-    if [ -z "$TMUX_PANE" ]; then
-        #for ssh_entry in "${target_list[@]:1}"; do
-        pane_name="tpane"
-        first_pane="t"
-
-        for ssh_entry in "${target_list[@]}"; do
-            # check first pane
-            if [[ "$first_pane" == "t" ]]; then
-                tmux new-session -d -s $pane_name
-                first_pane="f"
-            else
-                tmux split-window -h -t $pane_name
-            fi
-            tmux send-keys -t $pane_name "$ssh_entry" Enter
-        done
-
-        if [[ "$first_pane" == "f" ]]; then
-            tmux select-layout -t $pane_name tiled
-            tmux set-window-option -t $pane_name synchronize-panes on
-            tmux attach -t $pane_name
-        fi
-    else
-        # ? what is this doing
-        pane_index=$((${TMUX_PANE:1} + 1))
-        echo "${target_list[$pane_index]}"
-        #zsh -c $target_list[$pane_index]
-        evalValue=${target_list[$pane_index]}
-        eval echo "$evalValue"
-    fi
 }
 
 # kill last session
@@ -231,8 +177,7 @@ function calltmuxcreatewindow() {
   local currentTemplate=$(cat ~/.tmuxdefault)
   echo "$currentTemplate"
   local currentAttach=$(tmux ls | grep -i attached | awk -F':' '{print $1}')
-  local OLD_RANDOM_TITLE=$(tmux ls | grep -i attached | awk -F':' '{print $1}' | cut -d "-" -f2-)
-  local detachMode='f'
+  local backgroundMode='f'
 
   while [[ $# -gt 0 ]]; do
 
@@ -240,8 +185,8 @@ function calltmuxcreatewindow() {
     shift
 
     case "$key" in
-      '-detach')
-        detachMode='t'
+      '-background')
+        backgroundMode='t'
         ;;
       *)
         ;;
@@ -249,51 +194,43 @@ function calltmuxcreatewindow() {
     
   done
   
-  echo "" > /tmp/log-tmux
-  if [[ $currentTemplate != '' ]]; then
 
-    # if you have one that's currently attached
-    if [[ $currentAttach ]]; then
+  if [[ $currentTemplate == '' ]]; then
+    currentTemplate="blank"
+  fi
 
-      if [[ $detachMode == 't' ]]; then
-        echo "detach $currentTemplate" >> /tmp/log-tmux
-        tmux send-keys -t "$currentAttach" "TT $currentTemplate" Enter
-      else
-        echo "attach $currentTemplate" >> /tmp/log-tmux
-        tmux send-keys -t "$currentAttach" "tt $currentTemplate" Enter
-      fi
+  pecho "current template $currentTemplate"
+  
+  # if you have one that's currently attached
+  if [[ $currentAttach ]]; then
 
+    if [[ $backgroundMode == 't' ]]; then
+      pecho "attached background $currentTemplate"
+      tmux send-keys -t "$currentAttach" "t $currentTemplate" Enter
+#        tmux send-keys -t "$currentAttach" "TT $currentTemplate" Enter
     else
+      pecho "attached nobackground $currentTemplate"
+      tmux send-keys -t "$currentAttach" "t $currentTemplate" Enter
 
-      if [[ $detachMode == 't' ]]; then
-        TT $currentTemplate
-      else
-        tt $currentTemplate
-      fi
-
+      # need to sleep and delay so tmux can create windows to register
+      sleep .5
+      local newIndex=$(tmux list-windows -t "$currentAttach" | tail -n 1 | awk -F':' '{ print $1 }')
+      pecho "new index is $newIndex"
+#        tmux send-keys -t "$currentAttach" "tt $currentTemplate" Enter
+      tmux select-window -t "$currentAttach:$newIndex"
+      pecho "tmux select-window -t \"$currentAttach:$newIndex\""
     fi
 
   else
 
-    if [[ $currentAttach ]]; then
-
-      echo "has current attached \"$currentAttach\""
-      gentitle
-      tmux new-window -a -n "$RANDOM_TITLE" -t $currentAttach
-      tmux split-window -v -t "$RANDOM_TITLE" \; select-pane -U \;
-
-      # don't move to last window
-      echo $#
-      if [[ $# == 0 ]]; then
-
-        tmux select-window -t +1
-
-      else
-
-        echo "select new window"
-
-      fi
-
+    if [[ $backgroundMode == 't' ]]; then
+      pecho "unattached background"
+      T $currentTemplate
+    else
+      pecho "unattached nobackground"
+      t $currentTemplate
+      # attached to terminal
+      ta
     fi
 
   fi
@@ -309,14 +246,14 @@ function calltmuxcreatewindow() {
 #
 #    currentTemplate=$(cat ~/.tmuxdefault)
 #
-#    echo "has current attached \"$currentAttach\""
+#    pecho "has current attached \"$currentAttach\""
 #    gentitle
 #    tmux new-window -a -n "$RANDOM_TITLE" -t $currentAttach
 ##    tmux split-window -v -t "$RANDOM_TITLE" \; select-pane -U
 #    tmux split-window -v -t "$RANDOM_TITLE"
 #
 #    # don't move to last window
-#    echo $#
+#    pecho $#
 #    if [[ $# == 0 ]]; then
 #
 #      tmux select-window -t +1
@@ -332,7 +269,7 @@ function calltmuxcreatewindow() {
 #}
 
 # set tmux default value
-function ttemplate() {
+function ttemp() {
 
   local key=''
   local tmuxdefault=""
