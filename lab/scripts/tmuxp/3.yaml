@@ -1,3 +1,4 @@
+
 session_name: 3p-$RANDOM_TITLE
 windows:
   - window_name: 3p-$RANDOM_TITLE
@@ -8,3 +9,4 @@ windows:
       -
     options_after:
         synchronize-panes: on
+Q

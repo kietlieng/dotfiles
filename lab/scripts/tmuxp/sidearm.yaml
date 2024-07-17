@@ -8,3 +8,6 @@ windows:
         - vim cnames.tf sites.tf
         focus: true
       - j i1
+  - window_name: extra-$RANDOM_TITLE
+    panes:
+      -

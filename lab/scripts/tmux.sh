@@ -26,7 +26,7 @@ function t() {
   local listMatches='f'
   local detachmode='f'
   local templateMode='f'
-  local currentTemplate=$(cat ~/.tmuxdefault)
+  local currentTemplate=$(cat ~/.tmuxdefault | xargs)
 
   while [[ $# -gt 0 ]]; do
 
@@ -53,11 +53,17 @@ function t() {
 
   done
 
-  if [[ $templateMode == 't' ]]; then
-
-    loadTarget="*$currentTemplate*"
-
+  # make sure the template is not blank otherwise you get overything
+  if [[ $currentTemplate == '' ]]; then
+    currentTemplate="blank"
   fi
+
+  if [[ $templateMode == 't' ]]; then
+    loadTarget="*$currentTemplate*"
+  fi
+
+#  echo "|$loadTarget|"
+#  return
 
   if [[ $loadTarget != ""  ]]; then
 
@@ -170,6 +176,7 @@ function tk() {
   local confirmTermination='f'
   if [[ $tmuxTarget == '.*' ]] && [[ $allMode == 'f'  ]]; then
     echo "no targets"
+    tmux kill-session
   else
     for iTmux in $(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}'); do
 
@@ -234,8 +241,9 @@ function ta() {
 function calltmuxcreatewindow() {
   
   local key=''
-  local currentTemplate=$(cat ~/.tmuxdefault)
-  echo "$currentTemplate"
+
+  # need xargs to trim spaces
+  local currentTemplate=$(cat ~/.tmuxdefault | xargs)
   local currentAttach=$(tmux ls | grep -i attached | awk -F':' '{print $1}')
   local backgroundMode='f'
 
@@ -259,7 +267,7 @@ function calltmuxcreatewindow() {
     currentTemplate="blank"
   fi
 
-  pecho "current template $currentTemplate"
+  pecho "current template |$currentTemplate|"
   
   # if you have one that's currently attached
   if [[ $currentAttach ]]; then
@@ -268,6 +276,7 @@ function calltmuxcreatewindow() {
       pecho "attached background $currentTemplate"
       tmux send-keys -t "$currentAttach" "t $currentTemplate" Enter
 #        tmux send-keys -t "$currentAttach" "TT $currentTemplate" Enter
+  gecho "$currentTemplate"
     else
       pecho "attached nobackground $currentTemplate"
       tmux send-keys -t "$currentAttach" "t $currentTemplate" Enter
@@ -296,37 +305,6 @@ function calltmuxcreatewindow() {
   fi
 
 }
-
-#function calltmuxcreatewindowx() {
-#  
-#  local currentAttach=$(tmux ls | grep -i attached | awk -F':' '{print $1}')
-#  local currentTemplate=""
-#
-#  if [[ $currentAttach ]]; then
-#
-#    currentTemplate=$(cat ~/.tmuxdefault)
-#
-#    pecho "has current attached \"$currentAttach\""
-#    gentitle
-#    tmux new-window -a -n "$RANDOM_TITLE" -t $currentAttach
-##    tmux split-window -v -t "$RANDOM_TITLE" \; select-pane -U
-#    tmux split-window -v -t "$RANDOM_TITLE"
-#
-#    # don't move to last window
-#    pecho $#
-#    if [[ $# == 0 ]]; then
-#
-#      tmux select-window -t +1
-#
-#    else
-#
-#      echo "select new window"
-#
-#    fi
-#
-#  fi
-#
-#}
 
 # set tmux default value
 function ttemp() {
