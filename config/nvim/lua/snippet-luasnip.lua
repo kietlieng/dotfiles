@@ -110,6 +110,7 @@ function F.setup()
 
         text({
           "local someMode='f'",
+          "local someTarget='.*'",
           "local key=''",
           "",
           "while [[ $# -gt 0 ]]; do",
@@ -122,11 +123,16 @@ function F.setup()
           "      someMode='t'",
           "      ;;",
           "    *)",
+          "      someTarget=\"${someTarget}$key.*\"",
           "      ;;",
           "  esac",
           "  ",
           "done",
-          ""}),
+          "",
+          "if [[ $someTarget == '.*' ]]; then",
+          "  echo 'no value'",
+          "fi",
+          }),
         }),
       },
     })

@@ -198,13 +198,37 @@ function tk() {
 
 # attach to last session
 function ta() {
-    if [[ $# -gt 0 ]]; then
-        echo "attach to $1"
-        tmux attach -t "$1"
-    else
-        echo "auto attach"
-        tmux attach
-    fi
+
+  local tmuxTarget='.*'
+  local key=''
+
+  while [[ $# -gt 0 ]]; do
+
+    key="$1"
+    shift
+
+    case "$key" in
+      *)
+        tmuxTarget="${tmuxTarget}$key.*"
+        ;;
+    esac
+    
+  done
+
+  if [[ $tmuxTarget == '.*' ]]; then
+    echo "auto attach"
+    tmux attach
+  else
+    for iTmux in $(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}'); do
+      if [[ $(echo "$iTmux" | grep -i "$tmuxTarget") ]]; then
+        tmux attach -t "$iTmux"
+        break
+      fi
+
+    done
+
+  fi
+
 }
 
 function calltmuxcreatewindow() {
