@@ -109,6 +109,7 @@ function F.setup()
       {
 
         text({
+          "local someMode='f'",
           "local key=''",
           "",
           "while [[ $# -gt 0 ]]; do",
@@ -117,11 +118,10 @@ function F.setup()
           "  shift",
           "",
           "  case \"$key\" in",
-          "    '')",
-          "      echo 1",
+          "    '-x')",
+          "      someMode='t'",
           "      ;;",
           "    *)",
-          "      echo default",
           "      ;;",
           "  esac",
           "  ",

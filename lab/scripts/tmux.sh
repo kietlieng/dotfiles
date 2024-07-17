@@ -145,19 +145,55 @@ function t() {
 
 # kill last session
 function tk() {
-    NO_TM_LISTING=$(tmux ls 2>&1 | grep -v "no server running on")
-    if [ "$NO_TM_LISTING" ]; then
-        if [[ $# -gt 0 ]]; then
-            tmux kill-session -t "$1"
-        else
-            TERMINAL_NUMBER=$(tmux ls | awk '{print $1}' | head -n 1)
-            if [ "$TERMINAL_NUMBER" ]; then
-                echo "killing ... $TERMINAL_NUMBER"
-                tmux kill-session -t "$TERMINAL_NUMBER"
-            fi
-        fi
-        tmux ls
-    fi
+   
+  local allMode='f'
+  local tmuxTarget='.*'
+  local key=''
+
+  while [[ $# -gt 0 ]]; do
+
+    key="$1"
+    shift
+
+    case "$key" in
+      '-a')
+        allMode='t'
+        ;;
+      *)
+        tmuxTarget="${tmuxTarget}$key.*"
+        ;;
+    esac
+    
+  done
+
+  pecho "tmuxTarget $tmuxTarget"
+  local confirmTermination='f'
+  if [[ $tmuxTarget == '.*' ]] && [[ $allMode == 'f'  ]]; then
+    echo "no targets"
+  else
+    for iTmux in $(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}'); do
+
+      confirmTermination='f'
+      pecho "iTmux $iTmux"
+      pecho "tmuxTarget $tmuxTarget"
+      if [[ $allMode == 't' ]]; then
+        confirmTermination='t'
+      elif [[ $(echo "$iTmux" | grep -i "$tmuxTarget") ]]; then
+        pecho "grep confirmed kill"
+        confirmTermination='t'
+      fi
+      
+      if [[ $confirmTermination == 't' ]]; then
+        echo "Terminating session ... $iTmux"
+        tmux kill-session -t "$iTmux"
+      fi
+
+    done
+  fi
+
+  echo "\nSessions:"
+  tmux ls
+
 }
 
 # attach to last session

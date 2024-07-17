@@ -1085,7 +1085,7 @@ function pecho() {
 # get echo from file.  Then empty
 function gecho() {
   
-  cat /tmp/gecho
+  cat /tmp/log-gecho
   echo "" > /tmp/log-gecho
 
 }
