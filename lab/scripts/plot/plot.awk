@@ -37,7 +37,7 @@ function amax(a,	i, max) {
 	return max
 }
 
-function normalise(	delta) {
+function normalise(delta) {
 	for (i = 1; i <= NF; i++) {
 		max[i] = 0
 		min[i] = 0

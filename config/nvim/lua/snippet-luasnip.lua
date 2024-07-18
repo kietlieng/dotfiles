@@ -109,7 +109,7 @@ function F.setup()
       {
 
         text({
-          "local someMode='f'",
+          "local modeSome='f'",
           "local someTarget='.*'",
           "local key=''",
           "",
@@ -120,7 +120,7 @@ function F.setup()
           "",
           "  case \"$key\" in",
           "    '-x')",
-          "      someMode='t'",
+          "      modeSome='t'",
           "      ;;",
           "    *)",
           "      someTarget=\"${someTarget}$key.*\"",

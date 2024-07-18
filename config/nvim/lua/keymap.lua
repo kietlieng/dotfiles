@@ -175,7 +175,7 @@ function F.setup()
   map("n", "<LEADER>uad", ":!callterminal '%:p:h' upad21<CR>", G_NO_REMAP) -- uploads
   map("n", "<LEADER>ucert", ":!callterminal '%:p:h' upcert<CR>", G_NO_REMAP) -- uploads
   map("n", "<LEADER>uocto", ":!callterminal '%:p:h' upocto<CR>", G_NO_REMAP) -- uploads
-  map("n", "<LEADER>udot", ":!callterminal '%:p:h' syncdot<CR>", G_NO_REMAP) -- uploads syncdot
+  map("n", "<LEADER>udot", ":!callterminal '%:p:h' cpdot<CR>", G_NO_REMAP) -- uploads syncdot
 
   map("n", "<LEADER><SPACE>alpha", ":set nrformats=bin,hex,alpha<CR>", G_NO_REMAP)  -- change incremental alpha
   map("n", "<LEADER><SPACE>number", ":set nrformats=bin,hex<CR>", G_NO_REMAP)       -- change incremental number: default

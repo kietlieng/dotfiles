@@ -1,6 +1,7 @@
 alias T='t -d'
 alias TM='t -d main'
 alias TT='t -d -t'
+alias tdisplayoptions='tmux display-message -a | fzf'
 alias tka="tk -a"
 alias tm1='tmux new-session'
 alias tm2='tmux new-session \; split-window -v \; select-pane -U \; set-window-option synchronize-panes on \; attach'
@@ -20,13 +21,16 @@ function tl() {
   t -l $@
 }
 
+
 function t() {
 
   local loadTarget=""
   local loadDir=~/lab/scripts/tmuxp
   local listMatches='f'
-  local detachmode='f'
-  local templateMode='f'
+
+  local modeDetach='f'
+  local modeTemplate='f'
+
   local currentTemplate=$(cat ~/.tmuxdefault | xargs)
 
   while [[ $# -gt 0 ]]; do
@@ -38,11 +42,11 @@ function t() {
         shift
         ;;
       '-d' ) 
-        detachmode='t'
+        modeDetach='t'
         shift
         ;;
       '-t' ) 
-        templateMode='t'
+        modeTemplate='t'
         shift
         ;;
       *)
@@ -59,7 +63,7 @@ function t() {
     currentTemplate="blank"
   fi
 
-  if [[ $templateMode == 't' ]]; then
+  if [[ $modeTemplate == 't' ]]; then
     loadTarget="*$currentTemplate*"
   fi
 
@@ -99,7 +103,7 @@ function t() {
           if [[ $fileIndex -lt $fileSize ]]; then
 
 
-            if [[ $detachmode == 't' ]]; then
+            if [[ $modeDetach == 't' ]]; then
               pecho "tmuxp load -d \"$yFile\""
               tmuxp load -d "$yFile"
             else
@@ -108,7 +112,7 @@ function t() {
 
           else
 
-            if [[ $detachmode == 't' ]]; then
+            if [[ $modeDetach == 't' ]]; then
 
               pecho "begin tmuxp load -d \"$yFile\""
               tmuxp load -d "$yFile"
@@ -153,7 +157,7 @@ function t() {
 # kill last session
 function tk() {
    
-  local allMode='f'
+  local modeAll='f'
   local tmuxTarget='.*'
   local key=''
 
@@ -164,7 +168,7 @@ function tk() {
 
     case "$key" in
       '-a')
-        allMode='t'
+        modeAll='t'
         ;;
       *)
         tmuxTarget="${tmuxTarget}$key.*"
@@ -175,7 +179,7 @@ function tk() {
 
   pecho "tmuxTarget $tmuxTarget"
   local confirmTermination='f'
-  if [[ $tmuxTarget == '.*' ]] && [[ $allMode == 'f'  ]]; then
+  if [[ $tmuxTarget == '.*' ]] && [[ $modeAll == 'f'  ]]; then
     echo "no targets"
     tmux kill-session
   else
@@ -184,7 +188,7 @@ function tk() {
       confirmTermination='f'
       pecho "iTmux $iTmux"
       pecho "tmuxTarget $tmuxTarget"
-      if [[ $allMode == 't' ]]; then
+      if [[ $modeAll == 't' ]]; then
         confirmTermination='t'
       elif [[ $(echo "$iTmux" | grep -i "$tmuxTarget") ]]; then
         pecho "grep confirmed kill"
@@ -239,25 +243,6 @@ function ta() {
 
 }
 
-function marktmuxsession() {
-    
-  local currentSession=''
-
-  # if in tmux find out the current attached value even though there are multiple it will display the currect one
-  if [[ $(echo "$TMUX") ]]; then
-    currentSession=$(tmux display-message -p "#S")
-    echo $currentSession > ~/.tmuxsession
-  fi
-
-  pecho "marktmuxsession $currentSession | $TMUX"
-
-}
-
-# check if function exists before adding. Works for shell. Doesn't work on vim external shell calls (don't know why)
-if [[  $(which add-zsh-hook | grep -i "not found") != *"not found"* ]] ; then
-  add-zsh-hook precmd marktmuxsession # add hook for checking aws tokens
-fi
-
 function calltmuxcreatewindow() {
   
 #  tmux display-message -p "#S"
@@ -266,8 +251,8 @@ function calltmuxcreatewindow() {
   local key=''
 
   # need xargs to trim spaces
-  local backgroundMode='f'
-  local currentAttach=$(cat ~/.tmuxsession | xargs)
+  local modeBackground='f'
+  local currentSession=$(tmux display-message -p '#{session_name}')
   local currentTemplate=$(cat ~/.tmuxdefault | xargs)
 
   while [[ $# -gt 0 ]]; do
@@ -277,7 +262,7 @@ function calltmuxcreatewindow() {
 
     case "$key" in
       '-background')
-        backgroundMode='t'
+        modeBackground='t'
         ;;
       *)
         ;;
@@ -285,21 +270,6 @@ function calltmuxcreatewindow() {
     
   done
   
-
-  if [[ $currentAttach ]]; then
-
-    # find if it's currently attached exists
-    if [[ $(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}' | grep -i "$currentAttach") ]]; then
-      pecho "current attached exists $currentAttach"
-    else
-      # try to get any that exist
-      currentAttach=$(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}' | head -n 1)
-    fi
-
-  fi
-
-  pecho "currentAttached $currentAttach | $TMUX"
-
   if [[ $currentTemplate == '' ]]; then
     currentTemplate="blank"
   fi
@@ -307,37 +277,38 @@ function calltmuxcreatewindow() {
   pecho "current template |$currentTemplate|"
   
   # if you have one that's currently attached
-  if [[ $currentAttach ]]; then
+  if [[ $currentSession ]]; then
 
-    if [[ $backgroundMode == 't' ]]; then
+    if [[ $modeBackground == 't' ]]; then
 
       pecho "attached background $currentTemplate"
-      tmux send-keys -t "$currentAttach" "t $currentTemplate" Enter
+      tmux send-keys -t "$currentSession" "t $currentTemplate" Enter
       gecho "$currentTemplate"
 
     else
-      pecho "attached nobackground $currentTemplate"
-      tmux send-keys -t "$currentAttach" "t $currentTemplate" Enter
 
-      # need to sleep and delay so tmux can create windows to register
+      pecho "attached nobackground $currentTemplate"
+      tmux send-keys -t "$currentSession" "t $currentTemplate" Enter
+
+      # need to sleep and delay so tmux can create window to register
+      wait
       sleep 1
-      local newIndex=$(tmux list-windows -t "$currentAttach" | tail -n 1 | awk -F':' '{ print $1 }')
+      local newIndex=$(tmux list-windows -t "$currentSession" | tail -n 1 | awk -F':' '{ print $1 }')
       pecho "new index is $newIndex"
-      tmux select-window -t "$currentAttach:$newIndex"
-      pecho "tmux select-window -t \"$currentAttach:$newIndex\""
+      tmux select-window -t "$currentSession:$newIndex"
+      pecho "tmux select-window -t \"$currentSession:$newIndex\""
 
     fi
 
   else
 
-    if [[ $backgroundMode == 't' ]]; then
+    if [[ $modeBackground == 't' ]]; then
       pecho "unattached background"
       T $currentTemplate
     else
       pecho "unattached nobackground"
       t $currentTemplate
-      # attached to terminal
-      ta
+      ta # attached to terminal
     fi
 
   fi
