@@ -239,14 +239,36 @@ function ta() {
 
 }
 
+function marktmuxsession() {
+    
+  local currentSession=''
+
+  # if in tmux find out the current attached value even though there are multiple it will display the currect one
+  if [[ $(echo "$TMUX") ]]; then
+    currentSession=$(tmux display-message -p "#S")
+    echo $currentSession > ~/.tmuxsession
+  fi
+
+  pecho "marktmuxsession $currentSession | $TMUX"
+
+}
+
+# check if function exists before adding. Works for shell. Doesn't work on vim external shell calls (don't know why)
+if [[  $(which add-zsh-hook | grep -i "not found") != *"not found"* ]] ; then
+  add-zsh-hook precmd marktmuxsession # add hook for checking aws tokens
+fi
+
 function calltmuxcreatewindow() {
   
+#  tmux display-message -p "#S"
+#  echo "|$TMUX_PANE|$TMUX|"
+
   local key=''
 
   # need xargs to trim spaces
-  local currentTemplate=$(cat ~/.tmuxdefault | xargs)
-  local currentAttach=$(tmux ls | grep -i attached | awk -F':' '{print $1}')
   local backgroundMode='f'
+  local currentAttach=$(cat ~/.tmuxsession | xargs)
+  local currentTemplate=$(cat ~/.tmuxdefault | xargs)
 
   while [[ $# -gt 0 ]]; do
 
@@ -264,6 +286,20 @@ function calltmuxcreatewindow() {
   done
   
 
+  if [[ $currentAttach ]]; then
+
+    # find if it's currently attached exists
+    if [[ $(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}' | grep -i "$currentAttach") ]]; then
+      pecho "current attached exists $currentAttach"
+    else
+      # try to get any that exist
+      currentAttach=$(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}' | head -n 1)
+    fi
+
+  fi
+
+  pecho "currentAttached $currentAttach | $TMUX"
+
   if [[ $currentTemplate == '' ]]; then
     currentTemplate="blank"
   fi
@@ -274,21 +310,22 @@ function calltmuxcreatewindow() {
   if [[ $currentAttach ]]; then
 
     if [[ $backgroundMode == 't' ]]; then
+
       pecho "attached background $currentTemplate"
       tmux send-keys -t "$currentAttach" "t $currentTemplate" Enter
-#        tmux send-keys -t "$currentAttach" "TT $currentTemplate" Enter
-  gecho "$currentTemplate"
+      gecho "$currentTemplate"
+
     else
       pecho "attached nobackground $currentTemplate"
       tmux send-keys -t "$currentAttach" "t $currentTemplate" Enter
 
       # need to sleep and delay so tmux can create windows to register
-      sleep .5
+      sleep 1
       local newIndex=$(tmux list-windows -t "$currentAttach" | tail -n 1 | awk -F':' '{ print $1 }')
       pecho "new index is $newIndex"
-#        tmux send-keys -t "$currentAttach" "tt $currentTemplate" Enter
       tmux select-window -t "$currentAttach:$newIndex"
       pecho "tmux select-window -t \"$currentAttach:$newIndex\""
+
     fi
 
   else
@@ -308,7 +345,7 @@ function calltmuxcreatewindow() {
 }
 
 # set tmux default value
-function ttemp() {
+function tdefault() {
 
   local key=''
   local tmuxdefault=""

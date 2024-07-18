@@ -54,6 +54,7 @@ function F.comments(aRegular, aNormalMode, aAll, aCommentOut, aInvert, aBuffer)
      filename      == '.yabairc' or
      filename      == '.gitlab-ci.yml' or
      filename      == '.tmux.conf' or
+     filename      == 'tmux.conf' or
      fileExtension == 'tf' or
      fileExtension == 'yaml' or
      fileExtension == 'yml' or

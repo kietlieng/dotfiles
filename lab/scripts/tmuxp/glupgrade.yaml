@@ -5,7 +5,8 @@ windows:
       - shell_command:
         - jsh glupgrade -u ec2-user
         focus: true
+      - jsh glupgrade -u ec2-user
   - window_name: s2-$RANDOM_TITLE1
     panes:
-      - jsh glupgrade -u ec2-user
-      - jsh glupgrade -u ec2-user
+      - shell_command: 
+        - jsh glupgrade -u ec2-user
