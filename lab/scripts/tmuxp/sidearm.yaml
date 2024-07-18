@@ -6,8 +6,9 @@ windows:
       - shell_command:
         - j i1
         - vim sites.tf cnames.tf
+      - shell_command:
+        - j i1
         focus: true
-      - j i1
   - window_name: extra-$RANDOM_TITLE1
     panes:
       -

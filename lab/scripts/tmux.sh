@@ -179,8 +179,10 @@ function tk() {
 
   pecho "tmuxTarget $tmuxTarget"
   local confirmTermination='f'
+  local currentSession=""
   if [[ $tmuxTarget == '.*' ]] && [[ $modeAll == 'f'  ]]; then
-    echo "no targets"
+    currentSession=$(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}' | head  -n 1)
+    echo "Terminating session ... $currentSession"
     tmux kill-session
   else
     for iTmux in $(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}'); do
@@ -253,6 +255,7 @@ function calltmuxcreatewindow() {
   # need xargs to trim spaces
   local modeBackground='f'
   local currentSession=$(tmux display-message -p '#{session_name}')
+  local currentWindow=$(tmux display-message -p '#{window_name}')
   local currentTemplate=$(cat ~/.tmuxdefault | xargs)
 
   while [[ $# -gt 0 ]]; do
@@ -282,13 +285,13 @@ function calltmuxcreatewindow() {
     if [[ $modeBackground == 't' ]]; then
 
       pecho "attached background $currentTemplate"
-      tmux send-keys -t "$currentSession" "t $currentTemplate" Enter
+      tmux send-keys -t "$currentSession:$currentWindow" "t $currentTemplate" Enter
       gecho "$currentTemplate"
 
     else
 
       pecho "attached nobackground $currentTemplate"
-      tmux send-keys -t "$currentSession" "t $currentTemplate" Enter
+      tmux send-keys -t "$currentSession:$currentWindow" "t $currentTemplate" Enter
 
       # need to sleep and delay so tmux can create window to register
       wait
