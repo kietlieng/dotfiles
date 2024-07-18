@@ -5,8 +5,8 @@ windows:
     panes:
       - shell_command:
           - j calert
-          - nvim group.txt
+          - vim dev-aws-*
       - shell_command:
           - j calert
-          - nvim scancerts.py
+          - vim scancerts.py
 
