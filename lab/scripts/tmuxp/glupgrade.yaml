@@ -2,7 +2,10 @@ session_name: pure-$RANDOM_TITLE1
 windows:
   - window_name: s1-$RANDOM_TITLE1
     panes:
-      - jsh glupgrade -u ec2-user
+      - shell_command:
+        - jsh glupgrade -u ec2-user
+        focus: true
   - window_name: s2-$RANDOM_TITLE1
     panes:
+      - jsh glupgrade -u ec2-user
       - jsh glupgrade -u ec2-user
