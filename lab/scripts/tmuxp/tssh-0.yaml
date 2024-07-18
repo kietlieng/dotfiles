@@ -1,4 +1,4 @@
-session_name: ssh-config-$RANDOM_TITLE
+session_name: tssh-$RANDOM_TITLE
 windows:
   - window_name: vicon-$RANDOM_TITLE
     panes:
