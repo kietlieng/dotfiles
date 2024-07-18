@@ -1,7 +1,7 @@
 
-session_name: 3p-$RANDOM_TITLE
+session_name: 3p-$RANDOM_TITLE1
 windows:
-  - window_name: 3p-$RANDOM_TITLE
+  - window_name: 3p-$RANDOM_TITLE1
     layout: even-horizontal
     panes:
       -
@@ -9,4 +9,3 @@ windows:
       -
     options_after:
         synchronize-panes: on
-Q

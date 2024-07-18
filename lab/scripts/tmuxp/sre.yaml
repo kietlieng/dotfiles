@@ -1,6 +1,6 @@
-session_name: sre-$RANDOM_TITLE
+session_name: sre-$RANDOM_TITLE1
 windows:
-  - window_name: sre-$RANDOM_TITLE
+  - window_name: sre-$RANDOM_TITLE1
     layout: even-vertical
     panes:
       - shell_command:
@@ -10,7 +10,7 @@ windows:
           - j sre
           - vim index.js
         focus: true
-  - window_name: srejob-$RANDOM_TITLE
+  - window_name: srejob-$RANDOM_TITLE1
     layout: even-vertical
     panes: 
       - shell_command:

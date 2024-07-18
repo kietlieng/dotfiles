@@ -1,6 +1,6 @@
-session_name: cert-$RANDOM_TITLE
+session_name: cert-$RANDOM_TITLE1
 windows:
-  - window_name: cert-$RANDOM_TITLE
+  - window_name: cert-$RANDOM_TITLE1
     layout: even-vertical
     panes:
       - shell_command:

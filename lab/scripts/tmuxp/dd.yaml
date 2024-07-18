@@ -1,14 +1,14 @@
-session_name: dns-$RANDOM_TITLE
+session_name: dns-$RANDOM_TITLE1
 windows:
-  - window_name: dd-$RANDOM_TITLE
+  - window_name: dd-$RANDOM_TITLE1
     panes:
       - shell_command:
         - j dd
-  - window_name: dp-$RANDOM_TITLE
+  - window_name: dp-$RANDOM_TITLE1
     panes:
       - shell_command:
         - j dp
-  - window_name: dout-$RANDOM_TITLE
+  - window_name: dout-$RANDOM_TITLE1
     panes:
       - shell_command:
         - j dout

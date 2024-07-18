@@ -1,6 +1,6 @@
-session_name: blank-$RANDOM_TITLE
+session_name: blank-$RANDOM_TITLE1
 windows:
-  - window_name: blank-$RANDOM_TITLE
+  - window_name: blank-$RANDOM_TITLE1
     layout: even-vertical
     panes:
       -
