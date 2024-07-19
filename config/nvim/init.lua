@@ -126,11 +126,6 @@ require("lazy").setup({
     { "iamcco/markdown-preview.nvim", build = 'cd app && yarn install' },
 
     -- NAVIGATION ---
-    { "folke/flash.nvim",
-      event = "VeryLazy",
-      opts = {},
-      --config = function() require('lua-flash').setup() end,
-      keys = function() require('lua-flash').keys() end, },
     --{ "kana/vim-smartword" }, -- great for navigation of words with quotes, haven't found a need to use it
     --{ "wellle/targets.vim", config = function() require('targets').setup() end }, -- arguement text objects.  Don't know if I'm using them enough
 
@@ -145,7 +140,6 @@ require("lazy").setup({
     { "nvim-telescope/telescope-fzf-native.nvim", build = 'make', config = function() require('tele').setup() end, },
     { 'nvim-treesitter/nvim-tree-docs' }, -- never got it working
     { "nvim-treesitter/nvim-treesitter", build = ':TSUpdate', config = function() require('treesitter').setup() end, }, -- setup syntax for treesitter
-
 
     { "lewis6991/tree-sitter-tcl", build = 'make' }, -- tcl syntax
     { "williamboman/mason.nvim" },
@@ -247,7 +241,7 @@ require("lazy").setup({
     --{ 'heavenshell/vim-jsdoc', build = 'make install', { 'for': ['javascript', 'javascript.jsx','typescript']  } }, -- for docs
 
     -- useless but fun
-    { "Eandrju/cellular-automaton.nvim" }, -- makes it look like sand droplets
+    --{ "Eandrju/cellular-automaton.nvim" }, -- makes it look like sand droplets
     --{ "tris203/precognition.nvim", config = function() require('lua-precog').setup() end, }, -- experimental.  cool idea.  Needs more characters though
 
 })
@@ -394,11 +388,10 @@ vim.cmd([[
 
 -- COMMAND END
 
-require('lua-flash').start()
 require('snippet-luasnip').setup()                  -- setup snippet engine
 require("luasnip.loaders.from_vscode").lazy_load()  -- lead friendly-snippets support into luasnip
 require('mason-setup').setup()                      -- setup syntax for treesitter
 require('lsp-setup').setup()                        -- setup all lsp
 require('keymap').setup()                           -- key mapping
-require('fun').setup()                              -- useless but fun
-require('theme-dark').setup()                            -- needs to be last
+--require('fun').setup()                              -- useless but fun
+require('theme-gruvbox').setup()                    -- needs to be last

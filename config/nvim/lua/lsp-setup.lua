@@ -14,7 +14,7 @@ function F.setup()
     "ansiblels",
     "awk_ls",
     "bashls",
-    "cssls",
+--    "cssls",
     "docker_compose_language_service",
     "dockerls",
     "html",
@@ -23,7 +23,7 @@ function F.setup()
     "marksman",
     "pyright",
     "terraformls",
-    "tsserver",
+--    "tsserver",
     --"lua_ls",
     --"yamlls",
 

@@ -21,6 +21,7 @@ function F.setup()
 
   vim.cmd([[
 
+    highlight Normal ctermbg=NONE ctermfg=NONE guibg=NONE
     highlight ColorColumn ctermfg=NONE ctermbg=NONE guibg=NONE
     highlight clear SignColumn
     highlight TabLineFill ctermfg=NONE ctermbg=NONE
