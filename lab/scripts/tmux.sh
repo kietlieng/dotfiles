@@ -89,12 +89,19 @@ function t() {
     else
 
       local titleUsed=''
-      # generate title once before using
-      gentitle
-      local firstTitle="$RANDOM_TITLE"
+      # generate title once if it's not available 
+      if [[ $RANDOM_TITLE1 == '' ]]; then
+        gentitle
+      fi
+
+      local firstTitle=''
       for yFile in "${targetFiles[@]}"; do
 
         if [[ $titleUsed ]]; then
+
+          if [[ $firstTitle ]]; then
+            firstTitle=$(tmux display-message -p '#{session_name}')
+          fi
           gentitle
           titleUsed=''
         fi

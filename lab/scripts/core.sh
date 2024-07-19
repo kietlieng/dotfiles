@@ -1032,7 +1032,7 @@ function gecho() {
 # requires wonderword
 function gentitle() {
     
-  local wonderwordadjective=$(wonderwords -w -p adjective)
+  local wonderwordadjective=$(wonderwords -w -p adjective) 
   local wonderwordnoun=$(wonderwords -w -p noun)
 
   export RANDOM_TITLE1="$wonderwordadjective-$wonderwordnoun"
