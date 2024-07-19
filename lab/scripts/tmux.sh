@@ -197,15 +197,18 @@ function tk() {
   # if in tmux 
   if [[ $TMUX ]]; then
     inSession=$(tmux display-message -p '#{session_name}')
+    pecho "Session is |$inSession|"
   fi
 
+  local tsSize=$(tmux ls | wc -l | xargs)
   if [[ $tmuxTarget == "$tmuxDefaultValue" ]] && [[ $modeAll == 'f'  ]]; then
 
     for iTmux in $(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}' | head -n 2); do
 
       if [[ $inSession != $iTmux ]]; then
-        echo "Terminating session ... $currentSession"
-        tmux kill-session
+        pecho "1Terminating session ... $iTmux"
+        echo "Terminating session ... $iTmux"
+        tmux kill-session -t "$iTmux"
         break
       fi
 
@@ -228,6 +231,7 @@ function tk() {
       if [[ $confirmTermination == 't' ]]; then
         
         if [[ $inSession != $iTmux ]]; then
+          pecho "2Terminating session ... $iTmux"
           echo "Terminating session ... $iTmux"
           tmux kill-session -t "$iTmux"
         fi
@@ -236,12 +240,14 @@ function tk() {
     done
   fi
 
-  if [[ $inSession ]]; then
+  # if you have a session token and it's all mode or it's the last one
+  if [[ $inSession ]] && [[ $modeAll == 't' ]] || [[ $tsSize -eq 1 ]]; then
+    pecho "3Terminating session ... $inSession"
     echo "Terminating session ... $inSession"
     tmux kill-session -t "$inSession"
   fi
 
-  local tsSize=$(tmux ls | wc -l | xargs)
+  tsSize=$(tmux ls | wc -l | xargs)
   echo "\nSessions: ($tsSize)"
   tmux ls
 
