@@ -77,12 +77,10 @@ function t() {
     # remove returns and a list with spaces so we can turn into an array
     targetFiles=($(echo "$results" | sed -r 's/\n/ /g'))
 
-    fileSize=${#targetFiles[@]}
+    fileSize=$((${#targetFiles[@]}))
 
     #prinf "targetFiles %s\n" "${targetFiles[@]}"
-    #pecho "filesize $fileSize"
-
-    fileIndex=1
+    pecho "filesize |$fileSize|"
 
     if [[ $fileSize -eq 0 ]]; then
 
@@ -93,9 +91,8 @@ function t() {
       local titleUsed=''
       # generate title once before using
       gentitle
+      local firstTitle="$RANDOM_TITLE"
       for yFile in "${targetFiles[@]}"; do
-
-        #pecho "index is $fileIndex"
 
         if [[ $titleUsed ]]; then
           gentitle
@@ -107,42 +104,32 @@ function t() {
             pecho "$yFile"
         else
 
-          # attach to th elast index only? 
-          if [[ $fileIndex -lt $fileSize ]]; then
+          if [[ $modeDetach == 't' ]]; then
+            pecho "tmuxp load -d \"$yFile\""
+            titleUsed='t'
+            tmuxp load -d "$yFile"
+          else
+            titleUsed='t'
 
-
-            if [[ $modeDetach == 't' ]]; then
-              pecho "tmuxp load -d \"$yFile\""
-              titleUsed='t'
-              tmuxp load -d "$yFile"
+            # if not in a tmux session size is greater than 1, refrain from attaching and create all the sessions first
+            if [[ $TMUX == '' ]] && [[ $fileSize -gt 1 ]]; then
+              pecho "detaching |$TMUX| $fileSize"
+              tmuxp load -d "$yFile" 
             else
-              titleUsed='t'
+              pecho "attaching |$TMUX| $fileSize"
               tmuxp load -a "$yFile" 
             fi
-
-          else
-
-            if [[ $modeDetach == 't' ]]; then
-
-              pecho "begin tmuxp load -d \"$yFile\""
-              titleUsed='t'
-              tmuxp load -d "$yFile"
-
-            else
-
-              pecho "begin tmuxp load -a \"$yFile\"" "RANDOM_TITLE -a \"$yFile\" $RANDOM_TITLE" 
-              titleUsed='t'
-              tmuxp load -a "$yFile"
-
-            fi
-            #pecho "load and attach"
-
           fi
+
         fi
 
-        fileIndex=$((fileIndex + 1))
-
       done
+
+      # attach to the first session
+      if [[ $modeDetach == 'f' ]] && [[ $TMUX == '' ]] && [[ $fileSize -gt 1 ]]; then
+        pecho "attach"
+        tmux attach -t "$firstTitle"
+      fi
 
     fi
 
@@ -169,7 +156,8 @@ function t() {
 function tk() {
    
   local modeAll='f'
-  local tmuxTarget='.*'
+  local tmuxDefaultValue='.*'
+  local tmuxTarget="$tmuxDefaultValue"
   local key=''
 
   while [[ $# -gt 0 ]]; do
@@ -182,7 +170,7 @@ function tk() {
         modeAll='t'
         ;;
       *)
-        tmuxTarget="${tmuxTarget}$key.*"
+        tmuxTarget="${tmuxTarget}${key}${tmuxDefaultValue}"
         ;;
     esac
     
@@ -191,11 +179,21 @@ function tk() {
   pecho "tmuxTarget $tmuxTarget"
   local confirmTermination='f'
   local currentSession=""
-  if [[ $tmuxTarget == '.*' ]] && [[ $modeAll == 'f'  ]]; then
+  local lastSession=''
+
+  # if in tmux 
+  if [[ $TMUX ]]; then
+    lastSession=$(tmux display-message -p '#{session_name}')
+  fi
+
+  if [[ $tmuxTarget == "$tmuxDefaultValue" ]] && [[ $modeAll == 'f'  ]]; then
+
     currentSession=$(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}' | head  -n 1)
     echo "Terminating session ... $currentSession"
     tmux kill-session
+
   else
+
     for iTmux in $(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}'); do
 
       confirmTermination='f'
@@ -209,11 +207,19 @@ function tk() {
       fi
       
       if [[ $confirmTermination == 't' ]]; then
-        echo "Terminating session ... $iTmux"
-        tmux kill-session -t "$iTmux"
+        
+        if [[ $lastSession != $iTmux ]]; then
+          echo "Terminating session ... $iTmux"
+          tmux kill-session -t "$iTmux"
+        fi
       fi
 
     done
+  fi
+
+  if [[ $lastSession ]]; then
+    echo "Terminating session ... $lastSession"
+    tmux kill-session -t "$lastSession"
   fi
 
   echo "\nSessions:"
@@ -224,7 +230,8 @@ function tk() {
 # attach to last session
 function ta() {
 
-  local tmuxTarget='.*'
+  local tmuxDefaultValue='.*'
+  local tmuxTarget="$tmuxDefaultValue"
   local key=''
 
   while [[ $# -gt 0 ]]; do
@@ -234,13 +241,13 @@ function ta() {
 
     case "$key" in
       *)
-        tmuxTarget="${tmuxTarget}$key.*"
+        tmuxTarget="${tmuxTarget}${key}${tmuxDefaultValue}"
         ;;
     esac
     
   done
 
-  if [[ $tmuxTarget == '.*' ]]; then
+  if [[ $tmuxTarget == "$tmuxDefaultValue" ]]; then
     echo "auto attach"
     tmux attach
   else
