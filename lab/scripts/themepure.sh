@@ -73,74 +73,73 @@
 alias dat="da t"
 alias daf="da f"
 
-KL_STATUS_SYMBOL_ARRAY=()
-
-# avant-garde emoji designer
-# other
-#KL_STATUS_SYMBOL_ARRAY+=('(⌐▨ʭ▨)' '(/// -)' '(✖ ‿ ✖)' '𐂠  𐂠 ' '(◔ ‿◔)' '(°‿°)') # Kanye emo up-for-anything double rainbow
-#KL_STATUS_SYMBOL_ARRAY+=('(ᴗ_ ᴗ。)') # sad
-#KL_STATUS_SYMBOL_ARRAY+=('1⌐ࠏ෴ࠏ' '໒2▀෴▀ࠒ' '4t▀෴▀J' '4␦▀෴▀')
-#KL_STATUS_SYMBOL_ARRAY+=('4t▀෴▀J') # kanye west
-KL_STATUS_SYMBOL_ARRAY+=('(⌐󱪶 Ⲻ󱪶 )') # Kanye west
-#KL_STATUS_SYMBOL_ARRAY+=('᯾  ᷄♩⌡ ᷄|' '⺰ ᷄♩⌡ ᷄|' 'ᱭ  ᷄♩ ᷄|' '᱉  ᷄♩ ᷄|' '᱑  ᷄♩ ᷄|' '␦ ᷄♩ ᷄|')
-#KL_STATUS_SYMBOL_ARRAY+=('0_0꧞') # ex-convict
-KL_STATUS_SYMBOL_ARRAY+=('/l- -l' '0_0꧞') # Batman ex-convict
-#KL_STATUS_SYMBOL_ARRAY+=('⎩O_O⎭') # Lego
-KL_STATUS_SYMBOL_ARRAY+=('(⌐〇_〇)') # Harry potter Lego
-#KL_STATUS_SYMBOL_ARRAY+=('〇丷⟦ ⟧) 9000?!') # dragonballz scouter
-KL_STATUS_SYMBOL_ARRAY+=('⟦ ⟧ 9000󱈸?') # dragonballz scouter
-KL_STATUS_SYMBOL_ARRAY+=('(󰹞󰹞-󰽤 )') # transmetropolitan glasses 
-#KL_STATUS_SYMBOL_ARRAY+=('󰽤◝ ఎ ◜󰽤 ') # Owen Wilson
+## avant-garde emoji designer
+## other
+#'(⌐▨ʭ▨)' '(/// -)' '(✖ ‿ ✖)' '𐂠  𐂠 ' '(◔ ‿◔)' '(°‿°)' # Kanye emo up-for-anything double rainbow
+#'(ᴗ_ ᴗ。)' # sad
+#'1⌐ࠏ෴ࠏ' '໒2▀෴▀ࠒ' '4t▀෴▀J' '4␦▀෴▀'
+#'4t▀෴▀J' # kanye west
+#'(⌐󱪶 Ⲻ󱪶 )' # Kanye west
+#'᯾  ᷄♩⌡ ᷄|' '⺰ ᷄♩⌡ ᷄|' 'ᱭ  ᷄♩ ᷄|' '᱉  ᷄♩ ᷄|' '᱑  ᷄♩ ᷄|' '␦ ᷄♩ ᷄|'
+#'0_0꧞' # ex-convict
+#'/l- -l' '0_0꧞' # Batman ex-convict
+#'⎩O_O⎭' # Lego
+#'(⌐〇_〇)' # Harry potter Lego
+#'〇丷⟦ ⟧) 9000?!' # dragonballz scouter
+#'⟦ ⟧ 9000󱈸?' # dragonballz scouter
+#'(󰹞󰹞-󰽤 )' # transmetropolitan glasses 
+#'󰽤◝ ఎ ◜󰽤 ' # Owen Wilson
 
 # ╭╮◝◜◝◜ ◞◟
 # ⟈⟉
 
 # animals
-#KL_STATUS_SYMBOL_ARRAY+=('>++(º>' '><  º>' '彡:⊑>' 'ϵ('Θ')϶' '彡:D') #fish fish-bone squid blowfish jelly fish
-#KL_STATUS_SYMBOL_ARRAY+=('ࡄࡄࡄɅࡄ') #shark fish squid
-#KL_STATUS_SYMBOL_ARRAY+=('~~( )ᢄ:>' '('v')' '\\_O<') # mouse chick duck
-#KL_STATUS_SYMBOL_ARRAY+=(',≘,e' '(｀(●●)´)') # turtle pig
-#KL_STATUS_SYMBOL_ARRAY+=('{O ٧ O}' '@..@' '@ᓆ ' '^. .^') # owl frog snail cat
-#KL_STATUS_SYMBOL_ARRAY+=('Oᨐ O' '@('.')@' '-<(|)O=' 'C@@@ö') # alligator monkey bee caterpiller
-#KL_STATUS_SYMBOL_ARRAY+=('( ;,;)' '꧁ ⸢꧂ ') # spider peacock
-#KL_STATUS_SYMBOL_ARRAY+=('◝◜◝◜ ◞◟') # bats
+#'>++(º>' '><  º>' '彡:⊑>' 'ϵ('Θ')϶' '彡:D' #fish fish-bone squid blowfish jelly fish
+#'ࡄࡄࡄɅࡄ' #shark fish squid
+#'~~( )ᢄ:>' '('v')' '\\_O<' # mouse chick duck
+#',≘,e' '(｀(●●)´)' # turtle pig
+#'{O ٧ O}' '@..@' '@ᓆ ' '^. .^' # owl frog snail cat
+#'Oᨐ O' '@('.')@' '-<(|)O=' 'C@@@ö' # alligator monkey bee caterpiller
+#'( ;,;)' '꧁ ⸢꧂ ' # spider peacock
+#'◝◜◝◜ ◞◟' # bats
 
-# Games
-#KL_STATUS_SYMBOL_ARRAY+=('[+..••]' '(✜..᠅)' '(+[_]᠅)') # nes, snes, vita
-KL_STATUS_SYMBOL_ARRAY+=('[+..••]') # nes
-#KL_STATUS_SYMBOL_ARRAY+=('⊒⟮⑉⑉)﹚୦୦୦') # megaman 
-KL_STATUS_SYMBOL_ARRAY+=("<(-''-)>") # kirby sonic
-#KL_STATUS_SYMBOL_ARRAY+=('𐤔ᜠᜰ_ᯓࡄ󰄰 ' '𐤔ᜠᜰ_ᯓࡄ ' '𐤔ᜠᜰ_ᯓࡄ  ') # sonic
-KL_STATUS_SYMBOL_ARRAY+=('𐤔ᜠᜰ_ᯓࡄ ') # sonic
-KL_STATUS_SYMBOL_ARRAY+=(' ⦿๏ ᯓ㋨') # metroid morph ball
-#KL_STATUS_SYMBOL_ARRAY+=('ଳ ଲ (ˎ ꓹꡳ' 'ଳ ଲ (ˎ󰴗 ꓹꡳ' 'ଳ ଲ (ˎ󱔝 ˏꡳ') # metroids 
-KL_STATUS_SYMBOL_ARRAY+=('p( )ꝯ') # metroids 
-KL_STATUS_SYMBOL_ARRAY+=('♠ ♥ ♦ ♣') # Cards
-#KL_STATUS_SYMBOL_ARRAY+=('󱈸') # metal gear
-#KL_STATUS_SYMBOL_ARRAY+=('[ ][ ][ ][][ ][󰄻 ]') # ninja guiden
-KL_STATUS_SYMBOL_ARRAY+=('█▄▄▀█▄▀▀▀▀▄█▄ ██' ) # tetris
-#KL_STATUS_SYMBOL_ARRAY+=('⭣⭨ ⭢ Ⓗ ' '⭢ ⭨ ⭢ Ⓛ ' '⭣⭩ ⭠ Ⓗ  󰠬 ') # fireball hurricane kick
-KL_STATUS_SYMBOL_ARRAY+=('⭣⭨ ⭢ Ⓗ   ') # street fighter fireball
-KL_STATUS_SYMBOL_ARRAY+=('⭡⭡⭣⭣ ⭠ ⭢ ⭠ ⭢ Ⓑ Ⓐ ') # contra
-KL_STATUS_SYMBOL_ARRAY+=('󰡗 󰡘 󰡙 󰡚 󰡛 󰡜') # chess
-KL_STATUS_SYMBOL_ARRAY+=('󱙜 ᯓ󰮯 ● ᯓ󱙝 ') # pacman
-KL_STATUS_SYMBOL_ARRAY+=('󱠡   ') # rock paper scissors
-KL_STATUS_SYMBOL_ARRAY+=('󱃏 ⸸    ') # zelda
-KL_STATUS_SYMBOL_ARRAY+=('󱩁  ') # strider
-KL_STATUS_SYMBOL_ARRAY+=('ᯓ〛ⱃ⳻)') # mario bullet
-#KL_STATUS_SYMBOL_ARRAY+=('▂▄▆█ ᛩ 凸') # mario castle
-KL_STATUS_SYMBOL_ARRAY+=('▂▄▆█ ᛩ ▗▆▖') # mario castle
-#KL_STATUS_SYMBOL_ARRAY+=('󰮭 ') # mario mushroom
-KL_STATUS_SYMBOL_ARRAY+=(' ⟭ᕲৡࡇ -𒊹𖣇') # r-type
-#KL_STATUS_SYMBOL_ARRAY+=('██▇(〇⪧ ᐊ〇)' '██▇(ᑕl⪧ᐊᑐ)' '██▇(〇⪧ᐊ〇)' '██▇(󱦎 ⪧󱌬 〇)' '██▇(󱈷 ⪧󱌬󰍟〇)' '██▇( ⪧󱌬󰍟 )' '██▇( ⪧ᐊ)')
-#KL_STATUS_SYMBOL_ARRAY+=('██▇▄  ⪧' '██▇▄  ⪧ ' '██▇▄    ' '██▇▄  ⪧ ' '██▇▄   ' '██▇▄▁  ⪧ ' '██▇▄▁ 󱦎  ᐊ ')
-#KL_STATUS_SYMBOL_ARRAY+=('██▇▄▁  ⪧︺⦅ ' '██▇▄▁ ◖ꩺ⪧꜠⦅ ' '█▄▁  ⪧꜠⦅' '█▄▁  ⪧꜠⦅ ' '█▄▁  ⪧꜠⦅ ' '█▄▁  ⪧ꛢ ' '█▄▁  ⪧꜃꜇⦅ ')
-#KL_STATUS_SYMBOL_ARRAY+=('█▄▁  ⪧乛⦅ ' '█▄▁  ⪧乛⦅ ' '█▄▁  ⪧ ⸋⦅⏾' '█▄▁  ⪧乛⦅⏾' '█▄▁  ⪧乙⏾' '██▇▄▁  ⪧< ' '██▇▄▁  ⪧𐏓 ')
-#KL_STATUS_SYMBOL_ARRAY+=('█▄▁  ⪧ꣻ꣼⦅ ' '█▄▁  ⪧龴⦅⏾') # Tron lightcycle
-KL_STATUS_SYMBOL_ARRAY+=('█▄▁  l▷乀龴𐌂𝇋') # Tron lightcycle
-#KL_STATUS_SYMBOL_ARRAY+=('ᚍᚎᚏ◝◜ᚏ◝◜ᚏᚏᚏ') # bats
+## Games
+#'[+..••]' '(✜..᠅)' '(+[_]᠅)' # nes, snes, vita
+#'[+..••]' # nes
+#'⊒⟮⑉⑉)﹚୦୦୦' # megaman 
+#"<(-''-)>" # kirby sonic
+#'𐤔ᜠᜰ_ᯓࡄ󰄰 ' '𐤔ᜠᜰ_ᯓࡄ ' '𐤔ᜠᜰ_ᯓࡄ  ' # sonic
+#'𐤔ᜠᜰ_ᯓࡄ ' # sonic
+#' ⦿๏ ᯓ㋨' # metroid morph ball
+#'ଳ ଲ (ˎ ꓹꡳ' 'ଳ ଲ (ˎ󰴗 ꓹꡳ' 'ଳ ଲ (ˎ󱔝 ˏꡳ' # metroids 
+#'p( )ꝯ' # metroids 
+#'♠ ♥ ♦ ♣' # Cards
+#'󱈸' # metal gear
+#'[ ][ ][ ][][ ][󰄻 ]' # ninja guiden
+#'█▄▄▀█▄▀▀▀▀▄█▄ ██'  # tetris
+#'⭣⭨ ⭢ Ⓗ ' '⭢ ⭨ ⭢ Ⓛ ' '⭣⭩ ⭠ Ⓗ  󰠬 ' # fireball hurricane kick
+#'⭣⭨ ⭢ Ⓗ   ' # street fighter fireball
+#'⭡⭡⭣⭣ ⭠ ⭢ ⭠ ⭢ Ⓑ Ⓐ ' # contra
+#'󰡗 󰡘 󰡙 󰡚 󰡛 󰡜' # chess
+#'󱙜 ᯓ󰮯 ● ᯓ󱙝 ' # pacman
+#'󱠡   ' # rock paper scissors
+#'󱃏 ⸸    ' # zelda
+#'󱩁  ' # strider
+#'ᯓ〛ⱃ⳻)' # mario bullet
+#'▂▄▆█ ᛩ 凸' # mario castle
+#'▂▄▆█ ᛩ ▗▆▖' # mario castle
+#'󰮭 ' # mario mushroom
+#' ⟭ᕲৡࡇ -𒊹𖣇' # r-type
+#'██▇(〇⪧ ᐊ〇)' '██▇(ᑕl⪧ᐊᑐ)' '██▇(〇⪧ᐊ〇)' '██▇(󱦎 ⪧󱌬 〇)' '██▇(󱈷 ⪧󱌬󰍟〇)' '██▇( ⪧󱌬󰍟 )' '██▇( ⪧ᐊ)'
+#'██▇▄  ⪧' '██▇▄  ⪧ ' '██▇▄    ' '██▇▄  ⪧ ' '██▇▄   ' '██▇▄▁  ⪧ ' '██▇▄▁ 󱦎  ᐊ '
+#'██▇▄▁  ⪧︺⦅ ' '██▇▄▁ ◖ꩺ⪧꜠⦅ ' '█▄▁  ⪧꜠⦅' '█▄▁  ⪧꜠⦅ ' '█▄▁  ⪧꜠⦅ ' '█▄▁  ⪧ꛢ ' '█▄▁  ⪧꜃꜇⦅ '
+#'█▄▁  ⪧乛⦅ ' '█▄▁  ⪧乛⦅ ' '█▄▁  ⪧ ⸋⦅⏾' '█▄▁  ⪧乛⦅⏾' '█▄▁  ⪧乙⏾' '██▇▄▁  ⪧< ' '██▇▄▁  ⪧𐏓 '
+#'█▄▁  ⪧ꣻ꣼⦅ ' '█▄▁  ⪧龴⦅⏾' # Tron lightcycle
+#'█▄▁  l▷乀龴𐌂𝇋' # Tron lightcycle
+#'ᚍᚎᚏ◝◜ᚏ◝◜ᚏᚏᚏ' # bats
 
 
+KL_STATUS_SYMBOL_ARRAY+=('(⌐󱪶 Ⲻ󱪶 )' '/l- -l' '0_0꧞' '(⌐〇_〇)' '⟦ ⟧ 9000󱈸?' '(󰹞󰹞-󰽤 )' '[+..••]' '<(-''-)>' '𐤔ᜠᜰ_ᯓࡄ ' ' ⦿๏ ᯓ㋨' 'p( )ꝯ' '♠ ♥ ♦ ♣' '█▄▄▀█▄▀▀▀▀▄█▄ ██' '⭣⭨ ⭢ Ⓗ   ' '⭡⭡⭣⭣ ⭠ ⭢ ⭠ ⭢ Ⓑ Ⓐ ' '󰡗 󰡘 󰡙 󰡚 󰡛 󰡜' '󱙜 ᯓ󰮯 ● ᯓ󱙝 ' '󱠡   ' '󱃏 ⸸    ' '󱩁  ' 'ᯓ〛ⱃ⳻)' '▂▄▆█ ᛩ ▗▆▖' ' ⟭ᕲৡࡇ -𒊹𖣇' '█▄▁  l▷乀龴𐌂𝇋')
 
 # ⸸
 # 🮫🮪 ￣▔⎺⎻‐‑‒–—―  ⦚ ⸏⸐⸑ ━┯━ 
@@ -174,27 +173,25 @@ KL_STATUS_SYMBOL_ARRAY+=('█▄▁  l▷乀龴𐌂𝇋') # Tron lightcycl
 # 龴 龸 ⸙o丷o
 
 # objects
-#KL_STATUS_SYMBOL_ARRAY+=('/7\\' '(◍_ᑢᑝ_◍)') # tent austin martin
-#KL_STATUS_SYMBOL_ARRAY+=('(◍_ᑢᑝ_◍)') # austin martin
-#KL_STATUS_SYMBOL_ARRAY+=('[̲̅$̲̅(̲̅1)̲̅$̲̅]' '[̲̅$̲̅(̲̅2ο̲̅̅)̲̅$̲̅]') # money
-#KL_STATUS_SYMBOL_ARRAY+=('༽v༼' 'ࡄ' '-᮵ - ⟁' '-[]-࠽' 'ᝑഽட৲')
-#KL_STATUS_SYMBOL_ARRAY+=('၇ ဨ ၆ ၎')
-#KL_STATUS_SYMBOL_ARRAY+=('❰⬡ ❱(᪥)❱' 'ᓭTա Tᓮ')
-#KL_STATUS_SYMBOL_ARRAY+=('⎇ ⌥' '⋢⋣ ' ' ᱑ ፲፲ᗍ Ꮬ ෴  ߸߸ ' ' உ =<< -_')
-#KL_STATUS_SYMBOL_ARRAY+=(' ᷄𓂏  ᷄' '|🝙|' '⌡' 'Ⳏ' '◍𓂏 ◍' '|🝙|' '⌡' 'Ⳏ')
-#KL_STATUS_SYMBOL_ARRAY+=('ᑕ||ᑐ') # spam masubi?
+#'/7\\' '(◍_ᑢᑝ_◍)' # tent austin martin
+#'(◍_ᑢᑝ_◍)' # austin martin
+#'[̲̅$̲̅(̲̅1)̲̅$̲̅]' '[̲̅$̲̅(̲̅2ο̲̅̅)̲̅$̲̅]' # money
+#'༽v༼' 'ࡄ' '-᮵ - ⟁' '-[]-࠽' 'ᝑഽட৲'
+#'၇ ဨ ၆ ၎'
+#'❰⬡ ❱(᪥)❱' 'ᓭTա Tᓮ'
+#'⎇ ⌥' '⋢⋣ ' ' ᱑ ፲፲ᗍ Ꮬ ෴  ߸߸ ' ' உ =<< -_'
+#' ᷄𓂏  ᷄' '|🝙|' '⌡' 'Ⳏ' '◍𓂏 ◍' '|🝙|' '⌡' 'Ⳏ'
+#'ᑕ||ᑐ' # spam masubi?
 
 # MISC
-#KL_STATUS_SYMBOL_ARRAY+=('8[+]' '>(///)<' '(::[]::)' '⋢⋣') # present candy bandaide battery
+#KL_STATUS_SYMBOL_ARRAY+=('8[+]' '>(///)<' '(::[]::)' '⋢⋣' # present candy bandaide battery
 
 # emoji support
 
-KL_STATUS_COLOR_SUCCESS_ARRAY=()
-KL_STATUS_COLOR_SUCCESS_ARRAY+=(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 55 56 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 198 199 200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 217 218 219 220 221 222 223 224 225 226 227 228 229 230 231 247 248 249 250 251 252 253 254 255 255)
+#KL_STATUS_COLOR_SUCCESS_ARRAY=(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 55 56 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 198 199 200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 217 218 219 220 221 222 223 224 225 226 227 228 229 230 231 247 248 249 250 251 252 253 254 255 255)
 #KL_STATUS_COLOR_SUCCESS_ARRAY=(10 85 114 193)
 KL_STATUS_COLOR_SUCCESS_ARRAY=(48)
-KL_STATUS_COLOR_ERROR_ARRAY=()
-KL_STATUS_COLOR_ERROR_ARRAY+=(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 55 56 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 198 199 200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 217 218 219 220 221 222 223 224 225 226 227 228 229 230 231 247 248 249 250 251 252 253 254 255 255)
+#KL_STATUS_COLOR_ERROR_ARRAY=(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 55 56 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 198 199 200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 217 218 219 220 221 222 223 224 225 226 227 228 229 230 231 247 248 249 250 251 252 253 254 255 255)
 KL_STATUS_COLOR_ERROR_ARRAY=(red)
 #KL_STATUS_COLOR_ERROR_ARRAY+=("magenta" "green" "cyan" "red" "white" "blue")
 

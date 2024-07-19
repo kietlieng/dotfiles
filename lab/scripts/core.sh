@@ -1093,17 +1093,9 @@ function gecho() {
 # requires wonderword
 function gentitle() {
     
-  local wonderwordadjective=($(wonderwords -w -p adjective))
-  wonderwordadjective+=($(wonderwords -w -p adjective))
-  wonderwordadjective+=($(wonderwords -w -p adjective))
-  wonderwordadjective+=($(wonderwords -w -p adjective))
-  wonderwordadjective+=($(wonderwords -w -p adjective))
+  local wonderwordadjective=($(wonderwords -w -p adjective) $(wonderwords -w -p adjective) $(wonderwords -w -p adjective) $(wonderwords -w -p adjective) $(wonderwords -w -p adjective))
 
-  local wonderwordnoun=($(wonderwords -w -p noun))
-  wonderwordnoun+=($(wonderwords -w -p noun))
-  wonderwordnoun+=($(wonderwords -w -p noun))
-  wonderwordnoun+=($(wonderwords -w -p noun))
-  wonderwordnoun+=($(wonderwords -w -p noun))
+  local wonderwordnoun=($(wonderwords -w -p noun) $(wonderwords -w -p noun) $(wonderwords -w -p noun) $(wonderwords -w -p noun) $(wonderwords -w -p noun))
 
   export RANDOM_TITLE1=$wonderwordadjective[1]-$wonderwordnoun[1]
   export RANDOM_TITLE2=$wonderwordadjective[2]-$wonderwordnoun[2]
