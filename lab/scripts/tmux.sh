@@ -90,23 +90,33 @@ function t() {
 
     else
 
+      local titleUsed=''
+      # generate title once before using
+      gentitle
       for yFile in "${targetFiles[@]}"; do
 
         #pecho "index is $fileIndex"
+
+        if [[ $titleUsed ]]; then
+          gentitle
+          titleUsed=''
+        fi
+
 
         if [[ $listMatches == 't' ]]; then
             pecho "$yFile"
         else
 
-          gentitle
           # attach to th elast index only? 
           if [[ $fileIndex -lt $fileSize ]]; then
 
 
             if [[ $modeDetach == 't' ]]; then
               pecho "tmuxp load -d \"$yFile\""
+              titleUsed='t'
               tmuxp load -d "$yFile"
             else
+              titleUsed='t'
               tmuxp load -a "$yFile" 
             fi
 
@@ -115,12 +125,13 @@ function t() {
             if [[ $modeDetach == 't' ]]; then
 
               pecho "begin tmuxp load -d \"$yFile\""
+              titleUsed='t'
               tmuxp load -d "$yFile"
 
             else
 
-              pecho "begin tmuxp load -a \"$yFile\"" 
-              pecho "RANDOM_TITLE -a \"$yFile\" $RANDOM_TITLE" 
+              pecho "begin tmuxp load -a \"$yFile\"" "RANDOM_TITLE -a \"$yFile\" $RANDOM_TITLE" 
+              titleUsed='t'
               tmuxp load -a "$yFile"
 
             fi

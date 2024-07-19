@@ -86,7 +86,6 @@ function fzfpreview() {
 
 }
 
-
 function xtmp() {
 
   local tempResults=$(fzfpreview /tmp)
@@ -1017,18 +1016,8 @@ function catcp() {
 # put echo into file
 function pecho() {
 
-  local message=""
-  key=''
-
-  while [[ $# -gt 0 ]]; do
-
-    message="$message $1"
-    shift
-    
-  done
-
-  local fname="${funcstack[2]}"
-  echo "$fname:$message" >> /tmp/log-gecho
+  local fname="${funcstack[2]} $@"
+  echo "$fname" >> /tmp/log-gecho
 
 }
 
@@ -1043,15 +1032,10 @@ function gecho() {
 # requires wonderword
 function gentitle() {
     
-  local wonderwordadjective=($(wonderwords -w -p adjective) $(wonderwords -w -p adjective) $(wonderwords -w -p adjective) $(wonderwords -w -p adjective) $(wonderwords -w -p adjective))
+  local wonderwordadjective=$(wonderwords -w -p adjective)
+  local wonderwordnoun=$(wonderwords -w -p noun)
 
-  local wonderwordnoun=($(wonderwords -w -p noun) $(wonderwords -w -p noun) $(wonderwords -w -p noun) $(wonderwords -w -p noun) $(wonderwords -w -p noun))
-
-  export RANDOM_TITLE1=$wonderwordadjective[1]-$wonderwordnoun[1]
-  export RANDOM_TITLE2=$wonderwordadjective[2]-$wonderwordnoun[2]
-  export RANDOM_TITLE3=$wonderwordadjective[3]-$wonderwordnoun[3]
-  export RANDOM_TITLE4=$wonderwordadjective[4]-$wonderwordnoun[4]
-  export RANDOM_TITLE5=$wonderwordadjective[5]-$wonderwordnoun[5]
+  export RANDOM_TITLE1="$wonderwordadjective-$wonderwordnoun"
 
   if [[ $# -gt 0 ]]; then
     echo $RANDOM_TITLE1
