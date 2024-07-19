@@ -4,8 +4,6 @@ alias cl="c -"
 alias cy="c y"
 alias jote="jot -query ''"
 alias lint="yamllint "
-alias siteblock="hfile"
-alias siteunblock="hfile unblock"
 alias xd="x -cd"
 alias xl="x -l"
 
@@ -720,54 +718,6 @@ function xscript() {
   cd $currentPWD
 
 #    command! -bang -nargs=* Rg call fzf#vim#grep("rg --column -i --context 4 --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>) . " " . @r, 1, { "options": '--delimiter : --nth 4..' }, <bang>0) "" new bang command that searches the current file directory or register r.  This allows for us to change the register value to whatever we want
-
-}
-
-# host file unblock
-function hfile() {
-
-  reverse='f'
-
-  while [[ $# -gt 0 ]];
-  do
-      key="$1"
-      case $key in
-          'unblock' ) # reverse code
-              reverse='t'
-              shift
-              ;;
-          * )
-              shift
-              ;;
-      esac
-  done
-
-  searchArray=()
-  searchArray+=("127.0.0.1 old.reddit.com www.reddit.com reddit.com")
-  searchSize=$((${#searchArray[@]} + 1))
-
-  searchIndex=1
-  while [[ $searchIndex -lt $searchSize ]];
-  do
-
-      searchString="${searchArray[$searchIndex]}"
-      if [[ $reverse = 't' ]]; then
-
-          echo "unblock sudo sed -i '' -E \"s/^$searchString/#$searchString/g\" /etc/hosts"
-          sudo sed -i '' -E "s/^$searchString/#$searchString/g" /etc/hosts
-
-      else
-
-
-          echo "block sudo sed -i '' -E \"s/^#$searchString/$searchString/g\" /etc/hosts"
-          sudo sed -i '' -E "s/^#$searchString/$searchString/g" /etc/hosts
-
-      fi
-      searchIndex=$(($searchIndex + 1))
-
-  done
-
-  cat /etc/hosts
 
 }
 
