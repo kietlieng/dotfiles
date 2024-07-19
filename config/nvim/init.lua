@@ -85,19 +85,19 @@ set.rtp:prepend(lazypath)
 require("lazy").setup({
 
     -- gitlab duo 
-    {
-      'git@gitlab.com:gitlab-org/editor-extensions/gitlab.vim.git',
-        event = { 'BufReadPre', 'BufNewFile' }, -- Activate when a file is created/opened
-        ft = { 'go', 'javascript', 'python', 'ruby', 'bash' }, -- Activate when a supported filetype is open
-        cond = function()
---          return vim.env.GITLAB_TOKEN ~= nil and vim.env.GITLAB_TOKEN ~= '' -- Only activate if token is present in environment variable (remove to use interactive workflow)
-        end,
-        opts = {
-          statusline = {
-            enabled = true, -- Hook into the builtin statusline to indicate the status of the GitLab Duo Code Suggestions integration
-          },
-        },
-      },
+--    {
+--      'git@gitlab.com:gitlab-org/editor-extensions/gitlab.vim.git',
+--        event = { 'BufReadPre', 'BufNewFile' }, -- Activate when a file is created/opened
+--        ft = { 'go', 'javascript', 'python', 'ruby', 'bash' }, -- Activate when a supported filetype is open
+--        cond = function()
+----          return vim.env.GITLAB_TOKEN ~= nil and vim.env.GITLAB_TOKEN ~= '' -- Only activate if token is present in environment variable (remove to use interactive workflow)
+--        end,
+--        opts = {
+--          statusline = {
+--            enabled = true, -- Hook into the builtin statusline to indicate the status of the GitLab Duo Code Suggestions integration
+--          },
+--        },
+--      },
 
 
     -- syntax zellij
@@ -134,7 +134,7 @@ require("lazy").setup({
     { "ryanoasis/vim-devicons" }, -- icons for plugin
     { "nvim-tree/nvim-web-devicons" }, -- icons to plugins
     { "nvim-lua/plenary.nvim" }, -- no idea what this does but it's required by other plugins
---    { "ThePrimeagen/harpoon", config = function() require('lua-harpoon').setup() end, }, -- navigation.  Not really using it 
+    --{ "ThePrimeagen/harpoon", config = function() require('lua-harpoon').setup() end, }, -- navigation.  Not really using it 
     { "nvim-telescope/telescope.nvim", tag = '0.1.3' },
     { "nvim-telescope/telescope-file-browser.nvim", dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }, config = function() require('lua-tele-file-browser').setup() end,  },
     { "nvim-telescope/telescope-fzf-native.nvim", build = 'make', config = function() require('tele').setup() end, },
@@ -161,7 +161,7 @@ require("lazy").setup({
         { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
         { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
         { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
---        { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+        { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
       },
     },
 
@@ -200,16 +200,16 @@ require("lazy").setup({
     -- { "challenger-deep-theme/vim" },                                                                               -- everything is too bright
     -- { "embark-theme/vim", as = 'embark' },                                                                         -- looks good but not functional
     -- { "ghifarit53/tokyonight-vim" },
-    -- { "hardcoreplayers/oceanic-material", config = function() require('oceanic-material').setup() end },           -- meh
+    -- { "hardcoreplayers/oceanic-material", config = function() require('theme-oceanic-material').setup() end },           -- meh
     -- { "olimorris/onedarkpro.nvim", priority = 1000 },
-    -- { "sainnhe/gruvbox-material", config = function() require('g-material').setup() end },
+    -- { "sainnhe/gruvbox-material", config = function() require('theme-material').setup() end },
     -- { "tjdevries/colorbuddy.vim" }, { "tjdevries/gruvbuddy.nvim" },                                                -- don't really like
     -- { "xero/miasma.nvim", lazy = false, priority = 1000, config = function() vim.cmd("colorscheme miasma") end, }, -- way too gloomy
     -- { "morhetz/gruvbox", config = function() require('gruvbox').setup() end  },                                    -- it's morhetz fork but with support },
     -- { "GlennLeo/cobalt2", config = function() require('theme-cobalt2').setup() end },                              -- try it
     -- { "diegoulloao/neofusion.nvim", config = function() require('theme-neofusion').setup() end  }, -- too dark
 
-    { "gruvbox-community/gruvbox", config = function() require('theme-gruvbox').setup() end  }, -- it's morhetz fork but with support.  Best thing around
+    { "gruvbox-community/gruvbox" }, -- it's morhetz fork but with support.  Best thing around
 --    { "joshdick/onedark.vim", config = function() require('theme-onedark').setup() end  }, -- it's morhetz fork but with support.  Best thing around
 
 
@@ -242,7 +242,6 @@ require("lazy").setup({
 
     -- useless but fun
     --{ "Eandrju/cellular-automaton.nvim" }, -- makes it look like sand droplets
-    --{ "tris203/precognition.nvim", config = function() require('lua-precog').setup() end, }, -- experimental.  cool idea.  Needs more characters though
 
 })
 
