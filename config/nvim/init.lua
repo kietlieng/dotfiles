@@ -212,31 +212,10 @@ require("lazy").setup({
     { "gruvbox-community/gruvbox" }, -- it's morhetz fork but with support.  Best thing around
 --    { "joshdick/onedark.vim", config = function() require('theme-onedark').setup() end  }, -- it's morhetz fork but with support.  Best thing around
 
-
---    {
---      "folke/noice.nvim",
---      event = "VeryLazy",
---      opts = {
---        -- add any options here
---      },
---      dependencies = {
---        -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
---        "MunifTanjim/nui.nvim",
---        -- OPTIONAL:
---        --   `nvim-notify` is only needed, if you want to use the notification view.
---        --   If not available, we use `mini` as the fallback
---        "rcarriga/nvim-notify",
---      },
---      config = function() require('noice-lua').setup() end,
---    },
-
-
-    -- messes with current customization settings.  Will try again later. mini suite of modules that might me handy
+    -- messes with current customization settings.  Will try again later. mini suite of modules that might be handy
     -- { 'echasnovski/mini.nvim', version = false, config = function() require('mini').setup() end, },
 
-
     -- not enabled but has potential
-
     -- all in one lsp / prettier / diagnostics--{ "nvimtools/none-ls.nvim", config = function() require('none-ls').setup() end, requires = { "nvim-lua/plenary.nvim" } }, -- community supported null-ls.  Haven't really used it
     --{ 'heavenshell/vim-jsdoc', build = 'make install', { 'for': ['javascript', 'javascript.jsx','typescript']  } }, -- for docs
 
