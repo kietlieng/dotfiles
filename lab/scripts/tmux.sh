@@ -203,12 +203,12 @@ function tk() {
   local tsSize=$(tmux ls | wc -l | xargs)
   if [[ $tmuxTarget == "$tmuxDefaultValue" ]] && [[ $modeAll == 'f'  ]]; then
 
-    for iTmux in $(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}' | head -n 2); do
+    for iTmuxSession in $(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}' | head -n 2); do
 
-      if [[ $inSession != $iTmux ]]; then
-        pecho "1Terminating session ... $iTmux"
-        echo "Terminating session ... $iTmux"
-        tmux kill-session -t "$iTmux"
+      if [[ $inSession != $iTmuxSession ]]; then
+        pecho "1Terminating session ... $iTmuxSession"
+        echo "Terminating session ... $iTmuxSession"
+        tmux kill-session -t "$iTmuxSession"
         break
       fi
 
@@ -216,31 +216,31 @@ function tk() {
 
   else
 
-    for iTmux in $(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}'); do
+    for iTmuxSession in $(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}'); do
 
       confirmTermination='f'
-      pecho "iTmux $iTmux"
+      pecho "iTmux $iTmuxSession"
       pecho "tmuxTarget $tmuxTarget"
       if [[ $modeAll == 't' ]]; then
         confirmTermination='t'
-      elif [[ $(echo "$iTmux" | grep -i "$tmuxTarget") ]]; then
+      elif [[ $(echo "$iTmuxSession" | grep -i "$tmuxTarget") ]]; then
         pecho "grep confirmed kill"
         confirmTermination='t'
       fi
       
       if [[ $confirmTermination == 't' ]]; then
         
-        if [[ $inSession != $iTmux ]]; then
-          pecho "2Terminating session ... $iTmux"
-          echo "Terminating session ... $iTmux"
-          tmux kill-session -t "$iTmux"
+        if [[ $inSession != $iTmuxSession ]]; then
+          pecho "2Terminating session ... $iTmuxSession"
+          echo "Terminating session ... $iTmuxSession"
+          tmux kill-session -t "$iTmuxSession"
         fi
       fi
 
     done
   fi
 
-  # if you have a session token and it's all mode or it's the last one
+  # if you have a session token and it's all mode or it's the last one then kill itself
   if [[ $inSession ]] && [[ $modeAll == 't' ]] || [[ $tsSize -eq 1 ]]; then
     pecho "3Terminating session ... $inSession"
     echo "Terminating session ... $inSession"
@@ -280,17 +280,17 @@ function ta() {
   if [[ $tmuxTarget == "$tmuxDefaultValue" ]]; then
     echo "auto attach"
     if [[ $modeFirst ]]; then
-      for iTmux in $(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}'); do
-        tmux attach -t "$iTmux"
+      for iTmuxSession in $(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}'); do
+        tmux attach -t "$iTmuxSession"
         break
       done
     else
       tmux attach
     fi
   else
-    for iTmux in $(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}'); do
-      if [[ $(echo "$iTmux" | grep -i "$tmuxTarget") ]]; then
-        tmux attach -t "$iTmux"
+    for iTmuxSession in $(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}'); do
+      if [[ $(echo "$iTmuxSession" | grep -i "$tmuxTarget") ]]; then
+        tmux attach -t "$iTmuxSession"
         break
       fi
 
