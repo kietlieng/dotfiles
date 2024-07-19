@@ -1,6 +1,7 @@
 alias T='t -d'
 alias TM='t -d main'
 alias TT='t -d -t'
+alias tA='ta -f'
 alias tdisplayoptions='tmux display-message -a | fzf'
 alias tka="tk -a"
 alias tm1='tmux new-session'
@@ -251,6 +252,7 @@ function ta() {
 
   local tmuxDefaultValue='.*'
   local tmuxTarget="$tmuxDefaultValue"
+  local modeFirst=''
   local key=''
 
   while [[ $# -gt 0 ]]; do
@@ -259,6 +261,9 @@ function ta() {
     shift
 
     case "$key" in
+      '-f')
+        modeFirst='t'
+        ;;
       *)
         tmuxTarget="${tmuxTarget}${key}${tmuxDefaultValue}"
         ;;
@@ -268,7 +273,14 @@ function ta() {
 
   if [[ $tmuxTarget == "$tmuxDefaultValue" ]]; then
     echo "auto attach"
-    tmux attach
+    if [[ $modeFirst ]]; then
+      for iTmux in $(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}'); do
+        tmux attach -t "$iTmux"
+        break
+      done
+    else
+      tmux attach
+    fi
   else
     for iTmux in $(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}'); do
       if [[ $(echo "$iTmux" | grep -i "$tmuxTarget") ]]; then
