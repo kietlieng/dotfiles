@@ -98,26 +98,25 @@ function t() {
       for yFile in "${targetFiles[@]}"; do
 
         if [[ $titleUsed ]]; then
-
+          sleep .5
           if [[ $firstTitle ]]; then
             firstTitle=$(tmux display-message -p '#{session_name}')
           fi
           gentitle
           titleUsed=''
         fi
+        pecho "RANDOM_TITLE $RANDOM_TITLE1"
 
 
         if [[ $listMatches == 't' ]]; then
-            pecho "$yFile"
+            echo "$yFile"
         else
 
+          titleUsed='t'
           if [[ $modeDetach == 't' ]]; then
             pecho "tmuxp load -d \"$yFile\""
-            titleUsed='t'
             tmuxp load -d "$yFile"
           else
-            titleUsed='t'
-
             # if not in a tmux session size is greater than 1, refrain from attaching and create all the sessions first
             if [[ $TMUX == '' ]] && [[ $fileSize -gt 1 ]]; then
               pecho "detaching |$TMUX| $fileSize"
@@ -131,6 +130,11 @@ function t() {
         fi
 
       done
+
+      if [[ $titleUsed ]]; then
+        sleep .5
+        gentitle
+      fi
 
       # attach to the first session
       if [[ $modeDetach == 'f' ]] && [[ $TMUX == '' ]] && [[ $fileSize -gt 1 ]]; then
@@ -150,7 +154,8 @@ function t() {
 
     echo "\nLoading $loadDir"
     ls "$loadDir"
-    echo "\nSessions:"
+    local tsSize=$(tmux ls | wc -l | xargs)
+    echo "\nSessions: ($tsSize)"
     tmux ls
     echo -n "\ntmux default: "
     cat ~/.tmuxdefault
@@ -186,18 +191,24 @@ function tk() {
   pecho "tmuxTarget $tmuxTarget"
   local confirmTermination='f'
   local currentSession=""
-  local lastSession=''
+  local inSession=''
 
   # if in tmux 
   if [[ $TMUX ]]; then
-    lastSession=$(tmux display-message -p '#{session_name}')
+    inSession=$(tmux display-message -p '#{session_name}')
   fi
 
   if [[ $tmuxTarget == "$tmuxDefaultValue" ]] && [[ $modeAll == 'f'  ]]; then
 
-    currentSession=$(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}' | head  -n 1)
-    echo "Terminating session ... $currentSession"
-    tmux kill-session
+    for iTmux in $(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}' | head -n 2); do
+
+      if [[ $inSession != $iTmux ]]; then
+        echo "Terminating session ... $currentSession"
+        tmux kill-session
+        break
+      fi
+
+    done
 
   else
 
@@ -215,7 +226,7 @@ function tk() {
       
       if [[ $confirmTermination == 't' ]]; then
         
-        if [[ $lastSession != $iTmux ]]; then
+        if [[ $inSession != $iTmux ]]; then
           echo "Terminating session ... $iTmux"
           tmux kill-session -t "$iTmux"
         fi
@@ -224,12 +235,13 @@ function tk() {
     done
   fi
 
-  if [[ $lastSession ]]; then
-    echo "Terminating session ... $lastSession"
-    tmux kill-session -t "$lastSession"
+  if [[ $inSession ]]; then
+    echo "Terminating session ... $inSession"
+    tmux kill-session -t "$inSession"
   fi
 
-  echo "\nSessions:"
+  local tsSize=$(tmux ls | wc -l | xargs)
+  echo "\nSessions: ($tsSize)"
   tmux ls
 
 }
@@ -309,20 +321,20 @@ function calltmuxcreatewindow() {
 
     if [[ $modeBackground == 't' ]]; then
 
-      pecho "attached background $currentTemplate"
+      pecho "attached background t:$currentTemplate s:$currentSession w:$currentWindow"
       tmux send-keys -t "$currentSession:$currentWindow" "t $currentTemplate" Enter
       gecho "$currentTemplate"
 
     else
 
-      pecho "attached nobackground $currentTemplate"
+      pecho "attached nobackground t:$currentTemplate s:$currentSession w:$currentWindow"
       tmux send-keys -t "$currentSession:$currentWindow" "t $currentTemplate" Enter
 
       # need to sleep and delay so tmux can create window to register
       wait
       sleep 1
       local newIndex=$(tmux list-windows -t "$currentSession" | tail -n 1 | awk -F':' '{ print $1 }')
-      pecho "new index is $newIndex"
+      pecho "new index is $newIndex $currentSession:$newIndex"
       tmux select-window -t "$currentSession:$newIndex"
       pecho "tmux select-window -t \"$currentSession:$newIndex\""
 
