@@ -1,6 +1,7 @@
 alias T='t -d'
 alias TM='t -d main'
 alias TT='t -d -t'
+alias TE='t -d -t -embed'
 alias tA='ta -f'
 alias tdisplayoptions='tmux display-message -a | fzf'
 alias tka="tk -a"
@@ -16,6 +17,7 @@ alias tmv2='tmux new-session \; split-window -h \; select-pane -L \; set-window-
 alias tmv3='tmux new-session \; split-window -h \; split-window -h \; select-pane -R \; set-window-option synchronize-panes on \; select-layout even-horizontal \; attach'
 alias tsource="tmux source ~/.tmux.conf"
 alias tt='t -t'
+alias te='t -t -embed'
 
 
 function tl() {
@@ -25,12 +27,14 @@ function tl() {
 
 function t() {
 
-  local loadTarget=""
+  local loadTarget=''
   local loadDir=~/lab/scripts/tmuxp
-  local listMatches='f'
+  local listMatches=''
+  local titleUsed=''
 
-  local modeDetach='f'
-  local modeTemplate='f'
+  local modeDetach=''
+  local modeEmbed=''
+  local modeTemplate=''
 
   local currentTemplate=$(cat ~/.tmuxdefault | xargs)
 
@@ -48,6 +52,11 @@ function t() {
         ;;
       '-t' ) 
         modeTemplate='t'
+        shift
+        ;;
+      '-embed' ) 
+        unset TMUX
+        modeEmbed='t'
         shift
         ;;
       *)
@@ -89,7 +98,6 @@ function t() {
 
     else
 
-      local titleUsed=''
       # generate title once if it's not available 
       if [[ $RANDOM_TITLE1 == '' ]]; then
         gentitle
@@ -98,18 +106,10 @@ function t() {
       local firstTitle=''
       for yFile in "${targetFiles[@]}"; do
 
-        if [[ $titleUsed ]]; then
-          sleep .5
-          if [[ $firstTitle ]]; then
-            firstTitle=$(tmux display-message -p '#{session_name}')
-          fi
-          gentitle
-          titleUsed=''
-        fi
         pecho "RANDOM_TITLE $RANDOM_TITLE1"
 
 
-        if [[ $listMatches == 't' ]]; then
+        if [[ $listMatches ]]; then
             echo "$yFile"
         else
 
@@ -129,13 +129,16 @@ function t() {
           fi
 
         fi
+        if [[ $titleUsed ]]; then
+          sleep .5
+          if [[ $firstTitle ]]; then
+            firstTitle=$(tmux display-message -p '#{session_name}')
+          fi
+          gentitle
+          titleUsed=''
+        fi
 
       done
-
-      if [[ $titleUsed ]]; then
-        sleep .5
-        gentitle
-      fi
 
       # attach to the first session
       if [[ $modeDetach == 'f' ]] && [[ $TMUX == '' ]] && [[ $fileSize -gt 1 ]]; then
@@ -150,16 +153,11 @@ function t() {
     #targetFiles=$results
     #tmuxp load $(echo "$targetFiles" | tail -n 1)
 
-
   else
 
     echo "\nLoading $loadDir"
     ls "$loadDir"
-    local tsSize=$(tmux ls | wc -l | xargs)
-    echo "\nSessions: ($tsSize)"
-    tmux ls
-    echo -n "\ntmux default: "
-    cat ~/.tmuxdefault
+    tmuxlist
 
   fi
 
@@ -191,7 +189,7 @@ function tk() {
 
   pecho "tmuxTarget $tmuxTarget"
   local confirmTermination='f'
-  local currentSession=""
+#  local currentSession=""
   local inSession=''
 
   # if in tmux 
@@ -201,6 +199,7 @@ function tk() {
   fi
 
   local tsSize=$(tmux ls | wc -l | xargs)
+  local foundSession=''
   if [[ $tmuxTarget == "$tmuxDefaultValue" ]] && [[ $modeAll == 'f'  ]]; then
 
     for iTmuxSession in $(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}' | head -n 2); do
@@ -210,6 +209,8 @@ function tk() {
         echo "Terminating session ... $iTmuxSession"
         tmux kill-session -t "$iTmuxSession"
         break
+      else
+        foundSession='t'
       fi
 
     done
@@ -234,6 +235,8 @@ function tk() {
           pecho "2Terminating session ... $iTmuxSession"
           echo "Terminating session ... $iTmuxSession"
           tmux kill-session -t "$iTmuxSession"
+        else
+          foundSession='t'
         fi
       fi
 
@@ -241,15 +244,17 @@ function tk() {
   fi
 
   # if you have a session token and it's all mode or it's the last one then kill itself
-  if [[ $inSession ]] && [[ $modeAll == 't' ]] || [[ $tsSize -eq 1 ]]; then
-    pecho "3Terminating session ... $inSession"
-    echo "Terminating session ... $inSession"
-    tmux kill-session -t "$inSession"
-  fi
+  if [[ $inSession ]]; then 
 
-  tsSize=$(tmux ls | wc -l | xargs)
-  echo "\nSessions: ($tsSize)"
-  tmux ls
+    if [[ $modeAll == 't' ]] || [[ $foundSession ]] && [[ $tsSize -eq 1 ]]; then
+      pecho "3Terminating session ... $inSession"
+      echo "Terminating session ... $inSession"
+      tmux kill-session -t "$inSession"
+    fi
+
+  fi 
+
+  tmuxlist
 
 }
 
@@ -308,9 +313,10 @@ function calltmuxcreatewindow() {
   local key=''
 
   # need xargs to trim spaces
-  local modeBackground='f'
-  local currentSession=$(tmux display-message -p '#{session_name}')
-  local currentWindow=$(tmux display-message -p '#{window_name}')
+  local modeBackground=''
+  local modeEmbed=''
+  local inSession=$(tmux display-message -p '#{session_name}')
+  local inWindow=$(tmux display-message -p '#{window_name}')
   local currentTemplate=$(cat ~/.tmuxdefault | xargs)
 
   while [[ $# -gt 0 ]]; do
@@ -322,6 +328,9 @@ function calltmuxcreatewindow() {
       '-background')
         modeBackground='t'
         ;;
+      '-embed')
+        modeEmbed='-embed'
+        ;;
       *)
         ;;
     esac
@@ -332,44 +341,63 @@ function calltmuxcreatewindow() {
     currentTemplate="blank"
   fi
 
+  if [[ $modeEmbed ]] && [[ $TMUX ]]; then
+
+    unset TMUX
+
+  fi
+
   pecho "current template |$currentTemplate|"
   
   # if you have one that's currently attached
-  if [[ $currentSession ]]; then
+  if [[ $inSession ]]; then
 
-    if [[ $modeBackground == 't' ]]; then
+    if [[ $modeBackground ]]; then
 
-      pecho "attached background t:$currentTemplate s:$currentSession w:$currentWindow"
-      tmux send-keys -t "$currentSession:$currentWindow" "t $currentTemplate" Enter
+      pecho "attached background t:$currentTemplate s:$inSession w:$inWindow"
+      tmux send-keys -t "$inSession:$inWindow" "t $modeEmbed $currentTemplate" Enter
       gecho "$currentTemplate"
 
     else
 
-      pecho "attached nobackground t:$currentTemplate s:$currentSession w:$currentWindow"
-      tmux send-keys -t "$currentSession:$currentWindow" "t $currentTemplate" Enter
-
-      # need to sleep and delay so tmux can create window to register
-      wait
+      pecho "attached nobackground t:$currentTemplate s:$inSession w:$inWindow"
+      tmux send-keys -t "$inSession:$inWindow" "t $modeEmbed $currentTemplate" Enter
+      wait # need to sleep and delay so tmux can create window to register
       sleep 1
-      local newIndex=$(tmux list-windows -t "$currentSession" | tail -n 1 | awk -F':' '{ print $1 }')
-      pecho "new index is $newIndex $currentSession:$newIndex"
-      tmux select-window -t "$currentSession:$newIndex"
-      pecho "tmux select-window -t \"$currentSession:$newIndex\""
+      local newIndex=$(tmux list-windows -t "$inSession" | tail -n 1 | awk -F':' '{ print $1 }')
+      pecho "new index is $newIndex $inSession:$newIndex"
+      tmux select-window -t "$inSession:$newIndex"
+      pecho "tmux select-window -t \"$inSession:$newIndex\""
 
     fi
 
   else
 
-    if [[ $modeBackground == 't' ]]; then
+    if [[ $modeBackground ]]; then
+
       pecho "unattached background"
       T $currentTemplate
+
     else
+
       pecho "unattached nobackground"
       t $currentTemplate
       ta # attached to terminal
+
     fi
 
   fi
+
+}
+
+
+function tmuxlist() {
+
+  tsSize=$(tmux ls 2>&1 | grep -v "no server running on" | wc -l | xargs)
+  echo "\nSessions: ($tsSize)"
+  tmux ls
+  echo -n "\ntmux default: "
+  cat ~/.tmuxdefault
 
 }
 
