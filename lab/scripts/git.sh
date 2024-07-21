@@ -52,7 +52,7 @@ function gmerge() {
 
 function gcom() {
   if [[ $# -gt 0 ]]; then
-    git commit -m "$1"
+    git commit -m "$@"
   else
     git commit
   fi

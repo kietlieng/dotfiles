@@ -31,6 +31,7 @@ function t() {
   local loadDir=~/lab/scripts/tmuxp
   local listMatches=''
   local titleUsed=''
+  local firstTitle=''
 
   local modeDetach=''
   local modeEmbed=''
@@ -103,35 +104,50 @@ function t() {
         gentitle
       fi
 
-      local firstTitle=''
+      firstTitle=''
       for yFile in "${targetFiles[@]}"; do
 
         pecho "RANDOM_TITLE $RANDOM_TITLE1"
 
 
         if [[ $listMatches ]]; then
+          
             echo "$yFile"
+
         else
 
           titleUsed='t'
           if [[ $modeDetach == 't' ]]; then
+
             pecho "tmuxp load -d \"$yFile\""
             tmuxp load -d "$yFile"
+
           else
-            # if not in a tmux session size is greater than 1, refrain from attaching and create all the sessions first
-            if [[ $TMUX == '' ]] && [[ $fileSize -gt 1 ]]; then
+
+            # if not in a tmux session, size is greater than 1, and not set to embed.  Refrain from attaching and create all the sessions first
+            if [[ $TMUX == '' ]] && [[ $fileSize -gt 1 ]] && [[ $modeEmbed == '' ]]; then
+
               pecho "detaching |$TMUX| $fileSize"
               tmuxp load -d "$yFile" 
+
             else
+
               pecho "attaching |$TMUX| $fileSize"
               tmuxp load -a "$yFile" 
+
+              if [[ $modeEmbed ]]; then
+                break
+              fi
+
             fi
+
           fi
 
         fi
+
         if [[ $titleUsed ]]; then
           sleep .5
-          if [[ $firstTitle ]]; then
+          if [[ $firstTitle == '' ]]; then
             firstTitle=$(tmux display-message -p '#{session_name}')
           fi
           gentitle
@@ -141,9 +157,23 @@ function t() {
       done
 
       # attach to the first session
-      if [[ $modeDetach == 'f' ]] && [[ $TMUX == '' ]] && [[ $fileSize -gt 1 ]]; then
-        pecho "attach"
-        tmux attach -t "$firstTitle"
+      if [[ $modeDetach == '' ]] && [[ $TMUX == '' ]] && [[ $fileSize -gt 1 ]]; then
+
+        pecho "firstTitle |$firstTitle|"
+
+        if [[ $firstTitle ]]; then
+
+          pecho "end attaching to $firstTitle"
+
+          if [[ $modeEmbed ]]; then
+            tmux send-keys -t "$firstTitle" "unset TMUX" Enter
+          fi
+
+          sleep .5
+          tmux attach -t "$firstTitle"
+
+        fi
+
       fi
 
     fi
