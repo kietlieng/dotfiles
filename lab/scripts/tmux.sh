@@ -19,11 +19,13 @@ alias tsource="tmux source ~/.tmux.conf"
 alias tt='t -t'
 alias te='t -t -embed'
 
-
 function tl() {
   t -l $@
 }
 
+function tsleep() {
+  sleep .3
+}
 
 function t() {
 
@@ -146,7 +148,7 @@ function t() {
         fi
 
         if [[ $titleUsed ]]; then
-          sleep .5
+          tsleep
           if [[ $firstTitle == '' ]]; then
             firstTitle=$(tmux display-message -p '#{session_name}')
           fi
@@ -169,7 +171,7 @@ function t() {
             tmux send-keys -t "$firstTitle" "unset TMUX" Enter
           fi
 
-          sleep .5
+          tsleep
           tmux attach -t "$firstTitle"
 
         fi
@@ -178,10 +180,7 @@ function t() {
 
     fi
 
-    # this one works
-    #results=$(find $loadDir -maxdepth 1 -iname "${loadTarget}.yaml")
-    #targetFiles=$results
-    #tmuxp load $(echo "$targetFiles" | tail -n 1)
+    tmuxlist
 
   else
 
@@ -393,7 +392,8 @@ function calltmuxcreatewindow() {
       pecho "attached nobackground t:$currentTemplate s:$inSession w:$inWindow"
       tmux send-keys -t "$inSession:$inWindow" "t $modeEmbed $currentTemplate" Enter
       wait # need to sleep and delay so tmux can create window to register
-      sleep 1
+#      sleep 1
+      tsleep
       local newIndex=$(tmux list-windows -t "$inSession" | tail -n 1 | awk -F':' '{ print $1 }')
       pecho "new index is $newIndex $inSession:$newIndex"
       tmux select-window -t "$inSession:$newIndex"
@@ -432,7 +432,7 @@ function tmuxlist() {
 }
 
 # set tmux default value
-function tdefault() {
+function tdef() {
 
   local key=''
   local tmuxdefault=""
