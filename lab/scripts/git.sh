@@ -51,11 +51,13 @@ function gmerge() {
 }
 
 function gcom() {
+
   if [[ $# -gt 0 ]]; then
-    git commit -m "$@"
+    git commit -m "$*"
   else
     git commit
   fi
+
 }
 
 function gwarn() {
