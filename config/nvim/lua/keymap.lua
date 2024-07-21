@@ -147,7 +147,7 @@ function F.setup()
 
   -- Lspinfo
   map("n", "<LEADER>Lst", ":LspStop bufnr()<CR>", G_NO_REMAP) -- disable lsp
-  map("n", "<LEADER>Lhealth", ":CheckHealth<CR>", G_NO_REMAP)
+  map("n", "<LEADER>Lhealth", ":checkHealth<CR>", G_NO_REMAP)
   map("n", "<LEADER>Linfo", ":LspInfo<CR>", G_NO_REMAP)
   map("n", "<LEADER>Llog", ":LspLog<CR>", G_NO_REMAP)
   map("n", "<LEADER>Linstall", ":LspInstall<CR>", G_NO_REMAP)

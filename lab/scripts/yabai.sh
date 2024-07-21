@@ -586,16 +586,8 @@ function yistop() {
 }
 
 function yanchor() {
-  #echo "yanchor"
 
-  yCurrentDisplay=$(yabai -m query --windows | jq '.[] | select(."has-focus")')
-  yYValue=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .frame.y')
-  yYValue=${yYValue%.*} 
-  yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty")) | select(."is-visible") | select(."is-minimized"|not)')
-  yInstanceCount=$(echo "$yTargetDisplays" | jq ".frame | .h" | wc -l)
-  yInstanceCount=$((yInstanceCount)) # sting to int cast
-  yInstanceLimit=10
-  yOrientation=$(cat ~/.yrotate) 
+  local yOrientation=$(cat ~/.yrotate) 
   
   # don't try to anchor anything if it's not top down.  I don't have the logic for left right yet :D 
   if [[ $yOrientation != "topdown" ]]; then
@@ -604,6 +596,11 @@ function yanchor() {
 
   fi
 
+  #echo "yanchor"
+  local yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty")) | select(."is-visible") | select(."is-minimized"|not)')
+  local yInstanceCount=$(echo "$yTargetDisplays" | jq ".frame | .h" | wc -l)
+  local yInstanceCount=$((yInstanceCount)) # sting to int cast
+  local yInstanceLimit=10
   #echo "yTargetDisplays $yTargetDisplays"
   # don't rotate if only 1 window or more than 5 windows 
   if [[ $yInstanceCount -lt 2 ]] || [[ $yInstanceCount -gt $yInstanceLimit ]]; then
@@ -612,6 +609,10 @@ function yanchor() {
     return
 
   fi
+
+  local yCurrentDisplay=$(yabai -m query --windows | jq '.[] | select(."has-focus")')
+  local yYValue=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .frame.y')
+  local yYValue=${yYValue%.*} 
   # whatever value throw it in there 
   while [[ $# -gt 0 ]]; do
 
@@ -621,7 +622,7 @@ function yanchor() {
   done
 
   #echo $yCurrentDisplay
-  yAnchorValue=$(cat ~/.yanchor) 
+  local yAnchorValue=$(cat ~/.yanchor) 
   
   #echo "anchor value $yAnchorValue"
 #  echo "yYValue $yYValue"
@@ -636,8 +637,10 @@ function yanchor() {
   fi
 
 
-  yRotationLimit=3
-  yRotationCount=0
+  local yRotationLimit=3
+  local yRotationCount=0
+  local isTop=''
+
   if [[ $yAnchorValue == "bot" ]]; then
 
 #    echo "bot"
@@ -695,7 +698,9 @@ function yanchor() {
 # check and then rotate
 function ycheckrot() {
 
-  if [[ $(yison) == "off" ]]; then return; fi
+  if [[ $(yison) == "off" ]]; then 
+    return; 
+  fi
 
   # whatever value throw it in there 
   while [[ $# -gt 0 ]]; do
@@ -707,10 +712,9 @@ function ycheckrot() {
 
   yOrientation=$(cat ~/.yrotate) 
   
+  # only handle topdown
   if [[ $yOrientation != "topdown" ]]; then
-    
     return 
-
   fi
 
   yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty")) | select(."is-visible") | select(."is-minimized"|not)')

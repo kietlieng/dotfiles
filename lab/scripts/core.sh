@@ -346,9 +346,14 @@ function gx() {
 
     done
 
+
+#    echo "searchExpression $searchExpression"
     if [[ $searchExpression = '.*' ]]; then
         echo "No expression"
     else
+        searchExpression=${searchExpression##\.\*}
+        searchExpression=${searchExpression%%\.\*}
+
         #echo "search term $searchExpression"
         if [[ $searchCICD = 't' ]]; then
             if [[ $shouldList = "true" ]]; then
@@ -366,7 +371,7 @@ function gx() {
                 > $targetFile
                 while read inputResults
                 do
-                    echo $inputResults >> $targetFile
+                    echo $nputResults >> $targetFile
                 done
                 #cat $targetFile
             fi
@@ -388,7 +393,7 @@ function gx() {
                     ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -ir "$searchExpression" $targetFile
                 else
                     # dumping to null cause this will error out on * due to the backtick evaluation
-                    echo "search expression $searchExpression"
+                    echo "search expression '$searchExpression'"
                     #ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -ir "$searchExpression" `$targetFile` 2> /dev/null
                     ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -ir "$searchExpression" *
                 fi
@@ -969,35 +974,15 @@ function xenv() {
 # history backup file
 function hbackup() {
 
-    currentTime=$(date +"%y%m%d")
-    histLowCount=1260
+    local histDir=~/.config/zshhistory
+    if [[ ! -f $histDir/.zsh_history.${currentTime} ]]; then
+      local currentTime=$(date +"%y%m%d")
+      local hCount=$(wc -l < ~/.zsh_history | xargs)
+      local histLowCount=1260
 
-    locationNote="location ~/lab/scripts/edit.sh. "
-    hCount=$(wc -l < ~/.zsh_history)
-    hCount=$(echo "$hCount" | xargs)
-
-    # don't perform backup of history if it's low
-    if [[ $hCount -lt $histLowCount ]]; then
-
-      histDir=~/.config/zshhistory
-      #echo "!History ($hCount) < $histLowCount"
-      #/bin/ls -la $histDir | tail -n 1
-      histLast=$(/bin/ls -la1 $histDir | tail -n 1)
-      #echo "cp $histDir/$histLast ~/.zsh_history"
-
-    else
-
-      # if file does not exists
-      if [[ ! -f ~/.config/zshhistory/.zsh_history.${currentTime} ]]; then
-
-        #echo -n "$locationNote Perform backup ~/.config/zshhistory/.zsh_history.${currentTime} $hCount"
-        cp ~/.zsh_history ~/.config/zshhistory/.zsh_history.${currentTime}
-
-      #else
-
-        #echo -n "$locationNote"
-        #echo "Backup exists $hCount."
-
+      # only perform backup if it doesn't exists and over a certain limit
+      if [[ $hCount -gt $histLowCount ]]; then
+        cp ~/.zsh_history $histDir/.zsh_history.${currentTime}
       fi
 
     fi
