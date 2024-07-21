@@ -58,15 +58,16 @@ function ycte() {
 # move windows
 function yWindowMove() {
 
-    yDisplays=$(yabai -m query --displays | jq '.[].index' | grep -i -o '[0-9]' | wc -l)
+    local yDisplays=$(yabai -m query --displays | jq '.[].index' | grep -i -o '[0-9]' | wc -l)
 
     # echo "list display $yDisplays"
     if [[ $yDisplays -lt 2 ]]; then
         return;
     fi
 
-    yQuery=".[] | select(.title | contains(\"yl\"))";
-    yDirection="east"
+    local yQuery=".[] | select(.title | contains(\"yl\"))";
+    local yDirection="east"
+    local key=''
 
     while [[ $# -gt 0 ]]; do
         key="$1"
@@ -94,9 +95,10 @@ function yWindowMove() {
         esac
     done
 
-    yWindowIDs=$(yabai -m query --windows | jq "$yQuery" | jq '.id')
-    yCurrentDisplay=$(yabai -m query --windows | jq "$yQuery" | jq '.display')
-    yMainWindow=$(yabai -m query --displays | jq '.[] | select(.frame.x == 0 and .frame.y == 0)' | jq '.index')
+    local yWindowIDs=$(yabai -m query --windows | jq "$yQuery" | jq '.id')
+    local yCurrentDisplay=$(yabai -m query --windows | jq "$yQuery" | jq '.display')
+    local yMainWindow=$(yabai -m query --displays | jq '.[] | select(.frame.x == 0 and .frame.y == 0)' | jq '.index')
+    local lastResult=''
     #echo "mainWindow $yMainWindow"
     #echo "query is $yQuery"
     #echo "windowsID $yWindowIDs"
@@ -160,27 +162,27 @@ function yo() {
     if [[ $(yison) == "off" ]]; then return; fi
 
     #y f
-    yPositionAbbr='r'
-    yPositionChange="f"
+    local yPositionAbbr='r'
+    local yPositionChange="f"
 
-    #yContext=$(yabai -m query --windows | jq ".[] | select(.title | contains(\"$targetWindow\"))" | jq '.display' )
-    yContext=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .display')
-    yWidth=$(yabai -m query --displays | jq ".[] | select(.index==$yContext)" | jq '.frame.w' )
-    yHeight=$(yabai -m query --displays | jq ".[] | select(.index==$yContext)" | jq '.frame.h' )
+    #local yContext=$(yabai -m query --windows | jq ".[] | select(.title | contains(\"$targetWindow\"))" | jq '.display' )
+    local yContext=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .display')
+    local yWidth=$(yabai -m query --displays | jq ".[] | select(.index==$yContext)" | jq '.frame.w' )
+    local yHeight=$(yabai -m query --displays | jq ".[] | select(.index==$yContext)" | jq '.frame.h' )
 
-    yHHalf=$((yHeight / 2))
-    yHHalf=${yHHalf%.*} # need int cast 
-    yWHalf=$((yWidth / 2))
-    yWHalf=${yWHalf%.*} # need int cast 
+    local yHHalf=$((yHeight / 2))
+    local yHHalf=${yHHalf%.*} # need int cast 
+    local yWHalf=$((yWidth / 2))
+    local yWHalf=${yWHalf%.*} # need int cast 
 
     # we want the third only
-    yWHalf3=$((yWidth / 3))
-    yWHalf3=${yWHalf3%.*} # need int cast 
+    local yWHalf3=$((yWidth / 3))
+    local yWHalf3=${yWHalf3%.*} # need int cast 
 
-    yBPadding=0
-    yLPadding=0
-    yRPadding=0
-    yTPadding=0
+    local yBPadding=0
+    local yLPadding=0
+    local yRPadding=0
+    local yTPadding=0
 
     while [[ $# -gt 0 ]]; do
       key="$1"
@@ -268,7 +270,7 @@ function yo() {
 # yision
 function yison() {
 
-    yMessage=$(yabai -m query --displays 2>&1)
+    local yMessage=$(yabai -m query --displays 2>&1)
     #echo "message $yMessage"
     if [[ "$yMessage" = *"failed to connect to socket"* ]]; then
       echo -n "off"
@@ -282,20 +284,20 @@ function yison() {
 function yt() {
     # find the displays that you need
     # show me the highest number display
-    yDisplays=$(yabai -m query --displays | jq '.[].index' | grep -i -o '[0-9]')
+    local yDisplays=$(yabai -m query --displays | jq '.[].index' | grep -i -o '[0-9]')
     echo "displays $yDisplays"
-    yWindowID=$(yabai -m query --windows | jq '.[] | select(.title | contains("yt"))' | jq '.id')
+    local yWindowID=$(yabai -m query --windows | jq '.[] | select(.title | contains("yt"))' | jq '.id')
     echo "windowID $yWindowID"
-    yCurrentDisplay=$(yabai -m query --windows | jq '.[] | select(.title | contains("yt"))' | jq '.display' | tail -n 1)
-    yCurrentDisplay=${yCurrentDisplay//[$'\t\r\n']}
-    nextDisplay=$((yCurrentDisplay+1))
+    local yCurrentDisplay=$(yabai -m query --windows | jq '.[] | select(.title | contains("yt"))' | jq '.display' | tail -n 1)
+    local yCurrentDisplay=${yCurrentDisplay//[$'\t\r\n']}
+    local nextDisplay=$((yCurrentDisplay+1))
 
     if [[ $# -gt 0 ]]; then
         nextDisplay="$1"
         shift
     fi
 
-    displayExists='f'
+    local displayExists='f'
     for display in $("$yDisplays"); do
         echo "|$display| $yCurrentDisplay $nextDisplay"
         if [[ $nextDisplay -eq $display ]]; then
@@ -313,7 +315,12 @@ function yt() {
 
 # if we want the windows managed or not
 function ymanage() {
-    isFloat=$(yabai -m query --spaces | grep -i "\"type\":\"float\"")
+
+    local isFloat=$(yabai -m query --spaces | grep -i "\"type\":\"float\"")
+    local kittyWidth=''
+    local totalWidth=''
+    local managedFirefox=''
+    local fireWidth=''
     #echo "$isFloat"
     # if your currently in float mode turn into manage mode
     if [[ $isFloat ]]; then
@@ -326,6 +333,7 @@ function ymanage() {
         kittyWidth=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty"))' | jq '.frame.w' | awk '{sum += $1} END {print sum}')
         totalWidth=$kittyWidth
         managedFirefox=$(yabai -m rule --list | grep -i firefox)
+        fireWidth=''
         if [[ $managedFirefox ]]; then
             fireWidth=$(yabai -m query --windows | jq '.[] | select(.app | contains("Firefox"))' | jq '.frame.w' | awk '{sum += $1} END {print sum}')
             ((totalWidth=fireWidth+kittyWidth))
@@ -360,7 +368,11 @@ function ymanage() {
 
 # base command for yabai
 function y() {
-  noCommands="true"
+
+  local noCommands="true"
+  local key=''
+  local position=''
+  local fireIndexList=''
 
   while [[ $# -gt 0 ]]; do
     noCommands="false"
@@ -554,7 +566,7 @@ function y() {
 # find a windown and output the display
 function ywin() {
 
-    grepTerm=""
+    local grepTerm=""
     if [[ $# -gt 0 ]]; then
         grepTerm="$1"
     fi
@@ -566,15 +578,15 @@ function yistop() {
 
 #  echo "isTop"
 
-  yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty")) | select(."is-visible") | select(."is-minimized"|not)')
-  yDisplayIndex=$(echo "$yTargetDisplays" | jq '.display' | head -n 1) 
-  yHeight=$(yabai -m query --displays | jq ".[] | select(.index==$yDisplayIndex) | .frame.h")
-  yHeight=${yHeight%.*}
-  yHeight=$((yHeight))
-  yHeight=$((yHeight / 2))
-  yHeight=$((yHeight - 50))
-#  yHeightTolerance=$((yHeight + 50))
-  yYValue=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .frame.y')
+  local yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty")) | select(."is-visible") | select(."is-minimized"|not)')
+  local yDisplayIndex=$(echo "$yTargetDisplays" | jq '.display' | head -n 1) 
+  local yHeight=$(yabai -m query --displays | jq ".[] | select(.index==$yDisplayIndex) | .frame.h")
+  local yHeight=${yHeight%.*}
+  local yHeight=$((yHeight))
+  local yHeight=$((yHeight / 2))
+  local yHeight=$((yHeight - 50))
+#  local yHeightTolerance=$((yHeight + 50))
+  local yYValue=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .frame.y')
 #  echo "yYValue |$yYValue| |$yHeight|"
   
   if [[ $yYValue -lt $yHeight ]]; then
@@ -590,11 +602,7 @@ function yanchor() {
   local yOrientation=$(cat ~/.yrotate) 
   
   # don't try to anchor anything if it's not top down.  I don't have the logic for left right yet :D 
-  if [[ $yOrientation != "topdown" ]]; then
-    
-    return 
-
-  fi
+  if [[ $yOrientation != "topdown" ]]; then return; fi
 
   #echo "yanchor"
   local yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty")) | select(."is-visible") | select(."is-minimized"|not)')
@@ -629,12 +637,7 @@ function yanchor() {
   #echo "yInstanceCount |$yInstanceCount|"
 
   # if it's not either we don't want to look at this.
-  if [[ $yAnchorValue != "top" ]] && [[ $yAnchorValue != "bot" ]]; then
-    
-    echo "returning"
-    return 
-
-  fi
+  if [[ $yAnchorValue != "top" ]] && [[ $yAnchorValue != "bot" ]]; then return; fi
 
 
   local yRotationLimit=3
@@ -685,9 +688,7 @@ function yanchor() {
 
       # infinite loop pervention
       yRotationCount=$((yRotationCount + 1))
-      if [[ $yRotationCount -gt $yRotationLimit ]]; then
-        break
-      fi
+      if [[ $yRotationCount -gt $yRotationLimit ]]; then break; fi
 
     done
 
@@ -698,9 +699,7 @@ function yanchor() {
 # check and then rotate
 function ycheckrot() {
 
-  if [[ $(yison) == "off" ]]; then 
-    return; 
-  fi
+  if [[ $(yison) == "off" ]]; then return; fi
 
   # whatever value throw it in there 
   while [[ $# -gt 0 ]]; do
@@ -710,29 +709,23 @@ function ycheckrot() {
 
   done
 
-  yOrientation=$(cat ~/.yrotate) 
+  local yOrientation=$(cat ~/.yrotate) 
   
   # only handle topdown
-  if [[ $yOrientation != "topdown" ]]; then
-    return 
-  fi
+  if [[ $yOrientation != "topdown" ]]; then return; fi
 
-  yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty")) | select(."is-visible") | select(."is-minimized"|not)')
-  yDisplayIndex=$(echo "$yTargetDisplays" | jq '.display' | head -n 1) 
-  yHeight=$(yabai -m query --displays | jq ".[] | select(.index==$yDisplayIndex) | .frame.h")
-  yHeight=${yHeight%.*} # need int cast
-  yHeightTolerance=$((yHeight - 50))
-  yHeightTolerance=${yHeightTolerance%.*} # need int cast
-  yAllHeights=$(echo "$yTargetDisplays" | jq ".frame | .h")
-  yInstanceCount=$(echo "$yTargetDisplays" | jq ".frame | .h" | wc -l)
-  yInstanceCount=$((yInstanceCount)) # string to int cast
-  yRotated="f"
+  local yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty")) | select(."is-visible") | select(."is-minimized"|not)')
+  local yDisplayIndex=$(echo "$yTargetDisplays" | jq '.display' | head -n 1) 
+  local yHeight=$(yabai -m query --displays | jq ".[] | select(.index==$yDisplayIndex) | .frame.h")
+  local yHeight=${yHeight%.*} # need int cast
+  local yHeightTolerance=$((yHeight - 50))
+  local yHeightTolerance=${yHeightTolerance%.*} # need int cast
+  local yAllHeights=$(echo "$yTargetDisplays" | jq ".frame | .h")
+  local yInstanceCount=$(echo "$yTargetDisplays" | jq ".frame | .h" | wc -l)
+  local yInstanceCount=$((yInstanceCount)) # string to int cast
+  local yRotated="f"
 
-  if [[ $yInstanceCount -lt 2 ]]; then
-
-    return
-
-  fi
+  if [[ $yInstanceCount -lt 2 ]]; then return; fi
 
   #echo "$yHeight > $yHeightTolerance. $yTargetDisplays $yAllHeights"
   #for currentIP in $(echo $sCurrentURI | sed 's/:/\n/g')
@@ -766,8 +759,9 @@ function ycheckrot() {
 # rotate the window orientation
 function yrot() {
 
-    rotateAngle="270"
-    rotateTime="0"
+    local rotateAngle="270"
+    local rotateTime="0"
+
     if [[ $# -gt 0 ]]; then
         rotateTime="$1"
         shift
@@ -785,8 +779,9 @@ function yrot() {
 # change margin
 function ymargin() {
 
-    sizeAmount="3"
-    sizeIncrement="1"
+    local sizeAmount="3"
+    local sizeIncrement="1"
+
     if [[ $# -gt 0 ]]; then
         sizeAmount="$1"
         shift
@@ -813,8 +808,8 @@ function ymargin() {
 # change screen width
 function yw() {
 
-    sizeAmount="3"
-    sizeIncrement="1"
+    local sizeAmount="3"
+    local sizeIncrement="1"
     if [[ $# -gt 0 ]]; then
         sizeAmount="$1"
         shift
@@ -842,45 +837,45 @@ function yw() {
 # recently using yy / xx better
 function ytake() {
 
-    yDirection="east"
-    hasWidth="f"
-    increaseWidth="0"
-    argDirection=""
-    key=""
+  local yDirection="east"
+  local hasWidth="f"
+  local increaseWidth="0"
+  local argDirection=""
+  local key=""
 
-    while [[ $# -gt 0 ]]; do
-        key="$1"
-        re='^-*[0-9]+$'
-        if [[ $key =~ $re ]] ; then
-            hasWidth="t"
-            increaseWidth="$key"
-        else
-            argDirection="$key"
-            case $argDirection in
-                'e' )
-                    yDirection="east"
-                    ;;
-                'w' )
-                    yDirection="west"
-                    ;;
-                's' )
-                    yDirection="south"
-                    ;;
-                'n' )
-                    yDirection="north"
-                    ;;
-                * ) # do nothing
-                    ;;
-            esac
-        fi
-        shift
-    done
+  while [[ $# -gt 0 ]]; do
+      key="$1"
+      re='^-*[0-9]+$'
+      if [[ $key =~ $re ]] ; then
+          hasWidth="t"
+          increaseWidth="$key"
+      else
+          argDirection="$key"
+          case $argDirection in
+              'e' )
+                  yDirection="east"
+                  ;;
+              'w' )
+                  yDirection="west"
+                  ;;
+              's' )
+                  yDirection="south"
+                  ;;
+              'n' )
+                  yDirection="north"
+                  ;;
+              * ) # do nothing
+                  ;;
+          esac
+      fi
+      shift
+  done
 
-    yabai -m window --swap $yDirection
-    if [[ $hasWidth = "t" ]]; then
-        echo "grow $increaseWidth"
-        yw "$increaseWidth"
-    fi
+  yabai -m window --swap $yDirection
+  if [[ $hasWidth = "t" ]]; then
+      echo "grow $increaseWidth"
+      yw "$increaseWidth"
+  fi
 
 }
 
@@ -920,7 +915,7 @@ function ysh() {
 
 function yshift() {
 
-  shouldFocus="f"
+  local shouldFocus="f"
   while [[ $# -gt 0 ]]; do
     
     key="$1"
@@ -934,14 +929,16 @@ function yshift() {
 
   done
 
-  yCurrentApp=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .app')
+  local yCurrentApp=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .app')
 
   echo "$yCurrentApp" >> /tmp/yContext
   
-  leftPadding=$(yabai -m config --space 1 left_padding)
-  rightPadding=$(yabai -m config --space 1 right_padding)
+  local leftPadding=$(yabai -m config --space 1 left_padding)
+  local rightPadding=$(yabai -m config --space 1 right_padding)
 
-  rightShift="t"
+  local rightShift="t"
+  local win=''
+  local output=''
 
   # anchored on left side
   if [[ $leftPadding -eq 0 ]] && [[ $rightPadding -gt 0 ]]; then
@@ -1033,22 +1030,24 @@ function yshift() {
 function ytoganchor() {
 
 #  yContext=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .display')
-  yContext=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty"))' | jq '.display' | head -n 1)
+  local yContext=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty"))' | jq '.display' | head -n 1)
 
 #  echo "$yContext"
 #  return
 
-  yWidth=$(yabai -m query --displays | jq ".[] | select(.index==$yContext)" | jq '.frame.w' )
+  local yWidth=$(yabai -m query --displays | jq ".[] | select(.index==$yContext)" | jq '.frame.w' )
 
   echo "yWidth is $yWidth"
   # we want the third only
-  yWHalf3=$((yWidth / 3))
-  yWHalf3=${yWHalf3%.*} # need int cast 
+  local yWHalf3=$((yWidth / 3))
+  local yWHalf3=${yWHalf3%.*} # need int cast 
 
-  leftPadding=$(yabai -m config --space 1 left_padding)
-  leftPadding=${leftPadding%.*} # need int cast 
-  rightPadding=$(yabai -m config --space 1 right_padding)
-  rightPadding=${rightPadding%.*} # need int cast 
+  local leftPadding=$(yabai -m config --space 1 left_padding)
+  local leftPadding=${leftPadding%.*} # need int cast 
+  local rightPadding=$(yabai -m config --space 1 right_padding)
+  local rightPadding=${rightPadding%.*} # need int cast 
+  local currentAnchor=''
+  local currentPadding=''
 
   echo "$leftPadding $rightPadding"
   # is center do nothing
@@ -1100,25 +1099,25 @@ function ytoganchor() {
 function ytogpadding() {
 
 #  yContext=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .display')
-  yContext=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty"))' | jq '.display' | head -n 1)
+  local yContext=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty"))' | jq '.display' | head -n 1)
 
 #  echo "$yContext"
 #  return
 
-  yWidth=$(yabai -m query --displays | jq ".[] | select(.index==$yContext)" | jq '.frame.w' )
+  local yWidth=$(yabai -m query --displays | jq ".[] | select(.index==$yContext)" | jq '.frame.w' )
 
   # we want the third only
-  yWHalf3=$((yWidth / 3))
-  yWHalf3=${yWHalf3%.*} # need int cast 
+  local yWHalf3=$((yWidth / 3))
+  local yWHalf3=${yWHalf3%.*} # need int cast 
 
-  leftPadding=$(yabai -m config --space 1 left_padding)
-  leftPadding=${leftPadding%.*} # need int cast 
-  rightPadding=$(yabai -m config --space 1 right_padding)
-  rightPadding=${rightPadding%.*} # need int cast 
+  local leftPadding=$(yabai -m config --space 1 left_padding)
+  local leftPadding=${leftPadding%.*} # need int cast 
+  local rightPadding=$(yabai -m config --space 1 right_padding)
+  local rightPadding=${rightPadding%.*} # need int cast 
 
   echo "$leftPadding $rightPadding"
 
-  currentPadding=$leftPadding
+  local currentPadding=$leftPadding
 
   if [[ $rightPadding -gt 0 ]]; then
 
@@ -1149,12 +1148,12 @@ function ytogpadding() {
 
 function yfocus() {
 
-  leftPadding=$(yabai -m config --space 1 left_padding)
-  leftPadding=${leftPadding%.*} # need int cast 
-  rightPadding=$(yabai -m config --space 1 right_padding)
-  rightPadding=${rightPadding%.*} # need int cast 
+  local leftPadding=$(yabai -m config --space 1 left_padding)
+  local leftPadding=${leftPadding%.*} # need int cast 
+  local rightPadding=$(yabai -m config --space 1 right_padding)
+  local rightPadding=${rightPadding%.*} # need int cast 
 
-  rightShift="t"
+  local rightShift="t"
 
   # anchored on left side
   if [[ $leftPadding -eq 0 ]] && [[ $rightPadding -gt 0 ]]; then
