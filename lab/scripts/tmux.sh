@@ -34,6 +34,7 @@ function t() {
   local listMatches=''
   local titleUsed=''
   local firstTitle=''
+  local firstWindow=''
 
   local modeDetach=''
   local modeEmbed=''
@@ -151,6 +152,7 @@ function t() {
           tsleep
           if [[ $firstTitle == '' ]]; then
             firstTitle=$(tmux display-message -p '#{session_name}')
+            firstWindow=$(tmux display-message -p '#{window_name}')
           fi
           gentitle
           titleUsed=''
@@ -165,14 +167,14 @@ function t() {
 
         if [[ $firstTitle ]]; then
 
-          pecho "end attaching to $firstTitle"
+          pecho "end attaching to $firstTitle:$firstWindow"
 
           if [[ $modeEmbed ]]; then
-            tmux send-keys -t "$firstTitle" "unset TMUX" Enter
+            tmux send-keys -t "$firstTitle:$firstWindow" "unset TMUX" Enter
           fi
 
           tsleep
-          tmux attach -t "$firstTitle"
+          tmux attach -t "$firstTitle:$firstWindow"
 
         fi
 
@@ -220,16 +222,19 @@ function tk() {
   local confirmTermination='f'
 #  local currentSession=""
   local inSession=''
+  local inWindow=''
 
   # if in tmux 
   if [[ $TMUX ]]; then
     inSession=$(tmux display-message -p '#{session_name}')
+    inWindow=$(tmux display-message -p '#{window_name}')
     pecho "Session is |$inSession|"
   fi
 
   local tsSize=$(tmux ls | wc -l | xargs)
   local foundSession=''
-  if [[ $tmuxTarget == "$tmuxDefaultValue" ]] && [[ $modeAll == 'f'  ]]; then
+
+  if [[ $tmuxTarget == '.*' ]] && [[ $modeAll == 'f'  ]]; then
 
     for iTmuxSession in $(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}' | head -n 2); do
 
@@ -265,6 +270,7 @@ function tk() {
           echo "Terminating session ... $iTmuxSession"
           tmux kill-session -t "$iTmuxSession"
         else
+          pecho "2Found session $iTmuxSession"
           foundSession='t'
         fi
       fi
@@ -274,11 +280,11 @@ function tk() {
 
   # if you have a session token and it's all mode or it's the last one then kill itself
   if [[ $inSession ]]; then 
-
-    if [[ $modeAll == 't' ]] || [[ $foundSession ]] && [[ $tsSize -eq 1 ]]; then
-      pecho "3Terminating session ... $inSession"
-      echo "Terminating session ... $inSession"
-      tmux kill-session -t "$inSession"
+    pecho "found insession $modeAll $foundSession $tsSize"
+    if [[ $modeAll == 't' ]] || [[ $foundSession ]] && [[ $tsSize -eq 2 ]]; then
+      pecho "3Terminating session ... $inSession:$inWindow"
+      echo "Terminating session ... $inSession:$inWindow"
+      tmux kill-session -t "$inSession:$inWindow"
     fi
 
   fi 
@@ -372,8 +378,18 @@ function calltmuxcreatewindow() {
 
   if [[ $modeEmbed ]] && [[ $TMUX ]]; then
 
+    export TMUX_BACKUP=$TMUX
     unset TMUX
 
+#  else
+#  
+#    if [[ $TMUX_BACKUP ]]; then
+#
+#      export TMUX=$TMUX_BACKUP
+#      unset TMUX_BACKUP
+#
+#    fi
+#
   fi
 
   pecho "current template |$currentTemplate|"
