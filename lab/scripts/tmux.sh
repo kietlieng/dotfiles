@@ -23,7 +23,7 @@ function tl() {
   t -l $@
 }
 
-function tsleep() { # sleep time before windows are created
+function tmsleep() { # sleep time before windows are created
   sleep .3
 }
 
@@ -148,7 +148,7 @@ function t() {
         fi
 
         if [[ $titleUsed ]]; then
-          tsleep
+          tmsleep
           if [[ $firstTitle == '' ]]; then
             firstTitle=$(tmux display-message -p '#{session_name}')
             firstWindow=$(tmux display-message -p '#{window_name}')
@@ -175,7 +175,7 @@ function t() {
 
           fi
 
-          tsleep
+          tmsleep
           tmux attach -t "$firstTitle:$firstWindow"
 
         fi
@@ -184,13 +184,13 @@ function t() {
 
     fi
 
-    tmuxlist
+    tmdisplay
 
   else
 
-    echo "\nLoading $loadDir"
+    echo "\nProfile(s): $loadDir"
     ls "$loadDir"
-    tmuxlist
+    tmdisplay
 
   fi
 
@@ -199,7 +199,7 @@ function t() {
 # kill last session
 function tk() {
    
-  local modeAll='f'
+  local modeAll=''
   local tmuxDefaultValue='.*'
   local tmuxTarget="$tmuxDefaultValue"
   local key=''
@@ -210,12 +210,8 @@ function tk() {
     shift
 
     case "$key" in
-      '-a')
-        modeAll='t'
-        ;;
-      *)
-        tmuxTarget="${tmuxTarget}${key}${tmuxDefaultValue}"
-        ;;
+      '-a') modeAll='t' ;;
+      *) tmuxTarget="${tmuxTarget}${key}${tmuxDefaultValue}" ;;
     esac
     
   done
@@ -224,11 +220,13 @@ function tk() {
   local confirmTermination='f'
   local inSession=''
   local inWindow=''
-  local attachedSessions=$(tmux ls 2>&1 | grep -v "no server running on" | grep -i "(attached)" | awk -F':' '{print $1}')
+  local allSessions=$(tmux ls 2>&1 | grep -v "no server running on")
+  local allSessionNames=$(echo $allSessions | awk -F':' '{print $1}')
+  local allSessionSize=$(echo $allSessions | wc -l | xargs)
 
+  local attachedSessions=$(echo $allSessions | grep -i "(attached)" | awk -F':' '{print $1}')
   local attachedSize=$(echo $attacheSessions | wc -l | xargs)
-  local attachedSessionsString=$(echo $attachedSessions | wc -l)
-
+  local attachedSessions=$(echo $attachedSessions | tr '\n' ' ')
 
   # if in tmux 
   if [[ $TMUX ]]; then
@@ -237,32 +235,44 @@ function tk() {
     pecho "Session is |$inSession|"
   fi
 
-  local tsSize=$(tmux ls | wc -l | xargs)
+  local tmSize=$(tmux ls | wc -l | xargs)
   local foundSession=''
 
-  if [[ $tmuxTarget == '.*' ]] && [[ $modeAll == 'f'  ]]; then
+  # if without param
+  if [[ $tmuxTarget == '.*' ]] && [[ ! $modeAll ]]; then
 
-    for iTmuxSession in $(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}' | head -n 2); do
+    for iTmuxSession in $(echo $allSessionNames); do
 
-      if [[ $inSession != $iTmuxSession ]]; then
-        pecho "1Terminating session ... $iTmuxSession"
+      if [[ $attachedSessions == *"$iTmuxSession"* ]]; then  # it's a sessions value that's attached 
+    
+        if [[ $inSession ]]; then # if we are in a session check it
+          
+          if [[ $inSession == $iTmuxSession ]]; then
+
+            foundSession='t'
+
+          fi
+
+        fi
+          
+      else # kill the session then quit
+
+        pecho "1Terminating session ... |$iTmuxSession|"
         echo "Terminating session ... $iTmuxSession"
         tmux kill-session -t "$iTmuxSession"
         break
-      else
-        foundSession='t'
+
       fi
 
     done
 
   else
 
-    for iTmuxSession in $(tmux ls 2>&1 | grep -v "no server running on" | awk -F':' '{print $1}'); do
+    for iTmuxSession in $(echo $allSessionNames); do
 
       confirmTermination='f'
-      pecho "iTmux $iTmuxSession"
-      pecho "tmuxTarget $tmuxTarget"
-      if [[ $modeAll == 't' ]]; then
+      pecho "iTmux $iTmuxSession tmuxTarget $tmuxTarget"
+      if [[ $modeAll ]]; then
         confirmTermination='t'
       elif [[ $(echo "$iTmuxSession" | grep -i "$tmuxTarget") ]]; then
         pecho "grep confirmed kill"
@@ -279,6 +289,7 @@ function tk() {
           pecho "2Found session $iTmuxSession"
           foundSession='t'
         fi
+
       fi
 
     done
@@ -286,8 +297,8 @@ function tk() {
 
   # if you have a session token and it's all mode or it's the last one then kill itself
   if [[ $inSession ]]; then 
-    pecho "found insession $modeAll $foundSession $tsSize"
-    if [[ $modeAll == 't' ]] || [[ $foundSession ]] && [[ $tsSize -eq 1 ]]; then
+    pecho "found insession all:$modeAll session:$foundSession size:$tmSize"
+    if [[ $modeAll ]] || [[ $foundSession ]] && [[ $tmSize -eq 1 ]]; then
       pecho "3Terminating session ... $inSession:$inWindow"
       echo "Terminating session ... $inSession:$inWindow"
       tmux kill-session -t "$inSession:$inWindow"
@@ -295,7 +306,7 @@ function tk() {
 
   fi 
 
-  tmuxlist
+  tmdisplay
 
 }
 
@@ -375,8 +386,8 @@ function trunsinglecommand() {
   tmux send-keys -t "$argSessionWindow" "$argCommand" Enter
 
   if [[ ! $modeEmbed ]]; then
-    tsleep
-    tsleep
+    tmsleep
+    tmsleep
     tmux kill-pane -t "$argSessionWindow"
   fi
 
@@ -457,7 +468,7 @@ function calltmuxcreatewindow() {
 
       wait # need to sleep and delay so tmux can create window to register
 #      sleep 1
-      tsleep
+      tmsleep
       local newIndex=$(tmux list-windows -t "$inSession" | tail -n 1 | awk -F':' '{ print $1 }')
       pecho "new index is $newIndex $inSession:$newIndex"
       tmux select-window -t "$inSession:$newIndex"
@@ -485,13 +496,12 @@ function calltmuxcreatewindow() {
 }
 
 
-function tmuxlist() {
+function tmdisplay() {
 
-  tsSize=$(tmux ls 2>&1 | grep -v "no server running on" | wc -l | xargs)
-  echo "\nSessions: ($tsSize)"
+  local tmSize=$(tmux ls 2>&1 | grep -v "no server running on" | wc -l | xargs)
+  local tmDefault=$(cat ~/.tmuxdefault)
+  echo "\nSession(s) [$tmDefault]: ($tmSize)"
   tmux ls
-  echo -n "\ntmux default: "
-  cat ~/.tmuxdefault
 
 }
 

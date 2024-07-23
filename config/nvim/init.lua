@@ -216,7 +216,7 @@ require("lazy").setup({
     -- { "GlennLeo/cobalt2", config = function() require('theme-cobalt2').setup() end },                              -- try it
     -- { "diegoulloao/neofusion.nvim", config = function() require('theme-neofusion').setup() end  }, -- too dark
 
-    { "gruvbox-community/gruvbox" }, -- it's morhetz fork but with support.  Best thing around
+    { "gruvbox-community/gruvbox", config = function() require('theme-gruvbox').setup() end }, -- it's morhetz fork but with support.  Best thing around
 --    { "joshdick/onedark.vim", config = function() require('theme-onedark').setup() end  }, -- it's morhetz fork but with support.  Best thing around
 
     -- messes with current customization settings.  Will try again later. mini suite of modules that might be handy
@@ -379,4 +379,4 @@ require('mason-setup').setup()                      -- setup syntax for treesitt
 require('lsp-setup').setup()                        -- setup all lsp
 require('keymap').setup()                           -- key mapping
 --require('fun').setup()                              -- useless but fun
-require('theme-gruvbox').setup()                    -- needs to be last
+--require('theme-gruvbox').setup()                    -- needs to be last

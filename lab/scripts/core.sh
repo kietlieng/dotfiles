@@ -996,18 +996,30 @@ function catcp() {
 }
 
 
+# Echo family! 
 # printing functions 
+function becho() { # broadcast echo.  Put in file and also output to screen
 
-# put echo into file
-function pecho() {
+  local fname="${funcstack[2]} $@"
+  echo "$fname" >> /tmp/log-gecho
+  echo "$fname"
+
+}
+
+function pecho() { # put echo into file
 
   local fname="${funcstack[2]} $@"
   echo "$fname" >> /tmp/log-gecho
 
 }
 
-# get echo from file.  Then empty
-function gecho() {
+function gecho() { # get echo from file
+  
+  cat /tmp/log-gecho
+
+}
+
+function cecho() { # get echo from file.  Then empty
   
   cat /tmp/log-gecho
   echo "" > /tmp/log-gecho
