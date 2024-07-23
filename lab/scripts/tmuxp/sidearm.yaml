@@ -2,12 +2,12 @@ session_name: SIDEARM-$RANDOM_TITLE1
 windows:
   - window_name: SIDEARM-$RANDOM_TITLE1
     layout: even-vertical
+    shell_command_before:
+      - j i1
     panes:
       - shell_command:
-        - j i1
         - vim sites.tf cnames.tf
       - shell_command:
-        - j i1
         focus: true
   - window_name: extra-$RANDOM_TITLE1
     panes:

@@ -2,8 +2,10 @@ session_name: access-$RANDOM_TITLE1
 windows:
   - window_name: access-$RANDOM_TITLE1
     layout: even-vertical
+    shell_command_before:
+      - j access
     panes:
       - shell_command:
-        - j iaccess
+        - vim users.yaml permissions_prod.tf groups-aws.yaml
         focus: true
-      - j iaccess
+      -

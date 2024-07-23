@@ -56,6 +56,7 @@ function F.setup()
     }),
 
     snippet = {
+
       expand = function(args)
 
         if not ls then
@@ -65,18 +66,23 @@ function F.setup()
         ls.lsp_expand(args.body)
 
       end,
+
     },
 
     window = {
+
       completion = cmp.config.window.bordered(),
       documentation = cmp.config.window.bordered(),
+
     },
     sources = cmp.config.sources({
+
       { name = "nvim_lsp" },
       { name = "nvim_lsp_signature_help" },
       { name = "nvim_lua" },
       { name = "luasnip", option = { show_autosnippets = true } },
       { name = "path" },
+
     },
     {
       { name = "buffer", keyword_length = 3 },
@@ -85,10 +91,10 @@ function F.setup()
   })
 
   ls.add_snippets(nil, {
+
     all = {
 
-      snip(
-      {
+      snip({
 
         trig = "date",
         namr = "Date",
@@ -100,8 +106,7 @@ function F.setup()
         func(date, {}),
 
       }),
-      snip(
-      {
+      snip({
         trig = "argloop",
         namr = "argloop",
         dscr = "Create while loop"
@@ -109,7 +114,8 @@ function F.setup()
       {
 
         text({
-          "local modeSome='f'",
+
+          "local modeSome=''",
           "local someTarget='.*'",
           "local key=''",
           "",
@@ -119,24 +125,24 @@ function F.setup()
           "  shift",
           "",
           "  case \"$key\" in",
-          "    '-x')",
-          "      modeSome='t'",
-          "      ;;",
-          "    *)",
-          "      someTarget=\"${someTarget}$key.*\"",
-          "      ;;",
+          "    '-x') modeSome='t' ;;",
+          "    *) someTarget=\"${someTarget}$key.*\" ;;",
           "  esac",
-          "  ",
+          "",
           "done",
           "",
           "if [[ $someTarget == '.*' ]]; then",
           "  echo 'no value'",
+          "  return",
           "fi",
-          }),
-        }),
-      },
-    })
 
+        }),
+
+      }),
+
+    },
+
+  })
 
   vim.keymap.set({ "i", "s" }, "<C-k>", function()
     if ls.expand_or_jumpable() then

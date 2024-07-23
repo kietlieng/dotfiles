@@ -23,7 +23,7 @@ function tl() {
   t -l $@
 }
 
-function tsleep() {
+function tsleep() { # sleep time before windows are created
   sleep .3
 }
 
@@ -60,7 +60,7 @@ function t() {
         ;;
       '-embed' ) 
         unset TMUX
-        modeEmbed='t'
+        modeEmbed='-embed'
         shift
         ;;
       *)
@@ -111,7 +111,6 @@ function t() {
       for yFile in "${targetFiles[@]}"; do
 
         pecho "RANDOM_TITLE $RANDOM_TITLE1"
-
 
         if [[ $listMatches ]]; then
           
@@ -170,7 +169,10 @@ function t() {
           pecho "end attaching to $firstTitle:$firstWindow"
 
           if [[ $modeEmbed ]]; then
-            tmux send-keys -t "$firstTitle:$firstWindow" "unset TMUX" Enter
+
+#            tmux send-keys -t "$firstTitle:$firstWindow" "unset TMUX" Enter
+            trunsinglecommand "$firstTitle:$firstWindow" "unset TMUX" "$modeEmbed"
+
           fi
 
           tsleep
@@ -220,9 +222,13 @@ function tk() {
 
   pecho "tmuxTarget $tmuxTarget"
   local confirmTermination='f'
-#  local currentSession=""
   local inSession=''
   local inWindow=''
+  local attachedSessions=$(tmux ls 2>&1 | grep -v "no server running on" | grep -i "(attached)" | awk -F':' '{print $1}')
+
+  local attachedSize=$(echo $attacheSessions | wc -l | xargs)
+  local attachedSessionsString=$(echo $attachedSessions | wc -l)
+
 
   # if in tmux 
   if [[ $TMUX ]]; then
@@ -281,7 +287,7 @@ function tk() {
   # if you have a session token and it's all mode or it's the last one then kill itself
   if [[ $inSession ]]; then 
     pecho "found insession $modeAll $foundSession $tsSize"
-    if [[ $modeAll == 't' ]] || [[ $foundSession ]] && [[ $tsSize -eq 2 ]]; then
+    if [[ $modeAll == 't' ]] || [[ $foundSession ]] && [[ $tsSize -eq 1 ]]; then
       pecho "3Terminating session ... $inSession:$inWindow"
       echo "Terminating session ... $inSession:$inWindow"
       tmux kill-session -t "$inSession:$inWindow"
@@ -336,6 +342,42 @@ function ta() {
 
     done
 
+  fi
+
+}
+
+function trunsinglecommand() {
+
+  local argSessionWindow="$1"
+  local argCommand="$2"
+  shift
+  shift
+
+  local modeEmbed=''
+  local key=''
+
+  while [[ $# -gt 0 ]]; do
+
+    key="$1"
+    shift
+
+    case "$key" in
+      '-embed') modeEmbed='t' ;;
+      *) ;;
+    esac
+
+  done
+
+  if [[ ! $modeEmbed ]]; then
+    tmux split-window -h -t "$argSessionWindow"
+  fi
+
+  tmux send-keys -t "$argSessionWindow" "$argCommand" Enter
+
+  if [[ ! $modeEmbed ]]; then
+    tsleep
+    tsleep
+    tmux kill-pane -t "$argSessionWindow"
   fi
 
 }
@@ -400,13 +442,19 @@ function calltmuxcreatewindow() {
     if [[ $modeBackground ]]; then
 
       pecho "attached background t:$currentTemplate s:$inSession w:$inWindow"
-      tmux send-keys -t "$inSession:$inWindow" "t $modeEmbed $currentTemplate" Enter
+
+#      tmux send-keys -t "$inSession:$inWindow" "t $modeEmbed $currentTemplate" Enter
+      trunsinglecommand "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
+
       gecho "$currentTemplate"
 
     else
 
       pecho "attached nobackground t:$currentTemplate s:$inSession w:$inWindow"
-      tmux send-keys -t "$inSession:$inWindow" "t $modeEmbed $currentTemplate" Enter
+
+#      tmux send-keys -t "$inSession:$inWindow" "t $modeEmbed $currentTemplate" Enter
+      trunsinglecommand "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
+
       wait # need to sleep and delay so tmux can create window to register
 #      sleep 1
       tsleep

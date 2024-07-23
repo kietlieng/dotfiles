@@ -5,7 +5,12 @@ vim.cmd([[set runtimepath+=~/.nvim]]) --set.runtimepath:append { set.runtimepath
 
 -- wrap
 --set.wrap           = true
-set.wrap           = false
+--set.wrap           = false
+
+--tmux
+set.ft   = 'tmux'
+set.tw   = 0
+set.wrap = false
 
 -- undo
 set.undodir  = vim.env.HOME .. '/.nvim/undodir'
@@ -52,6 +57,8 @@ set.updatetime     = 100                                                        
 set.viminfo        = "'100,f1"                                                        -- persistent marks up to 100
 set.wildignore     = "*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx"  -- avoid
 set.guicursor      = 'a:blinkon100'
+
+
 
 set.listchars      = {
   tab = "│ ",

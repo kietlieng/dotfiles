@@ -1,0 +1,25 @@
+session_name: recorder-$RANDOM_TITLE1
+windows:
+  - window_name: recorder-$RANDOM_TITLE1
+    layout: even-vertical
+#    shell_command_before:
+#      - j recorder
+    panes:
+      - shell_command:
+        - j recorder
+        - vim recorder.py lib/markerlib.py lib/recorderlib.py
+  - window_name: zkconfig-$RANDOM_TITLE1
+    panes:
+      - shell_command:
+        focus: true
+          - j zkconfig
+  - window_name: zkdirectory-$RANDOM_TITLE1
+    panes:
+      - shell_command:
+        focus: true
+          - j zkconfig
+  - window_name: zk-server-$RANDOM_TITLE1
+    panes:
+      - shell_command:
+        - j zoo
+        - echo "try:\n./bin/zkServer.sh start"

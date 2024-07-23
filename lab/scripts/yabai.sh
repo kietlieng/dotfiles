@@ -715,17 +715,18 @@ function ycheckrot() {
   if [[ $yOrientation != "topdown" ]]; then return; fi
 
   local yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty")) | select(."is-visible") | select(."is-minimized"|not)')
+  local yInstanceCount=$(echo "$yTargetDisplays" | jq ".frame | .h" | wc -l)
+  local yInstanceCount=$((yInstanceCount)) # string to int cast
+  if [[ $yInstanceCount -lt 2 ]]; then return; fi
+
   local yDisplayIndex=$(echo "$yTargetDisplays" | jq '.display' | head -n 1) 
   local yHeight=$(yabai -m query --displays | jq ".[] | select(.index==$yDisplayIndex) | .frame.h")
   local yHeight=${yHeight%.*} # need int cast
   local yHeightTolerance=$((yHeight - 50))
   local yHeightTolerance=${yHeightTolerance%.*} # need int cast
   local yAllHeights=$(echo "$yTargetDisplays" | jq ".frame | .h")
-  local yInstanceCount=$(echo "$yTargetDisplays" | jq ".frame | .h" | wc -l)
-  local yInstanceCount=$((yInstanceCount)) # string to int cast
   local yRotated="f"
 
-  if [[ $yInstanceCount -lt 2 ]]; then return; fi
 
   #echo "$yHeight > $yHeightTolerance. $yTargetDisplays $yAllHeights"
   #for currentIP in $(echo $sCurrentURI | sed 's/:/\n/g')

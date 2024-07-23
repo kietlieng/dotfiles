@@ -86,7 +86,7 @@ function fzfpreview() {
 
 }
 
-function xtmp() {
+function xt() { # search /tmp directory
 
   local tempResults=$(fzfpreview /tmp)
   local editFiles=()
