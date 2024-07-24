@@ -500,7 +500,7 @@ function tmdisplay() {
 
   local tmSize=$(tmux ls 2>&1 | grep -v "no server running on" | wc -l | xargs)
   local tmDefault=$(cat ~/.tmuxdefault)
-  echo "\nSession(s) [$tmDefault]: ($tmSize)"
+  echo "\nSession($tmSize): $tmDefault"
   tmux ls
 
 }
