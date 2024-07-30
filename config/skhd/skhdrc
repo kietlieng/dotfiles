@@ -139,7 +139,7 @@ lctrl - 0 : ~/lab/scripts/calls/scriptcall ytdebug
 lctrl - 9 : ~/lab/scripts/calls/scriptcall yteven
 lctrl - w : ~/lab/scripts/calls/calltmuxcreatewindow
 lctrl - z : ~/lab/scripts/calls/calltmuxcreatewindow -background
-rctrl - e: ~/lab/scripts/calls/calltmuxcreatewindow -embed
+rctrl - e: ~/lab/scripts/calls/calltmuxcreatewindow -popup
 
 # copy 
 rctrl - q : ~/lab/scripts/calls/copg

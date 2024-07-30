@@ -5,12 +5,12 @@ vim.cmd([[set runtimepath+=~/.nvim]]) --set.runtimepath:append { set.runtimepath
 
 -- wrap
 --set.wrap           = true
---set.wrap           = false
+set.wrap           = false
 
---tmux
-set.ft   = 'tmux'
-set.tw   = 0
-set.wrap = false
+----tmux
+--set.ft   = 'tmux'
+--set.tw   = 0
+--set.wrap = false
 
 -- undo
 set.undodir  = vim.env.HOME .. '/.nvim/undodir'
@@ -18,6 +18,7 @@ set.undofile = true
 
 --set.background     = "dark" -- should be set in theme
 --set.nrformats      = set.nrformats + 'alpha'                                          -- increase alpha letters. Want numbers for now
+
 set.backup         = false
 set.belloff        = "all"
 set.colorcolumn    = "80"
@@ -58,19 +59,20 @@ set.viminfo        = "'100,f1"                                                  
 set.wildignore     = "*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx"  -- avoid
 set.guicursor      = 'a:blinkon100'
 
+--set.completeopt = 'menu,menuone' -- duo
 
 
-set.listchars      = {
-  tab = "│ ",
-  trail = "·",
-  extends = "»",
-  precedes = "«",
-  nbsp = "+",
-  eol = "↲",
-  space = ".",
-  conceal = "┊" ,
-  multispace = "│" .. string.rep(" ", swnumber - 1)
-}
+--set.listchars.append = { -- doesn't seem to work?
+--  tab = "│ ",
+--  trail = "·",
+--  extends = "»",
+--  precedes = "«",
+--  nbsp = "+",
+--  eol = "↲",
+--  space = ".",
+--  conceal = "┊" ,
+--  multispace = "│" .. string.rep(" ", swnumber - 1)
+--}
 
 --- LAZY START -----
 
@@ -92,19 +94,19 @@ set.rtp:prepend(lazypath)
 require("lazy").setup({
 
     -- gitlab duo 
---    {
---      'git@gitlab.com:gitlab-org/editor-extensions/gitlab.vim.git',
---        event = { 'BufReadPre', 'BufNewFile' }, -- Activate when a file is created/opened
---        ft = { 'go', 'javascript', 'python', 'ruby', 'bash' }, -- Activate when a supported filetype is open
---        cond = function()
-----          return vim.env.GITLAB_TOKEN ~= nil and vim.env.GITLAB_TOKEN ~= '' -- Only activate if token is present in environment variable (remove to use interactive workflow)
---        end,
---        opts = {
---          statusline = {
---            enabled = true, -- Hook into the builtin statusline to indicate the status of the GitLab Duo Code Suggestions integration
---          },
---        },
---      },
+    {
+      'git@gitlab.com:gitlab-org/editor-extensions/gitlab.vim.git',
+        event = { 'BufReadPre', 'BufNewFile' }, -- Activate when a file is created/opened
+        ft = { 'go', 'javascript', 'python', 'ruby', 'bash' }, -- Activate when a supported filetype is open
+        cond = function()
+          return vim.env.GITLAB_TOKEN_DUO ~= nil and vim.env.GITLAB_TOKEN_DUO ~= '' -- Only activate if token is present in environment variable (remove to use interactive workflow)
+        end,
+        opts = {
+          statusline = {
+            enabled = true, -- Hook into the builtin statusline to indicate the status of the GitLab Duo Code Suggestions integration
+          },
+        },
+      },
 
 
     -- syntax zellij
@@ -161,14 +163,14 @@ require("lazy").setup({
         "TmuxNavigateDown",
         "TmuxNavigateUp",
         "TmuxNavigateRight",
-        "TmuxNavigatePrevious",
+--        "TmuxNavigatePrevious",
       },
       keys = {
         { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
         { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
         { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
         { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
-        { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+--        { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
       },
     },
 

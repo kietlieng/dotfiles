@@ -962,6 +962,7 @@ function yshift() {
 
 
     else
+
       win=$(yabai -m query --windows --window first | jq '.id')
 
       echo "first" >> /tmp/yContext

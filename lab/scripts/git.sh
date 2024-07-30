@@ -10,7 +10,7 @@ alias gdstaged='git diff --staged'
 alias gfetch="git fetch --all"
 alias gfiles="git log --name-only --oneline"
 alias glines="git log -p --unified=0"
-alias glog="git log -p"
+alias gl="git log -p"
 alias glogfiles="git log --name-only"
 alias gmmaster="git merge master"
 alias gprune="g -prune"

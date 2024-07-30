@@ -22,7 +22,11 @@ function F.setup()
   local snip     = ls.snippet
   local text     = ls.text_node
 
-  local date = function() return {os.date('%Y-%m-%d')} end
+  local date = function() return {os.date('%y-%m-%d') .. ':'} end
+  local addMonths = function(argShift)
+    local timeShift = 3 * 60 * 60
+    return { os.date('%y-%m-%d', os.time() + timeShift) .. ':' }
+  end
 
   cmp.setup({
 
@@ -94,23 +98,9 @@ function F.setup()
 
     all = {
 
-      snip({
-
-        trig = "date",
-        namr = "Date",
-        dscr = "Date in the form of YYYY-MM-DD",
-
-      },
-      {
-
-        func(date, {}),
-
-      }),
-      snip({
-        trig = "argloop",
-        namr = "argloop",
-        dscr = "Create while loop"
-      },
+      snip({ trig = "date" }, { func(date, {}), }),
+      snip({ trig = "months3" }, { func(addMonths, {}), }),
+      snip({ trig = "argloop", namr = "argloop", dscr = "Create while loop" },
       {
 
         text({

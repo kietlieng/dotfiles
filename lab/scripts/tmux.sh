@@ -38,6 +38,7 @@ function t() {
 
   local modeDetach=''
   local modeEmbed=''
+  local modePopup=''
   local modeTemplate=''
 
   local currentTemplate=$(cat ~/.tmuxdefault | xargs)
@@ -63,6 +64,12 @@ function t() {
         modeEmbed='-embed'
         shift
         ;;
+
+      '-popup' ) 
+        modePopup='-popup'
+        shift
+        ;;
+
       *)
         loadTarget="$loadTarget*$key*"
         shift
@@ -357,6 +364,16 @@ function ta() {
 
 }
 
+function tmtemplist() {
+  ls -1 ~/lab/scripts/tmuxp/ | fzf
+}
+
+function tpopup() {
+
+  tmux display-popup -d -E "tmux new-session -A -s scratch 'zsh -c \"x\"'"
+
+}
+
 function trunsinglecommand() {
 
   local argSessionWindow="$1"
@@ -403,6 +420,8 @@ function calltmuxcreatewindow() {
   # need xargs to trim spaces
   local modeBackground=''
   local modeEmbed=''
+  local modePopup=''
+
   local inSession=$(tmux display-message -p '#{session_name}')
   local inWindow=$(tmux display-message -p '#{window_name}')
   local currentTemplate=$(cat ~/.tmuxdefault | xargs)
@@ -419,6 +438,9 @@ function calltmuxcreatewindow() {
       '-embed')
         modeEmbed='-embed'
         ;;
+      '-popup')
+        modePopup='-popup'
+        ;;
       *)
         ;;
     esac
@@ -432,7 +454,7 @@ function calltmuxcreatewindow() {
   if [[ $modeEmbed ]] && [[ $TMUX ]]; then
 
     export TMUX_BACKUP=$TMUX
-    unset TMUX
+#    unset TMUX
 
 #  else
 #  
@@ -455,7 +477,11 @@ function calltmuxcreatewindow() {
       pecho "attached background t:$currentTemplate s:$inSession w:$inWindow"
 
 #      tmux send-keys -t "$inSession:$inWindow" "t $modeEmbed $currentTemplate" Enter
-      trunsinglecommand "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
+      if [[ $modePopup ]]; then
+        tpopup "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
+      else
+        trunsinglecommand "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
+      fi
 
       gecho "$currentTemplate"
 
@@ -464,7 +490,11 @@ function calltmuxcreatewindow() {
       pecho "attached nobackground t:$currentTemplate s:$inSession w:$inWindow"
 
 #      tmux send-keys -t "$inSession:$inWindow" "t $modeEmbed $currentTemplate" Enter
-      trunsinglecommand "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
+      if [[ $modePopup ]]; then
+        tpopup "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
+      else
+        trunsinglecommand "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
+      fi
 
       wait # need to sleep and delay so tmux can create window to register
 #      sleep 1
