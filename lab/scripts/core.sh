@@ -1026,6 +1026,17 @@ function cecho() { # get echo from file.  Then empty
 
 }
 
+
+# requires wonderword
+function ama() {
+    
+  local wonderwordadjective=$(wonderwords -w -p adjective) 
+  local wonderwordnoun=$(wonderwords -w -p noun)
+
+  echo "You are a $wonderwordadjective $wonderwordnoun"
+
+}
+
 # requires wonderword
 function gentitle() {
     

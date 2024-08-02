@@ -1,0 +1,11 @@
+session_name: 4p-$RANDOM_TITLE1
+windows:
+  - window_name: 4p-$RANDOM_TITLE1
+    layout: even-horizontal
+    panes:
+      - pybonsai
+      - 
+      -
+      -
+    options_after:
+        synchronize-panes: on

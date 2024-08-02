@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# Function to create a temporary pane
+create_temp_pane() {
+    pane_id=$(tmux split-window -v -l 30 -d "$1")
+    echo $pane_id
+}
+
+# Function to close a temporary pane
+close_temp_pane() {
+    tmux killpane -t $1
+}
+
+# Interactive Menu
+choice=$(echo -e "htop\nLogs\nDatabase Access\nEdit Config\nInteractive Shell" | fzf --height 40% --reverse --border)
+
+case $choice in
+    "htop")
+        pane_id=$(create_temp_pane "htop")
+        ;;
+    "Logs")
+        log_file=$(find /var/log -type f | fzf --height 40% --reverse --border)
+        pane_id=$(create_temp_pane "tail -f $log_file")
+        ;;
+    "Database Access")
+        db_type=$(echo -e "PostgreSQL\nMySQL\nMongoDB" | fzf --height 40% --reverse --border)
+        case $db_type in
+            "PostgreSQL") pane_id=$(create_temp_pane "psql -h localhost -U user -d mydb");;
+            "MySQL") pane_id=$(create_temp_pane "mysql -h localhost -u user -p");;
+            "MongoDB") pane_id=$(create_temp_pane "mongo --host localhost");;
+        esac
+        ;;
+    "Edit Config")
+        config_file=$(find /etc -type f -name "*.conf" | fzf --height 40% --reverse --border)
+        pane_id=$(create_temp_pane "vim $config_file")
+        ;;
+    "Interactive Shell")
+        shell_type=$(echo -e "Local\nDocker" | fzf --height 40% --reverse --border)
+        case $shell_type in
+            "Local") pane_id=$(create_temp_pane "bash");;
+            "Docker")
+                container=$(docker ps --format "{{.Names}}" | fzf --height 40% --reverse --border)
+                pane_id=$(create_temp_pane "docker exec -it $container bash")
+                ;;
+        esac
+        ;;
+esac
+
+# Wait for user input to close the temporary pane
+#read -p "Press Enter to close the temporary pane..."
+read "Press Enter to close the temporary pane..."
+close_temp_pane $pane_id

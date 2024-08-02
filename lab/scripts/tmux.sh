@@ -190,8 +190,7 @@ function t() {
       fi
 
     fi
-
-    tmdisplay
+#    tmdisplay
 
   else
 
@@ -370,7 +369,8 @@ function tmtemplist() {
 
 function tpopup() {
 
-  tmux display-popup -d -E "tmux new-session -A -s scratch 'zsh -c \"x\"'"
+#  tmux display-popup -d -E "tmux new-session -A -s scratch 'zsh -c \"x\"'"
+  tmux display-popup -d -E "tmux new-session -A -s scratch 'zsh -c \"interactive\"'"
 
 }
 
@@ -528,10 +528,15 @@ function calltmuxcreatewindow() {
 
 function tmdisplay() {
 
-  local tmSize=$(tmux ls 2>&1 | grep -v "no server running on" | wc -l | xargs)
-  local tmDefault=$(cat ~/.tmuxdefault)
-  echo "\nSession($tmSize): $tmDefault"
-  tmux ls
+  local tmOutput=$(tmux ls 2>&1 | grep -v "no server running on")
+  local tmSize=0
+
+  if [[ $tmOutput ]]; then
+    tmSize=$(echo $tmOutput | wc -l | xargs)
+  fi
+
+  echo "\nSession($tmSize): $(cat ~/.tmuxdefault)"
+  echo "$tmOutput"
 
 }
 
