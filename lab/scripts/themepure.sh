@@ -86,8 +86,8 @@ alias daf="da f"
 #'ᄼ__ᄾ' # batman
 #'⎩O_O⎭' # Lego
 #'(⌐〇_〇)' # Harry potter Lego
-#'〇丷⟦ ⟧) 9000?!' # dragonballz scouter
-#'⟦ ⟧ 9000?!' # dragonballz scouter
+#'〇丷⟦ ⟧) 9K?!' '⟦ ⟧ 9000?!' # dragonballz scouter
+#'⟦ ⟧) 9K?!' # dragonballz scouter
 #'(󰹞󰹞-󰽤 )' # transmetropolitan glasses 
 #'󰽤◝ ఎ ◜󰽤 ' # Owen Wilson
 
@@ -114,6 +114,7 @@ alias daf="da f"
 #' ⦿๏ ᯓ㋨' # metroid morph ball
 #'ଳ ଲ (ˎ ꓹꡳ' 'ଳ ଲ (ˎ󰴗 ꓹꡳ' 'ଳ ଲ (ˎ󱔝 ˏꡳ' # metroids 
 #'p( )ꝯ' # metroids 
+#'󱆨󰗣󱆨' # metroids 
 #'♠ ♥ ♦ ♣' # Cards
 #'󱈸' # metal gear
 #'[ ][ ][ ][][ ][󰄻 ]' # ninja guiden
@@ -131,8 +132,8 @@ alias daf="da f"
 #'󱩁  ' # strider
 #'ᯓ〛ⱃ⳻)' # mario bullet
 #'ᯓ〚 ⱃ⳻)' # mario bullet
-#'▂▄▆█ ᛩ 凸' # mario castle
-#'▂▄▆█ ᛩ ▗▆▖' # mario castle
+#'▂▄▆█ ᛩ 凸' '▂▄▆█ ᛩ ▗▆▖' # mario castle
+#'▂▄▆█ ᛩ ⛫ ' # mario castle
 #'󰮭 ' # mario mushroom
 #' ⟭ᕲৡࡇ -𒊹𖣇' # r-type
 #'██▇(〇⪧ ᐊ〇)' '██▇(ᑕl⪧ᐊᑐ)' '██▇(〇⪧ᐊ〇)' '██▇(󱦎 ⪧󱌬 〇)' '██▇(󱈷 ⪧󱌬󰍟〇)' '██▇( ⪧󱌬󰍟 )' '██▇( ⪧ᐊ)'
@@ -143,21 +144,40 @@ alias daf="da f"
 #'█▄▁ 󰘫▷٦乛𐌂𝇋' # Tron lightcycle
 #'█▄▁ 󰘫▷乛⦅󰬸 ' # Tron lightcycle
 #'█▄▁ 󰘫▷乛⦅󰱌 ) ' # Tron lightcycle
-#'█▄▁  ⪧'
-#'ᓭ▗▖ᓮ∵' 'ᓭ⩎ᓮ∵' 'ᓭnᓮ꠪' 'ᓭ∩ᓮ꠪' '∩꠪' '꠪' '꠪' '󰇆 ' '󰇆 ' '󰳃󰇆 ' '󰳄󰇆 ' '󰴣󰇆 ' '󰳄󰇆 ' # predator
+#'█▄▁ ▷⦅  ' # Tron lightcycle
+#'█▄▁  ⪧' '█▄▁ (㉡▷乛𐌂𝇋' Tron lightcycle
+#'█▄▁  ⪧ ' Tron lightcycle
+#'█▄▁  ⪧' '█▄▁ (㉡⪜乛⪛𝇋' Tron lightcycle
 #'󰇆 ' # predator
+#'╭╮󰇆 ' # predator
 #'C-c' # face hugger
 #'C-c' # xenomorph
+#'\ ⏷ ⏶ ⏷ /' ' ◣ ⏷ ⏶ ⏷ ◢' ' ◣ ▼ ⏶ ▼ ◢' ' ◣◥◤◢◣◥◤◢' '\ ◥◤ ◢◣ ◥◤ /' '⟍ ◥◤ ◢◣ ◥◤⟋ ' ' \ ◥◤ ◢◣ ◥◤/' '' '◹◸◿◺◹◸' weyland-utani
+#'   ' weyland-utani
 
-KL_STATUS_SYMBOL_ARRAY=('󰇆' '(⌐󱪶 Ⲻ󱪶 )' '/l- -l' '0_0꧞' '(⌐〇_〇)' '〇丷⟦ ⟧ 9000?󱈸' '(󰹞󰹞-󰽤 )' '[+..••]' "<(-''-)>" '𐤔ᜠᜰ_ᯓࡄ ' ' ⦿๏ ᯓ㋨' 'p( )ꝯ' '♠ ♥ ♦ ♣' '█▄▄▀█▄▀▀▀▀▄█▄ ██' '⭣⭨ ⭢ Ⓗ   ' '⮅ ⮇ ⭾ ⭾ Ⓑ Ⓐ ' '󰡗 󰡘 󰡙 󰡚 󰡛 󰡜' '󱙜 󰧵 ᯓ󰮯 ●ᯓ󱙝 ᯓ󰊠 ' '󱠡   ' '󱃏 󰓥    ' '󱩁  ' 'ᯓ〛ⱃ⳻)' '▂▄▆█ ᛩ ▗▆▖' ' ⟭ᕲৡࡇ -𒊹𖣇' '█▄▁  ⪧')
+#'𐄧𐄧|=' '⁝⁝⁝⁝⁝|=' '⁝|=' '  |=' '󰠵󰠵󰠵󰠵󰠵|=' '󰒋 󰒋 󰒋 󰒋 󰒋|=' '     ' ' ' terminator neural chip 
+#'|' terminator neural chip 
+#'|' terminator neural chip 
 
-# Ⲵ ⲵ
+#'🝙ˏ|┣' blame taho heavy industries
+#'(┯┯┯)' '┯┯┯' dune choam 
+#'┯┯┯' dune choam 
+#'┯┯┯' dune choam 
+
+KL_STATUS_SYMBOL_ARRAY=('┯┯┯' '|' '   ' '󰇆' '(⌐󱪶 Ⲻ󱪶 )' '/l- -l' '0_0꧞' '(⌐〇_〇)' '⟦ ⟧) 9K?!' '(󰹞󰹞-󰽤 )' '[+..••]' "<(-''-)>" '𐤔ᜠᜰ_ᯓࡄ ' ' ⦿๏ ᯓ㋨' '󱆨󰗣󱆨' '♠ ♥ ♦ ♣' '█▄▄▀█▄▀▀▀▀▄█▄ ██' '⭣⭨ ⭢ Ⓗ   ' '⮅ ⮇ ⭾ ⭾ Ⓑ Ⓐ ' '󰡗 󰡘 󰡙 󰡚 󰡛 󰡜' '󱙜 󰧵 ᯓ󰮯 ●ᯓ󱙝 ᯓ󰊠 ' '󱠡   ' '󱃏 󰓥    ' 'ᯓ〛ⱃ⳻)' '▂▄▆█ ᛩ ⛫ ' ' ⟭ᕲৡࡇ -𒊹𖣇' '█▄▁  ⪧')
+
+# ㅏ ﹇ ﹈ 󱆧 󱆨 
+# Ⲵ ⲵ    𐃚 ⪛⪜
+# ᕘᗄᕚ 
+# ╭╮  ╰╯ ▜▛ 󱑹 ᢾᢿ ᣅ ᣢᣡ ᣧᣦ ⁅⁆ ⊑⊒ ⊏⊐  ⊄⊅ ⊆⊇ ⊈⊉ ⊊⊋ ⋨⋩  ⋰ ⋱ 
+#         
+# ◹◸  ◻ ◼ ◿◺
 # ᖹᖺ ᖻ ᖼ  ᖽᖾ ᖿᖼ ᗀᗁ ᗂᗃ
-# 𐅁𐅀
+# 𐅁𐅀 Ⳛⳛ ꣺ꙿ󰿈 ⸒
+# 󰕶 󰒋 
 # 󰾻󰾼
 #󰿦 󰿦 
-# 𐄢 𐄣 𐄤 𐄥 𐄦 𐄧 𐄨 𐄩 𐄪 𐄫 𐄬 𐄭 𐄮 𐄯 𐄰 𐄱 𐄲 𐄳
-# 
+# 𐄢 𐄣 𐄤 𐄥 𐄦 𐄧 𐄨 𐄩 𐄪 𐄫 𐄬 𐄭 𐄮 𐄯 𐄰 𐄱 𐄲 𐄳 
 #   _      
 #'ᚍᚎᚏ◝◜ᚏ◝◜ᚏᚏᚏ' # bats
 #   # scythe ?
@@ -167,10 +187,9 @@ KL_STATUS_SYMBOL_ARRAY=('󰇆' '(⌐󱪶 Ⲻ󱪶 )' '/l- -l' '0_0꧞
 # ╚═╦═╬╗   𐀍𐀟𐁈𐂲
 # noses Ո Ս ఎ  ໑ ꔽ ꗅ ꗆ
 #  ⛛ ⛰ ᧘ ⊱⊰ ⍙ ⍞ ⍠ ⎆ ⥶⥸ ⫑⫒ ⫎ ⫍ ᚜᚛
-# ⺡ ⌠⌡ ⎇ ༅ ༆ ༄ ᯢ 󰵄 ꣺⳿ ⮁ꕸ ꚜꧦኑ 𠄎
+# ⺡ ⌠⌡󰿈⎇ ༅ ༆ ༄ ᯢ 󰵄 ꣺⳿ ⮁ꕸ ꚜꧦኑ 𠄎
 # 󱀑 󰾋 󰷝  󰫠 󱃏  
-# 󱙳 󱙴 ﹏΅
-# 󰼁 󰼂 󰹢 󰹣  _    󰨙 󰨚
+# 󱙳 󱙴 ﹏΅ 󰼁 󰼂 󰹢 󰹣  _    󰨙 󰨚
 # 𐠑           
 #  ۵۵۵ ﹆ ᧘ ⧽⧼ Ⲁ ⲁ
 # 匚匚匚凸凸凸 凹凹凹 凵凵凵 口口口 冖冂冎
@@ -184,7 +203,6 @@ KL_STATUS_SYMBOL_ARRAY=('󰇆' '(⌐󱪶 Ⲻ󱪶 )' '/l- -l' '0_0꧞
 #  ¦   ࢷ  Ϡ ך ߚߚߚߚ  P ᵜںᵜ ᤙ
 # ᵜᤙᵜ ⏌⏋⎺⎸⎻ ⎼ ⎽ ⎝◄ ◅⎞ ⩘⩗ ▾ ▿ ◀ ◁ ◂ ◃ ◄ ◅ 乛
 # ᛑ ᛒ ᛓ ᛔ ᛕ ᛖ ᛗ ᛘ ᛙ ᛚ ᛛ ᛜ ᚷ ᚸ ᛝ ᛞ ᛟ ᛃ
-# 匚匚匚凸凸凸 凹凹凹 凵凵凵 口口口 冖冂冎
 # ꪶꗃ_ꗃꪶ ꗄ ꩹ Ꝫ ꝫ Ꝭ- -ꝭ Ꝯ ꝯ  ears
 # ဩ 扌扌扌氵 灬  ⸝⺣⸜ 灬 ⸔⺣⸕ 灬 ⸽⸾
 # 罒|罒|罒訁訁訁 ꀯꚰ ꇚ㇍ ㇏)㇎
@@ -195,7 +213,7 @@ KL_STATUS_SYMBOL_ARRAY=('󰇆' '(⌐󱪶 Ⲻ󱪶 )' '/l- -l' '0_0꧞
 #'/7\\' '(◍_ᑢᑝ_◍)' # tent austin martin
 #'(◍_ᑢᑝ_◍)' # austin martin
 #'[̲̅$̲̅(̲̅1)̲̅$̲̅]' '[̲̅$̲̅(̲̅2ο̲̅̅)̲̅$̲̅]' # money
-#'༽v༼' 'ࡄ' '-᮵ - ⟁' '-[]-࠽' 'ᝑഽட৲'
+#'༽v༼' 'ࡄ' '-᮵ - ⟁ ' '-[]-࠽' 'ᝑഽட৲'
 #'၇ ဨ ၆ ၎'
 #'❰⬡ ❱(᪥ )❱' 'ᓭTա Tᓮ'
 #'⎇ ⌥' '⋢⋣ ' ' ᱑ ፲፲ᗍ Ꮬ ෴  ߸߸ ' ' உ =<< -_'
@@ -253,20 +271,27 @@ generate_color() {
     generate_emoji x
 }
 
+KL_RANDOM=0
+
+kl_genrandom() {
+  KL_RANDOM=$(openssl rand 4 | od -DAn)
+}
+
 generate_emoji() {
+    kl_genrandom
     KL_STATUS_SYMBOL_ARRAY_SIZE=${#KL_STATUS_SYMBOL_ARRAY[@]}
     if [[ $KL_STATUS_SYMBOL_ARRAY_SIZE -gt 0 ]] && [[ "$KL_STATUS_ARRAY_ROTATE" == 'true' ]]; then
 
         ## Get random emoji value
         if [[ $# -eq 0 ]];
         then
-            KL_STATUS_SYMBOL_ARRAY_INDEX=$((($RANDOM % $KL_STATUS_SYMBOL_ARRAY_SIZE) + 1))
+            KL_STATUS_SYMBOL_ARRAY_INDEX=$((($KL_RANDOM % $KL_STATUS_SYMBOL_ARRAY_SIZE) + 1))
             export PURE_EMOJI=${KL_STATUS_SYMBOL_ARRAY[$KL_STATUS_SYMBOL_ARRAY_INDEX]}
         fi
 
         KL_STATUS_COLOR_SUCCESS_ARRAY_SIZE=${#KL_STATUS_COLOR_SUCCESS_ARRAY[@]}
         if [[ $KL_STATUS_COLOR_SUCCESS_ARRAY_SIZE -gt 0 ]] && [[ "$KL_STATUS_ARRAY_ROTATE" == 'true' ]]; then
-            export KL_PURE_EMOJI_SUCCESS_COLOR_INDEX=$((($RANDOM % $KL_STATUS_COLOR_SUCCESS_ARRAY_SIZE) + 1))
+            export KL_PURE_EMOJI_SUCCESS_COLOR_INDEX=$((($KL_RANDOM % $KL_STATUS_COLOR_SUCCESS_ARRAY_SIZE) + 1))
             export KL_PURE_EMOJI_SUCCESS_COLOR=${KL_STATUS_COLOR_SUCCESS_ARRAY[$KL_PURE_EMOJI_SUCCESS_COLOR_INDEX]}
             if [[ KL_PURE_EMOJI_SUCCESS_COLOR -lt 10 ]]; then
                 export KL_PURE_EMOJI_COLOR_SUCCESS_SPACING="00"
@@ -277,7 +302,7 @@ generate_emoji() {
 
         KL_STATUS_COLOR_ERROR_ARRAY_SIZE=${#KL_STATUS_COLOR_ERROR_ARRAY[@]}
         if [[ $KL_STATUS_COLOR_ERROR_ARRAY_SIZE -gt 0 ]] && [[ "$KL_STATUS_ARRAY_ROTATE" == 'true' ]]; then
-            export KL_PURE_EMOJI_ERROR_COLOR_INDEX=$((($RANDOM % $KL_STATUS_COLOR_ERROR_ARRAY_SIZE) + 1))
+            export KL_PURE_EMOJI_ERROR_COLOR_INDEX=$((($KL_RANDOM % $KL_STATUS_COLOR_ERROR_ARRAY_SIZE) + 1))
             export KL_PURE_EMOJI_ERROR_COLOR=${KL_STATUS_COLOR_ERROR_ARRAY[$KL_PURE_EMOJI_ERROR_COLOR_INDEX]}
             if [[ KL_PURE_EMOJI_ERROR_COLOR -lt 10 ]]; then
                 export KL_PURE_EMOJI_COLOR_ERROR_SPACING="00"

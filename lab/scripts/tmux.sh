@@ -367,9 +367,9 @@ function tmtemplist() {
   ls -1 ~/lab/scripts/tmuxp/ | fzf
 }
 
-function tpopup() {
+function tmpopup() {
 
-#  tmux display-popup -d -E "tmux new-session -A -s scratch 'zsh -c \"x\"'"
+  tmux send-keys -t $1 "bind-key -T copy-mode-vi 'C-q' send-keys 'C-g'" Enter
   tmux display-popup -d -E "tmux new-session -A -s scratch 'zsh -c \"interactive\"'"
 
 }
@@ -478,7 +478,7 @@ function calltmuxcreatewindow() {
 
 #      tmux send-keys -t "$inSession:$inWindow" "t $modeEmbed $currentTemplate" Enter
       if [[ $modePopup ]]; then
-        tpopup "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
+        tmpopup "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
       else
         trunsinglecommand "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
       fi
@@ -491,7 +491,7 @@ function calltmuxcreatewindow() {
 
 #      tmux send-keys -t "$inSession:$inWindow" "t $modeEmbed $currentTemplate" Enter
       if [[ $modePopup ]]; then
-        tpopup "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
+        tmpopup "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
       else
         trunsinglecommand "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
       fi
@@ -541,7 +541,7 @@ function tmdisplay() {
 }
 
 # set tmux default value
-function tdef() {
+function td() {
 
   local key=''
   local tmuxdefault=""

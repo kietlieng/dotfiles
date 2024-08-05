@@ -1,5 +1,7 @@
 #!/bin/bash
 
+tmux bind-key -T copy-mode-vi 'C-q' send-keys 'C-g'
+
 # Function to create a temporary pane
 create_temp_pane() {
     pane_id=$(tmux split-window -v -l 30 -d "$1")
@@ -12,9 +14,23 @@ close_temp_pane() {
 }
 
 # Interactive Menu
-choice=$(echo -e "htop\nLogs\nDatabase Access\nEdit Config\nInteractive Shell" | fzf --height 40% --reverse --border)
+choice=$(echo -e "default\njot\ntodo\nhtop\nLogs\nDatabase Access\nEdit Config\nInteractive Shell" | fzf --height 40% --reverse --border)
 
 case $choice in
+    "default")
+        tmuxdefault=$(ls -1 ~/lab/scripts/tmuxp/ | fzf --height 40% --reverse --border)
+        tmuxdefault=$(echo "$tmuxdefault" | sed 's/.yaml//')
+        echo "$tmuxdefault" > ~/.tmuxdefault
+#        close_temp_pane $pane_id
+        exit
+        ;;
+    "jot")
+        jotNotes=$(ls -1 /tmp/nap-* | fzf --height 40% --reverse --border)
+        pane_id=$(create_temp_pane "nvim /tmp/$jotNotes")
+        ;;
+    "todo")
+        pane_id=$(create_temp_pane "nvim ~/.todo")
+        ;;
     "htop")
         pane_id=$(create_temp_pane "htop")
         ;;
@@ -32,7 +48,7 @@ case $choice in
         ;;
     "Edit Config")
         config_file=$(find /etc -type f -name "*.conf" | fzf --height 40% --reverse --border)
-        pane_id=$(create_temp_pane "vim $config_file")
+        pane_id=$(create_temp_pane "nvim $config_file")
         ;;
     "Interactive Shell")
         shell_type=$(echo -e "Local\nDocker" | fzf --height 40% --reverse --border)
@@ -48,5 +64,8 @@ esac
 
 # Wait for user input to close the temporary pane
 #read -p "Press Enter to close the temporary pane..."
-read "Press Enter to close the temporary pane..."
-close_temp_pane $pane_id
+#read "Press Enter to close the temporary pane..."
+if [[ $pane_id ]]; then
+  close_temp_pane $pane_id
+fi
+exit
