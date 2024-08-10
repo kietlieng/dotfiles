@@ -1,9 +1,11 @@
 alias T='t -d'
+alias TE='t -d -t -embed'
 alias TM='t -d main'
 alias TT='t -d -t'
-alias TE='t -d -t -embed'
 alias tA='ta -f'
+alias tbrew='t -d brew'
 alias tdisplayoptions='tmux display-message -a | fzf'
+alias te='t -t -embed'
 alias tka="tk -a"
 alias tm1='tmux new-session'
 alias tm2='tmux new-session \; split-window -v \; select-pane -U \; set-window-option synchronize-panes on \; attach'
@@ -17,7 +19,6 @@ alias tmv2='tmux new-session \; split-window -h \; select-pane -L \; set-window-
 alias tmv3='tmux new-session \; split-window -h \; split-window -h \; select-pane -R \; set-window-option synchronize-panes on \; select-layout even-horizontal \; attach'
 alias tsource="tmux source ~/.tmux.conf"
 alias tt='t -t'
-alias te='t -t -embed'
 
 function tl() {
   t -l $@

@@ -57,4 +57,3 @@ for entry in cnameArray:
     #if len(ips_record.answer):
     #    if 1 < len(ips_record.answer):
     #        possibleIPs = "Possible IPs " + ", ".join(ips_record.answer) + ". ";
-    #    print(ips_record.answer[0] + " " + cnameArray[entry] + " # " + possibleIPs + "Relookup http://nslookup.paciolan.info/?entry=" + lookupDomain);

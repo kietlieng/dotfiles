@@ -4,8 +4,8 @@ local swnumber = 2
 vim.cmd([[set runtimepath+=~/.nvim]]) --set.runtimepath:append { set.runtimepath .. "/.nvim" }
 
 -- wrap
---set.wrap           = true
-set.wrap           = false
+--set.wrap = true
+set.wrap   = false
 
 ----tmux
 --set.ft   = 'tmux'
@@ -96,18 +96,17 @@ require("lazy").setup({
     -- gitlab duo 
     {
       'git@gitlab.com:gitlab-org/editor-extensions/gitlab.vim.git',
-        event = { 'BufReadPre', 'BufNewFile' }, -- Activate when a file is created/opened
-        ft = { 'go', 'javascript', 'python', 'ruby', 'bash' }, -- Activate when a supported filetype is open
-        cond = function()
-          return vim.env.GITLAB_TOKEN_DUO ~= nil and vim.env.GITLAB_TOKEN_DUO ~= '' -- Only activate if token is present in environment variable (remove to use interactive workflow)
-        end,
-        opts = {
-          statusline = {
-            enabled = true, -- Hook into the builtin statusline to indicate the status of the GitLab Duo Code Suggestions integration
-          },
+      event = { 'BufReadPre', 'BufNewFile' }, -- Activate when a file is created/opened
+      ft = { 'go', 'javascript', 'python', 'ruby', 'bash' }, -- Activate when a supported filetype is open
+      cond = function()
+        return vim.env.GITLAB_TOKEN ~= nil and vim.env.GITLAB_TOKEN ~= '' -- Only activate if token is present in environment variable (remove to use interactive workflow)
+      end,
+      opts = {
+        statusline = {
+          enabled = true, -- Hook into the builtin statusline to indicate the status of the GitLab Duo Code Suggestions integration
         },
       },
-
+    },
 
     -- syntax zellij
     { "imsnif/kdl.vim" },

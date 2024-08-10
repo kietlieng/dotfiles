@@ -168,17 +168,21 @@ function gp() {
     originInfo=$(ggetorg $gitFolderDirectory $currentBranch)
     #echo "origin is 2 $originInfo from branch $currentBranch"
     #pwd
-    if [[ $originInfo != 'master' ]]; then
-      #currentFolder=$(pwd)
-      #echo "rebase to $originInfo"
-      #git pull --rebase origin "$originInfo" &
-      git rebase
-    else
-      #echo "pull from master"
-      #git pull &
-      #git pull --rebase origin "$originInfo" &
-      git rebase
-    fi
+    echo "$gitFolderDirectory ... pulling"
+    git rebase
+
+#    if [[ $originInfo != 'master' ]]; then
+#      #currentFolder=$(pwd)
+#      #echo "rebase to $originInfo"
+#      #git pull --rebase origin "$originInfo" &
+#      git rebase
+#    else
+#      #echo "pull from master"
+#      #git pull &
+#      #git pull --rebase origin "$originInfo" &
+#      git rebase
+#    fi
+
     #gwarn
     # sleep if it's over a certain amount
     gwait
@@ -599,7 +603,7 @@ function gisgitlab() {
   mungedURL="${1%/}"
 
   # if gitlabdev
-  if [[ $mungedURL == *"gitlabdev.paciolan.info"* ]]; then
+  if [[ $mungedURL == *"$GIT_URL"* ]]; then
     echo "t"
   else
     echo "f"
@@ -650,6 +654,31 @@ function gpr() {
   fi
   echo "${gitOrigin}${gitPR}"
   open "${gitOrigin}${gitPR}"
+
+}
+
+function gdep() {
+
+  local gitOrigin=''
+  local gitPR=""
+  local gitOrigin=""
+  local rootFolder=$(pwd)
+
+  for gitFolder in $(find . -name ".git" -type d -exec realpath {} \;) ; do
+    cd $gitFolder/..
+    gitOrigin=`git config --list | grep -i remote.origin.url`
+    gitPR="/-/dependencies"
+    gitOrigin=$(echo "$gitOrigin" | sed "s/:/\//g")
+    gitOrigin=$(echo "$gitOrigin" | sed "s/\.git//g")
+    gitOrigin=$(echo "$gitOrigin" | sed "s/remote\.origin\.url=git@/https\:\/\//g")
+    if [[ $gitOrigin == *github.com* ]];
+    then
+      gitPR="/pulls"
+    fi
+    echo "${gitOrigin}${gitPR}"
+    open "${gitOrigin}${gitPR}"
+  done
+  cd $rootFolder
 
 }
 
