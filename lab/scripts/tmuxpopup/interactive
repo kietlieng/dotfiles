@@ -15,7 +15,7 @@ close_temp_pane() {
 }
 
 # Interactive Menu
-choice=$(echo -e "default\njot\ntodo\nhtop\nLogs\nDatabase Access\nEdit Config\nInteractive Shell" | fzf --height 40% --reverse --border)
+choice=$(echo -e "default\njot\ntodo\nhtop" | fzf --height 40% --reverse --border)
 
 case $choice in
     "default")
@@ -35,10 +35,6 @@ case $choice in
     "htop")
         pane_id=$(create_temp_pane "htop")
         ;;
-    "Logs")
-        log_file=$(find /var/log -type f | fzf --height 40% --reverse --border)
-        pane_id=$(create_temp_pane "tail -f $log_file")
-        ;;
 esac
 
 #read -p "Press Enter to close the temporary pane..."
@@ -46,4 +42,5 @@ esac
 if [[ $pane_id ]]; then
   close_temp_pane $pane_id
 fi
-exit
+##exit
+##tmux kill-window

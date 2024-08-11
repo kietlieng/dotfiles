@@ -196,7 +196,7 @@ function t() {
 
     echo "\nProfile(s): $loadDir"
     ls "$loadDir"
-#    tmdisplay
+    tmdisplay
 
   fi
 
