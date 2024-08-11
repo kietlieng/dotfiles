@@ -191,13 +191,12 @@ function t() {
       fi
 
     fi
-#    tmdisplay
 
   else
 
     echo "\nProfile(s): $loadDir"
     ls "$loadDir"
-    tmdisplay
+#    tmdisplay
 
   fi
 
@@ -242,7 +241,7 @@ function tk() {
     pecho "Session is |$inSession|"
   fi
 
-  local tmSize=$(tmux ls | wc -l | xargs)
+  local tmSize=$(tmux ls 2>&1 | wc -l | xargs)
   local foundSession=''
 
   # if without param
@@ -370,7 +369,6 @@ function tmtemplist() {
 
 function tmpopup() {
 
-  tmux send-keys -t $1 "bind-key -T copy-mode-vi 'C-q' send-keys 'C-g'" Enter
   tmux display-popup -d -E "tmux new-session -A -s scratch 'zsh -c \"interactive\"'"
 
 }
@@ -561,5 +559,6 @@ function td() {
   done
 
   echo "$tmuxdefault" > ~/.tmuxdefault
+  echo "Setting template to: $tmuxdefault ..."
 
 }

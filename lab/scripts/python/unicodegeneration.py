@@ -3,6 +3,7 @@ import json
 # Define Unicode block ranges (simplified example)
 # The full list of blocks can be obtained from the Unicode Consortium
 unicode_blocks = {
+
     "Basic Latin": (0x0000, 0x007F),
     "Latin-1 Supplement": (0x0080, 0x00FF),
     "Latin Extended-A": (0x0100, 0x017F),
@@ -331,7 +332,7 @@ unicode_blocks = {
 #    "Variation Selectors Supplement": (0xE0100, 0xE01EF), # blank
     "Supplementary Private Use Area-A": (0xF0000, 0xFFFFF),
 #    "Supplementary Private Use Area-B": (0x100000, 0x10FFFF), # not filled out at all
-    # Add more blocks as needed
+
 }
 
 unicode_blocks_other = {

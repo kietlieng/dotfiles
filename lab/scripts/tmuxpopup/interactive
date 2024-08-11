@@ -1,11 +1,12 @@
 #!/bin/bash
 
-tmux bind-key -T copy-mode-vi 'C-q' send-keys 'C-g'
 
 # Function to create a temporary pane
 create_temp_pane() {
-    pane_id=$(tmux split-window -v -l 30 -d "$1")
-    echo $pane_id
+
+  pane_id=$(tmux split-window -v -l 30 -d "$1")
+  echo $pane_id
+
 }
 
 # Function to close a temporary pane
@@ -26,7 +27,7 @@ case $choice in
         ;;
     "jot")
         jotNotes=$(ls -1 /tmp/nap-* | fzf --height 40% --reverse --border)
-        pane_id=$(create_temp_pane "nvim /tmp/$jotNotes")
+        pane_id=$(create_temp_pane "vim $jotNotes")
         ;;
     "todo")
         pane_id=$(create_temp_pane "nvim ~/.todo")
