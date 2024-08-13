@@ -179,7 +179,7 @@ function t() {
           if [[ $modeEmbed ]]; then
 
 #            tmux send-keys -t "$firstTitle:$firstWindow" "unset TMUX" Enter
-            trunsinglecommand "$firstTitle:$firstWindow" "unset TMUX" "$modeEmbed"
+            tmrunsinglecommand "$firstTitle:$firstWindow" "unset TMUX" "$modeEmbed"
 
           fi
 
@@ -369,11 +369,18 @@ function tmtemplist() {
 
 function tmpopup() {
 
-  tmux display-popup -d -E "tmux new-session -A -s scratch 'zsh -c \"interactive\"'"
+  local firstTitle=$(tmux display-message -p '#{session_name}')
+  local firstWindow=$(tmux display-message -p '#{window_name}')
+  pecho "tmpopup testing $firstTitle:$firstWindow"
+
+  watchstart # start to watch for file
+
+  tmux display-popup -d -E "tmux new-session -A -s scratch 'zsh -c \"interactive $firstTitle $firstWindow\"'"
+#  tmux display-popup -d -E "tmux new-session -A -s scratch 'zsh'"
 
 }
 
-function trunsinglecommand() {
+function tmrunsinglecommand() {
 
   local argSessionWindow="$1"
   local argCommand="$2"
@@ -412,7 +419,14 @@ function trunsinglecommand() {
 function calltmuxcreatewindow() {
   
 #  tmux display-message -p "#S"
-#  echo "|$TMUX_PANE|$TMUX|"
+  tmgetsize
+  pecho "|$TMUX_PANE|$TMUX|"
+  local tmSize=$(cat ~/.tmuxsize)
+  
+  if [[ "$tmSize" -eq "0" ]]; then
+#    pecho "no size quitting"
+    return
+  fi
 
   local key=''
 
@@ -477,9 +491,10 @@ function calltmuxcreatewindow() {
 
 #      tmux send-keys -t "$inSession:$inWindow" "t $modeEmbed $currentTemplate" Enter
       if [[ $modePopup ]]; then
+        pecho "insession backgroundmode popup"
         tmpopup "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
       else
-        trunsinglecommand "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
+        tmrunsinglecommand "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
       fi
 
       gecho "$currentTemplate"
@@ -490,9 +505,10 @@ function calltmuxcreatewindow() {
 
 #      tmux send-keys -t "$inSession:$inWindow" "t $modeEmbed $currentTemplate" Enter
       if [[ $modePopup ]]; then
+        pecho "insession popup"
         tmpopup "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
       else
-        trunsinglecommand "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
+        tmrunsinglecommand "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
       fi
 
       wait # need to sleep and delay so tmux can create window to register
@@ -524,8 +540,7 @@ function calltmuxcreatewindow() {
 
 }
 
-
-function tmdisplay() {
+function tmgetsize() {
 
   local tmOutput=$(tmux ls 2>&1 | grep -v "no server running on")
   local tmSize=0
@@ -534,6 +549,20 @@ function tmdisplay() {
     tmSize=$(echo $tmOutput | wc -l | xargs)
   fi
 
+  echo "$tmSize" > ~/.tmuxsize
+
+  if [[ $# -gt 0 ]]; then
+    echo "$tmSize"
+  fi
+
+}
+
+function tmdisplay() {
+
+  local tmSize=$(tmgetsize x)
+  local tmOutput=$(tmux ls 2>&1 | grep -v "no server running on")
+
+  echo "$tmSize" > ~/.tmuxsize
   echo "\nSession($tmSize): $(cat ~/.tmuxdefault)"
   echo "$tmOutput"
 
@@ -560,5 +589,18 @@ function td() {
 
   echo "$tmuxdefault" > ~/.tmuxdefault
   echo "Setting template to: $tmuxdefault ..."
+
+}
+
+function calltmuxcallback() {
+
+  local hasvalue=$(find /tmp/ -iname "tmuxcallback" -mmin -1 2>/dev/null)
+
+  if [[ $hasvalue ]]; then
+
+    local tmuxpopupcall=$(cat /tmp/tmuxcallback)
+    echo "callback $tmuxpopupcall"
+    eval "$tmuxpopupcall"
+  fi
 
 }

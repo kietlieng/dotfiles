@@ -3,5 +3,6 @@ windows:
   - window_name: rasa-$RANDOM_TITLE1
     layout: even-vertical
     panes:
-      -
+      - shell_command:
+        - startwatch
         focus: true

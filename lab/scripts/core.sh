@@ -995,7 +995,6 @@ function catcp() {
   cat $1
 }
 
-
 # Echo family! 
 # printing functions 
 function becho() { # broadcast echo.  Put in file and also output to screen
@@ -1023,6 +1022,12 @@ function cecho() { # get echo from file.  Then empty
   
   cat /tmp/log-gecho
   echo "" > /tmp/log-gecho
+
+}
+
+function techo() { # get echo from file.  Then empty
+  
+  tail -f  /tmp/log-gecho
 
 }
 

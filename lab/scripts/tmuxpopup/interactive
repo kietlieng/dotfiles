@@ -1,24 +1,38 @@
 #!/bin/bash
 
+parentTitle="$1"
+parentWindow="$2"
+
+#echo "$parentTitle:$parentWindow"
 
 # Function to create a temporary pane
-create_temp_pane() {
+function create_temp_pane() {
 
   pane_id=$(tmux split-window -v -l 30 -d "$1")
   echo $pane_id
 
 }
 
+
+function create_temp_pane_parent() {
+
+  pecho "tmux -t "$parentTitle:$parentWindow" split-window -v -l 30 -d \"$1\""
+#  pane_id=$(tmux -t "$parentTitle:$parentWindow" split-window -v -l 30 -d "$1")
+#  pane_id=$(tmux -T "$parentTitle:$parentWindow" split-window -v -l 30 -d "$1")
+  echo "tmux -T \"$parentTitle:$parentWindow\" split-window -v -l 30 -d \"$1\"\; select-pane -D \;" > /tmp/tmuxcallback
+
+}
+
 # Function to close a temporary pane
-close_temp_pane() {
+function close_temp_pane() {
     tmux killpane -t $1
 }
 
 # Interactive Menu
-choice=$(echo -e "default\njot\ntodo\nhtop" | fzf --height 40% --reverse --border)
+choice=$(echo -e "tdefault\njot\ntodo\nhtop" | fzf --height 40% --reverse --border)
 
 case $choice in
-    "default")
+    "tdefault")
         tmuxdefault=$(ls -1 ~/lab/scripts/tmuxp/ | fzf --height 40% --reverse --border)
         tmuxdefault=$(echo "$tmuxdefault" | sed 's/.yaml//')
         echo "$tmuxdefault" > ~/.tmuxdefault
@@ -27,10 +41,10 @@ case $choice in
         ;;
     "jot")
         jotNotes=$(ls -1 /tmp/nap-* | fzf --height 40% --reverse --border)
-        pane_id=$(create_temp_pane "vim $jotNotes")
+        pane_id=$(create_temp_pane_parent "nvim $jotNotes")
         ;;
     "todo")
-        pane_id=$(create_temp_pane "nvim ~/.todo")
+        pane_id=$(create_temp_pane_parent "nvim ~/.todo")
         ;;
     "htop")
         pane_id=$(create_temp_pane "htop")
@@ -42,5 +56,7 @@ esac
 if [[ $pane_id ]]; then
   close_temp_pane $pane_id
 fi
-##exit
-##tmux kill-window
+#tmux send-keys "exit" C-m
+tmux kill-window
+sleep 2
+exit
