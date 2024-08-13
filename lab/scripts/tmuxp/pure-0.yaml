@@ -5,4 +5,4 @@ windows:
       - viuni
   - window_name: pure-$RANDOM_TITLE1
     panes:
-      - c pure
+      - c epure
