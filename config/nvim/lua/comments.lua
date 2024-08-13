@@ -47,21 +47,22 @@ function F.comments(aRegular, aNormalMode, aAll, aCommentOut, aInvert, aBuffer)
 
   vim.cmd.normal("ml") -- set mark
 
-  if filename      == 'kitty.conf' or
-     filename      == 'config' or -- might be ssh config
-     filename      == 'skhdrc' or -- hotkeys
-     filename      == '.zshrc' or
-     filename      == '.yabairc' or
-     filename      == '.gitlab-ci.yml' or
+  if filename      == '.gitlab-ci.yml' or
      filename      == '.tmux.conf' or
+     filename      == '.yabairc' or
+     filename      == '.zshrc' or
+     filename      == 'config' or -- might be ssh config
+     filename      == 'interactive' or
+     filename      == 'skhdrc' or -- hotkeys
      filename      == 'tmux.conf' or
+     filename      == 'kitty.conf' or
+     fileExtension == 'fwd' or
+     fileExtension == 'py' or
+     fileExtension == 'sh' or
      fileExtension == 'tf' or
      fileExtension == 'yaml' or
      fileExtension == 'yml' or
-     fileExtension == 'py' or
-     fileExtension == 'sh' or
-     fileExtension == 'zsh' or
-     fileExtension == 'fwd' then
+     fileExtension == 'zsh' then
 
     commentCharacter = "#"
 

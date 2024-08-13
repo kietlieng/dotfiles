@@ -375,7 +375,7 @@ function tmpopup() {
 
   watchstart # start to watch for file
 
-  tmux display-popup -d -E "tmux new-session -A -s scratch 'zsh -c \"interactive $firstTitle $firstWindow\"'"
+  tmux display-popup -d -E "tmux new-session -A -s scratch 'zsh -c \"interactive $firstTitle $firstWindow\"; exit'"
 #  tmux display-popup -d -E "tmux new-session -A -s scratch 'zsh'"
 
 }

@@ -16,10 +16,9 @@ function create_temp_pane() {
 
 function create_temp_pane_parent() {
 
-  pecho "tmux -t "$parentTitle:$parentWindow" split-window -v -l 30 -d \"$1\""
-#  pane_id=$(tmux -t "$parentTitle:$parentWindow" split-window -v -l 30 -d "$1")
-#  pane_id=$(tmux -T "$parentTitle:$parentWindow" split-window -v -l 30 -d "$1")
-  echo "tmux -T \"$parentTitle:$parentWindow\" split-window -v -l 30 -d \"$1\"\; select-pane -D \;" > /tmp/tmuxcallback
+  local tempPaneOutput="tmux -T \"$parentTitle:$parentWindow\" split-window -v -l 30 -d \"$1\"\; select-pane -D \;"
+  pecho "$tempPaneOutput"
+  echo "$tempPaneOutput" > /tmp/tmuxcallback
 
 }
 
@@ -29,7 +28,7 @@ function close_temp_pane() {
 }
 
 # Interactive Menu
-choice=$(echo -e "tdefault\njot\ntodo\nhtop" | fzf --height 40% --reverse --border)
+choice=$(echo -e "tdefault\njot\nmnote\ndo\nhtop\njsh" | fzf --height 40% --reverse --border)
 
 case $choice in
     "tdefault")
@@ -41,22 +40,26 @@ case $choice in
         ;;
     "jot")
         jotNotes=$(ls -1 /tmp/nap-* | fzf --height 40% --reverse --border)
-        pane_id=$(create_temp_pane_parent "nvim $jotNotes")
+        create_temp_pane_parent "nvim $jotNotes"
         ;;
-    "todo")
-        pane_id=$(create_temp_pane_parent "nvim ~/.todo")
+    "mnote")
+        create_temp_pane_parent "mnote scratch"
+        ;;
+    "do")
+        create_temp_pane_parent "nvim ~/.todo"
         ;;
     "htop")
         pane_id=$(create_temp_pane "htop")
         ;;
 esac
 
-#read -p "Press Enter to close the temporary pane..."
-#read "Press Enter to close the temporary pane..."
 if [[ $pane_id ]]; then
   close_temp_pane $pane_id
 fi
+
+# no way to exit after session so just leaving and using command escape to close
+#zsh
+#tmux kill-session -t "scratch"
 #tmux send-keys "exit" C-m
-tmux kill-window
-sleep 2
-exit
+#sleep 2
+#exit
