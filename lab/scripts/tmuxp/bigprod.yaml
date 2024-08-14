@@ -1,0 +1,10 @@
+session_name: bigip-$RANDOM_TITLE1
+windows:
+  - window_name: big-$RANDOM_TITLE1
+    layout: even-vertical
+    panes:
+      - ssbigp
+      - ssbigp 11
+      - ssbigp 12
+    options_after:
+        synchronize-panes: on

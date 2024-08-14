@@ -70,9 +70,6 @@
 #	PROMPT+=$prompt_indicator
 #	...
 
-alias dat="da t"
-alias daf="da f"
-
 ## avant-garde emoji designer
 ## other
 #'(⌐▨ʭ▨)' '(/// -)' '(✖ ‿ ✖)' '𐂠  𐂠 ' '(◔ ‿◔)' '(°‿°)' # Kanye emo up-for-anything double rainbow
@@ -316,7 +313,7 @@ generate_color() {
 KL_RANDOM=0
 
 kl_genrandom() {
-  KL_RANDOM=$(openssl rand 4 | od -DAn)
+  KL_RANDOM=$(openssl rand 4 | od -DAn | xargs)
 }
 
 generate_emoji() {

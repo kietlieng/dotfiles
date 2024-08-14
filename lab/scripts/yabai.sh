@@ -271,8 +271,10 @@ function yo() {
 function yison() {
 
     local yMessage=$(yabai -m query --displays 2>&1)
-    #echo "message $yMessage"
-    if [[ "$yMessage" = *"failed to connect to socket"* ]]; then
+    pecho "message $yMessage"
+    if [[ $(ps aux | grep -i kitten | wc -l | xargs) -lt 3 ]]; then
+      echo -n "off"
+    elif [[ "$yMessage" = *"failed to connect to socket"* ]]; then
       echo -n "off"
       #https://stackoverflow.com/questions/11141120/exit-function-stack-without-exiting-shell
       #kill -INT $$
@@ -699,50 +701,34 @@ function yanchor() {
 # check and then rotate
 function ycheckrot() {
 
-  if [[ $(yison) == "off" ]]; then return; fi
-
-  # whatever value throw it in there 
-  while [[ $# -gt 0 ]]; do
+  while [[ $# -gt 0 ]]; do # whatever value throw it in there 
 
     echo "$1" > ~/.yrotate
     shift
 
   done
 
-  local yOrientation=$(cat ~/.yrotate) 
-  
-  # only handle topdown
-  if [[ $yOrientation != "topdown" ]]; then return; fi
+  if [[ $(yison) == "off" ]]; then return; fi # return if off
+
+
+  if [[ $(cat ~/.yrotate) != "topdown" ]]; then return; fi # only handle topdown
 
   local yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty")) | select(."is-visible") | select(."is-minimized"|not)')
-  local yInstanceCount=$(echo "$yTargetDisplays" | jq ".frame | .h" | wc -l)
-  local yInstanceCount=$((yInstanceCount)) # string to int cast
-  if [[ $yInstanceCount -lt 2 ]]; then return; fi
-
-  local yDisplayIndex=$(echo "$yTargetDisplays" | jq '.display' | head -n 1) 
-  local yHeight=$(yabai -m query --displays | jq ".[] | select(.index==$yDisplayIndex) | .frame.h")
-  local yHeight=${yHeight%.*} # need int cast
-  local yHeightTolerance=$((yHeight - 50))
-  local yHeightTolerance=${yHeightTolerance%.*} # need int cast
-  local yAllHeights=$(echo "$yTargetDisplays" | jq ".frame | .h")
+  local yAllHeights=$(echo "$yTargetDisplays" | jq ".frame | .y")
   local yRotated="f"
-
-
-  #echo "$yHeight > $yHeightTolerance. $yTargetDisplays $yAllHeights"
-  #for currentIP in $(echo $sCurrentURI | sed 's/:/\n/g')
-
+  pecho "$yAllHeights"
+  local allHeightDump="|"
 
   for eachHeight in $(echo "$yAllHeights" | sed 's/ /\n/g'); do
 
-    #echo "$yHeightTolerance < |$eachHeight| < $yHeight"
-    eachHeight=${eachHeight%.*}
-    if [[ $yHeightTolerance -lt $eachHeight ]] && [[ $eachHeight -lt $yHeight ]]; then 
-
-#      echo "rotate"
-      rot 
+    pecho "$yHeightTolerance < |$eachHeight| < $yHeight"
+  
+    if [[ $(echo "$allHeightDump" | grep -i "$eachHeight") ]]; then # if we match a value then that means it needs to be rotated
+      rot
       yRotated="t"
       break
-
+    else
+      allHeightDump="$allHeightDump|$eachHeight"
     fi
 
   done
