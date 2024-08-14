@@ -1033,12 +1033,12 @@ function techo() { # get echo from file.  Then empty
 
 
 # requires wonderword
-function ama() {
+function iama() {
     
   local wonderwordadjective=$(wonderwords -w -p adjective) 
   local wonderwordnoun=$(wonderwords -w -p noun)
 
-  echo "You are a $wonderwordadjective $wonderwordnoun"
+  echo "I am your $wonderwordadjective $wonderwordnoun"
 
 }
 

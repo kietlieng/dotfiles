@@ -1,9 +1,11 @@
 #!/bin/bash
 
-parentTitle="$1"
-parentWindow="$2"
+source ~/lab/scripts/calls/sourceall
 
-#echo "$parentTitle:$parentWindow"
+parentSessionName="$1"
+parentPaneName="$2"
+
+#echo "$parentSessionName:$parentPaneName"
 
 # Function to create a temporary pane
 function create_temp_pane() {
@@ -16,7 +18,7 @@ function create_temp_pane() {
 
 function create_temp_pane_parent() {
 
-  local tempPaneOutput="tmux -T \"$parentTitle:$parentWindow\" split-window -v -l 30 -d \"$1\"\; select-pane -D \;"
+  local tempPaneOutput="tmux -T \"$parentSessionName:$parentPaneName\" split-window -v -l 30 -d \"$1\"\; select-pane -D \;"
   pecho "$tempPaneOutput"
   echo "$tempPaneOutput" > /tmp/tmuxcallback
 
@@ -28,29 +30,32 @@ function close_temp_pane() {
 }
 
 # Interactive Menu
-choice=$(echo -e "tdefault\njot\nmnote\ndo\nhtop\njsh" | fzf --height 40% --reverse --border)
+choice=$(echo -e "tdefault\njot\nnote\ndo\nhtop" | fzf --height 40% --reverse --border)
 
 case $choice in
-    "tdefault")
-        tmuxdefault=$(ls -1 ~/lab/scripts/tmuxp/ | fzf --height 40% --reverse --border)
-        tmuxdefault=$(echo "$tmuxdefault" | sed 's/.yaml//')
-        echo "$tmuxdefault" > ~/.tmuxdefault
-#        close_temp_pane $pane_id
-        exit
-        ;;
-    "jot")
-        jotNotes=$(ls -1 /tmp/nap-* | fzf --height 40% --reverse --border)
-        create_temp_pane_parent "nvim $jotNotes"
-        ;;
-    "mnote")
-        create_temp_pane_parent "mnote scratch"
-        ;;
-    "do")
-        create_temp_pane_parent "nvim ~/.todo"
-        ;;
-    "htop")
-        pane_id=$(create_temp_pane "htop")
-        ;;
+  "tdefault")
+    tmuxdefault=$(ls -1 ~/lab/scripts/tmuxp/ | fzf --height 40% --reverse --border)
+    tmuxdefault=$(echo "$tmuxdefault" | sed 's/.yaml//')
+    echo "$tmuxdefault" > ~/.tmuxdefault
+#    close_temp_pane $pane_id
+    exit
+    ;;
+  "jot")
+    jotNotes=$(ls -1 /tmp/nap-* | fzf --height 40% --reverse --border)
+    create_temp_pane_parent "nvim $jotNotes"
+    ;;
+  "note")
+    fullpathFilename=$(mnote -d -createonly "$parentPaneName")
+    pecho "popup $parentSessionName $parentPaneName $fullpathFilename"
+    create_temp_pane_parent "nvim $fullpathFilename"
+#    choice=$(echo -e "$fullpathFilename" | fzf --height 40% --reverse --border)
+    ;;
+  "do")
+    create_temp_pane_parent "nvim ~/.todo"
+    ;;
+  "htop")
+    pane_id=$(create_temp_pane "htop")
+    ;;
 esac
 
 if [[ $pane_id ]]; then

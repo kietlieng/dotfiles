@@ -23,6 +23,7 @@
 # \e[K  => clears everything after the cursor on the current line
 # \e[2K => clear everything on the current line
 
+start=`date +%s`
 
 # Turns seconds into human readable time.
 # 165392 => 1d 21h 56m 32s
@@ -920,3 +921,7 @@ prompt_pure_setup() {
 }
 
 prompt_pure_setup "$@"
+end=`date +%s`
+runtime=$((end-start))
+#echo -n "$end $start"
+echo " runtime $runtime"

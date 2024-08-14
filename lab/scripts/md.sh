@@ -7,14 +7,14 @@ function pxo() {
 
 function mpx() {
     echo "mpx $@" > /tmp/debugcommand
-#    fileNameDate=$(date +"%y%m%d%H%M")
-    fileNameDate=$(date +"%y%m%d")
-    fileName=""
-    fileNameFull=$fileName
-    targetDirectory="$MARKDOWN_MEETING_DIRECTORY"
+#    local fileNameDate=$(date +"%y%m%d%H%M")
+    local fileNameDate=$(date +"%y%m%d")
+    local fileName=""
+    local fileNameFull=$fileName
+    local targetDirectory="$MARKDOWN_MEETING_DIRECTORY"
     echo "screen directory $SCREENSHOT_DIRECTORY"
-    screenValue=`lsd -tr1 --classic $SCREENSHOT_DIRECTORY | tail -n 1`
-    useDate=true
+    local screenValue=`lsd -tr1 --classic $SCREENSHOT_DIRECTORY | tail -n 1`
+    local modeDate=''
     echo "screen value $screenValue"
 
     while [[ $# -gt 0 ]]
@@ -26,7 +26,7 @@ function mpx() {
                 shift
                 ;;
             '-d' ) # do not use date
-                useDate=false
+                modeDate='t'
                 shift
                 ;;
             '-h' )
@@ -54,7 +54,7 @@ function mpx() {
 
     fileName=${fileName%"-"}
     fileNameFull=${fileNameFull%"-"}
-    if [ $useDate = 'true' ]; then
+    if [[ $modeDate ]]; then
         fileNameFull="${fileNameDate}-${fileNameFull}"
         fileName="${fileNameDate}-${fileName}"
     fi
@@ -68,46 +68,57 @@ function mpx() {
 }
 
 function mnote() {
-    fileNameDate=$(date +"%y%m%d")
-    fileName=""
-    useDate=true
-    targetDirectory="$MARKDOWN_MEETING_DIRECTORY"
 
-    while [[ $# -gt 0 ]]
-    do
-        key="$1"
-        case $key in
-            '-d' ) # do not use date
-                useDate=false
-                shift
-                ;;
-            '-notes' )
-                targetDirectory="$MARKDOWN_NOTE_DIRECTORY"
-                shift
-                ;;
-            '-here' )
-                targetDirectory=$(pwd)
-                shift
-                ;;
-            * )
-                fileName="${fileName}${1}-"
-                shift
-                ;;
-        esac
-    done
+  local fileNameDate=$(date +"%y%m%d")
+  local fileName=""
+  local modeDate=''
+  local targetDirectory="$MARKDOWN_MEETING_DIRECTORY"
+  local modeCreateOnly=''
 
-    fileName=${fileName%"-"}
-    # add date if needed
-    if [ $useDate = 'true' ]; then
-        fileName="${fileNameDate}-${fileName}"
-    fi
-    fileName="${fileName}.md"
+  while [[ $# -gt 0 ]]
+  do
+    key="$1"
+    shift
+    case $key in
+      '-d' ) # do not use date
+        modeDate='t'
+        ;;
+      '-notes' )
+        targetDirectory="$MARKDOWN_NOTE_DIRECTORY"
+        ;;
+      '-here' )
+        targetDirectory=$(pwd)
+        ;;
+      '-createonly' )
+        fileNameDate=$(date +"%y%m%d%H%M")
+        modeCreateOnly='t'
+        ;;
+      * )
+        fileName="${fileName}${key}-"
+        ;;
+    esac
+  done
 
-    full_file_path="${targetDirectory}/${fileName}"
+  fileName=${fileName%-}
+
+  pecho "$fileName"
+#  echo "$fileName"
+
+  # add date if needed
+  if [[ $modeDate ]]; then
+      fileName="${fileNameDate}-${fileName}"
+  fi
+  fileName="${fileName}.md"
+
+  full_file_path="${targetDirectory}/${fileName}"
+  pecho $full_file_path
+  touch $full_file_path
+
+  if [[ $modeCreateOnly ]]; then
     echo $full_file_path
-    touch $full_file_path
-    #open $full_file_path
+  else
     nvim $full_file_path
+  fi
 
 }
 

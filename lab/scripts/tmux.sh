@@ -34,8 +34,8 @@ function t() {
   local loadDir=~/lab/scripts/tmuxp
   local listMatches=''
   local titleUsed=''
-  local firstTitle=''
-  local firstWindow=''
+  local sessionName=''
+  local paneName=''
 
   local modeDetach=''
   local modeEmbed=''
@@ -115,7 +115,7 @@ function t() {
         gentitle
       fi
 
-      firstTitle=''
+      sessionName=''
       for yFile in "${targetFiles[@]}"; do
 
         pecho "RANDOM_TITLE $RANDOM_TITLE1"
@@ -157,9 +157,9 @@ function t() {
 
         if [[ $titleUsed ]]; then
           tmsleep
-          if [[ $firstTitle == '' ]]; then
-            firstTitle=$(tmux display-message -p '#{session_name}')
-            firstWindow=$(tmux display-message -p '#{window_name}')
+          if [[ $sessionName == '' ]]; then
+            sessionName=$(tmux display-message -p '#{session_name}')
+            paneName=$(tmux display-message -p '#{window_name}')
           fi
           gentitle
           titleUsed=''
@@ -170,21 +170,21 @@ function t() {
       # attach to the first session
       if [[ $modeDetach == '' ]] && [[ $TMUX == '' ]] && [[ $fileSize -gt 1 ]]; then
 
-        pecho "firstTitle |$firstTitle|"
+        pecho "sessionName |$sessionName|"
 
-        if [[ $firstTitle ]]; then
+        if [[ $sessionName ]]; then
 
-          pecho "end attaching to $firstTitle:$firstWindow"
+          pecho "end attaching to $sessionName:$paneName"
 
           if [[ $modeEmbed ]]; then
 
-#            tmux send-keys -t "$firstTitle:$firstWindow" "unset TMUX" Enter
-            tmrunsinglecommand "$firstTitle:$firstWindow" "unset TMUX" "$modeEmbed"
+#            tmux send-keys -t "$sessionName:$paneName" "unset TMUX" Enter
+            tmrunsinglecommand "$sessionName:$paneName" "unset TMUX" "$modeEmbed"
 
           fi
 
           tmsleep
-          tmux attach -t "$firstTitle:$firstWindow"
+          tmux attach -t "$sessionName:$paneName"
 
         fi
 
@@ -369,13 +369,13 @@ function tmtemplist() {
 
 function tmpopup() {
 
-  local firstTitle=$(tmux display-message -p '#{session_name}')
-  local firstWindow=$(tmux display-message -p '#{window_name}')
-  pecho "tmpopup testing $firstTitle:$firstWindow"
+  local sessionName=$(tmux display-message -p '#{session_name}')
+  local paneName=$(tmux display-message -p '#{window_name}')
+  pecho "send session/pane $sessionName:$paneName"
 
   watchstart # start to watch for file
 
-  tmux display-popup -d -E "tmux new-session -A -s scratch 'zsh -c \"interactive $firstTitle $firstWindow\"; exit'"
+  tmux display-popup -d -E "tmux new-session -A -s scratch 'zsh -c \"interactive $sessionName $paneName\"; exit'"
 #  tmux display-popup -d -E "tmux new-session -A -s scratch 'zsh'"
 
 }
