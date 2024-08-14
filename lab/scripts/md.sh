@@ -14,7 +14,7 @@ function mpx() {
     local targetDirectory="$MARKDOWN_MEETING_DIRECTORY"
     echo "screen directory $SCREENSHOT_DIRECTORY"
     local screenValue=`lsd -tr1 --classic $SCREENSHOT_DIRECTORY | tail -n 1`
-    local modeDate=''
+    local modeDate='t'
     echo "screen value $screenValue"
 
     while [[ $# -gt 0 ]]
@@ -26,7 +26,7 @@ function mpx() {
                 shift
                 ;;
             '-d' ) # do not use date
-                modeDate='t'
+                modeDate=''
                 shift
                 ;;
             '-h' )
@@ -71,7 +71,7 @@ function mnote() {
 
   local fileNameDate=$(date +"%y%m%d")
   local fileName=""
-  local modeDate=''
+  local modeDate='t'
   local targetDirectory="$MARKDOWN_MEETING_DIRECTORY"
   local modeCreateOnly=''
 
@@ -81,7 +81,7 @@ function mnote() {
     shift
     case $key in
       '-d' ) # do not use date
-        modeDate='t'
+        modeDate=''
         ;;
       '-notes' )
         targetDirectory="$MARKDOWN_NOTE_DIRECTORY"
@@ -111,13 +111,12 @@ function mnote() {
   fileName="${fileName}.md"
 
   full_file_path="${targetDirectory}/${fileName}"
-  pecho $full_file_path
-  touch $full_file_path
+  pecho "$full_file_path"
 
-  if [[ $modeCreateOnly ]]; then
-    echo $full_file_path
+  if [[ $modeCreateOnly ]]; then # only echo it out without creating a file
+    echo "$full_file_path"
   else
-    nvim $full_file_path
+    nvim "$full_file_path" # only edit do not create ahead of time
   fi
 
 }
