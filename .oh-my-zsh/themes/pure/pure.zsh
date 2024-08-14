@@ -921,7 +921,8 @@ prompt_pure_setup() {
 }
 
 prompt_pure_setup "$@"
-end=`date +%s`
-runtime=$((end-start))
-#echo -n "$end $start"
-echo " runtime $runtime"
+
+#end=`date +%s`
+#runtime=$((end-start))
+##echo -n "$end $start"
+#echo " runtime $runtime"
