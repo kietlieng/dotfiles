@@ -112,7 +112,7 @@ function t() {
 
       # generate title once if it's not available 
       if [[ $RANDOM_TITLE1 == '' ]]; then
-        gentitle
+        wondertitle
       fi
 
       sessionName=''
@@ -163,7 +163,7 @@ function t() {
             sessionName=$(tmux display-message -p '#{session_name}')
             paneName=$(tmux display-message -p '#{window_name}')
           fi
-          gentitle
+          wondertitle
           titleUsed=''
         fi
 
@@ -377,7 +377,7 @@ function tmpopup() {
 
   watchstart # start to watch for file
 
-  tmux display-popup -d -E "tmux new-session -A -s scratch 'zsh -c \"interactive $sessionName $paneName\"; exit'"
+  tmux display-popup -d -E "tmux new-session -A -s scratch 'zsh -c \"popup $sessionName $paneName\"; exit'"
 #  tmux display-popup -d -E "tmux new-session -A -s scratch 'zsh'"
 
 }

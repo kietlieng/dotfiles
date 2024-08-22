@@ -1031,7 +1031,7 @@ function iama() {
 }
 
 # requires wonderword
-function gentitle() {
+function wondertitle() {
     
   local wonderwordadjective=$(wonderwords -w -p adjective) 
   local wonderwordnoun=$(wonderwords -w -p noun)
