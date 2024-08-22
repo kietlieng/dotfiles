@@ -1,0 +1,7 @@
+session_name: tab-$RANDOM_TITLE1
+windows:
+  - window_name: rasa-$RANDOM_TITLE1
+    layout: even-vertical
+    panes:
+      -
+        focus: true

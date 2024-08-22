@@ -29,21 +29,11 @@ function F.setup()
   end
 
 
+
   local function nextWeekday(argDayofTheWeek)
-    local currentDate = os.date("*t", os.time())
-    local dayOffset = 1
-    local endTime = os.time({year = currentDate.year, month = currentDate.month, day = currentDate.day})
+    local value =  vim.fn.trim(vim.fn.system([[date -d today +'%F %a']]))
 
-    while(dayOffset < 8)
-    do
-      endTime = os.time({year = currentDate.year, month = currentDate.month, day = currentDate.day + dayOffset})
-
-      if tonumber(endTime.wday) == tonumber(argDayOfTheWeek) then
-        break
-      end
-    end
-
-    return { os.date("%y-%m-%d", endTime) }
+    return { value }
   end
 
 
@@ -113,7 +103,7 @@ function F.setup()
 
   })
 
-  ls.add_snippets(nil, {
+  ls.add_snippets( nil, {
 
     all = {
 
@@ -191,7 +181,6 @@ function F.setup()
       {
 
         text({
-
           "local modeSome=''",
           "local someTarget='.*'",
           "local key=''",

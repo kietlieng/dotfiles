@@ -168,7 +168,7 @@ function gp() {
     originInfo=$(ggetorg $gitFolderDirectory $currentBranch)
     #echo "origin is 2 $originInfo from branch $currentBranch"
     #pwd
-    echo "$gitFolderDirectory ... pulling"
+    echo "Pulling: $gitFolderDirectory"
     git rebase
 
 #    if [[ $originInfo != 'master' ]]; then
@@ -641,13 +641,32 @@ function gclone() {
 
 }
 
-function gpr() {
 
-  gitOrigin=`git config --list | grep -i remote.origin.url`
-  gitPR="/-/merge_requests"
+function gurl() {
+
+  local gitOrigin=`git config --list | grep -i remote.origin.url`
   gitOrigin=$(echo "$gitOrigin" | sed "s/:/\//g")
   gitOrigin=$(echo "$gitOrigin" | sed "s/\.git//g")
   gitOrigin=$(echo "$gitOrigin" | sed "s/remote\.origin\.url=git@/https\:\/\//g")
+  echo "${gitOrigin}"
+
+}
+
+function gline() {
+
+  local gitOrigin=$(gurl)
+  local gitPipe="/-/pipelines"
+
+  echo "${gitOrigin}${gitPipe}"
+  open "${gitOrigin}${gitPipe}"
+
+}
+
+function gpr() {
+
+  local gitOrigin=$(gurl)
+  local gitPR="/-/merge_requests"
+
   if [[ $gitOrigin == *github.com* ]];
   then
     gitPR="/pulls"

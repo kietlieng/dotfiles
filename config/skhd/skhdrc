@@ -142,7 +142,7 @@ lctrl - z : ~/lab/scripts/calls/calltmuxcreatewindow -background
 rctrl - e: ~/lab/scripts/calls/calltmuxcreatewindow -popup
 
 # copy 
-rctrl - p : ~/lab/scripts/calls/copg
+rctrl - 5 : ~/lab/scripts/calls/copg
 rctrl - y : ~/lab/scripts/calls/callyrot
 
 #lctrl - shift [

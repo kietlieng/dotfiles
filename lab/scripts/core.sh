@@ -303,16 +303,39 @@ function gxab() {
 
     currentResults=$(grep -i "$line" $fileB)
     if [[ $currentResults ]]; then
-      echo $currentResults
+      echo "$currentResults"
       results="$results\n$currentResults"
     else
-      results="$results\n$currentResults"
+      echo "$line: missing"
+      results="$results\n$line: miss"
     fi
 
   done <$fileA
 
   echo "$results" | pbcopy
   echo "$results" > /tmp/ab.txt
+
+}
+
+function replaceall() { # from the target ($1), replace ($2) with value ($3)
+
+  local searchTarget="$1"
+  searchTarget=$(echo "$searchTarget" | sed "s/$2/$3/g")
+  echo "$searchTarget" 
+
+}
+
+function stripends() { # from the target ($1), strip out values from both ends ($2+)
+
+  local searchTarget="$1"
+  shift
+  
+  while [[ $# -gt 0 ]]; do
+    searchTarget=$(echo "$searchTarget" | sed "s/$1//g")
+    shift
+  done
+    
+  echo "$searchTarget"
 
 }
 
@@ -995,50 +1018,15 @@ function catcp() {
   cat $1
 }
 
-# Echo family! 
-# printing functions 
-function becho() { # broadcast echo.  Put in file and also output to screen
-
-  local fname="${funcstack[2]} $@"
-  echo "$fname" >> /tmp/log-gecho
-  echo "$fname"
-
-}
-
-function pecho() { # put echo into file
-
-  local fname="${funcstack[2]} $@"
-  echo "$fname" >> /tmp/log-gecho
-
-}
-
-function gecho() { # get echo from file
-  
-  cat /tmp/log-gecho
-
-}
-
-function cecho() { # get echo from file.  Then empty
-  
-  cat /tmp/log-gecho
-  echo "" > /tmp/log-gecho
-
-}
-
-function techo() { # get echo from file.  Then empty
-  
-  tail -f  /tmp/log-gecho
-
-}
-
-
 # requires wonderword
 function iama() {
     
-  local wonderwordadjective=$(wonderwords -w -p adjective) 
-  local wonderwordnoun=$(wonderwords -w -p noun)
+  local wonderAdjective=$(wonderwords -w -p adjective)
+  local wonderNoun=$(wonderwords -w -p noun)
+  local wonderSituation=$(wonderwords -w -p noun)
+  local wonderVerb=$(wonderwords -w -p verb)
 
-  echo "I am your $wonderwordadjective $wonderwordnoun"
+  echo "I am your $wonderVerb $wonderAdjective $wonderNoun of a $wonderSituation"
 
 }
 

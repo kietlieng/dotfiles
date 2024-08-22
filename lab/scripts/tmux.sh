@@ -92,7 +92,7 @@ function t() {
 #  echo "|$loadTarget|"
 #  return
 
-  if [[ $loadTarget != ""  ]]; then
+  if [[ $loadTarget ]]; then
 
     results=$(find $loadDir -maxdepth 1 -iname "${loadTarget}.yaml")
     #targetFiles=($results) # turn into array
@@ -118,7 +118,7 @@ function t() {
       sessionName=''
       for yFile in "${targetFiles[@]}"; do
 
-        pecho "RANDOM_TITLE $RANDOM_TITLE1"
+#        pecho "RANDOM_TITLE $RANDOM_TITLE1"
 
         if [[ $listMatches ]]; then
           
@@ -127,6 +127,8 @@ function t() {
         else
 
           titleUsed='t'
+
+          becho "load template $yFile"
           if [[ $modeDetach == 't' ]]; then
 
             pecho "tmuxp load -d \"$yFile\""

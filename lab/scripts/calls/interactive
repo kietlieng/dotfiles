@@ -18,7 +18,8 @@ function create_temp_pane() {
 
 function create_temp_pane_parent() {
 
-  local tempPaneOutput="tmux -T \"$parentSessionName:$parentPaneName\" split-window -v -l 30 -d \"$1\"\; select-pane -D \;"
+#  local tempPaneOutput="tmux -T \"$parentSessionName:$parentPaneName\" split-window -v -l 30 -d \"$1\"\; select-pane -D \;"
+  local tempPaneOutput="tmux -T \"$parentSessionName:$parentPaneName\" split-window -v -d \"$1\"\; select-pane -D \;"
   pecho "$tempPaneOutput"
   echo "$tempPaneOutput" > /tmp/tmuxcallback
 
@@ -45,7 +46,7 @@ case $choice in
     create_temp_pane_parent "nvim $jotNotes"
     ;;
   "note")
-    fullpathFilename=$(mnote -d -createonly "$parentPaneName")
+    fullpathFilename=$(mnote -createonly "$parentPaneName")
     pecho "popup $parentSessionName $parentPaneName $fullpathFilename"
     create_temp_pane_parent "nvim $fullpathFilename"
 #    choice=$(echo -e "$fullpathFilename" | fzf --height 40% --reverse --border)

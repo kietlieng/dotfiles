@@ -272,9 +272,10 @@ function yison() {
 
     local yMessage=$(yabai -m query --displays 2>&1)
     pecho "message $yMessage"
-    if [[ $(ps aux | grep -i kitten | wc -l | xargs) -lt 3 ]]; then
-      echo -n "off"
-    elif [[ "$yMessage" = *"failed to connect to socket"* ]]; then
+#    if [[ $(ps aux | grep -i kitten | wc -l | xargs) -lt 3 ]]; then
+#      echo -n "off"
+#    elif [[ "$yMessage" = *"failed to connect to socket"* ]]; then
+    if [[ "$yMessage" = *"failed to connect to socket"* ]]; then
       echo -n "off"
       #https://stackoverflow.com/questions/11141120/exit-function-stack-without-exiting-shell
       #kill -INT $$
