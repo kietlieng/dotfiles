@@ -600,6 +600,7 @@ function calltmuxcallback() {
 
   if [[ $hasvalue ]]; then
 
+    tmux kill-session -t scratch
     local tmuxpopupcall=$(cat /tmp/tmuxcallback)
     echo "callback $tmuxpopupcall"
     eval "$tmuxpopupcall"

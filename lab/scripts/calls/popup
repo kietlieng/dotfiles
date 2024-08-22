@@ -16,7 +16,7 @@ function create_temp_pane() {
 }
 
 
-function create_temp_pane_parent() {
+function create_tmux_callback() {
 
 #  local tempPaneOutput="tmux -T \"$parentSessionName:$parentPaneName\" split-window -v -l 30 -d \"$1\"\; select-pane -D \;"
   local tempPaneOutput="tmux -T \"$parentSessionName:$parentPaneName\" split-window -v -d \"$1\"\; select-pane -D \;"
@@ -43,16 +43,16 @@ case $choice in
     ;;
   "jot")
     jotNotes=$(ls -1 /tmp/nap-* | fzf --height 40% --reverse --border)
-    create_temp_pane_parent "nvim $jotNotes"
+    create_tmux_callback "nvim $jotNotes"
     ;;
   "note")
     fullpathFilename=$(mnote -createonly "$parentPaneName")
     pecho "popup $parentSessionName $parentPaneName $fullpathFilename"
-    create_temp_pane_parent "nvim $fullpathFilename"
+    create_tmux_callback "nvim $fullpathFilename"
 #    choice=$(echo -e "$fullpathFilename" | fzf --height 40% --reverse --border)
     ;;
   "do")
-    create_temp_pane_parent "nvim ~/.todo"
+    create_tmux_callback "nvim ~/.todo"
     ;;
   "htop")
     pane_id=$(create_temp_pane "htop")
@@ -60,11 +60,10 @@ case $choice in
   "session")
     sessions=$(tmux list-sessions -F "#{session_name}")
     selected_session=$(echo "$sessions" | fzf --height=50 --reverse --border --prompt="Select tmux session: ")
-#    pane_id=$(create_temp_pane "htop")
-    
+    #    pane_id=$(create_temp_pane "htop")
     # If a session was selected, attach to it
     if [ -n "$selected_session" ]; then
-        tmux switch-client -t "$selected_session"
+      create_tmux_callback "tmux switch -t $selected_session"
     fi
     ;;
 esac
