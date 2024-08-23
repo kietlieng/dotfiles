@@ -1018,6 +1018,13 @@ function catcp() {
   cat $1
 }
 
+
+function wonderfood() {
+#  ~/lab/scripts/python/wonderfood.py | sed 's/ /-/g'
+  local foodSent=$(~/lab/scripts/python/wonderfood.py)
+  echo "My $foodSent"
+}
+
 # requires wonderword
 function iama() {
     
