@@ -736,6 +736,7 @@ function ycheckrot() {
 
   # we only want to check for anchor when we rotate
   if [[ $yRotated == "t" ]]; then
+    promptbonsai
 
 #    echo "yanchor call"
     yanchor "$@"

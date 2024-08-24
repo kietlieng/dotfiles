@@ -1022,7 +1022,7 @@ function catcp() {
 function wonderfood() {
 #  ~/lab/scripts/python/wonderfood.py | sed 's/ /-/g'
   local foodSent=$(~/lab/scripts/python/wonderfood.py)
-  echo "My $foodSent"
+  echo "$foodSent"
 }
 
 # requires wonderword
@@ -1033,7 +1033,7 @@ function iama() {
   local wonderSituation=$(wonderwords -w -p noun)
   local wonderVerb=$(wonderwords -w -p verb)
 
-  echo "I am your $wonderVerb $wonderAdjective $wonderNoun of a $wonderSituation"
+  echo -n "I am your $wonderVerb $wonderAdjective $wonderNoun of a $wonderSituation$1"
 
 }
 

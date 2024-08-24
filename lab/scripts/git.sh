@@ -340,7 +340,7 @@ function g() {
         shift
         ;;
 
-      '-D' )
+      '-D' ) # delete remote
 
         branchName=$(useBasename $trimPaths $1)
         git push origin :$branchName
@@ -348,7 +348,7 @@ function g() {
         shift
         ;;
 
-      '-d' )
+      '-d' ) # delete local
 
         branchName=$(useBasename $trimPaths $1)
         git branch -D "$branchName"
@@ -662,6 +662,16 @@ function gline() {
 
 }
 
+function gbranch() {
+
+  local gitOrigin=$(gurl)
+  local gitPR="/-/branches"
+
+  echo "${gitOrigin}${gitPR}"
+  open "${gitOrigin}${gitPR}"
+
+}
+
 function gpr() {
 
   local gitOrigin=$(gurl)
@@ -676,6 +686,7 @@ function gpr() {
 
 }
 
+# dependencies
 function gdep() {
 
   local gitOrigin=''
