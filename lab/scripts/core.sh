@@ -4,6 +4,8 @@ alias cl="c -"
 alias cy="c y"
 alias jote="jot -query ''"
 alias lint="yamllint "
+alias wfood="wonderfood"
+alias wtitle="wondertitle"
 alias xd="x -cd"
 alias xl="x -l"
 
@@ -153,7 +155,12 @@ function x() {
 
     else
 
-      filesToEdit=$(/opt/homebrew/bin/fzf --multi)
+      local fileCount=$(find . -type f | wc -l)
+      fileCount=$((fileCount))
+      filesToEdit=$(find . -type f)
+      if [[ $fileCount > 1 ]]; then
+        filesToEdit=$(/opt/homebrew/bin/fzf --multi)
+      fi
       if [[ ${#filesToEdit[@]} != 0 ]]; then
 
           if [[ $goToDirectory == 't' ]]; then
@@ -1017,7 +1024,6 @@ function catcp() {
   cat $1 | pbcopy
   cat $1
 }
-
 
 function wonderfood() {
 #  ~/lab/scripts/python/wonderfood.py | sed 's/ /-/g'

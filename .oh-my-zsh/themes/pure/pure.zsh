@@ -900,7 +900,7 @@ prompt_pure_setup() {
 		compare   '${${(%)prompt_pure_debug_depth[2]}:#${(%)prompt_pure_debug_depth[3]}}'
 		main      '%F{blue}${${(%)prompt_pure_debug_depth[3]}:t}%f%F{242}:%I%f %F{242}@%f%F{blue}%N%f%F{242}:%i%f'
 		secondary '%F{blue}%N%f%F{242}:%i'
-		prompt 	  '%F{242}>%f '
+		prompt 	  '%F{242}>%f'
 	)
 	# Combine the parts with conditional logic. First the `:+` operator is
 	# used to replace `compare` either with `main` or an ampty string. Then
