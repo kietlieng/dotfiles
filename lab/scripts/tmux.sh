@@ -1,9 +1,9 @@
-alias T='t -d'
-alias TE='t -d -t -embed'
-alias TM='t -d main'
-alias TT='t -d -t'
+alias T='t -a'
+alias TE='t -a -t -embed'
+alias TM='t -a main'
+alias TT='t -a -t'
 alias tA='ta -f'
-alias tbrew='t -d brew'
+alias tbrew='t brew'
 alias tdisplayoptions='tmux display-message -a | fzf'
 alias te='t -t -embed'
 alias tka="tk -a"
@@ -37,7 +37,7 @@ function t() {
   local sessionName=''
   local paneName=''
 
-  local modeDetach=''
+  local modeDetach='t'
   local modeEmbed=''
   local modePopup=''
   local modeTemplate=''
@@ -52,8 +52,8 @@ function t() {
         listMatches='t'
         shift
         ;;
-      '-d' ) 
-        modeDetach='t'
+      '-a' ) 
+        modeDetach=''
         shift
         ;;
       '-t' ) 
