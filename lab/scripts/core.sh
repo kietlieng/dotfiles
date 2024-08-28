@@ -58,19 +58,24 @@ function vfile() {
     local fileCount=$(echo "$filesToEdit" | wc -l)
     fileCount=$((fileCount))
     local editFiles=''
+    local modeNoFiles=''
 
-    if [[ $fileCount -gt 1 ]]; then
+    if [[ $fileCount -gt 0 ]]; then
       editFiles=($(echo "$filesToEdit" | sed -r 's/\n/ /g'))
 
-      becho "editFiles: |$editFiles| $fileCount"
-      nvim $editFiles
-
+#      becho "editFiles: |$editFiles| $fileCount"
+      if [[ $editFiles == '' ]]; then
+        modeNoFiles='t'
+      else 
+        nvim $editFiles
+      fi
     else 
-
-       becho "$searchExpression not found"
-
+      modeNoFiles='t'
     fi
 
+    if [[ $modeNoFiles ]]; then
+       becho "$searchExpression not found"
+    fi
 }
 
 
