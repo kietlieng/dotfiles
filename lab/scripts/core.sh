@@ -46,17 +46,31 @@ function xc() {
 # go up to root folder and find a file
 function vfile() {
 
-    currentFolder=$(pwd)
-    rootFolder=$(gitrootfolder)
-    searchExpression="$1"
+    local currentFolder=$(pwd)
+    local rootFolder=$(gitrootfolder)
+    local searchExpression="$1"
 
-    find $rootFolder -iname "$searchExpression" -exec nvim {} \;
-    #echo "find $rootFolder -iname \".gitlab-ci.yml\" -exec nvim {} \;"
-    echo -n "$rootFolder"
-    if [[ -z $(find $rootFolder -iname "$searchExpression") ]]; then
-        echo ": $searchExpression not found"
+    local filesToEdit=$(find $rootFolder -iname "$searchExpression")
+
+    pecho "find $rootFolder -iname \"$searchExpression\""
+    pecho "$filesToEdit"
+
+    local fileCount=$(echo "$filesToEdit" | wc -l)
+    fileCount=$((fileCount))
+    local editFiles=''
+
+    if [[ $fileCount -gt 1 ]]; then
+      editFiles=($(echo "$filesToEdit" | sed -r 's/\n/ /g'))
+
+      becho "editFiles: |$editFiles| $fileCount"
+      nvim $editFiles
+
+    else 
+
+       becho "$searchExpression not found"
+
     fi
-    echo ""
+
 }
 
 
@@ -158,9 +172,10 @@ function x() {
       local fileCount=$(find . -type f | wc -l)
       fileCount=$((fileCount))
       filesToEdit=$(find . -type f)
-      if [[ $fileCount > 1 ]]; then
+      if [[ $fileCount -gt 1 ]]; then
         filesToEdit=$(/opt/homebrew/bin/fzf --multi)
       fi
+
       if [[ ${#filesToEdit[@]} != 0 ]]; then
 
           if [[ $goToDirectory == 't' ]]; then
