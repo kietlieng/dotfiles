@@ -6,7 +6,7 @@ windows:
       - j i1
     panes:
       - shell_command:
-        - vim sites.tf cnames.tf
+        - vim sites.tf cnames.tf security_definiton.tf
       - shell_command:
         focus: true
   - window_name: extra-$RANDOM_TITLE1
