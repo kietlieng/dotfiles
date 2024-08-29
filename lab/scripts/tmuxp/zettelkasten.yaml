@@ -1,6 +1,6 @@
-session_name: tab-$RANDOM_TITLE1
+session_name: zet-$RANDOM_TITLE1
 windows:
-  - window_name: rasa-$RANDOM_TITLE1
+  - window_name: zet-$RANDOM_TITLE1
     layout: even-vertical
     panes:
       -

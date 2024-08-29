@@ -25,7 +25,16 @@ function tl() {
 }
 
 function tmsleep() { # sleep time before windows are created
-  sleep .3
+  local sleepRate=$((.3))
+
+  if [[ $# -gt 0 ]]; then
+    local newRate="$1"
+    newRate=$((newRate))
+    sleepRate=$((sleepRate * newRate))
+  fi
+
+  pecho "$sleepRate"
+  sleep $sleepRate
 }
 
 function t() {
@@ -405,14 +414,16 @@ function tmrunsinglecommand() {
   done
 
   if [[ ! $modeEmbed ]]; then
+    becho "tmux split-window -h -t \"$argSessionWindow\""
     tmux split-window -h -t "$argSessionWindow"
   fi
 
+  becho "tmux send-keys -t \"$argSessionWindow\" \"$argCommand\" Enter"
+  tmsleep 
   tmux send-keys -t "$argSessionWindow" "$argCommand" Enter
 
   if [[ ! $modeEmbed ]]; then
-    tmsleep
-    tmsleep
+    tmsleep 2
     tmux kill-pane -t "$argSessionWindow"
   fi
 
@@ -496,7 +507,7 @@ function calltmuxcreatewindow() {
         pecho "insession backgroundmode popup"
         tmpopup "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
       else
-        tmrunsinglecommand "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
+        tmrunsinglecommand "$inSession:$inWindow" "t -a $modeEmbed $currentTemplate" "$modeEmbed"
       fi
 
       gecho "$currentTemplate"
@@ -510,7 +521,7 @@ function calltmuxcreatewindow() {
         pecho "insession popup"
         tmpopup "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
       else
-        tmrunsinglecommand "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
+        tmrunsinglecommand "$inSession:$inWindow" "t -a $modeEmbed $currentTemplate" "$modeEmbed"
       fi
 
       wait # need to sleep and delay so tmux can create window to register
