@@ -125,10 +125,11 @@ function xt() { # search /tmp directory
 # go into fzf for searching files and edit
 function x() {
 
-    goToDirectory='f'
-    rootDirectory=''
-    currentDirectory=$(pwd)
-    lastOnly='f'
+    local goToDirectory='f'
+    local rootDirectory=''
+    local currentDirectory=$(pwd)
+    local lastOnly='f'
+    local searchString=''
 
     while [[ $# -gt 0 ]]; do
 
@@ -150,7 +151,8 @@ function x() {
           '-d' )
             rootDirectory="$1"
             ;;
-          *) echo default
+          *) 
+            searchString="${searchString}${key}"
           ;;
 
         esac
@@ -174,11 +176,11 @@ function x() {
 
     else
 
-      local fileCount=$(find . -type f | wc -l)
+      local fileCount=$(find . -type f -name "*$searchString*"| wc -l)
       fileCount=$((fileCount))
-      filesToEdit=$(find . -type f)
+      filesToEdit=$(find . -type f -iname "*$searchString*")
       if [[ $fileCount -gt 1 ]]; then
-        filesToEdit=$(/opt/homebrew/bin/fzf --multi)
+        filesToEdit=$(/opt/homebrew/bin/fzf --multi --query "$searchString")
       fi
 
       if [[ ${#filesToEdit[@]} != 0 ]]; then

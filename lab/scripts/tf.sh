@@ -51,6 +51,8 @@ function tdelete() {
 # avoids overwriting tf outputs
 function tplan() {
 
+    impenv
+
     local destroyMode="f"
     local hashDir=$(md5 -q -s $(pwd))
     local outfile="tfout-${hashDir}"

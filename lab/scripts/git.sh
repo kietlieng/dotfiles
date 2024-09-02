@@ -9,8 +9,8 @@ alias gd='git diff'
 alias gdstaged='git diff --staged'
 alias gfetch="git fetch --all"
 alias gfiles="git log --name-only --oneline"
-alias glines="git log -p --unified=0"
 alias gl="git log -p"
+alias glines="git log -p --unified=0"
 alias glogfiles="git log --name-only"
 alias gmmaster="git merge master"
 alias gprune="g -prune"
@@ -168,7 +168,7 @@ function gp() {
     originInfo=$(ggetorg $gitFolderDirectory $currentBranch)
     #echo "origin is 2 $originInfo from branch $currentBranch"
     #pwd
-    echo "Pulling: $gitFolderDirectory"
+    echo "⇣ $gitFolderDirectory" 
     git rebase
 
 #    if [[ $originInfo != 'master' ]]; then
@@ -245,6 +245,14 @@ function gstashit() {
   git stash pop
 }
 
+# you want to use the last branch name
+function gblast() {
+
+  local lastBranch=$(cat ~/.gitBranchName)
+  g "$lastBranch"
+
+}
+
 # g command is short hand for a number of things
 # list branchs and tracking branch
 # find the parent repo folder if you're nested within the repository folder
@@ -264,13 +272,15 @@ function g() {
     return
   fi
 
-  currentDirectory=$(pwd)
-  branchFilename=~/.gitBranchName
-  currentBranch=`git rev-parse --abbrev-ref HEAD`
-  descOfTicket=""
-  otherSwitches="f"
-  trackingBranch=$(glbranchdefault)
-  trimPaths=''
+  local currentDirectory=$(pwd)
+  local branchFilename=~/.gitBranchName
+  local currentBranch=`git rev-parse --abbrev-ref HEAD`
+  local descOfTicket=""
+  local otherSwitches="f"
+  local trackingBranch=$(glbranchdefault)
+  local trimPaths=''
+  local modeSaveBranchname=''
+  local key=''
 
   while [[ $# -gt 0 ]];
   do
@@ -356,6 +366,11 @@ function g() {
         shift
         ;;
 
+      '-a' )
+        modeSaveBranchname='t'
+        
+        ;;
+
       * )
 
         desc=$(useBasename $trimPaths $key)
@@ -382,7 +397,11 @@ function g() {
       git checkout -b "${descOfTicket}" $trackingBranch
       # set comparison to master
       git branch --set-upstream-to=origin/$trackingBranch
-      echo "$descOfTicket" > "$branchFilename"
+
+      if [[ $modeSaveBranchname ]]; then
+        echo "$descOfTicket" > "$branchFilename"
+      fi
+
     fi
 
   elif  [[ $otherSwitches = 'f' ]]; then
@@ -685,30 +704,3 @@ function gpr() {
   open "${gitOrigin}${gitPR}"
 
 }
-
-# dependencies
-function gdep() {
-
-  local gitOrigin=''
-  local gitPR=""
-  local gitOrigin=""
-  local rootFolder=$(pwd)
-
-  for gitFolder in $(find . -name ".git" -type d -exec realpath {} \;) ; do
-    cd $gitFolder/..
-    gitOrigin=`git config --list | grep -i remote.origin.url`
-    gitPR="/-/dependencies"
-    gitOrigin=$(echo "$gitOrigin" | sed "s/:/\//g")
-    gitOrigin=$(echo "$gitOrigin" | sed "s/\.git//g")
-    gitOrigin=$(echo "$gitOrigin" | sed "s/remote\.origin\.url=git@/https\:\/\//g")
-    if [[ $gitOrigin == *github.com* ]];
-    then
-      gitPR="/pulls"
-    fi
-    echo "${gitOrigin}${gitPR}"
-    open "${gitOrigin}${gitPR}"
-  done
-  cd $rootFolder
-
-}
-
