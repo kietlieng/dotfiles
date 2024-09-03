@@ -371,7 +371,7 @@ def generate_unicode_by_blocks(blocks, filename, widthsize = 50):
     """
     with open(filename, 'w', encoding='utf-8') as file:
         for block_name, (start, end) in blocks.items():
-            file.write(f"Block: {block_name}\n")
+            file.write(f"\nBlock: {block_name}\n")
             chars = [chr(code_point) for code_point in range(start, end + 1)]
             for i in range(0, len(chars), widthsize):
                 file.write(' '.join(chars[i:i+widthsize]) + '\n')

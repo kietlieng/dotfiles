@@ -150,6 +150,7 @@ function x() {
 
           '-d' )
             rootDirectory="$1"
+            shift
             ;;
           *) 
             searchString="${searchString}${key}"
