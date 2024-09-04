@@ -215,7 +215,7 @@ function useBasename() {
 
   local baseValue=''
   local key=''
-  local trimPaths='t'
+  local trimPaths=''
 
   while [[ $# -gt 0 ]];
   do
@@ -226,7 +226,7 @@ function useBasename() {
     case $key in
 
       '-t' )
-        trimPaths=''
+        trimPaths='-t'
         ;;
 
       * )
@@ -239,7 +239,7 @@ function useBasename() {
         ;;
     esac
   done
-  becho "$baseValue"
+  echo "$baseValue"
 
 }
 
@@ -284,7 +284,7 @@ function g() {
   local descOfTicket=""
   local otherSwitches="f"
   local trackingBranch=$(glbranchdefault)
-  local trimPaths=''
+  local trimPaths='-t'
   local modeSaveBranchname=''
   local key=''
 
@@ -297,7 +297,7 @@ function g() {
 
       '-t' )
 
-        trimPaths='-t'
+        trimPaths=''
         ;;
 
       '-branchdefault' )

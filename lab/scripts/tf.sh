@@ -4,14 +4,14 @@
 # terraform apply
 
 alias tap="tapply"
-alias tpa="tplan && tapply"
 alias tapa="tapply -a"
 alias tfdebug="export TF_LOG=DEBUG; export TF_LOG_PATH=\"debug.log\""
 alias tfdebugoff="unset TF_LOG; unset TF_LOG_PATH"
+alias tfinit="terraform init --upgrade"
+alias tfmigrate="terraform init -migrate-state"
+alias tpa="tplan && tapply"
 alias tplangraph="terraform graph -type=plan"
 alias tplangraphpic="terraform graph -type=plan | dot -Tpng > graph.png"
-
-alias tinit="terraform init --upgrade"
 
 # auto approve td
 function tdestroy() {
