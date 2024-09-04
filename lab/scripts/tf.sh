@@ -6,8 +6,8 @@
 alias tap="tapply"
 alias tpa="tplan && tapply"
 alias tapa="tapply -a"
-alias tfdebug="export TF_LOG=DEBUG"
-alias tfdebugoff="unset TF_LOG"
+alias tfdebug="export TF_LOG=DEBUG; export TF_LOG_PATH=\"debug.log\""
+alias tfdebugoff="unset TF_LOG; unset TF_LOG_PATH"
 alias tplangraph="terraform graph -type=plan"
 alias tplangraphpic="terraform graph -type=plan | dot -Tpng > graph.png"
 

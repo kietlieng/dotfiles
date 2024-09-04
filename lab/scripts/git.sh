@@ -15,6 +15,7 @@ alias glogfiles="git log --name-only"
 alias gmmaster="git merge master"
 alias gprune="g -prune"
 alias gpull="git pull --all"
+alias gr='groot'
 alias grebaseabort='git rebase --abort'
 alias grebasedelete='rm -fr ".git/rebase-merge"'
 alias gslist="git stash list"
@@ -123,7 +124,7 @@ function groot() {
 
   rootFolder=$(gitrootfolder)
   cd $rootFolder
-  echo "root folder $rootFolder"
+  becho "󰌍 $rootFolder"
 
 }
 
@@ -211,8 +212,11 @@ function gexp() {
 # return end of url path for branch naming.
 # -f do not trim.  But return the full path. Useful for remote branchs or branch names with / in the name
 function useBasename() {
-  baseValue=''
-  trimPaths='t'
+
+  local baseValue=''
+  local key=''
+  local trimPaths='t'
+
   while [[ $# -gt 0 ]];
   do
 
@@ -220,12 +224,14 @@ function useBasename() {
     shift
 
     case $key in
-      '-f' )
-        trimPaths='f'
+
+      '-t' )
+        trimPaths=''
         ;;
+
       * )
 
-        if [[ $trimPaths = 't' ]]; then
+        if [[ $trimPaths ]]; then
           baseValue=$(basename $key)
         else
           baseValue=$key
@@ -233,7 +239,7 @@ function useBasename() {
         ;;
     esac
   done
-  echo "$baseValue"
+  becho "$baseValue"
 
 }
 
@@ -289,9 +295,9 @@ function g() {
 
     case $key in
 
-      '-f' )
+      '-t' )
 
-        trimPaths='-f'
+        trimPaths='-t'
         ;;
 
       '-branchdefault' )
@@ -329,7 +335,7 @@ function g() {
 
       '-fdd' ) # delete both remote and local
 
-        trimPaths='-f'
+        trimPaths='-t'
         branchName=$(useBasename $trimPaths $1)
         # local branch
         git branch -D "$branchName"
