@@ -267,6 +267,18 @@ function yo() {
 
 }
 
+
+function yissingle() {
+
+    local yTargetInstances=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty")) | select(."is-visible") | select(."is-minimized"|not) | .display' | wc -l)
+    ((yTargetInstances=yTargetInstances))
+#    becho "$yTargetInstances"
+    if [[ $yTargetInstances -lt 2 ]]; then
+      echo -n "yes"
+    fi
+
+}
+
 # yision
 function yison() {
 
@@ -709,34 +721,55 @@ function ycheckrot() {
 
   done
 
+  yIsSingle=$(yissingle)
+  if [[ $yIsSingle ]]; then 
+    pecho "yissingle"
+    return; 
+  else 
+    pecho "not single"
+  fi # quit if there is a single window
+
   if [[ $(yison) == "off" ]]; then return; fi # return if off
-
-
   if [[ $(cat ~/.yrotate) != "topdown" ]]; then return; fi # only handle topdown
 
-  local yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty")) | select(."is-visible") | select(."is-minimized"|not)')
-  local yAllHeights=$(echo "$yTargetDisplays" | jq ".frame | .y")
+  local yOutput=$(yabai -m query --windows)
+  local yTargetDisplays=$(echo "$yOutput" | jq '.[] | select(.app | contains("kitty")) | select(."is-visible") | select(."is-minimized"|not)')
+  local yTargetDisplay=$(echo "$yOutput" | jq '.[] | select(.app | contains("kitty")) | select(."is-visible") | select(."is-minimized"|not) | .display' | head -n 1)
+  local yHeight=$(yabai -m query --displays | jq ".[] | select(.index==$yTargetDisplay)" | jq '.frame.h' )
+  yHeight=$(awk -v v="$yHeight" 'BEGIN{printf "%d", v}')
+  local yHeightTolerance=50
+  pecho "$yTargetDisplay $yWidth"
+
+
+  local yAllHeights=$(echo "$yTargetDisplays" | jq ".frame | .h")
   local yRotated="f"
   pecho "$yAllHeights"
-  local allHeightDump="|"
+  local yHeightBot=''
+  local yHeightTop=''
+  ((yHeightBot=yHeight - yHeightTolerance))
+  ((yHeightTop=yHeight + yHeightTolerance))
 
   for eachHeight in $(echo "$yAllHeights" | sed 's/ /\n/g'); do
 
-    pecho "$yHeightTolerance < |$eachHeight| < $yHeight"
+    eachHeight=$(awk -v v="$eachHeight" 'BEGIN{printf "%d", v}')
+    ((eachHeight=eachHeight))
+
+    pecho "$yHeightBot < |$eachHeight| < |$yHeightTop| |$yHeight|"
   
-    if [[ $(echo "$allHeightDump" | grep -i "$eachHeight") ]]; then # if we match a value then that means it needs to be rotated
-      rot
+    if [[ $yHeightBot -lt $eachHeight ]] && [[ $eachHeight -lt $yHeightTop ]]; then # try to match height
+
+      pecho "shifting"
       yRotated="t"
+      rot
       break
-    else
-      allHeightDump="$allHeightDump|$eachHeight"
+
     fi
 
   done
 
   # we only want to check for anchor when we rotate
   if [[ $yRotated == "t" ]]; then
-#    promptbonsai
+#    bonsai
 
 #    echo "yanchor call"
     yanchor "$@"

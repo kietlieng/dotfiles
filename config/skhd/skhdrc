@@ -125,10 +125,10 @@ lctrl - return : /Applications/kitty.app/Contents/MacOS/kitty -1
 #### yabai settings ####
 
 # shuffle and focus
-lctrl - g : ~/lab/scripts/calls/scriptcall yshift -f
+#lctrl - g : ~/lab/scripts/calls/scriptcall yshift -f
 
 # shuffle but keep in background
-lctrl + shift - g : ~/lab/scripts/calls/scriptcall yshift
+#lctrl + shift - g : ~/lab/scripts/calls/scriptcall yshift
 
 # half / full screen
 rctrl - x : ~/lab/scripts/calls/scriptcall ytogpadding
@@ -144,6 +144,7 @@ rctrl - e: ~/lab/scripts/calls/calltmuxcreatewindow -popup
 # copy 
 rctrl - 5 : ~/lab/scripts/calls/copg
 rctrl - y : ~/lab/scripts/calls/callyrot
+rctrl + shift - y : ~/lab/scripts/calls/scriptcall yshift -f
 
 #lctrl - shift [
 #    "kitty"       : echo "hello kitty"
