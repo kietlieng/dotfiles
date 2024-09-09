@@ -90,6 +90,7 @@ function fzfpreview() {
   local defaultQuery=$2
   local hashDir=$(md5 -q -s $searchDirectory)
   local queryFile="/tmp/query-$hashDir"
+  echo -n "" > $queryFile
 
   local filesToEdit=$(rg --files $searchDirectory | fzf --multi --preview "bat --style=numbers --color=always --line-range :500 {}" --bind "change:execute(echo {q} > $queryFile)" --bind "ctrl-r:execute(echo \"\" > $queryFile)" --query "$defaultQuery")
 

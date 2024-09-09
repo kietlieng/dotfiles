@@ -1167,6 +1167,9 @@ function ytogpadding() {
 #      yH
 #  fi
 
+  # run this at the end and check anyways
+  ycheckrot
+
 }
 
 function yfocus() {

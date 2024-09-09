@@ -143,8 +143,8 @@ rctrl - e: ~/lab/scripts/calls/calltmuxcreatewindow -popup
 
 # copy 
 rctrl - 5 : ~/lab/scripts/calls/copg
-rctrl - y : ~/lab/scripts/calls/callyrot
-rctrl + shift - y : ~/lab/scripts/calls/scriptcall yshift -f
+lctrl - g : ~/lab/scripts/calls/callyrot
+lctrl + shift - g : ~/lab/scripts/calls/scriptcall yshift -f
 
 #lctrl - shift [
 #    "kitty"       : echo "hello kitty"

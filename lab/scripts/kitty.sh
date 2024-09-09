@@ -7,7 +7,9 @@ function kterm() {
 function kpull() {
   currentDir=$(pwd)
   cd ~/lab/repos/kitty
+  git checkout go.mod
   git pull
+  sed -i -e "s/go 1.23/go 1.23.0/g" go.mod
   cd $currentDir
 }
 
