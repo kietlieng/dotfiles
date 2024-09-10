@@ -2,7 +2,7 @@
 #alias gs="git status"
 alias gD="git diff --staged"
 alias gP="gpush"
-alias ga='git add'
+alias ga='git add -f' # -f is for force add
 alias gbr="g -branch"
 alias gco="git checkout "
 alias gd='git diff'
