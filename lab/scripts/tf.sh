@@ -13,6 +13,27 @@ alias tpa="tplan && tapply"
 alias tplangraph="terraform graph -type=plan"
 alias tplangraphpic="terraform graph -type=plan | dot -Tpng > graph.png"
 
+
+# reset parallel
+function tfpar() {
+
+  local currentLocation=$(pwd)
+  local parallelSetting="$TFE_PLAN_PARALLELISM"
+
+  if [[ $currentLocation == *"imperva"* ]]; then
+    parallelSetting="$TFE_PLAN_PARALLELISM_IMPERVA"
+  fi
+
+  if [[ $# -gt 0 ]]; then
+    parallelSetting="$1"
+    shift
+  fi
+
+  export TF_CLI_ARGS_plan="-parallelism=$parallelSetting"
+  pecho "$TF_CLI_ARGS_plan"
+
+}
+
 # auto approve td
 function tdestroy() {
     terraform destroy -auto-approve
@@ -52,6 +73,7 @@ function tdelete() {
 function tplan() {
 
     impenv
+    tfpar
 
     local destroyMode="f"
     local hashDir=$(md5 -q -s $(pwd))
@@ -97,62 +119,63 @@ function tplan() {
 # terraform apply with the hash value output
 function tapply() {
 
-    local destroyMode="f"
-    local destroyMode="f"
-    local autoApply="f"
-    local hashDir=$(md5 -q -s $(pwd))
-    local outfile="tfout-${hashDir}"
-    echo "hash $hashDir"
+  tfpar
+  local destroyMode="f"
+  local destroyMode="f"
+  local autoApply="f"
+  local hashDir=$(md5 -q -s $(pwd))
+  local outfile="tfout-${hashDir}"
+  local key=''
+  echo "hash $hashDir"
 
 
-    while [[ $# -gt 0 ]];
-    do
+  while [[ $# -gt 0 ]]; do
 
-        key="$1"
-        case $key in
-            '-d' )
-                destroyMode="t"
-                shift
-                ;;
-            '-a' )
-                autoApply="t"
-                shift 
-                ;;
-            * )
-                outfile="${outfile}_$key"
-                shift
-                ;;
-        esac
+      key="$1"
+      shift
 
-    done
-    outfile="${outfile//_/}"
+      case $key in
+          '-d' )
+              destroyMode="t"
+              ;;
+          '-a' )
+              autoApply="t"
+              ;;
+          * )
+              outfile="${outfile}_$key"
+              ;;
+      esac
 
-    if [[ $destroyMode == 't' ]]; then
+  done
 
-        #terraform apply -destroy
-        terraform apply 
+  outfile="${outfile//_/}"
 
-    else
+  if [[ $destroyMode == 't' ]]; then
 
-        #terraform apply -auto-approve
-        if [[ $autoApply == 't' ]]; then
+      #terraform apply -destroy
+      terraform apply 
 
-          if [[ $outfile ]]; then
-            terraform plan -auto-approve "/tmp/$outfile"
-          else
-            terraform plan -auto-approve
-          fi
+  else
 
+      #terraform apply -auto-approve
+      if [[ $autoApply == 't' ]]; then
+
+        if [[ $outfile ]]; then
+          terraform plan -auto-approve "/tmp/$outfile"
         else
-
-          if [[ $outfile ]]; then
-            terraform apply "/tmp/$outfile"
-          else
-            terraform apply
-          fi
+          terraform plan -auto-approve
         fi
 
-    fi
+      else
+
+        if [[ $outfile ]]; then
+          terraform apply "/tmp/$outfile"
+        else
+          terraform apply
+        fi
+      fi
+
+  fi
 
 }
 

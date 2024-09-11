@@ -135,6 +135,7 @@
 #'󱠡   ' '󱠢   ' # rock paper scissors
 #'󱠢   ' # rock paper scissors
 #'󱃏 󰓥    ' # zelda
+#'󱃏 󰓥    ' # zelda
 #'󱩁  ' # strider
 #'ᯓ〛ⱃ⳻)' # mario bullet
 #'ᯓ〚 ⱃ⳻)' # mario bullet
