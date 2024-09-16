@@ -119,7 +119,6 @@
 
 #lctrl - w : /Applications/WezTerm.app/Contents/MacOS/WezTerm
 
-lctrl - return : /Applications/kitty.app/Contents/MacOS/kitty -1
 #lctrl - return : /Applications/kitty.app/Contents/MacOS/kitty -1 --wait-for-single-instance-window-close
 
 #### yabai settings ####
@@ -130,21 +129,32 @@ lctrl - return : /Applications/kitty.app/Contents/MacOS/kitty -1
 # shuffle but keep in background
 #lctrl + shift - g : ~/lab/scripts/calls/scriptcall yshift
 
-# half / full screen
-rctrl - x : ~/lab/scripts/calls/scriptcall ytogpadding
-rctrl + shift - e : ~/lab/scripts/calls/scriptcall yf
-rctrl - a : ~/lab/scripts/calls/scriptcall ytoganchor
-rctrl + shift - a : ~/lab/scripts/calls/scriptcall rot
-lctrl - 0 : ~/lab/scripts/calls/scriptcall ytdebug
-lctrl - 9 : ~/lab/scripts/calls/scriptcall yteven
+# kitty window
+lctrl - return : /Applications/kitty.app/Contents/MacOS/kitty -1
+
+# tmux 
 lctrl - w : ~/lab/scripts/calls/calltmuxcreatewindow
 lctrl - z : ~/lab/scripts/calls/calltmuxcreatewindow -background
 rctrl - e: ~/lab/scripts/calls/calltmuxcreatewindow -popup
 
+# screenshots
+lctrl - 4 : ~/lab/scripts/calls/callscreen
+lctrl - l : ~/lab/scripts/calls/callscreen
+
 # copy 
 rctrl - 5 : ~/lab/scripts/calls/copg
+lctrl - 5 : ~/lab/scripts/calls/copg
+
+# yabai window management
 lctrl - g : ~/lab/scripts/calls/callyrot
 lctrl + shift - g : ~/lab/scripts/calls/scriptcall yshift -f
+lctrl - 0 : ~/lab/scripts/calls/scriptcall ytincrease
+lctrl - 9 : ~/lab/scripts/calls/scriptcall ytdecrease
+rctrl + shift - e : ~/lab/scripts/calls/scriptcall yf
+rctrl - x : ~/lab/scripts/calls/scriptcall ytogpadding
+rctrl - a : ~/lab/scripts/calls/scriptcall ytoganchor
+rctrl + shift - a : ~/lab/scripts/calls/scriptcall rot
+
 
 #lctrl - shift [
 #    "kitty"       : echo "hello kitty"

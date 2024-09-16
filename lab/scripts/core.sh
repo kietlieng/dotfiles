@@ -178,9 +178,9 @@ function x() {
 
     else
 
-      local fileCount=$(find . -type f -name "*$searchString*"| wc -l)
+      local filesToEdit=$(find . -type f -iname "*$searchString*")
+      local fileCount=$(echo "$filesToEdit" | wc -l)
       fileCount=$((fileCount))
-      filesToEdit=$(find . -type f -iname "*$searchString*")
       if [[ $fileCount -gt 1 ]]; then
         filesToEdit=$(/opt/homebrew/bin/fzf --multi --query "$searchString")
       fi

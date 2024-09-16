@@ -1,13 +1,15 @@
+alias refassemble='ref -f "/tmp/assemble-dependencies.csv"'
+
 function runosa() {
   osascript -e "$1"
 }
 
-function cpinspect() {
+function refinspect() {
   osascript -e 'the clipboard as record'
 }
 
-# working
-function cpfile() {
+# reference a file
+function ref() {
 
   local currentLocation=$(pwd)
   # Define the file path you want to copy
@@ -44,7 +46,7 @@ function cpfile() {
 }
 
 # not working
-function cpmulti() {
+function refmulti() {
   
   # Define the file paths you want to simulate copying
   file_paths=(
@@ -81,26 +83,21 @@ function cpmulti() {
 }
 
 # not working
-function cptest() {
+function reftest() {
+  
+  local script="tell application \"Finder\"
+    set selectedFiles to selection
+    set fileReferences to {}
 
-  local script=''
-  script+="
-  tell application \"Finder\""
-  script+="
-  set filePath1 to POSIX file \"/Users/klieng/Downloads/image.png\" as alias"
-  script+="
-  set filePath2 to POSIX file \"/Users/klieng/Downloads/Goals.pdf\" as alias"
-  script+="
-  set fileReferences to {filePath1, filePath2}"
-  script+="
-  set the clipboard to fileReferences"
-  script+="
-  end tell"
+    -- Loop through each selected file and get the alias reference
+    repeat with selectedFile in selectedFiles
+        set end of fileReferences to selectedFile as alias
+    end repeat
 
-#  script+="
-#  set utf16String to \"test1.png\""
-#  script+="
-#  set the clipboard to (utf16String as «class ut16»)"
+    -- Copy the list of file references to the clipboard
+    set the clipboard to fileReferences
+end tell
+"
 
   osascript -e "$script"
 

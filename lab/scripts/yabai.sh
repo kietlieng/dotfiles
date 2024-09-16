@@ -43,8 +43,8 @@ alias yrestart="y restart"
 alias yspd="y sp-"
 alias yspi="y sp+"
 alias ytail="tail -f /tmp/yabai_klieng.err.log /tmp/yabai_klieng.out.log"
-alias ytdebug="yspi"
-alias yteven="yspd"
+alias ytincrease="yspi"
+alias ytdecrease="yspd"
 
 export width_size="100"
 
