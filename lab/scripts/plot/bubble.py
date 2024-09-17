@@ -22,12 +22,17 @@ class vBubble:
     INDEX_DEFAULT_RADIUS       = 4
     INDEX_TEXT                 = 5
     INDEX_POINTS_ARRAY         = 6
-    CENTER_RADIUS              = 2000
-    RADIUS_INCREMENT_TOLERANCE = 10
+#    CENTER_RADIUS              = 2000
+    CENTER_RADIUS              = 500
+#    RADIUS_INCREMENT_TOLERANCE = 10
+    RADIUS_INCREMENT_TOLERANCE = 2
     OVERLAP_TOLERANCE          = 7
-    RADIUS_INCREMENT           = 6
-    SHIFT_X                    = 2000
-    SHIFT_Y                    = 2000
+#    RADIUS_INCREMENT           = 6
+    RADIUS_INCREMENT           = 3
+#    SHIFT_X                    = 2000
+#    SHIFT_Y                    = 2000
+    SHIFT_X                    = 1000
+    SHIFT_Y                    = 1000
 
     # declare an empty circle_arrayay via delete statement
     BIGGER_ARRAY          = []
@@ -40,11 +45,14 @@ class vBubble:
 
     # venn diagram position depending on number of text
     # top left
-    FONT_SIZE = 125
+#    FONT_SIZE = 125
+    FONT_SIZE = 62
 
     #print "num of fields %s | %s", NF, $0
-    G_RADIUS = 1500
-    G_TSIDESCALE = .62
+#    G_RADIUS = 1500
+    G_RADIUS = 750
+#    G_TSIDESCALE = .62
+    G_TSIDESCALE = .31
     G_TSIDE = G_RADIUS * G_TSIDESCALE
     DEBUG = 0
     pp = pprint.PrettyPrinter(indent=4)
@@ -287,7 +295,7 @@ class vBubble:
     def display(self):
         output = ""
         output += "<?xml version='1.0'?>"
-        output += "<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='1300' height='1300' viewBox='0 0 4000 4000'>"
+        output += "<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='650' height='650' viewBox='0 0 2000 2000'>"
         output += " <title>Venn diagram</title>"
 #        print " <defs>"
         for iCircle in range(len(self.CIRCLE_ARRAY)):
@@ -296,7 +304,8 @@ class vBubble:
         for iCircle in self.CIRCLE_ARRAY:
             output += iCircle
 
-        output += " <circle cx='2000' cy='2000' r='%s' fill='#ffffff'/>\n" % (self.CENTER_RADIUS)
+#        output += " <circle cx='2000' cy='2000' r='%s' fill='#ffffff'/>\n" % (self.CENTER_RADIUS)
+        output += " <circle cx='1000' cy='1000' r='%s' fill='#ffffff'/>\n" % (self.CENTER_RADIUS)
 
         for iRef in self.REF_ARRAY:
             output += iRef

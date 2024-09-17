@@ -140,7 +140,7 @@ unicode_blocks = {
     "Devanagari Extended": (0xA8E0, 0xA8FF),
     "Kayah Li": (0xA900, 0xA92F),
     "Rejang": (0xA930, 0xA95F),
-#    "Hangul Jamo Extended-A": (0xA960, 0xA97F), # not useful
+    "Hangul Jamo Extended-A": (0xA960, 0xA97F), # not useful
     "Javanese": (0xA980, 0xA9DF),
     "Myanmar Extended-B": (0xA9E0, 0xA9FF),
     "Cham": (0xAA00, 0xAA5F),
@@ -152,7 +152,7 @@ unicode_blocks = {
     "Cherokee Supplement": (0xAB70, 0xABBF),
     "Meetei Mayek": (0xABC0, 0xABFF),
     "Hangul Syllables": (0xAC00, 0xD7AF),
-#    "Hangul Jamo Extended-B": (0xD7B0, 0xD7FF), # not useful
+    "Hangul Jamo Extended-B": (0xD7B0, 0xD7FF), # not useful
 #    "High Surrogates": (0xD800, 0xDB7F), # can't display
 #    "High Private Use Surrogates": (0xDB80, 0xDBFF), # can't display
 #    "Low Surrogates": (0xDC00, 0xDFFF), # can't display
@@ -269,7 +269,7 @@ unicode_blocks = {
     "Medefaidrin": (0x16E40, 0x16E9F),
     "Miao": (0x16F00, 0x16F9F),
     "Ideographic Symbols and Punctuation": (0x16FE0, 0x16FFF),
-#    "Tangut": (0x17000, 0x187FF),
+    "Tangut": (0x17000, 0x187FF),
     "Tangut Components": (0x18800, 0x18AFF),
     "Khitan Small Script": (0x18B00, 0x18CFF),
     "Tangut Supplement": (0x18D00, 0x18D7F),
@@ -339,12 +339,12 @@ unicode_blocks_other = {
 
     "CJK Unified Ideographs Extension A": (0x3400, 0x4DBF), # not useful
     "CJK Unified Ideographs": (0x4E00, 0x9FFF), # not useful
-    "Hangul Jamo Extended-A": (0xA960, 0xA97F), # not useful
-    "Hangul Jamo Extended-B": (0xD7B0, 0xD7FF), # not useful
+#    "Hangul Jamo Extended-A": (0xA960, 0xA97F), # not useful
+#    "Hangul Jamo Extended-B": (0xD7B0, 0xD7FF), # not useful
 #    "High Surrogates": (0xD800, 0xDB7F), # can't display
 #    "High Private Use Surrogates": (0xDB80, 0xDBFF), # can't display
 #    "Low Surrogates": (0xDC00, 0xDFFF), # can't display
-    "Tangut": (0x17000, 0x187FF),
+#    "Tangut": (0x17000, 0x187FF),
     "CJK Unified Ideographs Extension B": (0x20000, 0x2A6DF),
     "CJK Unified Ideographs Extension C": (0x2A700, 0x2B73F),
     "CJK Unified Ideographs Extension D": (0x2B740, 0x2B81F),

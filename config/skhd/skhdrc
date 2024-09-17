@@ -139,7 +139,6 @@ rctrl - e: ~/lab/scripts/calls/calltmuxcreatewindow -popup
 
 # screenshots
 lctrl - 4 : ~/lab/scripts/calls/callscreen
-lctrl - l : ~/lab/scripts/calls/callscreen
 
 # copy 
 rctrl - 5 : ~/lab/scripts/calls/copg

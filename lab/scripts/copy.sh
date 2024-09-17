@@ -50,8 +50,8 @@ function refmulti() {
   
   # Define the file paths you want to simulate copying
   file_paths=(
-      "/Users/klieng/Downloads/Goals.pdf"
-      "/Users/klieng/Downloads/image.png"
+      "/Users/klieng/Downloads/test1.png"
+      "/Users/klieng/Downloads/test2.png"
   )  # Replace these paths with the actual file paths you want to copy
   
   # Build the AppleScript command to copy multiple files via Finder
@@ -63,7 +63,10 @@ function refmulti() {
   for file in "${file_paths[@]}"; do
       script+="
       set end of fileList to (POSIX file \"$file\" as alias)
-      set the clipboard to (fileList as «class furl»)"
+      set the clipboard to fileList
+      "
+#      set the clipboard to fileList"
+#      set the clipboard to (fileList as «class furl»)"
   done
   
   script+="
@@ -82,23 +85,35 @@ function refmulti() {
   
 }
 
-# not working
-function reftest() {
+function reftext() {
+
+  # Define the directory where your files are located
+  local appleScript="tell application \"Finder\"
+	set pathFile to selection as text
+	set pathFile to get POSIX path of pathFile
+	set the clipboard to pathFile
+end tell"
   
-  local script="tell application \"Finder\"
-    set selectedFiles to selection
-    set fileReferences to {}
+  # Execute the AppleScript
+  echo -e "$appleScript" | osascript
 
-    -- Loop through each selected file and get the alias reference
-    repeat with selectedFile in selectedFiles
-        set end of fileReferences to selectedFile as alias
+}
+
+
+function reftext2() {
+  # Get paths of files from the clipboard
+  file_paths=$(osascript -e 'tell app "Finder" to get selection as alias list')
+  echo "$file_paths" | pbcopy
+
+}
+
+function reftest() {
+osascript -e 'tell application "Finder"
+    set filePaths to ""
+    set theSelection to selection
+    repeat with aFile in theSelection
+        set filePaths to filePaths & POSIX path of (aFile as text) & "\n"
     end repeat
-
-    -- Copy the list of file references to the clipboard
-    set the clipboard to fileReferences
-end tell
-"
-
-  osascript -e "$script"
-
+    set the clipboard to filePaths
+end tell'
 }
