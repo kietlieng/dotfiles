@@ -688,7 +688,7 @@ function psx() {
       # iterate through loop for multiple pids
       for pIndex in $(echo $pid); do
         sudo kill $pIndex
-#        echo "x $pIndex"
+        echo "x $pIndex"
       done
 #      kill -${1:-9} $pid
     fi

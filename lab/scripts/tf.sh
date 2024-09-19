@@ -3,6 +3,7 @@
 # terraform plan
 # terraform apply
 
+alias impaccount="echo \"$IMPERVA_SITE1_ID\" | pbcopy"
 alias tap="tapply"
 alias tapa="tapply -a"
 alias tfdebug="export TF_LOG=DEBUG; export TF_LOG_PATH=\"debug.log\""
@@ -13,7 +14,6 @@ alias tfreconfigure="terraform init -reconfigure"
 alias tpa="tplan && tapply"
 alias tplangraph="terraform graph -type=plan"
 alias tplangraphpic="terraform graph -type=plan | dot -Tpng > graph.png"
-
 
 # reset parallel
 function tfpar() {

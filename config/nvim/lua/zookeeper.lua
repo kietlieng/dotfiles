@@ -35,19 +35,16 @@ function F.zkget()
     lines[#lines] = string.sub(lines[#lines], 1, end_col)
   end
 
---  local selectString = "echo '" .. table.concat(lines) .. "' | pbcopy"
---  os.execute(selectString)
---  os.execute('callzkfetch "' .. table.concat(lines) .. "'")
-
---  os.execute("zkvimfetch '" .. table.concat(lines) .. "'")
-
---  print("zkvimfetch '" .. table.concat(lines) .. "'")
---  print("callzkfetch '" .. table.concat(lines) .. "'")
   local io = require("io")
---  local fOutput = io.popen("zkvimfetch '" .. table.concat(lines) .. "'")
-  local fOutput = io.popen("callzkfetch '" .. table.concat(lines) .. "'")
-  local dirExpression = fOutput:read('*all')
-  print(dirExpression)
+
+  local fOutput = io.popen("cat ~/.pacenv")
+  local zkenv = fOutput:read('*all')
+  zkenv = zkenv:gsub("\n", "")
+  fOutput:close()
+
+  fOutput = io.popen("callzkfetch '" .. table.concat(lines) .. "'")
+  local zkvalue = fOutput:read('*all')
+  print(zkenv .. ": " .. zkvalue)
   fOutput:close()
 
 end
