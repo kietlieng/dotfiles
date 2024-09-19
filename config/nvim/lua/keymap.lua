@@ -97,6 +97,11 @@ function F.setup()
 
   map("n", "<C-t>", ":!callterminal '%:p:h' ", G_NO_REMAP)  -- terminal runs
 
+--  map("v", "<LEADER>zget", ":'<,'>lua require('zookeeper').zkget()<CR>", G_SILENT_NO_REMAP) -- zk copy
+--  map("v", "<LEADER>zget", ':!callzkfetch <C-R>"<ENTER>', G_SILENT_NO_REMAP) -- zk copy
+  map("v", "<LEADER>zg", ":lua require('zookeeper').zkget()<CR>", G_SILENT_NO_REMAP) -- zk copy
+  map("n", "<LEADER>ze", ":lua require('zookeeper').zkenv('')<LEFT><LEFT>", G_SILENT_NO_REMAP) -- zk copy
+
   -- G KEYS: git commands
 
   -- git conventions: [Gg][action]

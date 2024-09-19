@@ -2,7 +2,7 @@
 # printing functions 
 function becho() { # broadcast echo.  Put in file and also output to screen
 
-  local fname="${funcstack[2]} $@"
+  local fname="${funcstack[2]}: $@"
   echo "$fname" >> /tmp/log-gecho
   echo "$fname"
 
@@ -10,7 +10,7 @@ function becho() { # broadcast echo.  Put in file and also output to screen
 
 function pecho() { # put echo into file
 
-  local fname="${funcstack[2]} $@"
+  local fname="${funcstack[2]}: $@"
   echo "$fname" >> /tmp/log-gecho
 
 }
