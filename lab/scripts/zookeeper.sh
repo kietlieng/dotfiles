@@ -13,8 +13,19 @@ function zkvimfetch() {
   local env=$(cat ~/.pacenv)
   local server=$(cat $DIRECTORY_MAPPING_SERVER | grep "${env}-.*zk" | head -n 1 | awk -F'^' '{print $2}')
 
-  pecho "zkfetchvalue $server \"get /${env}${1}\""
-  local zkoutput=$(zkfetchvalue $server get "/${env}${1}" | grep -A 1 -i "response::" | tail -n 1)
+  local query="$1"
+  shift
+
+  local actualQuery=""
+
+  if echo "$query" | grep -i "/$env/"; then
+    actualQuery="$query"
+  else
+    actualQuery="/${env}${query}"
+  fi
+
+  pecho "zkfetchvalue $server \"get $actualQuery\""
+  local zkoutput=$(zkfetchvalue $server get "$actualQuery" | grep -A 1 -i "response::" | tail -n 1)
 
   echo "$zkoutput"
   echo -n "$zkoutput" | pbcopy

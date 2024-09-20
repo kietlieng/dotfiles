@@ -42,9 +42,10 @@ function F.zkget()
   zkenv = zkenv:gsub("\n", "")
   fOutput:close()
 
-  fOutput = io.popen("callzkfetch '" .. table.concat(lines) .. "'")
+  local zkquery = table.concat(lines)
+  fOutput = io.popen("callzkfetch '" .. zkquery .. "'")
   local zkvalue = fOutput:read('*all')
-  print(zkenv .. ": " .. zkvalue)
+  print(zkenv .. ": " .. zkquery .. " = "  .. zkvalue)
   fOutput:close()
 
 end
