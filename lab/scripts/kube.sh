@@ -3,6 +3,7 @@
 #alias kdeli="k delete ing"
 #alias kdelp="k delete pod"
 #alias kdels="k delete svc"
+#alias kpoa="k get pods -o go-template --all-namespaces --template '{{range .items}}{{.metadata.name}}{{\"\n\"}}{{end}}'"
 #alias kpoa_name="k get pods -o yaml --all-namespaces | grep -i \"name:\|namespace:\""
 alias k="kubectl --insecure-skip-tls-verify"
 alias kallns="k get namespaces"
@@ -17,29 +18,37 @@ alias ki="k get ing"
 alias kinfo="k cluster-info"
 alias kio="k get -o yaml ing"
 alias kj="k get jobs"
+alias klogs="klog -m"
 alias kp="k get pods"
 alias kpl="k get pods --show-labels"
-alias kpov="k get pods -o yaml"
 alias kpo="k get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{\"\n\"}}{{end}}'"
+alias kpoa="k get pods -o go-template --all-namespaces --template '{{range .items}}{{.metadata.namespace}}>{{.metadata.name}}{{\"\\n\"}}{{end}}'"
 alias kpoav="k get pods -o yaml --all-namespaces"
-alias kpoa="k get pods -o go-template --all-namespaces --template '{{range .items}}{{.metadata.name}}{{\"\n\"}}{{end}}'"
+alias kpov="k get pods -o yaml"
 alias ksa="k get serviceaccounts --all-namespaces"
 
-# to get selector
 # kps --show-labels --selector app=redis
+# list all roles
+# to get selector
+#alias ksa="k  get clusterrole,rolebindings,clusterrolebindings --all-namespaces -o custom-columns='KIND:kind,NAMESPACE:metadata.namespace,NAME:metadata.name,SERVICE_ACCOUNTS:subjects[?(@.kind=="ServiceAccount")].name'"
+#alias ksa="k get rolebindings,clusterrolebindings --all-namespaces -o custom-columns='KIND:kind,NAMESPACE:metadata.namespace,NAME:metadata.name,SERVICE_ACCOUNTS:subjects[?(@.kind==\"ServiceAccount\")].name'"
+#alias ksa="k get serviceaccounts --all-namespaces"
+alias kcm="k get configmap"
+alias kcmo="k get -o yaml configmap"
 alias kps="k get pods --show-labels --selector"
 alias ks="k get svc"
-#alias ksa="k get serviceaccounts --all-namespaces"
 alias ksa="k get rolebindings,clusterrolebindings,sa --all-namespaces -o custom-columns='KIND:kind,NAMESPACE:metadata.namespace,NAME:metadata.name,SERVICE_ACCOUNTS:subjects.name'"
-#alias ksa="k get rolebindings,clusterrolebindings --all-namespaces -o custom-columns='KIND:kind,NAMESPACE:metadata.namespace,NAME:metadata.name,SERVICE_ACCOUNTS:subjects[?(@.kind==\"ServiceAccount\")].name'"
-# list all roles
-#alias ksa="k  get clusterrole,rolebindings,clusterrolebindings --all-namespaces -o custom-columns='KIND:kind,NAMESPACE:metadata.namespace,NAME:metadata.name,SERVICE_ACCOUNTS:subjects[?(@.kind=="ServiceAccount")].name'"
 alias ksecrets="k get secrets"
 alias kso="k get -o yaml svc"
 alias kv="k get pv,pvc"
-alias kcm="k get configmap"
-alias kcmo="k get -o yaml configmap"
 alias vikub="nvim ~/.kube/config"
+
+export FILE_KUBE_CONTEXT=~/.kube/.kubecontext
+
+function kgetcontext() {
+  cat $FILE_KUBE_CONTEXT
+}
+
 
 # connect to service
 function ksforward() {
@@ -91,21 +100,43 @@ function kcon() {
 
 # change node / or namespace default context
 function kns() {
-  findN=""
-  if [ $# -gt 0 ]
-  then
-    # change the node context
-    if [ "$1" = "-n" ]
-    then
-        k config use-context $2
-    # change the namespace context
-    elif [ "$1" = '-c' ]
-    then
-        k config set-context --current --namespace=$2
-    else
-        findN="$1"
-    fi
+
+  local findN=""
+
+  local modeContext=''
+
+  while [[ $# -gt 0 ]]; do
+
+    key="$1"
+    shift
+
+    case "$key" in
+
+      '-n') 
+        k config use-context $1
+        shift
+        ;;
+      '-c') 
+        modeContext='t'
+        ;;
+      *) 
+        findN="${findN}${key}.*"
+        ;;
+
+    esac
+
+  done
+
+  local kspaces=$(k get namespace --all-namespaces | grep -i "$findN")
+
+  if [[ $modeContext ]]; then
+
+    local spaceTarget=$(echo "$kspaces" | grep -i "$findN" | head -n 1 | awk '{print $(NF-2)}')
+    k config set-context --current --namespace=$spaceTarget
+    echo -n "$spaceTarget" > $FILE_KUBE_CONTEXT
+
   fi
+
   k get namespace --all-namespaces | grep -i "$findN"
   k config get-contexts
 }
@@ -160,39 +191,71 @@ function kssh() {
     done
 }
 
-function klog() {
-    podsAll=$(kpo)
-    podName=""
-    tailLog="50"
+function kpox() { 
 
-    if [ $# -gt 0 ]
-    then
-        podName="$1"
-    fi
-    if [ $# -gt 1 ]
-    then
-        tailLog="$2"
-    fi
+  local allValues=$(kpo)
+  local filesToEdit=$(echo "$allValues" | /opt/homebrew/bin/fzf --multi --prompt="Podname: ")
+
+  echo "$filesToEdit"
+
+}
+
+
+function klog() {
+
+  local modeMulti=''
+  local key=''
+
+  while [[ $# -gt 0 ]]; do
+
+    key="$1"
     shift
-    shift
-    echo "looking for *${podName}*\n"
-    echo "$podsAll\n"
-    ksshFound="f"
-    # replace
-    for currentPod in $(echo "$podsAll" | sed 's/:/\n/g')
-    do
-       if [[ "$ksshFound" = "f" && "$currentPod" = *"$podName"* ]]
-       then
-           k logs -f --tail=$tailLog $currentPod
-           ksshFound="t"
-       fi
+
+    case "$key" in
+      '-m') 
+        modeMulti='t' 
+       ;;
+      *) ;;
+    esac
+
+  done
+
+  local optionPods=''
+
+  if [[ $modeMulti ]]; then
+
+    for iPod in $(kpoa | fzf --multi --prompt="Podname: "); do
+      iPod=$(echo "$iPod" | awk -F'>' '{print $2}')
+      optionPods="$optionPods -p $iPod"
     done
+
+  else
+
+    for iPod in $(kpox); do
+      optionPods="$optionPods -p $iPod"
+    done
+
+  fi
+
+  if [[ $optionPods ]]; then
+
+    local kailCommand="kail --current-ns $optionPods"
+    if [[ $modeMulti ]]; then
+      kailCommand="kail $optionPods"
+    fi
+
+    echo "$kailCommand"
+    eval "$kailCommand"
+  fi
+
 }
 
 function hlsa() {
+
     k config get-contexts
     echo ""
     helm ls --all-namespaces
+
 }
 
 function hls() {
@@ -200,3 +263,6 @@ function hls() {
     echo ""
     helm ls
 }
+
+
+

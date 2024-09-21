@@ -60,6 +60,7 @@ function F.comments(aRegular, aNormalMode, aAll, aCommentOut, aInvert, aBuffer)
      fileExtension == 'py' or
      fileExtension == 'rb' or
      fileExtension == 'sh' or
+     fileExtension == 'tcl' or
      fileExtension == 'tf' or
      fileExtension == 'yaml' or
      fileExtension == 'yml' or

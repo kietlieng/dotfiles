@@ -356,6 +356,15 @@ function replaceall() { # from the target ($1), replace ($2) with value ($3)
 
 }
 
+
+# not working yet
+function strjoin() {
+
+  echo "$1" | sed "s/$2/$3/g"
+
+}
+
+
 function stripends() { # from the target ($1), strip out values from both ends ($2+)
 
   local searchTarget="$1"
