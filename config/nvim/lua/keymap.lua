@@ -102,6 +102,8 @@ function F.setup()
   map("v", "<LEADER>zg", ":lua require('zookeeper').zkget()<CR>", G_SILENT_NO_REMAP) -- zk copy
   map("n", "<LEADER>ze", ":lua require('zookeeper').zkenv('')<LEFT><LEFT>", G_SILENT_NO_REMAP) -- zk copy
 
+  map("n", "<C-s>", ":silent !callsearch ''<LEFT>", G_NO_REMAP)  -- terminal runs
+
   -- G KEYS: git commands
 
   -- git conventions: [Gg][action]
@@ -256,7 +258,7 @@ function F.setup()
 --  map("n", "<C-l>", ":wincmd l<CR>", G_SILENT_NO_REMAP) -- right 
 --  map("n", "<C-h>", ":wincmd h<CR>", G_SILENT_NO_REMAP) -- left
 
-  map("n", "<LEADER>wj", ":only<CR>", G_SILENT_NO_REMAP) -- join all windows
+--  map("n", "<LEADER>wj", ":only<CR>", G_SILENT_NO_REMAP) -- join all windows
 
 --  map("n", "<LEADER>pt", ":lua require('precognition').toggle()<CR>", G_SILENT_NO_REMAP) -- precog toggle
 --  map("n", "<LEADER>pp", ":lua require('precognition').peek()<CR>", G_SILENT_NO_REMAP)   -- precog peek
@@ -265,7 +267,7 @@ function F.setup()
 
   -- gitlab duo
   ---- Toggle Code Suggestions on/off with CTRL-g in normal mode:
-  map('n', '<LEADER>du', '<Plug>(GitLabToggleCodeSuggestions)')
+--  map('n', '<LEADER>du', '<Plug>(GitLabToggleCodeSuggestions)')
 
 end
 

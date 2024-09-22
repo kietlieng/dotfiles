@@ -35,7 +35,7 @@ function kfonts() {
 
 function ktheme() {
 
-  switchTheme=$(ls -1 ~/.config/kitty/kitty-themes/themes | /opt/homebrew/bin/fzf)
+  switchTheme=$(ls -1 ~/.config/kitty/kitty-themes/themes | fzf)
   if [[ $switchTheme ]]; then
 
     echo "~/.config/kitty/kitty-themes/themes/$switchTheme"

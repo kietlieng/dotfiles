@@ -3,12 +3,17 @@
 #alias kdeli="k delete ing"
 #alias kdelp="k delete pod"
 #alias kdels="k delete svc"
-#alias kpoa="k get pods -o go-template --all-namespaces --template '{{range .items}}{{.metadata.name}}{{\"\n\"}}{{end}}'"
 #alias kpoa_name="k get pods -o yaml --all-namespaces | grep -i \"name:\|namespace:\""
+
+export K_ALL_NAMESPACES="--all-namespaces"
+
 alias k="kubectl --insecure-skip-tls-verify"
-alias kallns="k get namespaces"
-alias kapp="k apply -f "
+alias kap="k apply -f "
+alias kcm="k get configmap"
+alias kcma="k get configmap $K_ALL_NAMESPACES"
+alias kcmy="k get -o yaml configmap"
 alias kd="k get deployment"
+alias kda="k get deployment $K_ALL_NAMESPACES"
 alias kdo="k get -o yaml deployment"
 alias kdp="k describe pod"
 alias ke="k get events"
@@ -21,11 +26,18 @@ alias kj="k get jobs"
 alias klogs="klog -m"
 alias kp="k get pods"
 alias kpl="k get pods --show-labels"
-alias kpo="k get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{\"\n\"}}{{end}}'"
-alias kpoa="k get pods -o go-template --all-namespaces --template '{{range .items}}{{.metadata.namespace}}>{{.metadata.name}}{{\"\\n\"}}{{end}}'"
-alias kpoav="k get pods -o yaml --all-namespaces"
+alias kpo="k get pods -o go-template --template '{{range .items}}{{.metadata.namespace}}>{{.metadata.name}}{{\"\\n\"}}{{end}}'"
+alias kpoa="k get pods -o go-template $K_ALL_NAMESPACES --template '{{range .items}}{{.metadata.namespace}}>{{.metadata.name}}{{\"\\n\"}}{{end}}'"
+alias kpoav="k get pods -o yaml $K_ALL_NAMESPACES"
 alias kpov="k get pods -o yaml"
-alias ksa="k get serviceaccounts --all-namespaces"
+alias kps="k get pods --show-labels --selector"
+alias ks="k get svc"
+alias ksa="k get rolebindings,clusterrolebindings,sa $K_ALL_NAMESPACES -o custom-columns='KIND:kind,NAMESPACE:metadata.namespace,NAME:metadata.name,SERVICE_ACCOUNTS:subjects.name'"
+alias ksa="k get serviceaccounts $K_ALL_NAMESPACES"
+alias ksecrets="k get secrets"
+alias kso="k get -o yaml svc"
+alias kv="k get pv,pvc"
+alias vikub="nvim ~/.kube/config"
 
 # kps --show-labels --selector app=redis
 # list all roles
@@ -33,22 +45,6 @@ alias ksa="k get serviceaccounts --all-namespaces"
 #alias ksa="k  get clusterrole,rolebindings,clusterrolebindings --all-namespaces -o custom-columns='KIND:kind,NAMESPACE:metadata.namespace,NAME:metadata.name,SERVICE_ACCOUNTS:subjects[?(@.kind=="ServiceAccount")].name'"
 #alias ksa="k get rolebindings,clusterrolebindings --all-namespaces -o custom-columns='KIND:kind,NAMESPACE:metadata.namespace,NAME:metadata.name,SERVICE_ACCOUNTS:subjects[?(@.kind==\"ServiceAccount\")].name'"
 #alias ksa="k get serviceaccounts --all-namespaces"
-alias kcm="k get configmap"
-alias kcmo="k get -o yaml configmap"
-alias kps="k get pods --show-labels --selector"
-alias ks="k get svc"
-alias ksa="k get rolebindings,clusterrolebindings,sa --all-namespaces -o custom-columns='KIND:kind,NAMESPACE:metadata.namespace,NAME:metadata.name,SERVICE_ACCOUNTS:subjects.name'"
-alias ksecrets="k get secrets"
-alias kso="k get -o yaml svc"
-alias kv="k get pv,pvc"
-alias vikub="nvim ~/.kube/config"
-
-export FILE_KUBE_CONTEXT=~/.kube/.kubecontext
-
-function kgetcontext() {
-  cat $FILE_KUBE_CONTEXT
-}
-
 
 # connect to service
 function ksforward() {
@@ -191,16 +187,6 @@ function kssh() {
     done
 }
 
-function kpox() { 
-
-  local allValues=$(kpo)
-  local filesToEdit=$(echo "$allValues" | /opt/homebrew/bin/fzf --multi --prompt="Podname: ")
-
-  echo "$filesToEdit"
-
-}
-
-
 function klog() {
 
   local modeMulti=''
@@ -231,7 +217,8 @@ function klog() {
 
   else
 
-    for iPod in $(kpox); do
+    for iPod in $(kpo | fzf --multi --prompt="Podname: "); do
+      iPod=$(echo "$iPod" | awk -F'>' '{print $2}')
       optionPods="$optionPods -p $iPod"
     done
 
@@ -239,13 +226,10 @@ function klog() {
 
   if [[ $optionPods ]]; then
 
-    local kailCommand="kail --current-ns $optionPods"
-    if [[ $modeMulti ]]; then
-      kailCommand="kail $optionPods"
-    fi
+    local kailCommand="kail $optionPods"
+    echo "$kailCommand | tailm"
+    eval "$kailCommand | tailm"
 
-    echo "$kailCommand"
-    eval "$kailCommand"
   fi
 
 }
@@ -263,6 +247,3 @@ function hls() {
     echo ""
     helm ls
 }
-
-
-

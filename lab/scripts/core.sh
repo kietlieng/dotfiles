@@ -182,7 +182,7 @@ function x() {
       local fileCount=$(echo "$filesToEdit" | wc -l)
       fileCount=$((fileCount))
       if [[ $fileCount -gt 1 ]]; then
-        filesToEdit=$(/opt/homebrew/bin/fzf --multi --query "$searchString")
+        filesToEdit=$(fzf --multi --query "$searchString")
       fi
 
       if [[ ${#filesToEdit[@]} != 0 ]]; then
