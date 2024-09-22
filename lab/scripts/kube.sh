@@ -5,8 +5,6 @@
 #alias kdels="k delete svc"
 #alias kpoa_name="k get pods -o yaml --all-namespaces | grep -i \"name:\|namespace:\""
 
-export K_ALL_NAMESPACES="--all-namespaces"
-
 alias k="kubectl --insecure-skip-tls-verify"
 alias kap="k apply -f "
 alias kcm="k get configmap"
@@ -23,7 +21,14 @@ alias ki="k get ing"
 alias kinfo="k cluster-info"
 alias kio="k get -o yaml ing"
 alias kj="k get jobs"
+alias klogall="klog -a"
+alias klogc="klog -c"
+alias klogf="klog -f"
+alias klogfc="klog -f -c"
 alias klogs="klog -m"
+alias klogsc="klog -m -c"
+alias klogsf="klog -m -f"
+alias klogsfc="klog -m -f -c"
 alias kp="k get pods"
 alias kpl="k get pods --show-labels"
 alias kpo="k get pods -o go-template --template '{{range .items}}{{.metadata.namespace}}>{{.metadata.name}}{{\"\\n\"}}{{end}}'"
@@ -129,7 +134,7 @@ function kns() {
 
     local spaceTarget=$(echo "$kspaces" | grep -i "$findN" | head -n 1 | awk '{print $(NF-2)}')
     k config set-context --current --namespace=$spaceTarget
-    echo -n "$spaceTarget" > $FILE_KUBE_CONTEXT
+#    echo -n "$spaceTarget" > $FILE_KUBE_CONTEXT
 
   fi
 
@@ -187,9 +192,19 @@ function kssh() {
     done
 }
 
+export K_ALL_NAMESPACES="--all-namespaces"
+export K_MAX_LOG_REQUEST="--tail 0 --max-log-requests=4000"
+export K_TEMPLATE="--template \"\x1b[32m{{.PodName}}\x1b[0m \x1b[36m{{.ContainerName}}\x1b[0m \x1b[31m{{.Message}}\x1b[0m {{\\\"\n\\\"}}\""
+export K_TEMPLATE=""
+
 function klog() {
 
+  local modeFileoutput=''
+  local modeSingle=''
   local modeMulti=''
+  local modeCopy=''
+  local modeAll=''
+
   local key=''
 
   while [[ $# -gt 0 ]]; do
@@ -198,37 +213,76 @@ function klog() {
     shift
 
     case "$key" in
-      '-m') 
-        modeMulti='t' 
+
+     '-a') 
+       modeSingle='' 
+       modeAll='t' 
        ;;
+     '-c') modeCopy='t' ;;
+     '-f') modeFileoutput='t' ;;
+     '-m') modeMulti='t' ;;
+
       *) ;;
+
     esac
 
   done
 
   local optionPods=''
 
-  if [[ $modeMulti ]]; then
-
-    for iPod in $(kpoa | fzf --multi --prompt="Podname: "); do
-      iPod=$(echo "$iPod" | awk -F'>' '{print $2}')
-      optionPods="$optionPods -p $iPod"
-    done
-
-  else
+  if [[ $modeAll ]]; then
+    optionPods=".*"
+  elif [[ $modeSingle ]]; then
 
     for iPod in $(kpo | fzf --multi --prompt="Podname: "); do
       iPod=$(echo "$iPod" | awk -F'>' '{print $2}')
-      optionPods="$optionPods -p $iPod"
+
+      if [[ $optionPods ]]; then
+        optionPods="$optionPods|$iPod"
+      else
+        optionPods="$iPod"
+      fi
+
+    done
+
+  elif [[ $modeMulti ]]; then
+
+    for iPod in $(kpoa | fzf --multi --prompt="Podname: "); do
+      iPod=$(echo "$iPod" | awk -F'>' '{print $2}')
+
+      if [[ $optionPods ]]; then
+        optionPods="$optionPods|$iPod"
+      else
+        optionPods="$iPod"
+      fi
+
     done
 
   fi
 
+
+  local copyDir=''
   if [[ $optionPods ]]; then
 
-    local kailCommand="kail $optionPods"
-    echo "$kailCommand | tailm"
-    eval "$kailCommand | tailm"
+#    local logCommand="kail $optionPods"
+    local logCommand="stern --all-namespaces \"$optionPods\" $K_TEMPLATE $K_MAX_LOG_REQUEST"
+    local hashDir=''
+
+
+    if [[ $modeFileoutput ]]; then
+      hashDir=$(hashDir)
+      copyDir="/tmp/kail-$hashDir"
+#      logCommand="kail $optionPods > $copyDir"
+      logCommand="stern --all-namespaces \"$optionPods\" $K_TEMPLATE $K_MAX_LOG_REQUEST > $copyDir"
+      
+    fi
+
+    if [[ $modeCopy ]]; then
+      echo "tailm $copyDir" | pbcopy
+    fi
+
+    echo "$logCommand"
+    eval "$logCommand"
 
   fi
 

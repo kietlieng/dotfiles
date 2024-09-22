@@ -275,6 +275,13 @@ function xg() {
 }
 
 
+function hashDir() {
+
+  local hashDir=$(md5 -q -s $(pwd))
+  echo "$hashDir"
+
+}
+
 # copy file path
 function fxcp() {
 

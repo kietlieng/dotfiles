@@ -77,7 +77,7 @@ function tplan() {
     tfpar
 
     local destroyMode="f"
-    local hashDir=$(md5 -q -s $(pwd))
+    local hashDir=$(hashdir)
     local outfile="tfout-${hashDir}"
     echo "hash $hashDir"
 
