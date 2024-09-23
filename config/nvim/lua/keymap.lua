@@ -102,8 +102,8 @@ function F.setup()
   map("v", "<LEADER>zg", ":lua require('zookeeper').zkget()<CR>", G_SILENT_NO_REMAP) -- zk copy
   map("n", "<LEADER>ze", ":lua require('zookeeper').zkenv('')<LEFT><LEFT>", G_SILENT_NO_REMAP) -- zk copy
 
-  map("n", "<LEADER>wp", ":silent !callsearch ''<LEFT>", G_NO_REMAP)  -- terminal runs
-  map("n", "<LEADER>ws", ":silent !callsearchreg ''<LEFT>", G_NO_REMAP)  -- terminal runs
+  map("n", "<C-s>", ":silent !callsearchprivate ''<LEFT>", G_NO_REMAP)  -- terminal runs
+  map("n", "<LEADER>wr", ":silent !callsearch ''<LEFT>", G_NO_REMAP)  -- terminal runs
   map("n", "<LEADER>wt", ":silent !callsearchthesaurus ''<LEFT>", G_NO_REMAP)  -- terminal runs
 
   -- G KEYS: git commands
