@@ -1,0 +1,7 @@
+#!/opt/homebrew/bin/zsh
+
+source ~/lab/scripts/calls/sourceall
+
+search_query_encoded=$(echo "$@" | sed 's/ /_/g')
+
+open -na "Firefox" --args --private-window "https://www.powerthesaurus.org/$search_query_encoded/synonyms"

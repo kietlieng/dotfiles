@@ -5,13 +5,18 @@
 #alias kdels="k delete svc"
 #alias kpoa_name="k get pods -o yaml --all-namespaces | grep -i \"name:\|namespace:\""
 
+export K_ALL_NAMESPACES="--all-namespaces"
+export K_MAX_LOG_REQUEST="--tail 0 --max-log-requests=4000"
+export K_TEMPLATE="--template \"\x1b[32m{{.PodName}}\x1b[0m \x1b[36m{{.ContainerName}}\x1b[0m \x1b[31m{{.Message}}\x1b[0m {{\\\"\n\\\"}}\""
+export K_TEMPLATE=""
+
 alias k="kubectl --insecure-skip-tls-verify"
 alias kap="k apply -f "
 alias kcm="k get configmap"
-alias kcma="k get configmap $K_ALL_NAMESPACES"
+alias kcma="k get configmap --all-namespaces"
 alias kcmy="k get -o yaml configmap"
 alias kd="k get deployment"
-alias kda="k get deployment $K_ALL_NAMESPACES"
+alias kda="k get deployment --all-namespaces"
 alias kdo="k get -o yaml deployment"
 alias kdp="k describe pod"
 alias ke="k get events"
@@ -32,13 +37,13 @@ alias klogsfc="klog -m -f -c"
 alias kp="k get pods"
 alias kpl="k get pods --show-labels"
 alias kpo="k get pods -o go-template --template '{{range .items}}{{.metadata.namespace}}>{{.metadata.name}}{{\"\\n\"}}{{end}}'"
-alias kpoa="k get pods -o go-template $K_ALL_NAMESPACES --template '{{range .items}}{{.metadata.namespace}}>{{.metadata.name}}{{\"\\n\"}}{{end}}'"
-alias kpoav="k get pods -o yaml $K_ALL_NAMESPACES"
+alias kpoa="k get pods -o go-template --all-namespaces --template '{{range .items}}{{.metadata.namespace}}>{{.metadata.name}}{{\"\\n\"}}{{end}}'"
+alias kpoav="k get pods -o yaml --all-namespaces"
 alias kpov="k get pods -o yaml"
 alias kps="k get pods --show-labels --selector"
 alias ks="k get svc"
-alias ksa="k get rolebindings,clusterrolebindings,sa $K_ALL_NAMESPACES -o custom-columns='KIND:kind,NAMESPACE:metadata.namespace,NAME:metadata.name,SERVICE_ACCOUNTS:subjects.name'"
-alias ksa="k get serviceaccounts $K_ALL_NAMESPACES"
+alias ksa="k get rolebindings,clusterrolebindings,sa --all-namespaces -o custom-columns='KIND:kind,NAMESPACE:metadata.namespace,NAME:metadata.name,SERVICE_ACCOUNTS:subjects.name'"
+alias ksa="k get serviceaccounts --all-namespaces"
 alias ksecrets="k get secrets"
 alias kso="k get -o yaml svc"
 alias kv="k get pv,pvc"
@@ -192,15 +197,11 @@ function kssh() {
     done
 }
 
-export K_ALL_NAMESPACES="--all-namespaces"
-export K_MAX_LOG_REQUEST="--tail 0 --max-log-requests=4000"
-export K_TEMPLATE="--template \"\x1b[32m{{.PodName}}\x1b[0m \x1b[36m{{.ContainerName}}\x1b[0m \x1b[31m{{.Message}}\x1b[0m {{\\\"\n\\\"}}\""
-export K_TEMPLATE=""
 
 function klog() {
 
   local modeFileoutput=''
-  local modeSingle=''
+  local modeSingle='t'
   local modeMulti=''
   local modeCopy=''
   local modeAll=''
@@ -216,11 +217,16 @@ function klog() {
 
      '-a') 
        modeSingle='' 
+       modeMulti=''
        modeAll='t' 
        ;;
      '-c') modeCopy='t' ;;
      '-f') modeFileoutput='t' ;;
-     '-m') modeMulti='t' ;;
+     '-m') 
+       modeSingle='' 
+       modeMulti='t'
+       modeAll='' 
+       ;;
 
       *) ;;
 
@@ -229,34 +235,59 @@ function klog() {
   done
 
   local optionPods=''
+  local selectValues=''
+  local kpoSelect=$(kpo)
+  local kpoSelectAll="all\n$kpoSelect"
+  local kpoaSelect=$(kpoa)
+  local kpoaSelectAll="all\n$kpoaSelect"
 
   if [[ $modeAll ]]; then
     optionPods=".*"
   elif [[ $modeSingle ]]; then
 
-    for iPod in $(kpo | fzf --multi --prompt="Podname: "); do
-      iPod=$(echo "$iPod" | awk -F'>' '{print $2}')
+    selectValues=$(echo "$kpoSelectAll" | fzf --multi --prompt="Podname: ");
 
-      if [[ $optionPods ]]; then
-        optionPods="$optionPods|$iPod"
-      else
-        optionPods="$iPod"
+    if [ $? -eq 0 ]; then # pressed enter so do everything 
+
+      if [[ "all" ==  "$selectValues" ]]; then # see if select all is enabled
+        selectValues=$kpoSelect
       fi
 
-    done
+      for iPod in $(echo "$selectValues"); do
+        iPod=$(echo "$iPod" | awk -F'>' '{print $2}')
+
+        if [[ $optionPods ]]; then
+          optionPods="$optionPods|$iPod"
+        else
+          optionPods="$iPod"
+        fi
+
+      done
+
+    fi
 
   elif [[ $modeMulti ]]; then
 
-    for iPod in $(kpoa | fzf --multi --prompt="Podname: "); do
-      iPod=$(echo "$iPod" | awk -F'>' '{print $2}')
+    selectValues=$(echo "$kpoaSelectAll" | fzf --multi --prompt="Podname: ");
 
-      if [[ $optionPods ]]; then
-        optionPods="$optionPods|$iPod"
-      else
-        optionPods="$iPod"
+    if [ $? -eq 0 ]; then # pressed enter so do everything 
+
+      if [[ "all" ==  "$selectValues" ]]; then # see if select all is enabled
+        selectValues=$kpoaSelect
       fi
 
-    done
+      for iPod in $(echo "$selectValues"); do
+        iPod=$(echo "$iPod" | awk -F'>' '{print $2}')
+
+        if [[ $optionPods ]]; then
+          optionPods="$optionPods|$iPod"
+        else
+          optionPods="$iPod"
+        fi
+
+      done
+
+    fi
 
   fi
 

@@ -20,3 +20,11 @@
 -- >>= Navigation =<<
 -- buffer navigation
 -- shortcuts
+
+
+# to delete html tags.
+-- qqda>@qq@qZZ
+-- da> delete's tags
+-- qq recorder with on key q
+-- @qq call recorder q and stop recording (q)
+-- @q call the macro that will repeat itself 
