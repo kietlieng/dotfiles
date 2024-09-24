@@ -275,7 +275,7 @@ function xg() {
 }
 
 
-function hashDir() {
+function hashdir() {
 
   local hashDir=$(md5 -q -s $(pwd))
   echo "$hashDir"

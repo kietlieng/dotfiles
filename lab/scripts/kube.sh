@@ -5,10 +5,12 @@
 #alias kdels="k delete svc"
 #alias kpoa_name="k get pods -o yaml --all-namespaces | grep -i \"name:\|namespace:\""
 
-#export K_ALL_NAMESPACES="--all-namespaces"
-#export K_MAX_LOG_REQUEST="--tail 0 --max-log-requests=4000"
-#export K_TEMPLATE="--template \"\x1b[32m{{.PodName}}\x1b[0m \x1b[36m{{.ContainerName}}\x1b[0m \x1b[31m{{.Message}}\x1b[0m {{\\\"\n\\\"}}\""
-#export K_TEMPLATE=""
+export K_DEFAULTS="catalog>\\|evenue-nextjs\\|graphql-consumer\\|api-orch"
+export K_ALL_NAMESPACES="--all-namespaces"
+export K_MAX_LOG_REQUEST="--tail 0 --max-log-requests=10000"
+export K_TEMPLATE="--template \"\x1b[32m{{.PodName}}\x1b[0m \x1b[36m{{.ContainerName}}\x1b[0m \x1b[31m{{.Message}}\x1b[0m {{\\\"\n\\\"}}\""
+export K_TEMPLATE=""
+export K_EXCLUDE=""
 
 alias k="kubectl --insecure-skip-tls-verify"
 alias kap="k apply -f "
@@ -23,18 +25,10 @@ alias ke="k get events"
 alias kg="k get"
 alias kgo="k get -o yaml"
 alias ki="k get ing"
-alias kis="k get ing --all-namespaces"
 alias kinfo="k cluster-info"
 alias kio="k get -o yaml ing"
+alias kis="k get ing --all-namespaces"
 alias kj="k get jobs"
-alias klall="kl -a"
-alias klc="kl -c"
-alias klf="kl -f"
-alias klfc="kl -f -c"
-alias kls="kl -m"
-alias klsc="kl -m -c"
-alias klsf="kl -m -f"
-alias klsfc="kl -m -f -c"
 alias kp="k get pods"
 alias kpl="k get pods --show-labels"
 alias kpo="k get pods -o go-template --template '{{range .items}}{{.metadata.namespace}}>{{.metadata.name}}{{\"\\n\"}}{{end}}'"
@@ -42,13 +36,41 @@ alias kpoa="k get pods -o go-template --all-namespaces --template '{{range .item
 alias kpoav="k get pods -o yaml --all-namespaces"
 alias kpov="k get pods -o yaml"
 alias kps="k get pods --show-labels --selector"
-alias kserv="k get svc"
 alias ksa="k get rolebindings,clusterrolebindings,sa --all-namespaces -o custom-columns='KIND:kind,NAMESPACE:metadata.namespace,NAME:metadata.name,SERVICE_ACCOUNTS:subjects.name'"
 alias ksa="k get serviceaccounts --all-namespaces"
 alias ksecrets="k get secrets"
+alias kserv="k get svc"
 alias kso="k get -o yaml svc"
 alias kv="k get pv,pvc"
 alias vikub="nvim ~/.kube/config"
+
+# disable environment
+alias kle="kl -e"
+alias klse="kl -m -e"
+
+# disable default
+alias kld="kl -d"
+alias klsd="kl -m -d"
+
+# disable both environment / defaults
+alias kled="kl -e -d"
+alias klsed="kl -m -e -d"
+alias kla="kl -a"
+alias klsa="kl -m -a"
+
+# misc
+alias klc="kl -c"
+alias klf="kl -f"
+alias klfc="kl -f -c"
+
+# enable environment / defaults 
+alias kls="kl -m"
+
+# misc
+alias klsc="kl -m -c"
+alias klsf="kl -m -f"
+alias klsfc="kl -m -f -c"
+
 
 # kps --show-labels --selector app=redis
 # list all roles
@@ -56,6 +78,16 @@ alias vikub="nvim ~/.kube/config"
 #alias ksa="k  get clusterrole,rolebindings,clusterrolebindings --all-namespaces -o custom-columns='KIND:kind,NAMESPACE:metadata.namespace,NAME:metadata.name,SERVICE_ACCOUNTS:subjects[?(@.kind=="ServiceAccount")].name'"
 #alias ksa="k get rolebindings,clusterrolebindings --all-namespaces -o custom-columns='KIND:kind,NAMESPACE:metadata.namespace,NAME:metadata.name,SERVICE_ACCOUNTS:subjects[?(@.kind==\"ServiceAccount\")].name'"
 #alias ksa="k get serviceaccounts --all-namespaces"
+
+
+function kgetenv() {
+  local env=$(cat ~/.pacenv)
+  echo -n "$env"
+}
+
+function ksetenv() {
+  echo "$1" > ~/.pacenv
+}
 
 # connect to service
 function ksforward() {
@@ -201,11 +233,13 @@ function kssh() {
 
 function kl() {
 
-  local modeFileoutput=''
-  local modeSingle='t'
-  local modeMulti=''
   local modeCopy=''
-  local modeAll=''
+  local modeEnv=''
+  modeEnv=$(kgetenv)
+  local modeFileoutput=''
+  local modeDefault='t'
+  local modeMulti=''
+  local modeSingle='t'
 
   local key=''
 
@@ -217,18 +251,23 @@ function kl() {
     case "$key" in
 
      '-a') 
-       modeSingle='' 
-       modeMulti=''
-       modeAll='t' 
+       modeDefault=''
+       modeEnv=''
        ;;
      '-c') modeCopy='t' ;;
      '-f') modeFileoutput='t' ;;
+     '-d') modeDefault='' ;;
      '-m') 
        modeSingle='' 
        modeMulti='t'
-       modeAll='' 
        ;;
-
+     '-env')
+       ksetenv "$1"
+       shift
+       ;;
+     '-e')
+       modeEnv=''
+       ;;
       *) ;;
 
     esac
@@ -237,69 +276,49 @@ function kl() {
 
   local optionPods=''
   local selectValues=''
-  local kpoSelect=''
-  local kpoSelectAll=''
-  local kpoaSelect=''
-  local kpoaSelectAll=''
+  local kpSelect=''
+  local kpSelectAll=''
 
-  if [[ $modeAll ]]; then
-    optionPods=".*"
-  elif [[ $modeSingle ]]; then
-
-    kpoSelect=$(kpo)
-    kpoSelectAll="all\n$kpoSelect"
-    selectValues=$(echo "$kpoSelectAll" | fzf --multi --prompt="Podname: ");
-
-    if [ $? -eq 0 ]; then # pressed enter so do everything 
-
-      if [[ "all" ==  "$selectValues" ]]; then # see if select all is enabled
-        selectValues=$kpoSelect
-      fi
-
-      for iPod in $(echo "$selectValues"); do
-        iPod=$(echo "$iPod" | awk -F'>' '{print $2}')
-
-        if [[ $optionPods ]]; then
-          optionPods="$optionPods|$iPod"
-        else
-          optionPods="$iPod"
-        fi
-
-      done
-
-    fi
-
+  if [[ $modeSingle ]]; then
+    kpSelect=$(kpo)
   elif [[ $modeMulti ]]; then
+    kpSelect=$(kpoa)
+  fi
 
-    kpoaSelect=$(kpoa)
-    kpoaSelectAll="all\n$kpoaSelect"
-    selectValues=$(echo "$kpoaSelectAll" | fzf --multi --prompt="Podname: ");
+  echo "$kpSelect"
 
-    if [ $? -eq 0 ]; then # pressed enter so do everything 
+  # filter out by defaults
+  if [[ $modeDefault ]]; then
+    kpSelect=$(echo "$kpSelect" | grep -i "$K_DEFAULTS")
+  fi
 
-      if [[ "all" ==  "$selectValues" ]]; then # see if select all is enabled
+  echo "$kpSelect $K_DEFAULTS"
+  # filter out by environments
+  if [[ $modeEnv ]]; then
+    kpSelect=$(echo "$kpSelect" | grep -i "$modeEnv")
+  fi
 
-        optionPods='.*'
+  echo "$kpSelect"
+  kpSelectAll="all\n$kpSelect"
+  selectValues=$(echo "$kpSelectAll" | fzf --multi --prompt="Podname: ");
 
-      else
+  if [ $? -eq 0 ]; then # pressed enter so do everything 
+    if [[ "all" ==  "$selectValues" ]]; then # see if select all is enabled
+      selectValues=$kpSelect
+    fi
+  fi
 
-        for iPod in $(echo "$selectValues"); do
+  for iPod in $(echo "$selectValues"); do
 
-          iPod=$(echo "$iPod" | awk -F'>' '{print $2}')
+    iPod=$(echo "$iPod" | awk -F'>' '{print $2}')
 
-          if [[ $optionPods ]]; then
-            optionPods="$optionPods|$iPod"
-          else
-            optionPods="$iPod"
-          fi
-
-        done
-
-      fi
-
+    if [[ $optionPods ]]; then
+      optionPods="$optionPods|$iPod"
+    else
+      optionPods="$iPod"
     fi
 
-  fi
+  done
 
 
   local copyDir=''
@@ -310,7 +329,7 @@ function kl() {
     local hashDir=''
 
     if [[ $modeFileoutput ]]; then
-      hashDir=$(hashDir)
+      hashDir=$(hashdir)
       copyDir="/tmp/kail-$hashDir"
 #      logCommand="kail $optionPods > $copyDir"
       logCommand="stern --all-namespaces \"$optionPods\" $K_TEMPLATE $K_MAX_LOG_REQUEST > $copyDir"

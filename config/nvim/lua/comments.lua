@@ -58,6 +58,7 @@ function F.comments(aRegular, aNormalMode, aAll, aCommentOut, aInvert, aBuffer)
      filename      == 'kitty.conf' or
      fileExtension == 'fwd' or
      fileExtension == 'py' or
+     fileExtension == 'cnf' or
      fileExtension == 'rb' or
      fileExtension == 'sh' or
      fileExtension == 'tcl' or
