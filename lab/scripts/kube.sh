@@ -5,7 +5,9 @@
 #alias kdels="k delete svc"
 #alias kpoa_name="k get pods -o yaml --all-namespaces | grep -i \"name:\|namespace:\""
 
-export K_DEFAULTS="catalog>\\|evenue-nextjs\\|graphql-consumer\\|api-orch"
+
+#export K_DEFAULTS="catalog>\\|evenue-nextjs\\|graphql-consumer\\|api-orch\\|cdb-manager"
+
 export K_ALL_NAMESPACES="--all-namespaces"
 export K_MAX_LOG_REQUEST="--tail 0 --max-log-requests=10000"
 export K_TEMPLATE="--template \"\x1b[32m{{.PodName}}\x1b[0m \x1b[36m{{.ContainerName}}\x1b[0m \x1b[31m{{.Message}}\x1b[0m {{\\\"\n\\\"}}\""
@@ -19,6 +21,7 @@ alias kcma="k get configmap --all-namespaces"
 alias kcmy="k get -o yaml configmap"
 alias kd="k get deployment"
 alias kda="k get deployment --all-namespaces"
+alias kdefaults="cat ~/.kube/.kubedefaults"
 alias kdo="k get -o yaml deployment"
 alias kdp="k describe pod"
 alias ke="k get events"
@@ -42,21 +45,23 @@ alias ksecrets="k get secrets"
 alias kserv="k get svc"
 alias kso="k get -o yaml svc"
 alias kv="k get pv,pvc"
+alias vikdefaults="vim ~/.kube/.kubedefaults"
 alias vikub="nvim ~/.kube/config"
+
 
 # disable environment
 alias kle="kl -e"
-alias klse="kl -m -e"
+alias klse="kl -s -e"
 
 # disable default
 alias kld="kl -d"
-alias klsd="kl -m -d"
+alias klsd="kl -s -d"
 
 # disable both environment / defaults
 alias kled="kl -e -d"
-alias klsed="kl -m -e -d"
+alias klsed="kl -s -e -d"
 alias kla="kl -a"
-alias klsa="kl -m -a"
+alias klsa="kl -s -a"
 
 # misc
 alias klc="kl -c"
@@ -64,12 +69,12 @@ alias klf="kl -f"
 alias klfc="kl -f -c"
 
 # enable environment / defaults 
-alias kls="kl -m"
+alias kls="kl -s"
 
 # misc
-alias klsc="kl -m -c"
-alias klsf="kl -m -f"
-alias klsfc="kl -m -f -c"
+alias klsc="kl -s -c"
+alias klsf="kl -s -f"
+alias klsfc="kl -s -f -c"
 
 
 # kps --show-labels --selector app=redis
@@ -79,6 +84,38 @@ alias klsfc="kl -m -f -c"
 #alias ksa="k get rolebindings,clusterrolebindings --all-namespaces -o custom-columns='KIND:kind,NAMESPACE:metadata.namespace,NAME:metadata.name,SERVICE_ACCOUNTS:subjects[?(@.kind==\"ServiceAccount\")].name'"
 #alias ksa="k get serviceaccounts --all-namespaces"
 
+
+function kgetdefaults() {
+  local defaults=''
+
+  for iDefault in $(cat ~/.kube/.kubedefaults); do
+
+    if [[ $defaults ]]; then
+      defaults="$defaults\\\\|$iDefault"
+    else
+      defaults="$iDefault"
+    fi
+
+  done
+
+  echo -n "$defaults"
+
+}
+
+function kresetdefaults() {
+  echo "$1" > ~/.kube/.kubedefaults
+  kdefaults
+}
+
+function kadddefaults() {
+  echo "$1" >> ~/.kube/.kubedefaults
+  kdefaults
+}
+
+function kremovedefaults() {
+  sed -i "" "/$1/d" ~/.kube/.kubedefaults
+  kdefaults
+}
 
 function kgetenv() {
   local env=$(cat ~/.pacenv)
@@ -106,6 +143,7 @@ function kiforward() {
   #kube-system kube-scheduler-minikube           1/1   Running
   #kube-system nginx-ingress-controller-6fc5bcc  1/1   Running
   #echo "kubectl port-forward nginx-ingress-controller-6fc5bcc 3000:80 --namespace kube-system"
+
   echo "kubectl port-forward nginx-ingress-controller-6fc5bcc 3000:80 --namespace kube-system"
 }
 
@@ -238,8 +276,8 @@ function kl() {
   modeEnv=$(kgetenv)
   local modeFileoutput=''
   local modeDefault='t'
-  local modeMulti=''
-  local modeSingle='t'
+  local modeMulti='t'
+  local modeSingle=''
 
   local key=''
 
@@ -257,9 +295,9 @@ function kl() {
      '-c') modeCopy='t' ;;
      '-f') modeFileoutput='t' ;;
      '-d') modeDefault='' ;;
-     '-m') 
-       modeSingle='' 
-       modeMulti='t'
+     '-s') 
+       modeSingle='t' 
+       modeMulti=''
        ;;
      '-env')
        ksetenv "$1"
@@ -285,20 +323,27 @@ function kl() {
     kpSelect=$(kpoa)
   fi
 
-  echo "$kpSelect"
+#  echo "$kpSelect"
+
+  local kDefaults=''
+  kDefaults=$(kgetdefaults)
+
+#  becho "defaults: $kDefaults"
 
   # filter out by defaults
   if [[ $modeDefault ]]; then
-    kpSelect=$(echo "$kpSelect" | grep -i "$K_DEFAULTS")
+    local kDefaults=$(kgetdefaults)
+    kpSelect=$(echo "$kpSelect" | grep -i "$kDefaults")
   fi
 
-  echo "$kpSelect $K_DEFAULTS"
+  becho "\n$kpSelect"
+  becho "\n$kDefaults"
   # filter out by environments
   if [[ $modeEnv ]]; then
     kpSelect=$(echo "$kpSelect" | grep -i "$modeEnv")
   fi
 
-  echo "$kpSelect"
+  becho "\n$kpSelect"
   kpSelectAll="all\n$kpSelect"
   selectValues=$(echo "$kpSelectAll" | fzf --multi --prompt="Podname: ");
 
