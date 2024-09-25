@@ -274,6 +274,7 @@ function kl() {
   local modeCopy=''
   local modeEnv=''
   modeEnv=$(kgetenv)
+  local modeConfig=''
   local modeFileoutput=''
   local modeDefault='t'
   local modeMulti='t'
@@ -293,6 +294,10 @@ function kl() {
        modeEnv=''
        ;;
      '-c') modeCopy='t' ;;
+     '-kconf') 
+       modeConfig="$1"
+       shift
+       ;;
      '-f') modeFileoutput='t' ;;
      '-d') modeDefault='' ;;
      '-s') 
@@ -370,16 +375,23 @@ function kl() {
   if [[ $optionPods ]]; then
 
 #    local logCommand="kail $optionPods"
-    local logCommand="stern --all-namespaces \"$optionPods\" $K_TEMPLATE $K_MAX_LOG_REQUEST"
+    local logCommand="stern "
+    if [[ $modeConfig ]]; then
+
+      logCommand="$logCommand --kubeconfig ~/.kube/config.$modeConfig"
+
+    fi
+
+    logCommand="$logCommand --all-namespaces \"$optionPods\" $K_TEMPLATE $K_MAX_LOG_REQUEST"
     local hashDir=''
 
     if [[ $modeFileoutput ]]; then
       hashDir=$(hashdir)
       copyDir="/tmp/kail-$hashDir"
-#      logCommand="kail $optionPods > $copyDir"
-      logCommand="stern --all-namespaces \"$optionPods\" $K_TEMPLATE $K_MAX_LOG_REQUEST > $copyDir"
+      logCommand="$logCommand > $copyDir"
       
     fi
+
 
     if [[ $modeCopy ]]; then
       echo "tailm $copyDir" | pbcopy
