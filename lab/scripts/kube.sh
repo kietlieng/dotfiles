@@ -21,7 +21,6 @@ alias kcma="k get configmap --all-namespaces"
 alias kcmy="k get -o yaml configmap"
 alias kd="k get deployment"
 alias kda="k get deployment --all-namespaces"
-alias kdefaults="cat ~/.kube/.kubedefaults"
 alias kdo="k get -o yaml deployment"
 alias kdp="k describe pod"
 alias ke="k get events"
@@ -102,28 +101,44 @@ function kgetdefaults() {
 
 }
 
-function kresetdefaults() {
-  echo "$1" > ~/.kube/.kubedefaults
-  kdefaults
+function kdefaults() {
+
+  local key=''
+
+  while [[ $# -gt 0 ]]; do
+
+    key="$1"
+    shift
+
+    case "$key" in
+      '-reset')
+        echo "$1" > ~/.kube/.kubedefaults
+        shift
+        ;;
+      '-d') 
+        sed  -i "" "/$1/d" ~/.kube/.kubedefaults
+        shift
+        ;;
+      *) 
+        echo "$key" >> ~/.kube/.kubedefaults
+        ;;
+    esac
+
+  done
+
+  cat ~/.kube/.kubedefaults
+
 }
 
-function kadddefaults() {
-  echo "$1" >> ~/.kube/.kubedefaults
-  kdefaults
-}
+function kenv() {
 
-function kremovedefaults() {
-  sed -i "" "/$1/d" ~/.kube/.kubedefaults
-  kdefaults
-}
+  while [[ $# -gt 0 ]]; do
+    echo "$1" > ~/.pacenv
+  done
 
-function kgetenv() {
   local env=$(cat ~/.pacenv)
   echo -n "$env"
-}
 
-function ksetenv() {
-  echo "$1" > ~/.pacenv
 }
 
 # connect to service
@@ -273,7 +288,7 @@ function kl() {
 
   local modeCopy=''
   local modeEnv=''
-  modeEnv=$(kgetenv)
+  modeEnv=$(kenv)
   local modeConfig=''
   local modeFileoutput=''
   local modeDefault='t'
@@ -305,7 +320,7 @@ function kl() {
        modeMulti=''
        ;;
      '-env')
-       ksetenv "$1"
+       kenv "$1"
        shift
        ;;
      '-e')
@@ -348,7 +363,16 @@ function kl() {
     kpSelect=$(echo "$kpSelect" | grep -i "$modeEnv")
   fi
 
-  becho "\n$kpSelect"
+#  becho "\n$kpSelect"
+  if [[ $modeConfig ]]; then
+
+    if [[ ! -f ~/.kube/config.$modeConfig ]]; then
+      becho "Does not exists ~/.kube/config.$modeConfig"
+      becho "Rejecting and reverting"
+      sleep 1
+    fi 
+  fi
+
   kpSelectAll="all\n$kpSelect"
   selectValues=$(echo "$kpSelectAll" | fzf --multi --prompt="Podname: ");
 
@@ -378,6 +402,10 @@ function kl() {
     local logCommand="stern "
     if [[ $modeConfig ]]; then
 
+      if [[ ! -f ~/.kube/config.$modeConfig ]]; then
+        becho "Does not exists ~/.kube/config.$modeConfig"
+        becho "Rejecting and reverting"
+      fi 
       logCommand="$logCommand --kubeconfig ~/.kube/config.$modeConfig"
 
     fi
@@ -397,7 +425,7 @@ function kl() {
       echo "tailm $copyDir" | pbcopy
     fi
 
-    echo "$logCommand"
+    becho "$logCommand"
     eval "$logCommand"
 
   fi
