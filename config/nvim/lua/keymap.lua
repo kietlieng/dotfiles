@@ -44,7 +44,8 @@ function F.setup()
   map("n", "<LEADER>**", ":lua require('reg').toClipboard('/')<CR>", G_SILENT_NO_REMAP) -- yank to clipboard register
   map("n", "<LEADER>Y", 'mcggVG"*y<CR>`c', G_SILENT_NO_REMAP)                           -- copy everything
   map("n", "<LEADER>y", "mlviWy:lua require('word').word()<CR>`l", G_SILENT_NO_REMAP)   -- copy WORD strip set characters from both ends
-  map("n", "<LEADER>l", 'mlV"*y<CR>`l', G_SILENT_NO_REMAP)                                      -- copy current line to clipboard
+  map("n", "<LEADER>l", 'mlV"*y<CR>`l', G_SILENT_NO_REMAP)                              -- copy current line to clipboard
+  map("n", "<LEADER>.", 'mlvg_"*y<CR>`l', G_SILENT_NO_REMAP)                              -- copy current line to clipboard
   map("v", "<LEADER>y", '"*y', G_SILENT_NO_REMAP)                                       -- copy everything in visual
   map("n", "<LEADER>d", 'V"*y<CR>dd', G_SILENT_NO_REMAP)                                -- cut to clipboard
   map("v", "<LEADER>d", '"*ygvd', G_SILENT_NO_REMAP)                                    -- cut to clipboard
