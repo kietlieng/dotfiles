@@ -14,9 +14,9 @@ function F.setup()
   map("n", ":", ";", G_SILENT_NO_REMAP)  -- swap for ; cause I'm not using it often enough
 
   -- find files with telescope
-  map("n", "<LEADER>/", "<cmd>lua require('tele').dirDepthJump(-1)<CR>", G_SILENT_NO_REMAP)     -- search from git root
+  map("n", "<LEADER>/", "<cmd>lua require('tele').dirDepthJump(-1)<CR>", G_SILENT_NO_REMAP)     -- search from git root directory
   map("n", "<LEADER>?", "<cmd>lua require('tele').dirDepthJump(0)<CR>", G_SILENT_NO_REMAP)      -- search from current directory
-  map("n", "<LEADER>,", "<cmd>lua require('tele').dirDepthJump(-99)<CR>", G_SILENT_NO_REMAP) -- search from current directory root
+  map("n", "<LEADER>0", "<cmd>lua require('tele').dirDepthJump(-99)<CR>", G_SILENT_NO_REMAP)    -- search from current open file root directory
   map("n", "<LEADER>1/", "<cmd>lua require('tele').dirDepthJump(1)<CR>", G_SILENT_NO_REMAP)     -- search from 1 up
   map("n", "<LEADER>2/", "<cmd>lua require('tele').dirDepthJump(2)<CR>", G_SILENT_NO_REMAP)     -- search from 2 up
   map("n", "<LEADER>4/", "<cmd>lua require('tele').dirDepthJump(-2)<CR>", G_SILENT_NO_REMAP)    -- search from cwd
@@ -45,10 +45,13 @@ function F.setup()
   map("n", "<LEADER>Y", 'mcggVG"*y<CR>`c', G_SILENT_NO_REMAP)                           -- copy everything
   map("n", "<LEADER>y", "mlviWy:lua require('word').word()<CR>`l", G_SILENT_NO_REMAP)   -- copy WORD strip set characters from both ends
   map("n", "<LEADER>l", 'mlV"*y<CR>`l', G_SILENT_NO_REMAP)                              -- copy current line to clipboard
-  map("n", "<LEADER>.", 'mlvg_"*y<CR>`l', G_SILENT_NO_REMAP)                              -- copy current line to clipboard
   map("v", "<LEADER>y", '"*y', G_SILENT_NO_REMAP)                                       -- copy everything in visual
   map("n", "<LEADER>d", 'V"*y<CR>dd', G_SILENT_NO_REMAP)                                -- cut to clipboard
   map("v", "<LEADER>d", '"*ygvd', G_SILENT_NO_REMAP)                                    -- cut to clipboard
+
+  map("n", "<LEADER>.", 'mlvg_"*y<CR>`l', G_SILENT_NO_REMAP)                            -- copy current position to end of line to clipboard
+  map("n", "<LEADER>,", 'mlv^"*y<CR>`l', G_SILENT_NO_REMAP)                             -- copy current position to beginning of line to clipboard
+
 
   -- read in values from file
   map("n", "<LEADER>rt", "<cmd>lua require('lua-fzf').readFiles('tmp')<CR>", G_SILENT_NO_REMAP)     -- search from git root
@@ -80,7 +83,7 @@ function F.setup()
   -- block manipulation
   map("n", "<LEADER>ba", "vip<C-v>$A", G_SILENT_NO_REMAP)         -- block insert end
   map("n", "<LEADER>bb", "vip<C-v>^o", G_SILENT_NO_REMAP)         -- block
-  map("n", "<LEADER>bi", "Vip<C-v>I", G_SILENT_NO_REMAP)          -- block insert begining
+  map("n", "<LEADER>bi", "Vip<C-v>I", G_SILENT_NO_REMAP)          -- block insert beginning
   map("n", "<LEADER>bs", "mcvip:'<,'>sort<CR>`c", G_SILENT_NO_REMAP)  -- block sort
   map("n", "<LEADER>bt", "mcvip:'<,'>Tabularize/=<LEFT>", G_NO_REMAP)     -- table
   map("v", "<LEADER>bt", ":Tabularize/=<LEFT>", G_NO_REMAP)             -- table visual
