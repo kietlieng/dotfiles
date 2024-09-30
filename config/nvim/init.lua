@@ -109,7 +109,7 @@ require("lazy").setup({
 --      },
 --    },
 
-   -- multicursor implementation
+   -- multicursor implementation 
    { "jake-stewart/multicursor.nvim", branch = "1.0", config = function() require("multi-cursor").setup() end, },
 
     -- syntax zellij
