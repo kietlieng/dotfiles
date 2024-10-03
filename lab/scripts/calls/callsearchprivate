@@ -6,3 +6,4 @@ search_query_encoded=$(echo "$@" | sed 's/ /+/g')
 
 open -na "Firefox" --args --private-window "https://duckduckgo.com/?q=$search_query_encoded"
 
+yfocuswin Firefox -title Private

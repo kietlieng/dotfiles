@@ -1174,10 +1174,12 @@ function ytogpadding() {
 
 function yfocus() {
 
-  local leftPadding=$(yabai -m config --space 1 left_padding)
-  local leftPadding=${leftPadding%.*} # need int cast 
-  local rightPadding=$(yabai -m config --space 1 right_padding)
-  local rightPadding=${rightPadding%.*} # need int cast 
+  local leftPadding=''
+  leftPadding=$(yabai -m config --space 1 left_padding)
+  leftPadding=${leftPadding%.*} # need int cast 
+  local rightPadding=''
+  rightPadding=$(yabai -m config --space 1 right_padding)
+  rightPadding=${rightPadding%.*} # need int cast 
 
   local rightShift="t"
 
@@ -1199,4 +1201,64 @@ function yfocus() {
 
   fi
 
+}
+
+function yfocuswin() {
+
+
+  local modeTitle=''
+  local targetApp=''
+  local yQuery=''
+  local yWindows=''
+
+  local key=''
+
+  while [[ $# -gt 0 ]]; do
+
+    key="$1"
+    shift
+
+    case "$key" in
+      '-title') 
+        modeTitle="$1"
+        shift
+        ;;
+      *) targetApp="$key" ;;
+    esac
+
+  done
+
+  if [[ $targetApp ]]; then
+    
+    yQuery=".[] | select(.app | test(\"$targetApp\"))"
+
+    if [[ $modeTitle ]]; then
+      yQuery="$yQuery | select(.title | test(\"$modeTitle\"))"
+    fi
+
+    yWindows=$(yabai -m query --windows | jq "$yQuery")
+    yWinID=$(yabai -m query --windows | jq "$yQuery | .id" | head -n 1)
+    yWinFocused=$(yabai -m query --windows | jq "$yQuery | .\"has-focus\"" | head -n 1)
+    
+    echo "$yWindows"
+
+    # if false
+    if [[ $yWinFocused == *'false'* ]]; then
+
+      yabai -m window --focus $yWinID
+      pecho "set focus"
+
+    else
+
+      pecho "no need"
+
+    fi
+
+  fi
+
+  local yWindows=''
+#  yWindows=$(yabai -m query --windows)
+
+
+  
 }

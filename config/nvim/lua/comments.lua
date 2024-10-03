@@ -56,6 +56,7 @@ function F.comments(aRegular, aNormalMode, aAll, aCommentOut, aInvert, aBuffer)
      filename      == 'skhdrc' or -- hotkeys
      filename      == 'tmux.conf' or
      filename      == 'kitty.conf' or
+     filename      == 'Dockerfile' or
      fileExtension == 'fwd' or
      fileExtension == 'py' or
      fileExtension == 'cnf' or
