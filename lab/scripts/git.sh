@@ -372,7 +372,7 @@ function g() {
         shift
         ;;
 
-      '-a' )
+      '-save' )
         modeSaveBranchname='t'
         
         ;;

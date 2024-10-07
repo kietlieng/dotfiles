@@ -80,13 +80,14 @@ function F.setup()
   map("n", "<LEADER>bU", ":lua require('comments').comments(true, true, false, false, false, true)<CR>", G_SILENT_NO_REMAP)  -- select block, uncomment invert of block
   map("v", "<LEADER>bc", ":lua require('comments').comments(false, false, false, true, true)<CR>", G_SILENT_NO_REMAP)        -- block comment invert
 
-  -- block manipulation
-  map("n", "<LEADER>ba", "vip<C-v>$A", G_SILENT_NO_REMAP)         -- block insert end
-  map("n", "<LEADER>bb", "vip<C-v>^o", G_SILENT_NO_REMAP)         -- block
-  map("n", "<LEADER>bi", "Vip<C-v>I", G_SILENT_NO_REMAP)          -- block insert beginning
+  map("n", "<LEADER>ba", "vip<C-v>$A", G_SILENT_NO_REMAP)             -- block insert end
+  map("n", "<LEADER>bb", "vip<C-v>^o", G_SILENT_NO_REMAP)             -- block
+  map("n", "<LEADER>bi", "Vip<C-v>I", G_SILENT_NO_REMAP)              -- block insert beginning
   map("n", "<LEADER>bs", "mcvip:'<,'>sort<CR>`c", G_SILENT_NO_REMAP)  -- block sort
-  map("n", "<LEADER>bt", "mcvip:'<,'>Tabularize/=<LEFT>", G_NO_REMAP)     -- table
-  map("v", "<LEADER>bt", ":Tabularize/=<LEFT>", G_NO_REMAP)             -- table visual
+  map("n", "<LEADER>bt", "mcvip:'<,'>Tabularize/=", G_NO_REMAP)       -- table
+  map("n", "<LEADER>bT", "mcvip:'<,'>Tabularize/=<LEFT>", G_NO_REMAP) -- table. Position at the beginning
+  map("v", "<LEADER>bt", ":Tabularize/=", G_NO_REMAP)                 -- table visual
+  map("v", "<LEADER>bT", ":Tabularize/=<LEFT>", G_NO_REMAP)           -- table visual. Position at beginning
 
   -- search and replace
   --map( "n", "<LEADER>bd", ":bufdo %s//<C-r>./gc<CR>", G_NO_REMAP ) -- repeat replace
@@ -108,7 +109,7 @@ function F.setup()
 
   map("n", "<C-s>", ":silent !callsearchprivate ''<LEFT>", G_NO_REMAP)  -- terminal runs
   map("n", "<LEADER>wr", ":silent !callsearch ''<LEFT>", G_NO_REMAP)  -- terminal runs
-  map("n", "<LEADER>wt", ":silent !callsearchthesaurus ''<LEFT>", G_NO_REMAP)  -- terminal runs
+  map("n", "<LEADER>ws", ":silent !callsearchthesaurus ''<LEFT>", G_NO_REMAP)  -- terminal runs
 
   -- G KEYS: git commands
 

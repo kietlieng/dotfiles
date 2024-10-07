@@ -29,7 +29,6 @@ function F.setup()
     highlight TabLineSel ctermfg=NONE ctermbg=NONE guibg=NONE guifg=NONE
     highlight StatusLine ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
 
-
   ]])
 --    highlight Search ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE
 --    highlight Comment ctermfg=NONE ctermbg=NONE
