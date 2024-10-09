@@ -657,12 +657,16 @@ function xshot() {
   local currentDir=$(pwd)
 
   local fzfDefaultCommandBackup=$FZF_DEFAULT_COMMAND
-  unset FZF_DEFAULT_COMMAND
+#  unset FZF_DEFAULT_COMMAND
 
   cd ~/lab/screenshots
-  ls -1t | fzf --preview='kitten icat --clear --transfer-mode=memory --stdin=no --place=${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@65x10 {} > /dev/tty'
+  local screenDir=$(pwd)
+  local output=$(ls -1t | fzf --preview='kitten icat --clear --transfer-mode=memory --stdin=no --place=${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@65x10 {} > /dev/tty')
+#  ls -1t | fzf --preview='kitten icat --clear --transfer-mode=memory --stdin=no --place=${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@65x10 {} > /dev/tty'
+  ref -f $screenDir/$output 
+  echo "output $output"
 
-  export FZF_DEFAULT_COMMAND=$fzfDefaultCommandBackup
+#  export FZF_DEFAULT_COMMAND=$fzfDefaultCommandBackup
 
   cd $currentDir 
 

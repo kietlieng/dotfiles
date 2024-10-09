@@ -1,4 +1,4 @@
-alias krebuild="kpull && kbuild && kreplacelauncher"
+alias kbuild="kpull && krebuild && kreplacelauncher"
 
 function kterm() {
   kitty +kitten ssh "$1"
@@ -13,7 +13,7 @@ function kpull() {
   cd $currentDir
 }
 
-function kbuild() {
+function krebuild() {
   cd ~/lab/repos/kitty
   ./dev.sh build
 }
