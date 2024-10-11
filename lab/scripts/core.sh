@@ -652,6 +652,21 @@ function jot() {
 
 }
 
+function ximage() {
+
+  local fzfDefaultCommandBackup=$FZF_DEFAULT_COMMAND
+#  unset FZF_DEFAULT_COMMAND
+
+  local currentDir=$(pwd)
+  local output=$(ls -1t | fzf --preview='kitten icat --clear --transfer-mode=memory --stdin=no --place=${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@65x10 {} > /dev/tty')
+#  ls -1t | fzf --preview='kitten icat --clear --transfer-mode=memory --stdin=no --place=${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@65x10 {} > /dev/tty'
+  ref -f $currentDir/$output 
+#  echo "output $output"
+
+#  export FZF_DEFAULT_COMMAND=$fzfDefaultCommandBackup
+
+}
+
 function xshot() {
 
   local currentDir=$(pwd)

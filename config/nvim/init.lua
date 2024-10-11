@@ -137,6 +137,31 @@ require("lazy").setup({
     { "neoclide/coc.nvim", branch = 'release' },
     { "iamcco/markdown-preview.nvim", build = 'cd app && yarn install' },
 
+--    { "3rd/image.nvim", config = function() require('image').setup() end },
+--    { "3rd/diagram.nvim",
+--      dependencies = { "3rd/image.nvim", },
+--      opts = { -- you can just pass {}, defaults below
+--        renderer_options = {
+--          mermaid = {
+--            background = nil, -- nil | "transparent" | "white" | "#hex"
+--            theme = nil, -- nil | "default" | "dark" | "forest" | "neutral"
+--            scale = 1, -- nil | 1 (default) | 2  | 3 | ...
+--          },
+--          plantuml = {
+--            charset = nil,
+--          },
+--          d2 = {
+--            theme_id = nil,
+--            dark_theme_id = nil,
+--            scale = nil,
+--            layout = nil,
+--            sketch = nil,
+--          },
+--        }
+--      },
+--    },
+
+
     -- NAVIGATION ---
     --{ "kana/vim-smartword" }, -- great for navigation of words with quotes, haven't found a need to use it
     --{ "wellle/targets.vim", config = function() require('targets').setup() end }, -- arguement text objects.  Don't know if I'm using them enough
