@@ -2,7 +2,8 @@ local set      = vim.opt
 local swnumber = 2
 
 vim.cmd([[set runtimepath+=~/.nvim]]) --set.runtimepath:append { set.runtimepath .. "/.nvim" }
-vim.cmd([[set runtimepath+=~/.local/share/nvim/lazy/gitlab.vim]]) --set.runtimepath:append { set.runtimepath .. "/.nvim" }
+vim.cmd([[set runtimepath+=~/.local/share/nvim/lazy/gitlab.vim]])
+--vim.cmd([[set runtimepath+=~/.luarocks/lib/luarocks/rocks-5.1]])
 
 -- wrap
 --set.wrap = true
@@ -110,7 +111,7 @@ require("lazy").setup({
 --    },
 
    -- multicursor implementation 
-   { "jake-stewart/multicursor.nvim", branch = "1.0", config = function() require("multi-cursor").setup() end, },
+--   { "jake-stewart/multicursor.nvim", branch = "1.0", config = function() require("multi-cursor").setup() end, },
 
     -- syntax zellij
     { "imsnif/kdl.vim" },
@@ -137,7 +138,7 @@ require("lazy").setup({
     { "neoclide/coc.nvim", branch = 'release' },
     { "iamcco/markdown-preview.nvim", build = 'cd app && yarn install' },
 
---    { "3rd/image.nvim", config = function() require('image').setup() end },
+--    { "3rd/image.nvim", config = function() require('image-lua').setup() end },
 --    { "3rd/diagram.nvim",
 --      dependencies = { "3rd/image.nvim", },
 --      opts = { -- you can just pass {}, defaults below
@@ -183,7 +184,6 @@ require("lazy").setup({
     { "williamboman/mason-lspconfig.nvim" },
     { "neovim/nvim-lspconfig" },
     { "rafamadriz/friendly-snippets" },
-
 
     { "christoomey/vim-tmux-navigator",
       cmd = {

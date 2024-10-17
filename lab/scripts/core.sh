@@ -714,7 +714,7 @@ function du() {
 }
 
 # grep processs command
-function psx() {
+function px() {
     pid=$(ps -ef | sed 1d | fzf -m --ansi --color fg:-1,bg:-1,hl:46,fg+:40,bg+:233,hl+:46 --color prompt:166,border:46 --height 75%  --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ " | awk '{print $2}')
 
     # check to see if set at all
