@@ -20,6 +20,7 @@ set.undofile = true
 
 --set.background     = "dark" -- should be set in theme
 --set.nrformats      = set.nrformats + 'alpha'                                          -- increase alpha letters. Want numbers for now
+--set.clipboard      = { "unnamed", "unnamedplus" } -- not what I want
 
 set.backup         = false
 set.belloff        = "all"

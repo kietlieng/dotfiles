@@ -713,20 +713,36 @@ function du() {
     fi
 }
 
-# grep processs command
-function px() {
-    pid=$(ps -ef | sed 1d | fzf -m --ansi --color fg:-1,bg:-1,hl:46,fg+:40,bg+:233,hl+:46 --color prompt:166,border:46 --height 75%  --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ " | awk '{print $2}')
+# grep processs command and kill
+function p() {
+  
+  local hashDir=$(md5 -q -s $(pwd))
+  local queryFile="/tmp/query-$hashDir"
+  
+  local defaultQuery=''
 
-    # check to see if set at all
-    if [[ -n $pid ]]; then
-      echo "has pid $pid"
-      # iterate through loop for multiple pids
-      for pIndex in $(echo $pid); do
-        sudo kill $pIndex
-        echo "x $pIndex"
-      done
+  if [[ -f $queryFile ]]; then
+    defaultQuery=$(cat $queryFile)
+  fi
+
+  if [[ $# -gt 0 ]]; then
+    defaultQuery=$1
+    shift
+  fi
+
+  pid=$(ps -ef | sed 1d | grep -v "$hashDir" | fzf -m --ansi --color fg:-1,bg:-1,hl:46,fg+:40,bg+:233,hl+:46 --color prompt:166,border:46 --height 75%  --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ " --bind "change:execute(echo {q} > $queryFile)" --query "$defaultQuery" | awk '{print $2}')
+
+  # check to see if set at all
+  if [[ -n $pid ]]; then
+    echo "has pid $pid"
+    # iterate through loop for multiple pids
+    for pIndex in $(echo $pid); do
+#      sudo kill $pIndex
+      kill $pIndex
+      echo "x $pIndex"
+    done
 #      kill -${1:-9} $pid
-    fi
+  fi
 #    ps aux | grep -i "$@"
 }
 
