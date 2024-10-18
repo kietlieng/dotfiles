@@ -407,7 +407,7 @@ vim.cmd([[
 require('snippet-luasnip').setup()                  -- setup snippet engine
 require("luasnip.loaders.from_vscode").lazy_load()  -- lead friendly-snippets support into luasnip
 require('mason-setup').setup()                      -- setup syntax for treesitter
-require('lsp-setup').setup()                        -- setup all lsp
+--require('lsp-setup').setup()                        -- setup all lsp
 require('keymap').setup()                           -- key mapping
 --require('fun').setup()                              -- useless but fun
 --require('theme-gruvbox').setup()                    -- needs to be last

@@ -1241,12 +1241,13 @@ function yfocuswin() {
     yWinFocused=$(yabai -m query --windows | jq "$yQuery | .\"has-focus\"" | head -n 1)
     
     echo "$yWindows"
+    echo "$yWinFocused"
 
     # if false
     if [[ $yWinFocused == *'false'* ]]; then
 
       yabai -m window --focus $yWinID
-      pecho "set focus"
+      pecho "set focus $yWinID"
 
     else
 

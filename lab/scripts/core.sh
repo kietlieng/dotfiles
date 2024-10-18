@@ -846,6 +846,23 @@ function mdelete() {
 
 }
 
+# mark copy to temp.  Move with epoch
+function mtmp() {
+
+    currentDate=$(date +"%y%m%d%H%M")
+
+    while [[ $# -gt 0 ]];
+    do
+
+        echo "move \"$1\" to \"$1.$currentDate\""
+        cp -rf "$1" "/tmp/$1.$currentDate"
+        shift
+
+    done
+
+}
+
+
 # mark move.  Move with epoch
 function mmove() {
 
