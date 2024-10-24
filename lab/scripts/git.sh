@@ -411,6 +411,7 @@ function g() {
     fi
 
   elif  [[ $otherSwitches = 'f' ]]; then
+
     # show all branches local and remote
     branchAll=$(git branch -a)
     #echo "$branchAll\n\n---\n"

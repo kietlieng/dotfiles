@@ -854,7 +854,7 @@ function mtmp() {
     while [[ $# -gt 0 ]];
     do
 
-        echo "move \"$1\" to \"$1.$currentDate\""
+        echo "copy \"$1\" to \"/tmp/$1.$currentDate\""
         cp -rf "$1" "/tmp/$1.$currentDate"
         shift
 
