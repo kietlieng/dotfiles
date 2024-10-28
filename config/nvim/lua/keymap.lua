@@ -52,7 +52,6 @@ function F.setup()
   map("n", "<LEADER>.", 'mlvg_"*y<CR>`l', G_SILENT_NO_REMAP)                            -- copy current position to end of line to clipboard
   map("n", "<LEADER>,", 'mlv^"*y<CR>`l', G_SILENT_NO_REMAP)                             -- copy current position to beginning of line to clipboard
 
-
   -- read in values from file
   map("n", "<LEADER>rt", "<cmd>lua require('lua-fzf').readFiles('tmp')<CR>", G_SILENT_NO_REMAP)     -- search from git root
   map("n", "<LEADER>rr", "<cmd>lua require('lua-fzf').readFiles('')<CR>", G_SILENT_NO_REMAP)     -- search from git root
