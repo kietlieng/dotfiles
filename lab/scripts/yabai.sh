@@ -1096,9 +1096,11 @@ function ytoganchor() {
 
       # hugging left side
       if [[ $currentAnchor == 'l' ]]; then
-        yoR
+#        yoR
+        yor
       else
-        yoL
+#        yoL
+        yol
       fi
 
     # it's about 2 / 3 split
@@ -1106,9 +1108,11 @@ function ytoganchor() {
 
       # hugging left side
       if [[ $currentAnchor == 'l' ]]; then
-        yor
+#        yor
+        yoR
       else
-        yol
+#        yol
+        yoL
       fi
 
     fi
