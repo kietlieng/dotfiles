@@ -233,22 +233,30 @@ require("lazy").setup({
 
     -- THEMES
 
+    -- trying
     -- { "blueshirts/darcula" },
     -- { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
     -- { "challenger-deep-theme/vim" },                                                                               -- everything is too bright
     -- { "embark-theme/vim", as = 'embark' },                                                                         -- looks good but not functional
     -- { "ghifarit53/tokyonight-vim" },
     -- { "hardcoreplayers/oceanic-material", config = function() require('theme-oceanic-material').setup() end },           -- meh
-    -- { "olimorris/onedarkpro.nvim", priority = 1000 },
     -- { "sainnhe/gruvbox-material", config = function() require('theme-material').setup() end },
     -- { "tjdevries/colorbuddy.vim" }, { "tjdevries/gruvbuddy.nvim" },                                                -- don't really like
     -- { "xero/miasma.nvim", lazy = false, priority = 1000, config = function() vim.cmd("colorscheme miasma") end, }, -- way too gloomy
     -- { "morhetz/gruvbox", config = function() require('gruvbox').setup() end  },                                    -- it's morhetz fork but with support },
     -- { "GlennLeo/cobalt2", config = function() require('theme-cobalt2').setup() end },                              -- try it
     -- { "diegoulloao/neofusion.nvim", config = function() require('theme-neofusion').setup() end  }, -- too dark
+    -- { 'aliqyan-21/darkvoid.nvim', config = function() require("theme-darkvoid").setup() end, },
+    -- { "joshdick/onedark.vim", config = function() require('theme-onedark').setup() end  }, -- it's morhetz fork but with support.  Best thing around
 
+    -- runner up
+    -- { 'sainnhe/everforest' }, -- similar to molokai
+    -- { 'mellow-theme/mellow.nvim' }, -- similar to molokai
+    -- { "tamelion/neovim-molokai", priority = 1000 }, -- bland. I like it 
+    -- { "olimorris/onedarkpro.nvim", priority = 1000 }, -- too much red for config
+
+    -- best 
     { "gruvbox-community/gruvbox", config = function() require('theme-gruvbox').setup() end }, -- it's morhetz fork but with support.  Best thing around
---    { "joshdick/onedark.vim", config = function() require('theme-onedark').setup() end  }, -- it's morhetz fork but with support.  Best thing around
 
     -- messes with current customization settings.  Will try again later. mini suite of modules that might be handy
     -- { 'echasnovski/mini.nvim', version = false, config = function() require('mini').setup() end, },
@@ -407,7 +415,14 @@ vim.cmd([[
 require('snippet-luasnip').setup()                  -- setup snippet engine
 require("luasnip.loaders.from_vscode").lazy_load()  -- lead friendly-snippets support into luasnip
 require('mason-setup').setup()                      -- setup syntax for treesitter
---require('lsp-setup').setup()                        -- setup all lsp
+require('lsp-setup').setup()                        -- setup all lsp
 require('keymap').setup()                           -- key mapping
---require('fun').setup()                              -- useless but fun
---require('theme-gruvbox').setup()                    -- needs to be last
+--require('fun').setup()                            -- useless but fun
+
+-- theme setup
+
+--require('theme-darkvoid').setup()                 -- needs to be last
+--require('theme-onedarkpro').setup()               -- needs to be last
+--require('theme-mellow').setup()                   -- needs to be last
+--require('theme-everforest').setup()                   -- needs to be last
+require('theme-gruvbox').setup()                  -- needs to be last
