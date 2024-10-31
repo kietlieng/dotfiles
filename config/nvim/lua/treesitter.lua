@@ -22,6 +22,7 @@ function F.setup()
       "lua",
       "make",
       "markdown",
+      "markdown_inline",
       "perl",
       "php",
       "python",

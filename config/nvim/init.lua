@@ -18,16 +18,16 @@ set.wrap   = false
 set.undodir  = vim.env.HOME .. '/.nvim/undodir'
 set.undofile = true
 
---set.background     = "dark" -- should be set in theme
+--set.background     = 'dark' -- should be set in theme
 --set.nrformats      = set.nrformats + 'alpha'                                          -- increase alpha letters. Want numbers for now
---set.clipboard      = { "unnamed", "unnamedplus" } -- not what I want
+--set.clipboard      = { 'unnamed', 'unnamedplus' } -- not what I want
 
 set.backup         = false
-set.belloff        = "all"
-set.colorcolumn    = "80"
+set.belloff        = 'all'
+set.colorcolumn    = '80'
 set.cursorline     = true
 set.expandtab      = true
-set.fileencoding   = "utf-8"                                                          -- encoding set to utf-8
+set.fileencoding   = 'utf-8'                                                          -- encoding set to utf-8
 set.foldlevel      = 99                                                               -- no folds
 set.hidden         = true
 set.hlsearch       = true
@@ -47,7 +47,7 @@ set.smartcase      = true
 set.smartindent    = true
 set.smarttab       = true
 set.softtabstop    = 2
-set.statusline     = "%F"
+set.statusline     = '%F'
 set.laststatus     = 2
 set.swapfile       = false
 set.syntax         = 'ON'
@@ -55,38 +55,38 @@ set.tabstop        = 2
 set.termguicolors  = true                                                             -- set if you want theme challenger deep, feline        -- remove if using apple terminal
 set.timeoutlen     = 1000                                                             -- no delay on escape
 set.title          = true
-set.titlestring    = "%F"
+set.titlestring    = '%F'
 set.ttimeoutlen    = 0                                                                -- no delay on escape
 set.updatetime     = 100                                                              -- gitgutter delay
 set.viminfo        = "'100,f1"                                                        -- persistent marks up to 100
-set.wildignore     = "*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx"  -- avoid
+set.wildignore     = '*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx'  -- avoid
 set.guicursor      = 'a:blinkon100'
 
 --set.completeopt = 'menu,menuone' -- duo
 
 
 --set.listchars.append = { -- doesn't seem to work?
---  tab = "│ ",
---  trail = "·",
---  extends = "»",
---  precedes = "«",
---  nbsp = "+",
---  eol = "↲",
---  space = ".",
---  conceal = "┊" ,
---  multispace = "│" .. string.rep(" ", swnumber - 1)
+--  tab = '│ ',
+--  trail = '·',
+--  extends = '»',
+--  precedes = '«',
+--  nbsp = '+',
+--  eol = '↲',
+--  space = '.',
+--  conceal = '┊' ,
+--  multispace = '│' .. string.rep(' ', swnumber - 1)
 --}
 
 --- LAZY START -----
 
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
     vim.fn.system({
-        "git",
-        "clone",
-        "--filter=blob:none",
-        "https://github.com/folke/lazy.nvim.git",
-        "--branch=stable", -- latest stable release
+        'git',
+        'clone',
+        '--filter=blob:none',
+        'https://github.com/folke/lazy.nvim.git',
+        '--branch=stable', -- latest stable release
         lazypath,
     })
 end
@@ -94,9 +94,9 @@ end
 set.rtp:prepend(lazypath)
 
 -- lazystart
-require("lazy").setup({
+require('lazy').setup({
 
---    -- gitlab duo 
+--    -- gitlab duo
 --    {
 --      'git@gitlab.com:gitlab-org/editor-extensions/gitlab.vim.git',
 --      event = { 'BufReadPre', 'BufNewFile' }, -- Activate when a file is created/opened
@@ -111,42 +111,42 @@ require("lazy").setup({
 --      },
 --    },
 
-   -- multicursor implementation 
---   { "jake-stewart/multicursor.nvim", branch = "1.0", config = function() require("multi-cursor").setup() end, },
+   -- multicursor implementation
+--   { 'jake-stewart/multicursor.nvim', branch = '1.0', config = function() require('multi-cursor').setup() end, },
 
     -- syntax zellij
-    { "imsnif/kdl.vim" },
+    { 'imsnif/kdl.vim' },
 
     -- search
-    { "junegunn/fzf", build = "./install --bin", }, -- setup snippet engine
-    { "junegunn/fzf.vim" },
-    { "vijaymarupudi/nvim-fzf" },
-    { "jremmen/vim-ripgrep", config = function() require('ripgrepper').setup() end, }, -- setup ripgrepper bang command to use register r
-    { "mileszs/ack.vim" }, -- grep listing
+    { 'junegunn/fzf', build = './install --bin', }, -- setup snippet engine
+    { 'junegunn/fzf.vim' },
+    { 'vijaymarupudi/nvim-fzf' },
+    { 'jremmen/vim-ripgrep', config = function() require('ripgrepper').setup() end, }, -- setup ripgrepper bang command to use register r
+    { 'mileszs/ack.vim' }, -- grep listing
 
-    { "tpope/vim-surround" }, -- surround functionality
-    { "tpope/vim-fugitive" }, -- git operations in git
-    --{ "tpope/vim-abolish" }, -- change variables.  abolish: change part of text, subvert substitution with parts of word, coercion change variable cases
+    { 'tpope/vim-surround' }, -- surround functionality
+    { 'tpope/vim-fugitive' }, -- git operations in git
+    --{ 'tpope/vim-abolish' }, -- change variables.  abolish: change part of text, subvert substitution with parts of word, coercion change variable cases
 
-    { "airblade/vim-gitgutter", config = function() require('gitgutter').setup() end }, -- Git gutter.  Different than fugitive
+    { 'airblade/vim-gitgutter', config = function() require('gitgutter').setup() end }, -- Git gutter.  Different than fugitive
 
-    { "vim-airline/vim-airline", config = function() require('airline').setup() end },
-    --{ "feline-nvim/feline.nvim',  branch = '0.5-compat", config = function() require('lua-feline').setup() require('feline').winbar.setup() end, }, -- using airline
-    { "godlygeek/tabular" }, -- sort table values
+    { 'vim-airline/vim-airline', config = function() require('airline').setup() end },
+    --{ 'feline-nvim/feline.nvim',  branch = '0.5-compat', config = function() require('lua-feline').setup() require('feline').winbar.setup() end, }, -- using airline
+    { 'godlygeek/tabular' }, -- sort table values
 
     -- coc for preview
 
-    { "neoclide/coc.nvim", branch = 'release' },
-    { "iamcco/markdown-preview.nvim", build = 'cd app && yarn install' },
+    { 'neoclide/coc.nvim', branch = 'release' },
+    { 'iamcco/markdown-preview.nvim', build = 'cd app && yarn install' },
 
---    { "3rd/image.nvim", config = function() require('image-lua').setup() end },
---    { "3rd/diagram.nvim",
---      dependencies = { "3rd/image.nvim", },
+--    { '3rd/image.nvim', config = function() require('image-lua').setup() end },
+--    { '3rd/diagram.nvim',
+--      dependencies = { '3rd/image.nvim', },
 --      opts = { -- you can just pass {}, defaults below
 --        renderer_options = {
 --          mermaid = {
---            background = nil, -- nil | "transparent" | "white" | "#hex"
---            theme = nil, -- nil | "default" | "dark" | "forest" | "neutral"
+--            background = nil, -- nil | 'transparent' | 'white' | '#hex'
+--            theme = nil, -- nil | 'default' | 'dark' | 'forest' | 'neutral'
 --            scale = 1, -- nil | 1 (default) | 2  | 3 | ...
 --          },
 --          plantuml = {
@@ -165,108 +165,127 @@ require("lazy").setup({
 
 
     -- NAVIGATION ---
-    --{ "kana/vim-smartword" }, -- great for navigation of words with quotes, haven't found a need to use it
-    --{ "wellle/targets.vim", config = function() require('targets').setup() end }, -- arguement text objects.  Don't know if I'm using them enough
+    --{ 'kana/vim-smartword' }, -- great for navigation of words with quotes, haven't found a need to use it
+    --{ 'wellle/targets.vim', config = function() require('targets').setup() end }, -- arguement text objects.  Don't know if I'm using them enough
 
-    { "skywind3000/asyncrun.vim" }, --  " run jobs in the background
+    { 'skywind3000/asyncrun.vim' }, --  ' run jobs in the background
 
-    { "ryanoasis/vim-devicons" }, -- icons for plugin
-    { "nvim-tree/nvim-web-devicons" }, -- icons to plugins
-    { "nvim-lua/plenary.nvim" }, -- no idea what this does but it's required by other plugins
-    --{ "ThePrimeagen/harpoon", config = function() require('lua-harpoon').setup() end, }, -- navigation.  Not really using it 
-    { "nvim-telescope/telescope.nvim", tag = '0.1.3' },
-    { "nvim-telescope/telescope-file-browser.nvim", dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }, config = function() require('lua-tele-file-browser').setup() end,  },
-    { "nvim-telescope/telescope-fzf-native.nvim", build = 'make', config = function() require('tele').setup() end, },
+    { 'ryanoasis/vim-devicons' }, -- icons for plugin
+    { 'nvim-tree/nvim-web-devicons' }, -- icons to plugins
+    { 'nvim-lua/plenary.nvim' }, -- no idea what this does but it's required by other plugins
+    --{ 'ThePrimeagen/harpoon', config = function() require('lua-harpoon').setup() end, }, -- navigation.  Not really using it
+    { 'nvim-telescope/telescope.nvim', tag = '0.1.3' },
+    { 'nvim-telescope/telescope-file-browser.nvim', dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' }, config = function() require('lua-tele-file-browser').setup() end,  },
+    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make', config = function() require('tele').setup() end, },
     { 'nvim-treesitter/nvim-tree-docs' }, -- never got it working
-    { "nvim-treesitter/nvim-treesitter", build = ':TSUpdate', config = function() require('treesitter').setup() end, }, -- setup syntax for treesitter
+    { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate', config = function() require('treesitter').setup() end, }, -- setup syntax for treesitter
 
-    { "lewis6991/tree-sitter-tcl", build = 'make' }, -- tcl syntax
-    { "williamboman/mason.nvim" },
-    { "williamboman/mason-lspconfig.nvim" },
-    { "neovim/nvim-lspconfig" },
-    { "rafamadriz/friendly-snippets" },
+    { 'lewis6991/tree-sitter-tcl', build = 'make' }, -- tcl syntax
+    { 'williamboman/mason.nvim' },
+    { 'williamboman/mason-lspconfig.nvim' },
+    { 'neovim/nvim-lspconfig' },
+    { 'rafamadriz/friendly-snippets' },
 
-    { "christoomey/vim-tmux-navigator",
+    { 'christoomey/vim-tmux-navigator',
       cmd = {
-        "TmuxNavigateLeft",
-        "TmuxNavigateDown",
-        "TmuxNavigateUp",
-        "TmuxNavigateRight",
---        "TmuxNavigatePrevious",
+        'TmuxNavigateLeft',
+        'TmuxNavigateDown',
+        'TmuxNavigateUp',
+        'TmuxNavigateRight',
+--        'TmuxNavigatePrevious',
       },
       keys = {
-        { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
-        { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
-        { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
-        { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
---        { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+        { '<c-h>', '<cmd><C-U>TmuxNavigateLeft<cr>' },
+        { '<c-j>', '<cmd><C-U>TmuxNavigateDown<cr>' },
+        { '<c-k>', '<cmd><C-U>TmuxNavigateUp<cr>' },
+        { '<c-l>', '<cmd><C-U>TmuxNavigateRight<cr>' },
+--        { '<c-\\>', '<cmd><C-U>TmuxNavigatePrevious<cr>' },
       },
     },
 
     ----- CMP begin -----
 
-    { "hrsh7th/cmp-nvim-lsp" },
-    { "hrsh7th/cmp-buffer" },
-    { "hrsh7th/cmp-path" },
-    { "hrsh7th/cmp-cmdline" },
-    { "hrsh7th/nvim-cmp" }, -- https://github.com/hrsh7th/nvim-cmp/wiki/List-of-sources
+    { 'hrsh7th/cmp-nvim-lsp' },
+    { 'hrsh7th/cmp-buffer' },
+    { 'hrsh7th/cmp-path' },
+    { 'hrsh7th/cmp-cmdline' },
+    { 'hrsh7th/nvim-cmp' }, -- https://github.com/hrsh7th/nvim-cmp/wiki/List-of-sources
 
     -- For luasnip users.
-    { "L3MON4D3/LuaSnip", version = "2.*", build = "make install_jsregexp" },
-    { "saadparwaiz1/cmp_luasnip" },
-    { "hrsh7th/cmp-nvim-lsp-signature-help" },
+    { 'L3MON4D3/LuaSnip', version = '2.*', build = 'make install_jsregexp' },
+    { 'saadparwaiz1/cmp_luasnip' },
+    { 'hrsh7th/cmp-nvim-lsp-signature-help' },
 
     ---- For vsnip users.
-    -- { "hrsh7th/cmp-vsnip" },
-    -- { "hrsh7th/vim-vsnip" },
+    -- { 'hrsh7th/cmp-vsnip' },
+    -- { 'hrsh7th/vim-vsnip' },
     ---- For ultisnips users.
-    -- { "SirVer/ultisnips" },
-    -- { "quangnguyen30192/cmp-nvim-ultisnips" },
+    -- { 'SirVer/ultisnips' },
+    -- { 'quangnguyen30192/cmp-nvim-ultisnips' },
     ---- For snippy users.
-    -- { "dcampos/nvim-snippy" },
-    -- { "dcampos/cmp-snippy" },
+    -- { 'dcampos/nvim-snippy' },
+    -- { 'dcampos/cmp-snippy' },
 
     ----- CMP end -----
 
-    --{ "prettier/vim-prettier", build =  'yarn install --frozen-lockfile --production', branch = 'release/0.x' }, -- don't think I'm using at all
-    { "stevearc/oil.nvim", opts = {}, dependencies = { "nvim-tree/nvim-web-devicons" }, config = function() require("lua-oil").setup() end, }, -- oil setup
+--    -- math // currently not working.  Check back on this
+--    { 'Thiago4532/mdmath.nvim',
+--       opts = {
+--        -- Filetypes that the plugin will be enabled by default.
+--        filetypes = {'markdown'},
+--        -- Color of the equation, can be a highlight group or a hex color.
+--        -- Examples: 'Normal', '#ff0000'
+--        foreground = 'Normal',
+--        -- Hide the text when the equation is under the cursor.
+--        anticonceal = true,
+--        -- Hide the text when in the Insert Mode.
+--        hide_on_insert = true,
+--        -- Scale of the equation images, increase to prevent blurry images when increasing terminal
+--        -- font, high values may produce aliased images.
+--        scale = 1.0,
+--      },
+--      dependencies = { 'nvim-treesitter/nvim-treesitter' }
+--    }, -- math
+
+    --{ 'prettier/vim-prettier', build =  'yarn install --frozen-lockfile --production', branch = 'release/0.x' }, -- don't think I'm using at all
+    { 'stevearc/oil.nvim', opts = {}, dependencies = { 'nvim-tree/nvim-web-devicons' }, config = function() require('lua-oil').setup() end, }, -- oil setup
 
     -- THEMES
 
     -- trying
-    -- { "blueshirts/darcula" },
-    -- { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
-    -- { "challenger-deep-theme/vim" },                                                                               -- everything is too bright
-    -- { "embark-theme/vim", as = 'embark' },                                                                         -- looks good but not functional
-    -- { "ghifarit53/tokyonight-vim" },
-    -- { "hardcoreplayers/oceanic-material", config = function() require('theme-oceanic-material').setup() end },           -- meh
-    -- { "sainnhe/gruvbox-material", config = function() require('theme-material').setup() end },
-    -- { "tjdevries/colorbuddy.vim" }, { "tjdevries/gruvbuddy.nvim" },                                                -- don't really like
-    -- { "xero/miasma.nvim", lazy = false, priority = 1000, config = function() vim.cmd("colorscheme miasma") end, }, -- way too gloomy
-    -- { "morhetz/gruvbox", config = function() require('gruvbox').setup() end  },                                    -- it's morhetz fork but with support },
-    -- { "GlennLeo/cobalt2", config = function() require('theme-cobalt2').setup() end },                              -- try it
-    -- { "diegoulloao/neofusion.nvim", config = function() require('theme-neofusion').setup() end  }, -- too dark
-    -- { 'aliqyan-21/darkvoid.nvim', config = function() require("theme-darkvoid").setup() end, },
-    -- { "joshdick/onedark.vim", config = function() require('theme-onedark').setup() end  }, -- it's morhetz fork but with support.  Best thing around
+    -- { 'blueshirts/darcula' },
+    -- { 'catppuccin/nvim', name = 'catppuccin', priority = 1000 },
+    -- { 'challenger-deep-theme/vim' },                                                                               -- everything is too bright
+    -- { 'embark-theme/vim', as = 'embark' },                                                                         -- looks good but not functional
+    -- { 'ghifarit53/tokyonight-vim' },
+    -- { 'hardcoreplayers/oceanic-material', config = function() require('theme-oceanic-material').setup() end },           -- meh
+    -- { 'sainnhe/gruvbox-material', config = function() require('theme-material').setup() end },
+    -- { 'tjdevries/colorbuddy.vim' }, { 'tjdevries/gruvbuddy.nvim' },                                                -- don't really like
+    -- { 'xero/miasma.nvim', lazy = false, priority = 1000, config = function() vim.cmd('colorscheme miasma') end, }, -- way too gloomy
+    -- { 'morhetz/gruvbox', config = function() require('gruvbox').setup() end  },                                    -- it's morhetz fork but with support },
+    -- { 'GlennLeo/cobalt2', config = function() require('theme-cobalt2').setup() end },                              -- try it
+    -- { 'diegoulloao/neofusion.nvim', config = function() require('theme-neofusion').setup() end  }, -- too dark
+    -- { 'aliqyan-21/darkvoid.nvim', config = function() require('theme-darkvoid').setup() end, },
+    -- { 'joshdick/onedark.vim', config = function() require('theme-onedark').setup() end  }, -- it's morhetz fork but with support.  Best thing around
 
     -- runner up
     -- { 'sainnhe/everforest' }, -- similar to molokai
     -- { 'mellow-theme/mellow.nvim' }, -- similar to molokai
-    -- { "tamelion/neovim-molokai", priority = 1000 }, -- bland. I like it 
-    -- { "olimorris/onedarkpro.nvim", priority = 1000 }, -- too much red for config
+    -- { 'tamelion/neovim-molokai', priority = 1000 }, -- bland. I like it
+    -- { 'olimorris/onedarkpro.nvim', priority = 1000 }, -- too much red for config
 
-    -- best 
-    { "gruvbox-community/gruvbox", config = function() require('theme-gruvbox').setup() end }, -- it's morhetz fork but with support.  Best thing around
+    -- best
+    { 'gruvbox-community/gruvbox', config = function() require('theme-gruvbox').setup() end }, -- it's morhetz fork but with support.  Best thing around
 
     -- messes with current customization settings.  Will try again later. mini suite of modules that might be handy
     -- { 'echasnovski/mini.nvim', version = false, config = function() require('mini').setup() end, },
 
     -- not enabled but has potential
-    -- all in one lsp / prettier / diagnostics--{ "nvimtools/none-ls.nvim", config = function() require('none-ls').setup() end, requires = { "nvim-lua/plenary.nvim" } }, -- community supported null-ls.  Haven't really used it
+    -- all in one lsp / prettier / diagnostics--{ 'nvimtools/none-ls.nvim', config = function() require('none-ls').setup() end, requires = { 'nvim-lua/plenary.nvim' } }, -- community supported null-ls.  Haven't really used it
     --{ 'heavenshell/vim-jsdoc', build = 'make install', { 'for': ['javascript', 'javascript.jsx','typescript']  } }, -- for docs
 
     -- useless but fun
-    --{ "Eandrju/cellular-automaton.nvim" }, -- makes it look like sand droplets
+    --{ 'Eandrju/cellular-automaton.nvim' }, -- makes it look like sand droplets
 
 })
 
@@ -274,12 +293,12 @@ require("lazy").setup({
 
 -- AUTO COMMANDS BEGIN
 
--- vim.api.nvim_create_autocmd({"TextChanged", "textChangedI"}, { pattern = "<buffer>", command = "silent update" })  -- doesn't work all the time only on first buffer
-vim.api.nvim_create_autocmd( { "BufNewFile", "BufRead" }, { pattern = "*.md", command = "call NotePreview()", })      -- run the watch command when detecting markup
-vim.api.nvim_create_autocmd( { "VimEnter" }, { pattern = "*", command = ":normal zz" })
+-- vim.api.nvim_create_autocmd({'TextChanged', 'textChangedI'}, { pattern = '<buffer>', command = 'silent update' })  -- doesn't work all the time only on first buffer
+vim.api.nvim_create_autocmd( { 'BufNewFile', 'BufRead' }, { pattern = '*.md', command = 'call NotePreview()', })      -- run the watch command when detecting markup
+vim.api.nvim_create_autocmd( { 'VimEnter' }, { pattern = '*', command = ':normal zz' })
 
-vim.api.nvim_create_autocmd( { "BufWinEnter" }, -- disable yaml if buf path has the following
-  { pattern = { "*.yaml", "*.yml" },
+vim.api.nvim_create_autocmd( { 'BufWinEnter' }, -- disable yaml if buf path has the following
+  { pattern = { '*.yaml', '*.yml' },
   callback = function()
 
     local bufferRepo = vim.fn.expand('%:p')
