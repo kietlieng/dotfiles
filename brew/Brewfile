@@ -138,6 +138,7 @@ brew "watch"
 brew "watchexec"
 brew "wget"
 brew "xclip"
+brew "xcodegen"
 brew "yarn"
 brew "yq", link: false
 brew "zellij"

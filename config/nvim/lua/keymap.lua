@@ -255,6 +255,7 @@ function F.setup()
   map("n", "<LEADER>virule", ":next ~/lab/repos/irules-engine/modules/download_irule.py <CR>", G_SILENT_NO_REMAP) -- dns dev
   map("n", "<LEADER>visre", ":next ~/lab/repos/srebot/src/index.js <CR>", G_SILENT_NO_REMAP) -- dns dev
 
+  map("n", "<LEADER>rn", ":set rnu!<CR>", G_SILENT_NO_REMAP) -- math
   map("n", "<LEADER>ma", ":MdMath enable<CR>", G_SILENT_NO_REMAP) -- math
 
   -- flash 

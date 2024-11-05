@@ -929,14 +929,15 @@ function c() {
   
   local scriptDir=~/lab/scripts
   local targetDir="$scriptDir/1first"
-  local searchExt=".sh"
+  local searchExt='.sh'
   local yamlDir=~/lab/scripts/tmuxp
-  local defaultSearch=""
+  local defaultSearch=''
   local searchTerm="$defaultSearch"
   local sFilename="$defaultSearch"
-  local shExt=".sh"
-  local yamlExt=".yaml"
-  local filesToEdit=""
+  local shExt='.sh'
+  local yamlExt='.yaml'
+  local filesToEdit=''
+  local modeSearchTerm=''
 
   while [[ $# -gt 0 ]]; do
 
@@ -946,7 +947,7 @@ function c() {
 
       '-y' )
         # yaml file.  Assume they want the directory ~/lab/scripts/tmuxp
-        searchExt=".yaml"
+        searchExt='.yaml'
         targetDir=$yamlDir
         shift
         ;;
@@ -956,6 +957,7 @@ function c() {
             searchTerm="$key*"
         else
             searchTerm="$searchTerm$key*"
+            modeSearchTerm='t'
         fi
         shift
         ;;
@@ -1021,7 +1023,16 @@ function c() {
 
   fi
 
-  scriptQuery=$(cat /tmp/script-query)
+  becho "searchTerm |$searchTerm|"
+
+  if [[ $searchTerm ]]; then
+    scriptQuery=$(echo "$searchTerm" | tr -d '*')
+
+  else
+    scriptQuery=$(cat /tmp/script-query)
+  fi
+
+  becho "searchTerm |$searchTerm|"
   
   sFilename="$scriptQuery"
   # if this file does not exists go digging for it
