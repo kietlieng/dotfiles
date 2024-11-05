@@ -530,7 +530,7 @@ function gpush() {
   fi
 
   if [[ ! -z $pullRequestLink ]]; then
-    echo "pull link => $pullRequestLink"
+    echo "PR link => $pullRequestLink"
     if [[ $openLink = "t" ]]; then
       open $pullRequestLink
     fi
