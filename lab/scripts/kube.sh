@@ -56,8 +56,12 @@ alias klse="kl -s -e"
 alias kld="kl -d"
 alias klsd="kl -s -d"
 
+# getting info
+alias klinfo="kl -info"
+
 # disable both environment / defaults
 alias kled="kl -e -d"
+alias klall="kled"
 alias klsed="kl -s -e -d"
 alias kla="kl -a"
 alias klsa="kl -s -a"
@@ -134,6 +138,7 @@ function kenv() {
 
   while [[ $# -gt 0 ]]; do
     echo "$1" > ~/.pacenv
+    shift
   done
 
   local env=$(cat ~/.pacenv)
@@ -169,7 +174,14 @@ function kcon() {
 
   if [ $# -lt 1 ]
   then
-    ls -l $KUBE_DIRECTORY/config* | awk '{print $NF}'
+#    for kConfig in $(ls -l $KUBE_DIRECTORY/config* | awk '{print $NF}'); do
+    for targetConf in $(ls ~/.kube/config.*); do
+      if cmp -s "$targetConf" ~/.kube/config; then
+        echo "  $targetConf  "
+      else
+        echo "$targetConf"
+      fi
+    done
   else
     CURRENTTIME=$(date +"%y%m%d%H%M")
     ls $KUBE_DIRECTORY/config.$1
@@ -182,12 +194,6 @@ function kcon() {
     fi
   fi
 
-  for targetConf in $(ls ~/.kube/config.*); do
-    #echo "current $targetConf"
-    if cmp -s "$targetConf" ~/.kube/config; then
-      echo "\nFile match $targetConf"
-    fi
-  done
 }
 
 # change node / or namespace default context
@@ -292,6 +298,7 @@ function kl() {
   local modeConfig=''
   local modeFileoutput=''
   local modeDefault='t'
+  local modeGrep=''
   local modeMulti='t'
   local modeSingle=''
 
@@ -326,6 +333,25 @@ function kl() {
      '-e')
        modeEnv=''
        ;;
+     '-info' )
+
+       kcon
+
+       echo -n "\nenv:"
+       kenv
+       echo "\n\ndefaults:"
+       kdefaults
+
+       return
+
+       ;;
+    
+     '-g' )
+       
+       modeGrep="$1"
+       shift
+       ;;
+
       *) ;;
 
     esac
@@ -411,6 +437,15 @@ function kl() {
     fi
 
     logCommand="$logCommand --all-namespaces \"$optionPods\" $K_TEMPLATE $K_MAX_LOG_REQUEST"
+
+
+    if [[ $modeGrep ]]; then
+
+      logCommand="$logCommand | grep -i \"$modeGrep\""
+      becho "log command $logCommand"
+
+    fi
+
     local hashDir=''
 
     if [[ $modeFileoutput ]]; then
