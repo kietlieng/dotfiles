@@ -1,6 +1,6 @@
 function dreflast() {
 
-  local sOutput=$(ls -1tr $DOWNLOAD_DIRECTORY | tail -n 1)
+  local sOutput=$(/bin/ls -1tr $DOWNLOAD_DIRECTORY | tail -n 1)
 
   if [[ $sOutput ]]; then
 
@@ -11,4 +11,3 @@ function dreflast() {
   fi
 
 }
-

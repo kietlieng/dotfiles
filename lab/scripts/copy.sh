@@ -1,4 +1,5 @@
 alias refassemble='ref -f "/tmp/assemble-dependencies.csv"'
+alias rreact='ref -react'
 
 function runosa() {
   osascript -e "$1"
@@ -28,6 +29,10 @@ function ref() {
         filePath="$1"
         shift
         ;;
+      '-react')
+        filePath=$(/bin/ls -1 $DIR_REACTION/$1* | head -n 1)
+        shift
+        ;;
       *) 
         pecho "set current value"
         filePath="$currentLocation/$key"  # Replace this with the actual file path
@@ -44,6 +49,7 @@ function ref() {
   end tell"
 
 }
+
 
 # not working
 function refmulti() {

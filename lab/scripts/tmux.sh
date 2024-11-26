@@ -582,7 +582,7 @@ function tmdisplay() {
 }
 
 # set tmux default value
-function td() {
+function tdefault() {
 
   local key=''
   local tmuxdefault=""

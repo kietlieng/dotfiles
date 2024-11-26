@@ -57,13 +57,17 @@ function F.comments(aRegular, aNormalMode, aAll, aCommentOut, aInvert, aBuffer)
      filename      == 'tmux.conf' or
      filename      == 'kitty.conf' or
      filename      == 'Dockerfile' or
+     filename      == 'config.conf' or
+     filename      == 'config' or
+     filename      == 'vim-ansi' or
+     fileExtension == 'cnf' or
      fileExtension == 'fwd' or
      fileExtension == 'py' or
-     fileExtension == 'cnf' or
      fileExtension == 'rb' or
      fileExtension == 'sh' or
      fileExtension == 'tcl' or
      fileExtension == 'tf' or
+     fileExtension == 'toml' or
      fileExtension == 'yaml' or
      fileExtension == 'yml' or
      fileExtension == 'zsh' then

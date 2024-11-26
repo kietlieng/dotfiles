@@ -13,8 +13,8 @@ function F.setup()
 
     "ansiblels",
     "awk_ls",
-    "bashls",
---    "cssls",
+--    "bashls",
+    "cssls",
     "docker_compose_language_service",
     "dockerls",
     "html",
@@ -24,8 +24,9 @@ function F.setup()
     "pyright",
     "terraformls",
 --    "tsserver",
-    --"lua_ls",
-    --"yamlls",
+    "ts_ls",
+    "lua_ls",
+--    "yamlls",
 
   }
 
@@ -73,21 +74,21 @@ function F.setup()
   --   (string.find(currentRepo, "public%-dns%-repo") == nil) and
   --   (string.find(currentRepo, "dns%-internal%-%prod") == nil) then
 
-    -- do not setup yaml if any of these are true
-    lspconfig.yamlls.setup {
-      --... -- other configuration for setup {}
-      settings = {
-        yaml = {
-          --... -- other settings. note this overrides the lspconfig defaults.
-          --schemas = {
-          --  ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
-          --  ["../path/relative/to/file.yml"] = "/.github/workflows/*",
-          --  ["/path/from/root/of/project"] = "/.github/workflows/*",
-          --},
-        },
-      },
-      capabilities = capabilities,
-    }
+--    -- do not setup yaml if any of these are true
+--    lspconfig.yamlls.setup {
+--      --... -- other configuration for setup {}
+--      settings = {
+--        yaml = {
+--          --... -- other settings. note this overrides the lspconfig defaults.
+--          --schemas = {
+--          --  ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+--          --  ["../path/relative/to/file.yml"] = "/.github/workflows/*",
+--          --  ["/path/from/root/of/project"] = "/.github/workflows/*",
+--          --},
+--        },
+--      },
+--      capabilities = capabilities,
+--    }
 
   --end
 

@@ -34,7 +34,7 @@ function F.setup()
       "vim",
       "vimdoc",
       "xml",
-      "yaml",
+--      "yaml",
 
     },
 

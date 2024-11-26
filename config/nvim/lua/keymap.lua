@@ -23,8 +23,8 @@ function F.setup()
 
   -- grep string in file
   --map( "n", "<LEADER>", ":Rg<CR>", G_NO_REMAP ) -- ripgrep current directory
-  map("n", "<LEADER>gr", "<cmd>lua require('ripgrepper').grepLevel(0)<CR>", G_NO_REMAP)    -- grep from current directory
-  map("n", "<LEADER>GR", "<cmd>lua require('ripgrepper').grepLevel(-1)<CR>", G_NO_REMAP)   -- grep from git root
+  map("n", "<LEADER>gx", "<cmd>lua require('ripgrepper').grepLevel(0)<CR>", G_NO_REMAP)    -- grep from current directory
+  map("n", "<LEADER>GX", "<cmd>lua require('ripgrepper').grepLevel(-1)<CR>", G_NO_REMAP)   -- grep from git root
   map("n", "<LEADER>1r", "<cmd>lua require('ripgrepper').grepLevel(1)<CR>", G_NO_REMAP)   -- grep from 1 parent up
   map("n", "<LEADER>2r", "<cmd>lua require('ripgrepper').grepLevel(2)<CR>", G_NO_REMAP)   -- grep from 2 parent up
   map("n", "<LEADER>4r", "<cmd>lua require('ripgrepper').grepLevel(-2)<CR>", G_NO_REMAP)  -- grep from cwd
@@ -36,8 +36,8 @@ function F.setup()
   --map( "n", "QQ", "<cmd>lua require('buffer').CloseBufferOrVim(0)<CR>", G_SILENT_NO_REMAP ) -- Quit without saving. Buffer aware. Will close 1 buffer at a time.
   map("n", "QQ", ":call CloseBufferOrVim(0)<CR>", G_SILENT_NO_REMAP)  -- Quit without saving. Buffer aware. Will close 1 buffer at a time.
   map("n", "ZZ", ":call CloseBufferOrVim(1)<CR>", G_SILENT_NO_REMAP)  -- Save and close
-  map("n", "qQ", ":silent! q!<CR>", G_SILENT_NO_REMAP)                -- Quit regardless of buffers
-  map("n", "zZ", ":wq!<CR>", G_SILENT_NO_REMAP)                       -- save and quit
+  map("n", "qQ", ":silent! :qall!<CR>", G_SILENT_NO_REMAP)                -- Quit regardless of buffers
+  map("n", "zZ", ":wqall!<CR>", G_SILENT_NO_REMAP)                       -- save and quit
 
   -- clipboard copy
 
@@ -156,7 +156,7 @@ function F.setup()
   --map( "n", "<C-c>", ":copen<CR>", G_SILENT_NO_REMAP )
   map("n", "<LEADER>zc", ":call ToggleList(\"Quickfix List\", 'c')<CR>", G_SILENT_NO_REMAP)
 
-  map("n", "<LEADER>zlz", ":Lazy<CR>", G_NO_REMAP) -- open Lazy
+  map("n", "<LEADER>Lz", ":Lazy<CR>", G_NO_REMAP) -- open Lazy
 
   -- Lspinfo
   map("n", "<LEADER>Lst", ":LspStop bufnr()<CR>", G_NO_REMAP) -- disable lsp

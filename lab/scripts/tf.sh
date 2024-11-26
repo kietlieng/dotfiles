@@ -3,6 +3,7 @@
 # terraform plan
 # terraform apply
 
+alias tf="terraform"
 alias impaccount="echo \"$IMPERVA_SITE1_ID\" | pbcopy"
 alias tap="tapply"
 alias tapa="tapply -a"
@@ -345,4 +346,20 @@ function tunlock() {
 # show in terraform
 function tfshow() {
   terraform show
+}
+
+function tspace() {
+
+  if [[ $# -eq 0 ]]; then
+
+    terraform workspace list
+    return
+
+  fi
+
+  local workspace="$1"
+  shift
+
+  terraform workspace select $workspace || terraform workspace new $workspace
+
 }

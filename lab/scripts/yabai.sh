@@ -40,11 +40,12 @@ alias yotr="yo t r"
 alias yov="y spv"
 alias ypadding="y padding"
 alias yrestart="y restart"
+alias yrules="y rlist'"
 alias yspd="y sp-"
 alias yspi="y sp+"
 alias ytail="tail -f /tmp/yabai_klieng.err.log /tmp/yabai_klieng.out.log"
-alias ytincrease="yspi"
 alias ytdecrease="yspd"
+alias ytincrease="yspi"
 
 export width_size="100"
 
@@ -270,7 +271,7 @@ function yo() {
 
 function yissingle() {
 
-    local yTargetInstances=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty")) | select(."is-visible") | select(."is-minimized"|not) | .display' | wc -l)
+    local yTargetInstances=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty") or contains("Ghostty")) | select(."is-visible") | select(."is-minimized"|not) | .display' | wc -l)
     ((yTargetInstances=yTargetInstances))
 #    becho "$yTargetInstances"
     if [[ $yTargetInstances -lt 2 ]]; then
@@ -345,7 +346,7 @@ function ymanage() {
         sleep .2
 
         # get width of kitty
-        kittyWidth=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty"))' | jq '.frame.w' | awk '{sum += $1} END {print sum}')
+        kittyWidth=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty") or contains("Ghostty"))' | jq '.frame.w' | awk '{sum += $1} END {print sum}')
         totalWidth=$kittyWidth
         managedFirefox=$(yabai -m rule --list | grep -i firefox)
         fireWidth=''
@@ -362,7 +363,7 @@ function ymanage() {
     else
 
         # kitty width
-        kittyWidth=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty"))' | jq '.frame.w' | awk '{sum += $1} END {print sum}')
+        kittyWidth=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty") or contains("Ghostty"))' | jq '.frame.w' | awk '{sum += $1} END {print sum}')
         totalWidth=$kittyWidth
 
         managedFirefox=$(yabai -m rule --list | grep -i firefox)
@@ -561,6 +562,11 @@ function y() {
         sudo yabai --load-sa
         ;;
 
+      'unmanage' )
+
+        yabai -m rule --add app="*" manage=off
+        ;;
+
       * )
 
         echo "unknown option $key"
@@ -593,7 +599,7 @@ function yistop() {
 
 #  echo "isTop"
 
-  local yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty")) | select(."is-visible") | select(."is-minimized"|not)')
+  local yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty") or contains("Ghostty")) | select(."is-visible") | select(."is-minimized"|not)')
   local yDisplayIndex=$(echo "$yTargetDisplays" | jq '.display' | head -n 1) 
   local yHeight=$(yabai -m query --displays | jq ".[] | select(.index==$yDisplayIndex) | .frame.h")
   local yHeight=${yHeight%.*}
@@ -620,7 +626,7 @@ function yanchor() {
   if [[ $yOrientation != "topdown" ]]; then return; fi
 
   #echo "yanchor"
-  local yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty")) | select(."is-visible") | select(."is-minimized"|not)')
+  local yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty") or contains("Ghostty")) | select(."is-visible") | select(."is-minimized"|not)')
   local yInstanceCount=$(echo "$yTargetDisplays" | jq ".frame | .h" | wc -l)
   local yInstanceCount=$((yInstanceCount)) # sting to int cast
   local yInstanceLimit=10
@@ -733,8 +739,8 @@ function ycheckrot() {
   if [[ $(cat ~/.yrotate) != "topdown" ]]; then return; fi # only handle topdown
 
   local yOutput=$(yabai -m query --windows)
-  local yTargetDisplays=$(echo "$yOutput" | jq '.[] | select(.app | contains("kitty")) | select(."is-visible") | select(."is-minimized"|not)')
-  local yTargetDisplay=$(echo "$yOutput" | jq '.[] | select(.app | contains("kitty")) | select(."is-visible") | select(."is-minimized"|not) | .display' | head -n 1)
+  local yTargetDisplays=$(echo "$yOutput" | jq '.[] | select(.app | contains("kitty") or contains("Ghostty")) | select(."is-visible") | select(."is-minimized"|not)')
+  local yTargetDisplay=$(echo "$yOutput" | jq '.[] | select(.app | contains("kitty") or contains("Ghostty")) | select(."is-visible") | select(."is-minimized"|not) | .display' | head -n 1)
   local yHeight=$(yabai -m query --displays | jq ".[] | select(.index==$yTargetDisplay)" | jq '.frame.h' )
   yHeight=$(awk -v v="$yHeight" 'BEGIN{printf "%d", v}')
   local yHeightTolerance=50
@@ -973,7 +979,7 @@ function yshift() {
   # cycle through counter clockwise
   if [[ $rightShift == "f" ]]; then
 
-    if [[ "$yCurrentApp" != '"kitty"' ]] && [[ "$shouldFocus" == "t" ]]; then
+    if [[ ("$yCurrentApp" != '"kitty"' ||  "$yCurrentApp" != '"Ghostty"' ) && "$shouldFocus" == "t" ]]; then
 
       win=$(yabai -m query --windows --window last | jq '.id')
       echo "last" >> /tmp/yContext
@@ -1010,7 +1016,7 @@ function yshift() {
 
   else
 
-    if [[ "$yCurrentApp" != '"kitty"' ]] && [[ "$shouldFocus" == "t" ]]; then
+    if [[ ("$yCurrentApp" != '"kitty"' ||  "$yCurrentApp" != '"Ghostty"' ) && "$shouldFocus" == "t" ]]; then
 
       win=$(yabai -m query --windows --window first | jq '.id')
       echo "first2" >> /tmp/yContext
@@ -1053,7 +1059,7 @@ function yshift() {
 function ytoganchor() {
 
 #  yContext=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .display')
-  local yContext=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty"))' | jq '.display' | head -n 1)
+  local yContext=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty") or contains("Ghostty"))' | jq '.display' | head -n 1)
 
 #  echo "$yContext"
 #  return
@@ -1126,7 +1132,7 @@ function ytoganchor() {
 function ytogpadding() {
 
 #  yContext=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .display')
-  local yContext=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty"))' | jq '.display' | head -n 1)
+  local yContext=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty") or contains("Ghostty"))' | jq '.display' | head -n 1)
 
 #  echo "$yContext"
 #  return

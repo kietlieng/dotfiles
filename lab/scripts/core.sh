@@ -1,4 +1,5 @@
 alias ccore="c core"
+alias cdo="c todo"
 alias ce="c edit"
 alias cl="c -"
 alias cy="c y"
@@ -15,8 +16,8 @@ function xgit() {
     currentFolder=$(pwd)
     rootFolder=$(gitrootfolder)
     cd $rootFolder
-#    nvim -c "/url" ".git/config"
-    nvim ".git/config"
+#    vim -c "/url" ".git/config"
+    vim ".git/config"
     echo "$rootFolder"
     cd $currentFolder
 
@@ -28,7 +29,7 @@ function xignore() {
     currentFolder=$(pwd)
     rootFolder=$(gitrootfolder)
     cd $rootFolder
-    nvim ".gitignore"
+    vim ".gitignore"
     cd $currentFolder
 
 }
@@ -67,7 +68,7 @@ function vfile() {
       if [[ $editFiles == '' ]]; then
         modeNoFiles='t'
       else 
-        nvim $editFiles
+        vim $editFiles
       fi
     else 
       modeNoFiles='t'
@@ -117,7 +118,7 @@ function xt() { # search /tmp directory
   done
 
   if [ ${#editFiles[@]} -gt 0 ]; then
-    nvim -f $editFiles
+    vim -f $editFiles
   fi
 
 
@@ -171,7 +172,7 @@ function x() {
       for isFile in $(ls -1t | awk '{print $1}' ); do
         echo "file $isFile"
         if [[ -f $isFile ]]; then
-          nvim $isFile
+          vim $isFile
           break
         fi
       done
@@ -196,7 +197,7 @@ function x() {
   #          echo "array1 ${filesToEdit[@]}"
             editFiles=($(echo "$filesToEdit" | sed -r 's/\n/ /g'))
 
-            nvim $editFiles
+            vim $editFiles
 
           fi
 
@@ -219,7 +220,7 @@ function X() {
 
 alias xG="xg '?'"
 
-# open all files that are modified / new / deleted to nvim from git 
+# open all files that are modified / new / deleted to vim from git 
 function xg() {
 
   key=''
@@ -255,7 +256,7 @@ function xg() {
     filesToEdit=$(git status --porcelain | awk '{ if ($1 == "M" || $1 == "??" )  print $2}')
 
     if [[ $filesToEdit != '' ]]; then 
-      nvim $(git status --porcelain | awk '{ if ($1 == "M" || $1 == "??" )  print $2}')
+      vim $(git status --porcelain | awk '{ if ($1 == "M" || $1 == "??" )  print $2}')
       echo "files to edit $filesToEdit"
     fi
 
@@ -265,7 +266,7 @@ function xg() {
     filesToEdit=$(git status --porcelain | awk '{ if ($1 == "M") print $2}')
 
     if [[ $filesToEdit != '' ]]; then 
-      nvim $(git status --porcelain | awk '{ if ($1 == "M") print $2}')
+      vim $(git status --porcelain | awk '{ if ($1 == "M") print $2}')
       echo "files to edit $filesToEdit"
     fi
 
@@ -593,7 +594,7 @@ function strr() {
 function vcom() {
 
     echo "$(history | tail -n 1 | awk '{$1="";print $0}')" > /tmp/lastcommand.txt
-    nvim /tmp/lastcommand.txt
+    vim /tmp/lastcommand.txt
 
 }
 
@@ -626,7 +627,7 @@ function jot() {
     # no filename
     if [[ $fileScratch != "nap" ]]; then
 
-      nvim "/tmp/${fileScratch}"
+      vim "/tmp/${fileScratch}"
       echo "blah /tmp/${fileScratch}"
 
     else
@@ -642,10 +643,10 @@ function jot() {
 
       local fzfQuery=$(cat /tmp/fzf-query)
       if [[ "$editFiles" ]]; then
-        nvim $editFiles
+        vim $editFiles
         echo "|$editFiles|"
       elif [[ "$fzfQuery" ]]; then # if there as a query but it did not create results
-        nvim "/tmp/$fzfQuery"
+        vim "/tmp/$fzfQuery"
       fi
 
     fi
@@ -823,7 +824,7 @@ function xscript() {
   echo ">>fileEdit: $filesToEdit"
   filesToEdit=($(echo "$filesToEdit" | sed -r 's/\n/ /g'))
   echo ">>fileEdit: $filesToEdit"
-  nvim $filesToEdit
+  vim $filesToEdit
   cd $currentPWD
 
 #    command! -bang -nargs=* Rg call fzf#vim#grep("rg --column -i --context 4 --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>) . " " . @r, 1, { "options": '--delimiter : --nth 4..' }, <bang>0) "" new bang command that searches the current file directory or register r.  This allows for us to change the register value to whatever we want
@@ -984,6 +985,9 @@ function c() {
   elif [[ "$sFilename" == "y" ]] ; then
       sFilename="yabai"
       searchTerm="yabai"
+  elif [[ "$sFilename" == "todo" ]] ; then
+      sFilename="todo"
+      searchTerm="todo"
   elif [[ "$sFilename" == "-" ]] ; then
 
       echo "\n----- $scriptDir -----\n"
@@ -1001,7 +1005,7 @@ function c() {
     echo "Targets $filesToEdit"
 
     if [[ $filesToEdit ]]; then
-      nvim $(echo "$filesToEdit")
+      vim $(echo "$filesToEdit")
       return
     fi
 
@@ -1017,7 +1021,7 @@ function c() {
 
     # if you have files edit them
     if [[ "$editFiles" ]]; then
-      nvim $editFiles
+      vim $editFiles
       return
     fi
 
@@ -1044,7 +1048,7 @@ function c() {
       case $ANSWER in
           [yY] )
               echo "|$ANSWER| yes"
-              nvim "$targetDir/$sFilename$searchExt"
+              vim "$targetDir/$sFilename$searchExt"
               break
               ;;
           [nN] )

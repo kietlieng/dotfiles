@@ -190,10 +190,10 @@ function vvenn() {
                 ;;
         esac
     done
+
     echo "${radius}\n${searchTerm}\n${centerText}\n${subText}"
-    if [[ "$output" == "x" ]]; then
-        echo "${radius}\n${searchTerm}\n${centerText}\n${subText}" | venn.awk
-    else
-        echo "${radius}\n${searchTerm}\n${centerText}\n${subText}" | venn.awk | isvg
-    fi
+    
+    vennFile=/tmp/ven-output
+    echo "${radius}\n${searchTerm}\n${centerText}\n${subText}" | venn.awk > $vennFile
+    cat $vennFile | isvg
 }

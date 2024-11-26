@@ -40,7 +40,8 @@ function slast() {
 function sreflast() {
 
   rm -rf $SCREENSHOT_DIRECTORY/.DS_Store
-  local sOutput=$(ls -1tr $SCREENSHOT_DIRECTORY | tail -n 1)
+  local sOutput=$(/bin/ls -1tr $SCREENSHOT_DIRECTORY | tail -n 1)
+#  local sOutput=$(ls -1 --sort=modified $SCREENSHOT_DIRECTORY | tail -n 1)
 
   if [[ $sOutput ]]; then
     ref -f "$SCREENSHOT_DIRECTORY/$sOutput"

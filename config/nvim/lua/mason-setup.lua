@@ -32,7 +32,8 @@ function F.setup()
       "marksman",
       "pyright",
       "terraformls",
-      "tsserver",
+--      "tsserver",
+      "ts_ls",
       "yamlls",
 
     },

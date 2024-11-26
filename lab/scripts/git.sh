@@ -1,12 +1,13 @@
 #alias gp="git pull"
 #alias gs="git status"
-alias gD="git diff --staged"
+alias gD="git difftool --staged -y"
 alias gP="gpush"
 alias ga='git add -f' # -f is for force add
 alias gbr="g -branch"
 alias gco="git checkout "
-alias gd='git diff'
-alias gdstaged='git diff --staged'
+#alias gd='git diff'
+alias gd='git difftool -y'
+alias gdstaged='git difftool --staged -y'
 alias gfetch="git fetch --all"
 alias gfiles="git log --name-only --oneline"
 alias gl="git log -p"
