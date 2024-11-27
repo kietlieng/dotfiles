@@ -979,7 +979,7 @@ function yshift() {
   # cycle through counter clockwise
   if [[ $rightShift == "f" ]]; then
 
-    if [[ ("$yCurrentApp" != '"kitty"' ||  "$yCurrentApp" != '"Ghostty"' ) && "$shouldFocus" == "t" ]]; then
+    if [[ ("$yCurrentApp" != '"kitty"' &&  "$yCurrentApp" != '"Ghostty"' ) && "$shouldFocus" == "t" ]]; then
 
       win=$(yabai -m query --windows --window last | jq '.id')
       echo "last" >> /tmp/yContext
@@ -1016,7 +1016,7 @@ function yshift() {
 
   else
 
-    if [[ ("$yCurrentApp" != '"kitty"' ||  "$yCurrentApp" != '"Ghostty"' ) && "$shouldFocus" == "t" ]]; then
+    if [[ ("$yCurrentApp" != '"kitty"' &&  "$yCurrentApp" != '"Ghostty"' ) && "$shouldFocus" == "t" ]]; then
 
       win=$(yabai -m query --windows --window first | jq '.id')
       echo "first2" >> /tmp/yContext

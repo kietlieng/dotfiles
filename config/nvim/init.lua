@@ -63,6 +63,8 @@ set.viminfo        = "'100,f1"                                                  
 set.wildignore     = '*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx'  -- avoid
 set.guicursor      = 'a:blinkon100'
 
+vim.cmd([[let &t_ut='']]) -- solves redraw issue with using gruvbox
+
 --set.completeopt = 'menu,menuone' -- duo
 
 

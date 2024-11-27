@@ -181,8 +181,8 @@ function F.setup()
       {
 
         text({
-          "local modeSome=''",
-          "local someTarget='.*'",
+          "local modeX=''",
+          "local targetX='.*'",
           "local key=''",
           "",
           "while [[ $# -gt 0 ]]; do",
@@ -191,13 +191,13 @@ function F.setup()
           "  shift",
           "",
           "  case \"$key\" in",
-          "    '-x') modeSome='t' ;;",
-          "    *) someTarget=\"${someTarget}$key.*\" ;;",
+          "    '-x') modeX='t' ;;",
+          "    *) targetX=\"${targetX}$key.*\" ;;",
           "  esac",
           "",
           "done",
           "",
-          "if [[ $someTarget == '.*' ]]; then",
+          "if [[ $targetX == '.*' ]]; then",
           "  echo 'no value'",
           "  return",
           "fi",

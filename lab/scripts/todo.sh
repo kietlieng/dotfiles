@@ -24,13 +24,15 @@ function dgetdate() {
 # todo
 function d() {
 
-  local fileToDo=~/.todo
   local fileDone=~/.tododone
+  local fileOutput=~/.todooutput
+  local fileToDo=~/.todo
   local fileToDoSaved=~/.todosaved
    
   local formatDate='+%y-%m-%d'
 
-  local currentDate=$(dgetdate)
+  local currentDateStatic=$(dgetdate)
+  local currentDate=$currentDateStatic
 
   local lastSave=''
   local modeAdd=''
@@ -53,48 +55,51 @@ function d() {
 
     case "$key" in
 
+      '-move') modeMove='t';;
       '-tag') modeTag=$(echo "$1 " |  tr '[:lower:]' '[:upper:]'); shift ;;
       '-add') modeAdd='t';;
-      '-date') currentDate="$1" shift ;;
+      '-date') currentDate="$1"; shift ;;
       '-save' ) modeSave='t';;
       '-l' ) modeLast='t';;
       '-sub') modeSub='-';;
-      '-1') currentDate=$(tdgetdate "${modeSub}1d" $currentDate) ;;
-      '-2') currentDate=$(tdgetdate "${modeSub}2d" $currentDate) ;;
-      '-3') currentDate=$(tdgetdate "${modeSub}3d" $currentDate) ;;
-      '-4') currentDate=$(tdgetdate "${modeSub}4d" $currentDate) ;;
-      '-5') currentDate=$(tdgetdate "${modeSub}5d" $currentDate) ;;
-      '-6') currentDate=$(tdgetdate "${modeSub}6d" $currentDate) ;;
-      '-w') currentDate=$(tdgetdate "${modeSub}1w" $currentDate) ;;
-      '-2w') currentDate=$(tdgetdate "${modeSub}2w" $currentDate) ;;
-      '-3w') currentDate=$(tdgetdate "${modeSub}3w" $currentDate) ;;
-      '-4w') currentDate=$(tdgetdate "${modeSub}4w" $currentDate) ;;
-      '-5w') currentDate=$(tdgetdate "${modeSub}5w" $currentDate) ;;
-      '-m') currentDate=$(tdgetdate "${modeSub}1m" $currentDate) ;;
-      '-2m') currentDate=$(tdgetdate "${modeSub}2m" $currentDate) ;;
-      '-3m') currentDate=$(tdgetdate "${modeSub}3m" $currentDate) ;;
-      '-4m') currentDate=$(tdgetdate "${modeSub}4m" $currentDate) ;;
-      '-5m') currentDate=$(tdgetdate "${modeSub}5m" $currentDate) ;;
-      '-6m') currentDate=$(tdgetdate "${modeSub}6m" $currentDate) ;;
-      '-7m') currentDate=$(tdgetdate "${modeSub}7m" $currentDate) ;;
-      '-8m') currentDate=$(tdgetdate "${modeSub}8m" $currentDate) ;;
-      '-9m') currentDate=$(tdgetdate "${modeSub}9m" $currentDate) ;;
-      '-10m') currentDate=$(tdgetdate "${modeSub}10m" $currentDate) ;;
-      '-11m') currentDate=$(tdgetdate "${modeSub}11m" $currentDate) ;;
-      '-y') currentDate=$(tdgetdate "${modeSub}1y" $currentDate) ;;
-      '-2y') currentDate=$(tdgetdate "${modeSub}2y" $currentDate) ;;
-      '-3y') currentDate=$(tdgetdate "${modeSub}3y" $currentDate) ;;
-      '-4y') currentDate=$(tdgetdate "${modeSub}4y" $currentDate) ;;
-      '-5y') currentDate=$(tdgetdate "${modeSub}5y" $currentDate) ;;
+      '-1') currentDate=$(dgetdate "${modeSub}1d" $currentDate) ;;
+      '-2') currentDate=$(dgetdate "${modeSub}2d" $currentDate) ;;
+      '-3') currentDate=$(dgetdate "${modeSub}3d" $currentDate) ;;
+      '-4') currentDate=$(dgetdate "${modeSub}4d" $currentDate) ;;
+      '-5') currentDate=$(dgetdate "${modeSub}5d" $currentDate) ;;
+      '-6') currentDate=$(dgetdate "${modeSub}6d" $currentDate) ;;
+      '-w') currentDate=$(dgetdate "${modeSub}1w" $currentDate) ;;
+      '-2w') currentDate=$(dgetdate "${modeSub}2w" $currentDate) ;;
+      '-3w') currentDate=$(dgetdate "${modeSub}3w" $currentDate) ;;
+      '-4w') currentDate=$(dgetdate "${modeSub}4w" $currentDate) ;;
+      '-5w') currentDate=$(dgetdate "${modeSub}5w" $currentDate) ;;
+      '-m') currentDate=$(dgetdate "${modeSub}1m" $currentDate) ;;
+      '-2m') currentDate=$(dgetdate "${modeSub}2m" $currentDate) ;;
+      '-3m') currentDate=$(dgetdate "${modeSub}3m" $currentDate) ;;
+      '-4m') currentDate=$(dgetdate "${modeSub}4m" $currentDate) ;;
+      '-5m') currentDate=$(dgetdate "${modeSub}5m" $currentDate) ;;
+      '-6m') currentDate=$(dgetdate "${modeSub}6m" $currentDate) ;;
+      '-7m') currentDate=$(dgetdate "${modeSub}7m" $currentDate) ;;
+      '-8m') currentDate=$(dgetdate "${modeSub}8m" $currentDate) ;;
+      '-9m') currentDate=$(dgetdate "${modeSub}9m" $currentDate) ;;
+      '-10m') currentDate=$(dgetdate "${modeSub}10m" $currentDate) ;;
+      '-11m') currentDate=$(dgetdate "${modeSub}11m" $currentDate) ;;
+      '-y') currentDate=$(dgetdate "${modeSub}1y" $currentDate) ;;
+      '-2y') currentDate=$(dgetdate "${modeSub}2y" $currentDate) ;;
+      '-3y') currentDate=$(dgetdate "${modeSub}3y" $currentDate) ;;
+      '-4y') currentDate=$(dgetdate "${modeSub}4y" $currentDate) ;;
+      '-5y') currentDate=$(dgetdate "${modeSub}5y" $currentDate) ;;
       '-delete') echo "figure out delete later" ;;
       *) 
         targetString="$targetString$key " 
-        targetSearch="$targeSearch.*$key"
       ;;
 
     esac
 
   done
+
+  # populate search string
+  targetSearch=$(echo "$targetString" | xargs | sed 's/ /.*/g')
 
   if [[ $modeSave ]]; then
     echo "$targetString" > $fileToDoSaved
@@ -102,17 +107,42 @@ function d() {
     return
   fi
 
+  if [[ $modeLast ]]; then
+    lastSave=$(cat $fileToDoSaved |  tr '[:lower:]' '[:upper:]')
+  fi
 
-  if [[ $modeSave == '' ]]; then
-#    echo "searching"
-    grep -hi "$targetSearch" $fileToDo $fileToDoSaved
+  # not add but search search
+  if [[ ! $modeAdd ]]; then
+
+    becho "searching $targetSearch"
+    grep -hi "$targetSearch" $fileToDo
+
+
+    if [[ "$currentDate" != "$currentDateStatic" ]]; then
+      
+      grep -hi "$targetSearch" $fileToDo > $fileOutput
+
+      local noDate=""
+      while read line; do
+        echo "1 current line $line"
+        noDate=$(echo "$line" | awk '{for(i=2; i<=NF; i++) printf $i (i==NF ? "\n" : OFS)}')
+        echo "2 current line $noDate"
+
+        # remove value 
+        echo "sed -i '' \"/$noDate/d\" $fileToDo"
+        sed -i '' "/$noDate/d" $fileToDo
+      
+        # move value
+        echo "$currentDate: ${modeTag}${lastSave}${noDate}" >> $fileToDo
+      done < $fileOutput
+
+      sort -o $fileToDo $fileToDo
+
+    fi
+
     return
 
   elif [[ $targetString ]]; then
-
-    if [[ $modeLast ]]; then
-      lastSave=$(cat $fileToDoSaved |  tr '[:lower:]' '[:upper:]')
-    fi
 
     echo "$currentDate: ${modeTag}${lastSave}${targetString}" >> $fileToDo
     sort -o $fileToDo $fileToDo
@@ -125,19 +155,19 @@ function d() {
 
 function da() {
 
-  echo "adding"
+  echo "d -add $@"
   d -add $@
 
 }
 
 
-# do done and move
+# todo done and move
 function dx() {
 
-  local fileToDo=~/.todo
   local fileDone=~/.tododone
-  local fileToDoSaved=~/.todosaved
   local fileOutput=/tmp/do-output
+  local fileToDo=~/.todo
+  local fileToDoSaved=~/.todosaved
 
   local hashDir=$(md5 -q -s $(pwd)) 
 	local queryFile="/tmp/do-$hashDir" 
@@ -155,10 +185,12 @@ function dx() {
   local doValues=$(cat $fileToDo | fzf -m --ansi --color fg:-1,bg:-1,hl:46,fg+:40,bg+:233,hl+:46 --color prompt:166,border:46 --height 75%  --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ " --bind "change:execute(echo {q} > $queryFile)" --query "$defaultQuery")
 
   echo "$doValues" >> $fileDone
+  echo "$doValues" > $fileOutput
+  
   while read line; do
     echo "$line"
     sed -i '' "/$line/d" ~/.todo
-  done < /tmp/do-output
+  done < $fileOutput
 
 #  if [[ -n $doValues ]]; then
 ##		echo "has doValues $doValues"
@@ -167,6 +199,12 @@ function dx() {
 #			echo "x $doIndex"
 #		done
 #	fi
+
+}
+
+# todo move to another date
+function dv() {
+  
 
 }
 
@@ -192,18 +230,18 @@ function dsetting() {
   if [[ $modeDisplay ]]; then
     cat ~/.todosetting
   else
-    echo "$key" > ~/.todosetting
+    echo "$modeSetting" > ~/.todosetting
   fi
 
 }
 
 function dreminder() {
 
-  local today=$(date "+%y%m%d-%H")
+  local today=$(date "+%y%m%d%H")
   local fileDo="/tmp/do-$today"
   local shouldDisplay=$(dsetting)
 
-#  echo "$shouldDisplay"
+#  echo "shouldDisplay $shouldDisplay"
  
   if [[ $shouldDisplay ]]; then
     
