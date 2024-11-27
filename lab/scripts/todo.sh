@@ -151,22 +151,112 @@ function d() {
 
   fi
 
+  dlist "$currentDateStatic"
+#  dprint
+
+#  # do listing
+#  local currentPointer='t'
+#  while read line; do
+#    doDate=$(echo "$line" | awk '{print $1 }')
+#    
+#    if [[ ("$doDate" == "$currentDateStatic") || ("$doDate" > "$currentDateStatic") ]]; then 
+#
+#      if [[ $currentPointer ]]; then
+#        echo "\n\033[0;31m  󱅼 🯁🯂🯃  >>>>>>>> $currentDateStatic <<<<<<<<  󰭥 󱩁 \033[0m\n"
+#      fi
+#      currentPointer=''
+#    fi
+#    echo "$line"
+#
+#  done < $FILE_TODO
+
+}
+
+function dlist() {
+
+  local currentDateStatic="$1"
   # do listing
   local currentPointer='t'
   while read line; do
     doDate=$(echo "$line" | awk '{print $1 }')
+    doContent=$(echo "$line" | awk '{for(i=2; i<=NF; i++) printf $i (i==NF ? "\n" : OFS)}')
     
     if [[ ("$doDate" == "$currentDateStatic") || ("$doDate" > "$currentDateStatic") ]]; then 
 
       if [[ $currentPointer ]]; then
-        echo "\n  󱅼 🯁🯂🯃  >>>>>>>> $currentDateStatic <<<<<<<<  󰭥 󱩁 \n"
-#        echo "\n󱅼 🯁🯂🯃 >>>>>>>> $currentDateStatic <<<<<<<< YOU ARE HERE\n"
+        echo "\n\033[0;31m  󱅼 🯁🯂🯃  >>>>>>>> $currentDateStatic <<<<<<<<  󰭥 󱩁 \033[0m\n"
       fi
       currentPointer=''
     fi
-    echo "$line"
+    dprint -date "$doDate" -content "$doContent"
+#    echo "$line"
 
   done < $FILE_TODO
+
+}
+
+# 
+function dprint() {
+  
+  local argDate=""
+  local argContent=""
+
+  local modeColor=''
+  local key=''
+
+  declare -A dColors
+
+  dColors=( 
+    ["red"]="\033[0;31m" 
+    ["clear"]="\033[0m"
+    ["black"]="\033[0;30m"
+    ["dgray"]="1;30m"
+    ["lred"]="\033[1;31m"
+    ["green"]="\033[0;32m"
+    ["lgreen"]="\033[1;32m"
+    ["orange"]="\033[0;33m"
+    ["yellow"]="\033[1;33m"
+    ["blue"]="\033[0;34m"
+    ["lblue"]="\033[1;34m"
+    ["purple"]="\033[0;35m"
+    ["lpurple"]="\033[1;35m"
+    ["cyan"]="\033[0;36m"
+    ["lcyan"]="\033[1;36m"
+    ["lgray"]="\033[0;37m"
+    ["white"]="\033[1;37m"
+  )
+
+  while [[ $# -gt 0 ]]; do
+
+    key="$1"
+    shift
+
+    case "$key" in
+      '-date') modeDate="$1"; shift ;;
+      '-content') modeContent="$1"; shift ;;
+      *) ;;
+    esac
+
+  done
+
+  messageOutput="$modeDate "
+  if [[ $(echo "$modeContent" | grep "PLACES\|PAUSE") ]]; then
+    messageOutput="${messageOutput}${dColors[red]}"
+  elif [[ $(echo "$modeContent" | grep "MEDICAL") ]]; then
+    messageOutput="${messageOutput}${dColors[orange]}"
+  elif [[ $(echo "$modeContent" | grep "TRIP") ]]; then
+    messageOutput="${messageOutput}${dColors[cyan]}"
+  elif [[ $(echo "$modeContent" | grep "TAX") ]]; then
+    messageOutput="${messageOutput}${dColors[purple]}"
+  elif [[ $(echo "$modeContent" | grep "wife") ]]; then
+    messageOutput="${messageOutput}${dColors[lgreen]}"
+  elif [[ $(echo "$modeContent" | grep "BDAY") ]]; then
+    messageOutput="${messageOutput}${dColors[yellow]}"
+  elif [[ $(echo "$modeContent" | grep "accord") ]]; then
+    messageOutput="${messageOutput}${dColors[blue]}"
+  fi
+  messageOutput="${messageOutput}${modeContent}${dColors[clear]}"
+  echo "$messageOutput"
 
 }
 

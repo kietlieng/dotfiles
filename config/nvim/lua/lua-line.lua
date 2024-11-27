@@ -2,13 +2,8 @@ local F = {}
 
 function F.setup()
 
-
-
   local custom_gruvbox = require'lualine.themes.gruvbox'
-
-  -- Change the background of lualine_c section for normal mode
-  custom_gruvbox.normal.c.bg = '#000000'
-
+  custom_gruvbox.normal.c.bg = '#000000' -- Change the background of lualine_c section for normal mode
 
   require('lualine').setup {
     options = {
