@@ -24,11 +24,6 @@ function dgetdate() {
 # todo
 function d() {
 
-  local fileDone=~/.tododone
-  local fileOutput=~/.todooutput
-  local fileToDo=~/.todo
-  local fileToDoSaved=~/.todosaved
-   
   local formatDate='+%y-%m-%d'
 
   local currentDateStatic=$(dgetdate)
@@ -68,6 +63,19 @@ function d() {
       '-sub') modeSub='-';;
       '-abs') modeAbsolute='t';;
 
+      # single
+      '-1' ) 
+        lastDateChangeValue="${modeSub}1" 
+        currentDate=$(dgetdate "$lastDateChangeValue" "$currentDate")
+        ;;
+
+      # single
+      '-w' | '-m' | '-y' ) 
+        dateValue=$(echo "$key" | cut -c2-)
+        lastDateChangeValue="${modeSub}1${dateValue}" 
+        currentDate=$(dgetdate "$lastDateChangeValue" "$currentDate")
+        ;;
+
       # dates
       '-1d' | '-2d' | '-3d' | '-4d' | '-5d' | '-6d' | '-1w' | '-2w' | '-3w' | '-4w' | '-5w' | '-1m' | '-2m' | '-3m' | '-4m' | '-5m' | '-6m' | '-7m' | '-8m' | '-9m' | '-10m' | '-11m' | '-1y' | '-2y' | '-3y' | '-4y' | '-5y') 
         dateValue=$(echo "$key" | cut -c2-)
@@ -87,13 +95,13 @@ function d() {
   targetSearch=$(echo "$targetString" | xargs | sed 's/ /.*/g')
 
   if [[ $modeSave ]]; then
-    echo "$targetString" > $fileToDoSaved
+    echo "$targetString" > $FILE_TODOSAVED
     echo "Saved: $targetString"
     return
   fi
 
   if [[ $modeLast ]]; then
-    lastSave=$(cat $fileToDoSaved |  tr '[:lower:]' '[:upper:]')
+    lastSave=$(cat $FILE_TODOSAVED |  tr '[:lower:]' '[:upper:]')
   fi
 
   local doDate=""
@@ -101,11 +109,11 @@ function d() {
   if [[ ! $modeAdd ]] && [[ $targetSearch ]]; then
 
     becho "searching |$targetSearch|"
-    grep -hi "$targetSearch" $fileToDo
+    grep -hi "$targetSearch" $FILE_TODO
 
     if [[ "$currentDate" != "$currentDateStatic" ]]; then
       
-      grep -hi "$targetSearch" $fileToDo > $fileOutput
+      grep -hi "$targetSearch" $FILE_TODO > $FILE_TODO_OUTPUT
 
       local noDate=""
       while read line; do
@@ -116,8 +124,9 @@ function d() {
 #        echo "2 current line $noDate"
 
         # remove value 
-#        echo "sed -i '' \"/$noDate/d\" $fileToDo"
-        sed -i '' "/$noDate/d" $fileToDo
+#        sed -i '' "/$noDate/d" $FILE_TODO
+        echo "sed -i '' \"/$line/d\" $FILE_TODO"
+        sed -i '' "/$line/d" $FILE_TODO
 
         # if relative date find relative date
         if [[ ! $modeAbsolute ]]; then
@@ -125,11 +134,11 @@ function d() {
           echo "dgetdate \"$lastDateChangeValue\" $doDate"
           currentDate=$(dgetdate "$lastDateChangeValue" $doDate)
         fi
-        echo "$currentDate ${modeTag}${lastSave}${noDate}" >> $fileToDo
+        echo "$currentDate ${modeTag}${lastSave}${noDate}" >> $FILE_TODO
 
-      done < $fileOutput
+      done < $FILE_TODO_OUTPUT
 
-      sort -o $fileToDo $fileToDo
+      sort -o $FILE_TODO $FILE_TODO
 
     fi
 
@@ -137,8 +146,8 @@ function d() {
 
   elif [[ $targetString ]]; then
 
-    echo "$currentDate ${modeTag}${lastSave}${targetString}" >> $fileToDo
-    sort -o $fileToDo $fileToDo
+    echo "$currentDate ${modeTag}${lastSave}${targetString}" >> $FILE_TODO
+    sort -o $FILE_TODO $FILE_TODO
 
   fi
 
@@ -150,13 +159,14 @@ function d() {
     if [[ ("$doDate" == "$currentDateStatic") || ("$doDate" > "$currentDateStatic") ]]; then 
 
       if [[ $currentPointer ]]; then
-        echo "🯁🯂🯃 >>>>>>>> $currentDateStatic <<<<<<<<"
+        echo "\n  󱅼 🯁🯂🯃  >>>>>>>> $currentDateStatic <<<<<<<<  󰭥 󱩁 \n"
+#        echo "\n󱅼 🯁🯂🯃 >>>>>>>> $currentDateStatic <<<<<<<< YOU ARE HERE\n"
       fi
       currentPointer=''
     fi
     echo "$line"
 
-  done < $fileToDo
+  done < $FILE_TODO
 
 }
 
@@ -171,11 +181,6 @@ function da() {
 # todo done and move
 function dx() {
 
-  local fileDone=~/.tododone
-  local fileOutput=/tmp/do-output
-  local fileToDo=~/.todo
-  local fileToDoSaved=~/.todosaved
-
   local hashDir=$(md5 -q -s $(pwd)) 
 	local queryFile="/tmp/do-$hashDir" 
 	local defaultQuery='' 
@@ -189,15 +194,15 @@ function dx() {
 		shift
 	fi
 
-  local doValues=$(cat $fileToDo | fzf -m --ansi --color fg:-1,bg:-1,hl:46,fg+:40,bg+:233,hl+:46 --color prompt:166,border:46 --height 75%  --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ " --bind "change:execute(echo {q} > $queryFile)" --query "$defaultQuery")
+  local doValues=$(cat $FILE_TODO | fzf -m --ansi --color fg:-1,bg:-1,hl:46,fg+:40,bg+:233,hl+:46 --color prompt:166,border:46 --height 75%  --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ " --bind "change:execute(echo {q} > $queryFile)" --query "$defaultQuery")
 
-  echo "$doValues" >> $fileDone
-  echo "$doValues" > $fileOutput
+  echo "$doValues" >> $FILE_TODO_OUTPUT
+  echo "$doValues" > $FILE_TODO_DONE
   
   while read line; do
     echo "$line"
-    sed -i '' "/$line/d" ~/.todo
-  done < $fileOutput
+    sed -i '' "/$line/d" $FILE_TODO
+  done < $FILE_TODO_OUTPUT
 
 #  if [[ -n $doValues ]]; then
 ##		echo "has doValues $doValues"
@@ -229,19 +234,24 @@ function dsetting() {
   done
 
   if [[ $modeDisplay ]]; then
-    cat ~/.todosetting
+    cat $FILE_TODO_SETTING
   else
-    echo "$modeSetting" > ~/.todosetting
+    echo "$modeSetting" > $FILE_TODO_SETTING
   fi
 
 }
 
 function dreminder() {
 
-  local today=$(date "+%y%m%d%H")
-  today=$(date "+%y%m%d%H%M")
+  local currentMinute=$(date "+%M")
+  currentMinute=$((currentMinute / 30))
 
-  local fileDo="/tmp/do-$today"
+  local today=$(date "+%y%m%d%H")
+  today="${today}${currentMinute}"
+
+  local fileDo="$DIRECTORY_TODO/do-$today"
+
+#  echo "$fileDo"
   local shouldDisplay=$(dsetting)
   local onVideo=$(ps aux | grep -i "zoom.us.app\|Microsoft Teams.app" | wc -l)
 #  echo "shouldDisplay $shouldDisplay"
@@ -259,6 +269,10 @@ function dreminder() {
 
       if [[ ! -f $fileDo ]]; then
         d
+
+        if [[ ! -d "$DIRECTORY_TODO" ]]; then
+          mkdir $DIRECTORY_TODO
+        fi
         echo "touched $fileDo" > $fileDo
       fi
     fi
