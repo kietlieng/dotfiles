@@ -17,7 +17,7 @@ function dgetdate() {
 
   # tranform date based on current
   #echo "date -j -v \"$1\" -f \"$formatDate\" \"$2\" \"$formatDate2\""
-  date -j -v "$1" -f "$formatDate" "$2" "$formatDate2"
+  date -j -v "$targetChange" -f "$formatDate" "$targetDate" "$formatDate2"
 
 }
 
@@ -35,6 +35,7 @@ function d() {
   local currentDate=$currentDateStatic
 
   local lastSave=''
+  local modeAbsolute=''
   local modeAdd=''
   local modeLast=''
   local modeSave=''
@@ -42,6 +43,9 @@ function d() {
   local modeTag=''
   local targetSearch=''
   local targetString=''
+
+  local dateValue=''
+  local lastDateChangeValue=''
 #  echo "$currentDate"
 
   # date -j -v +1d -f "%y/%m/%d" "$currentDate" "+%Y-%m-%d"
@@ -62,33 +66,14 @@ function d() {
       '-save' ) modeSave='t';;
       '-l' ) modeLast='t';;
       '-sub') modeSub='-';;
-      '-1') currentDate=$(dgetdate "${modeSub}1d" $currentDate) ;;
-      '-2') currentDate=$(dgetdate "${modeSub}2d" $currentDate) ;;
-      '-3') currentDate=$(dgetdate "${modeSub}3d" $currentDate) ;;
-      '-4') currentDate=$(dgetdate "${modeSub}4d" $currentDate) ;;
-      '-5') currentDate=$(dgetdate "${modeSub}5d" $currentDate) ;;
-      '-6') currentDate=$(dgetdate "${modeSub}6d" $currentDate) ;;
-      '-w') currentDate=$(dgetdate "${modeSub}1w" $currentDate) ;;
-      '-2w') currentDate=$(dgetdate "${modeSub}2w" $currentDate) ;;
-      '-3w') currentDate=$(dgetdate "${modeSub}3w" $currentDate) ;;
-      '-4w') currentDate=$(dgetdate "${modeSub}4w" $currentDate) ;;
-      '-5w') currentDate=$(dgetdate "${modeSub}5w" $currentDate) ;;
-      '-m') currentDate=$(dgetdate "${modeSub}1m" $currentDate) ;;
-      '-2m') currentDate=$(dgetdate "${modeSub}2m" $currentDate) ;;
-      '-3m') currentDate=$(dgetdate "${modeSub}3m" $currentDate) ;;
-      '-4m') currentDate=$(dgetdate "${modeSub}4m" $currentDate) ;;
-      '-5m') currentDate=$(dgetdate "${modeSub}5m" $currentDate) ;;
-      '-6m') currentDate=$(dgetdate "${modeSub}6m" $currentDate) ;;
-      '-7m') currentDate=$(dgetdate "${modeSub}7m" $currentDate) ;;
-      '-8m') currentDate=$(dgetdate "${modeSub}8m" $currentDate) ;;
-      '-9m') currentDate=$(dgetdate "${modeSub}9m" $currentDate) ;;
-      '-10m') currentDate=$(dgetdate "${modeSub}10m" $currentDate) ;;
-      '-11m') currentDate=$(dgetdate "${modeSub}11m" $currentDate) ;;
-      '-y') currentDate=$(dgetdate "${modeSub}1y" $currentDate) ;;
-      '-2y') currentDate=$(dgetdate "${modeSub}2y" $currentDate) ;;
-      '-3y') currentDate=$(dgetdate "${modeSub}3y" $currentDate) ;;
-      '-4y') currentDate=$(dgetdate "${modeSub}4y" $currentDate) ;;
-      '-5y') currentDate=$(dgetdate "${modeSub}5y" $currentDate) ;;
+      '-abs') modeAbsolute='t';;
+
+      # dates
+      '-1d' | '-2d' | '-3d' | '-4d' | '-5d' | '-6d' | '-1w' | '-2w' | '-3w' | '-4w' | '-5w' | '-1m' | '-2m' | '-3m' | '-4m' | '-5m' | '-6m' | '-7m' | '-8m' | '-9m' | '-10m' | '-11m' | '-1y' | '-2y' | '-3y' | '-4y' | '-5y') 
+        dateValue=$(echo "$key" | cut -c2-)
+        lastDateChangeValue="${modeSub}${dateValue}" 
+        currentDate=$(dgetdate "$lastDateChangeValue" "$currentDate")
+        ;;
       '-delete') echo "figure out delete later" ;;
       *) 
         targetString="$targetString$key " 
@@ -111,12 +96,12 @@ function d() {
     lastSave=$(cat $fileToDoSaved |  tr '[:lower:]' '[:upper:]')
   fi
 
+  local doDate=""
   # not add but search search
-  if [[ ! $modeAdd ]]; then
+  if [[ ! $modeAdd ]] && [[ $targetSearch ]]; then
 
-    becho "searching $targetSearch"
+    becho "searching |$targetSearch|"
     grep -hi "$targetSearch" $fileToDo
-
 
     if [[ "$currentDate" != "$currentDateStatic" ]]; then
       
@@ -124,16 +109,24 @@ function d() {
 
       local noDate=""
       while read line; do
-        echo "1 current line $line"
+        doDate=$(echo "$line" | awk '{print $1 }')
+
+#        echo "1 current line $line"
         noDate=$(echo "$line" | awk '{for(i=2; i<=NF; i++) printf $i (i==NF ? "\n" : OFS)}')
-        echo "2 current line $noDate"
+#        echo "2 current line $noDate"
 
         # remove value 
-        echo "sed -i '' \"/$noDate/d\" $fileToDo"
+#        echo "sed -i '' \"/$noDate/d\" $fileToDo"
         sed -i '' "/$noDate/d" $fileToDo
-      
-        # move value
-        echo "$currentDate: ${modeTag}${lastSave}${noDate}" >> $fileToDo
+
+        # if relative date find relative date
+        if [[ ! $modeAbsolute ]]; then
+          echo "dDate operation |$lastDateChangeValue|"
+          echo "dgetdate \"$lastDateChangeValue\" $doDate"
+          currentDate=$(dgetdate "$lastDateChangeValue" $doDate)
+        fi
+        echo "$currentDate ${modeTag}${lastSave}${noDate}" >> $fileToDo
+
       done < $fileOutput
 
       sort -o $fileToDo $fileToDo
@@ -144,12 +137,26 @@ function d() {
 
   elif [[ $targetString ]]; then
 
-    echo "$currentDate: ${modeTag}${lastSave}${targetString}" >> $fileToDo
+    echo "$currentDate ${modeTag}${lastSave}${targetString}" >> $fileToDo
     sort -o $fileToDo $fileToDo
 
   fi
 
-  cat $fileToDo
+  # do listing
+  local currentPointer='t'
+  while read line; do
+    doDate=$(echo "$line" | awk '{print $1 }')
+    
+    if [[ ("$doDate" == "$currentDateStatic") || ("$doDate" > "$currentDateStatic") ]]; then 
+
+      if [[ $currentPointer ]]; then
+        echo "🯁🯂🯃 >>>>>>>> $currentDateStatic <<<<<<<<"
+      fi
+      currentPointer=''
+    fi
+    echo "$line"
+
+  done < $fileToDo
 
 }
 
@@ -202,12 +209,6 @@ function dx() {
 
 }
 
-# todo move to another date
-function dv() {
-  
-
-}
-
 function dsetting() {
 
   local modeSetting=''
@@ -238,25 +239,29 @@ function dsetting() {
 function dreminder() {
 
   local today=$(date "+%y%m%d%H")
+  today=$(date "+%y%m%d%H%M")
+
   local fileDo="/tmp/do-$today"
   local shouldDisplay=$(dsetting)
-
+  local onVideo=$(ps aux | grep -i "zoom.us.app\|Microsoft Teams.app" | wc -l)
 #  echo "shouldDisplay $shouldDisplay"
- 
+
   if [[ $shouldDisplay ]]; then
     
-    if [[ $# -gt 0 ]]; then
-      d
-      return 
+    if [[ onVideo -gt 1 ]]; then 
+      echo "Zoom / MS Teams detected."
+      return
+    else
+      if [[ $# -gt 0 ]]; then
+        d
+        return 
+      fi
+
+      if [[ ! -f $fileDo ]]; then
+        d
+        echo "touched $fileDo" > $fileDo
+      fi
     fi
-
-    if [[ ! -f $fileDo ]]; then
-       
-      d
-      echo "touched $fileDo" > $fileDo
-
-    fi
-
   fi
 
 }
