@@ -120,6 +120,7 @@ require('lazy').setup({
     -- syntax zellij
     --{ 'imsnif/kdl.vim' },
 
+-- PROBLEM
     -- search
     { 'junegunn/fzf', build = './install --bin', }, -- setup snippet engine
     { 'junegunn/fzf.vim' },
@@ -132,15 +133,17 @@ require('lazy').setup({
     --{ 'tpope/vim-abolish' }, -- change variables.  abolish: change part of text, subvert substitution with parts of word, coercion change variable cases
 
     { 'airblade/vim-gitgutter', config = function() require('gitgutter').setup() end }, -- Git gutter.  Different than fugitive
-
-    { 'vim-airline/vim-airline', config = function() require('airline').setup() end },
-    --{ 'feline-nvim/feline.nvim',  branch = '0.5-compat', config = function() require('lua-feline').setup() require('feline').winbar.setup() end, }, -- using airline
+    { 'nvim-lualine/lualine.nvim', dependencies = { 'nvim-tree/nvim-web-devicons' }, config = function() require('lua-line').setup() end  },
+    { 'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons', config = function() require('lua-bufferline').setup() end },
     { 'godlygeek/tabular' }, -- sort table values
+
 
     -- coc for preview
 
     { 'neoclide/coc.nvim', branch = 'release' },
     { 'iamcco/markdown-preview.nvim', build = 'cd app && yarn install' },
+
+-- PROBLEM
 
 --    { '3rd/image.nvim', config = function() require('image-lua').setup() end },
 --    { '3rd/diagram.nvim',
