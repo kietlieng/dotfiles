@@ -137,9 +137,10 @@ prompt_pure_preprompt_render() {
 	# Initialize the preprompt array.
 	local -a preprompt_parts
 
-
   if [[ $KL_PURE_THEME_ENABLE == "True" ]]; then
      preprompt_parts+='%(?.%F{$KL_PURE_EMOJI_SUCCESS_COLOR}.%F{$KL_PURE_EMOJI_ERROR_COLOR})${PURE_EMOJI}%f'
+#     preprompt_parts+='%(?.%F{$KL_PURE_EMOJI_SUCCESS_COLOR}.%F{$KL_PURE_EMOJI_ERROR_COLOR})\033[0;31m.${PURE_EMOJI}\033[0m)'
+#		 preprompt_parts+="%(?.%F\\033[0;31m.%Fxx\033[0m)"
   fi
 
 	# Suspended jobs in background.

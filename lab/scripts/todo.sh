@@ -125,13 +125,13 @@ function d() {
 
         # remove value 
 #        sed -i '' "/$noDate/d" $FILE_TODO
-        echo "sed -i '' \"/$line/d\" $FILE_TODO"
+#        echo "sed -i '' \"/$line/d\" $FILE_TODO"
         sed -i '' "/$line/d" $FILE_TODO
 
         # if relative date find relative date
         if [[ ! $modeAbsolute ]]; then
-          echo "dDate operation |$lastDateChangeValue|"
-          echo "dgetdate \"$lastDateChangeValue\" $doDate"
+#          echo "dDate operation |$lastDateChangeValue|"
+#          echo "dgetdate \"$lastDateChangeValue\" $doDate"
           currentDate=$(dgetdate "$lastDateChangeValue" $doDate)
         fi
         echo "$currentDate ${modeTag}${lastSave}${noDate}" >> $FILE_TODO
@@ -142,7 +142,7 @@ function d() {
 
     fi
 
-    return
+#    return
 
   elif [[ $targetString ]]; then
 
@@ -152,23 +152,6 @@ function d() {
   fi
 
   dlist "$currentDateStatic"
-#  dprint
-
-#  # do listing
-#  local currentPointer='t'
-#  while read line; do
-#    doDate=$(echo "$line" | awk '{print $1 }')
-#    
-#    if [[ ("$doDate" == "$currentDateStatic") || ("$doDate" > "$currentDateStatic") ]]; then 
-#
-#      if [[ $currentPointer ]]; then
-#        echo "\n\033[0;31m  󱅼 🯁🯂🯃  >>>>>>>> $currentDateStatic <<<<<<<<  󰭥 󱩁 \033[0m\n"
-#      fi
-#      currentPointer=''
-#    fi
-#    echo "$line"
-#
-#  done < $FILE_TODO
 
 }
 
@@ -184,11 +167,11 @@ function dlist() {
     if [[ ("$doDate" == "$currentDateStatic") || ("$doDate" > "$currentDateStatic") ]]; then 
 
       if [[ $currentPointer ]]; then
-        echo "\n\033[0;31m  󱅼 🯁🯂🯃  >>>>>>>> $currentDateStatic <<<<<<<<  󰭥 󱩁 \033[0m\n"
+        echo "\033[0;32m󱅼 🯁🯂🯃    >>>>>>>> $currentDateStatic <<<<<<<<  󰭥 󱩁 \033[0m"
       fi
       currentPointer=''
     fi
-    dprint -date "$doDate" -content "$doContent"
+    dprint "$doDate" "$doContent"
 #    echo "$line"
 
   done < $FILE_TODO
@@ -198,8 +181,8 @@ function dlist() {
 # 
 function dprint() {
   
-  local argDate=""
-  local argContent=""
+  local modeDate="$1"
+  local modeContent="$2"
 
   local modeColor=''
   local key=''
@@ -207,57 +190,57 @@ function dprint() {
   declare -A dColors
 
   dColors=( 
-    ["red"]="\033[0;31m" 
-    ["clear"]="\033[0m"
     ["black"]="\033[0;30m"
-    ["dgray"]="1;30m"
-    ["lred"]="\033[1;31m"
+    ["red"]="\033[0;31m" 
     ["green"]="\033[0;32m"
-    ["lgreen"]="\033[1;32m"
-    ["orange"]="\033[0;33m"
     ["yellow"]="\033[1;33m"
     ["blue"]="\033[0;34m"
-    ["lblue"]="\033[1;34m"
-    ["purple"]="\033[0;35m"
-    ["lpurple"]="\033[1;35m"
+    ["magenta"]="\033[0;35m"
     ["cyan"]="\033[0;36m"
-    ["lcyan"]="\033[1;36m"
-    ["lgray"]="\033[0;37m"
     ["white"]="\033[1;37m"
+    ["lblack"]="1;90m"
+    ["lred"]="\033[1;91m"
+    ["lgreen"]="\033[1;92m"
+    ["lyellow"]="\033[0;93m"
+    ["lblue"]="\033[1;94m"
+    ["lmagenta"]="\033[1;95m"
+    ["lcyan"]="\033[1;96m"
+    ["white"]="\033[1;97m"
+    ["clear"]="\033[0m"
   )
 
-  while [[ $# -gt 0 ]]; do
 
-    key="$1"
-    shift
-
-    case "$key" in
-      '-date') modeDate="$1"; shift ;;
-      '-content') modeContent="$1"; shift ;;
-      *) ;;
-    esac
-
-  done
+  # eisenhower-matrix
+  #                urgent      Not urgent
+  #                          |
+  # important      DO        |   SCHEDULE
+  #               -----------|----------
+  # not important  DELEGATE  |   DELETE
+  #                          | 
 
   messageOutput="$modeDate "
-  if [[ $(echo "$modeContent" | grep "PLACES\|PAUSE") ]]; then
-    messageOutput="${messageOutput}${dColors[red]}"
-  elif [[ $(echo "$modeContent" | grep "MEDICAL") ]]; then
-    messageOutput="${messageOutput}${dColors[orange]}"
-  elif [[ $(echo "$modeContent" | grep "TRIP") ]]; then
-    messageOutput="${messageOutput}${dColors[cyan]}"
-  elif [[ $(echo "$modeContent" | grep "TAX") ]]; then
-    messageOutput="${messageOutput}${dColors[purple]}"
-  elif [[ $(echo "$modeContent" | grep "wife") ]]; then
-    messageOutput="${messageOutput}${dColors[lgreen]}"
-  elif [[ $(echo "$modeContent" | grep "BDAY") ]]; then
-    messageOutput="${messageOutput}${dColors[yellow]}"
-  elif [[ $(echo "$modeContent" | grep "accord") ]]; then
-    messageOutput="${messageOutput}${dColors[blue]}"
+  if [[ $(dgrep "TASK" "$modeContent") ]]; then
+    messageOutput="${messageOutput}${dColors[red]}" # have to be here and have to go 
+  elif [[ $(dgrep "MED" "$modeContent") ]]; then
+    messageOutput="${messageOutput}${dColors[lred]}" # immediate attention
+  elif [[ $(dgrep "BDAY" "$modeContent") ]]; then
+    messageOutput="${messageOutput}${dColors[yellow]}" # secondary attention
+  elif [[ $(dgrep "TAX\|TRIP" "$modeContent") ]]; then 
+    messageOutput="${messageOutput}${dColors[magenta]}" # firm dates that can't be moved
+  elif [[ $(dgrep "ASK" "$modeContent") ]]; then
+    messageOutput="${messageOutput}${dColors[lcyan]}" # mundane logistics that need to take care of immediately
+  elif [[ $(dgrep "CAR" "$modeContent") ]]; then
+    messageOutput="${messageOutput}${dColors[blue]}" # mundane logistics but need to take care of
+  elif [[ $(dgrep "PLAN\|PLACE\|PAUSE" "$modeContent") ]]; then
+    messageOutput="${messageOutput}${dColors[green]}" # Need to attend but somewhat optional
   fi
   messageOutput="${messageOutput}${modeContent}${dColors[clear]}"
   echo "$messageOutput"
 
+}
+
+function dgrep() {
+  echo "$2" | grep -m 1 "$1"
 }
 
 function da() {
@@ -333,21 +316,22 @@ function dsetting() {
 
 function dreminder() {
 
-  local currentMinute=$(date "+%M")
-  currentMinute=$((currentMinute / 30))
+#  local currentMinute=$(date "+%M")
+#  currentMinute=$((currentMinute / 30))
+  currentMinute=0
 
+#  echo "currentMinute $currentMinute"
   local today=$(date "+%y%m%d%H")
   today="${today}${currentMinute}"
 
-  local fileDo="$DIRECTORY_TODO/do-$today"
-
-#  echo "$fileDo"
   local shouldDisplay=$(dsetting)
-  local onVideo=$(ps aux | grep -i "zoom.us.app\|Microsoft Teams.app" | wc -l)
-#  echo "shouldDisplay $shouldDisplay"
 
   if [[ $shouldDisplay ]]; then
     
+    local fileDo="$DIRECTORY_TODO/do-$today"
+    #  echo "$fileDo"
+    local onVideo=$(ps aux | grep -i "zoom.us.app\|Microsoft Teams.app" | wc -l)
+    #  echo "shouldDisplay $shouldDisplay"
     if [[ onVideo -gt 1 ]]; then 
       echo "Zoom / MS Teams detected."
       return
