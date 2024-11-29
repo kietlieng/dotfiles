@@ -1,14 +1,14 @@
 alias don="dsetting on"
 alias doff="dsetting off"
 
+export DATE_FORMAT_TODO='%y-%m-%d'
+
 function dgetdate() {
 
   # date -j -v +1d -f "%y/%m/%d" "$currentDate" "+%Y-%m-%d"
 
-  local formatDate='%y-%m-%d'
-  local formatDate2='+%y-%m-%d'
   if [[ $# -eq 0 ]]; then
-    date  "+$formatDate"
+    date  "+$DATE_FORMAT_TODO"
     return
   fi
 
@@ -16,15 +16,13 @@ function dgetdate() {
   local targetDate="$2"
 
   # tranform date based on current
-  #echo "date -j -v \"$1\" -f \"$formatDate\" \"$2\" \"$formatDate2\""
-  date -j -v "$targetChange" -f "$formatDate" "$targetDate" "$formatDate2"
+  #echo "date -j -v \"$1\" -f \"$DATE_FORMAT_TODO\" \"$2\" \"+$DATE_FORMAT_TODO\""
+  date -j -v "$targetChange" -f "$DATE_FORMAT_TODO" "$targetDate" "+$DATE_FORMAT_TODO"
 
 }
 
 # todo
 function d() {
-
-  local formatDate='+%y-%m-%d'
 
   local currentDateStatic=$(dgetdate)
   local currentDate=$currentDateStatic
@@ -42,8 +40,6 @@ function d() {
   local dateValue=''
   local lastDateChangeValue=''
 #  echo "$currentDate"
-
-  # date -j -v +1d -f "%y/%m/%d" "$currentDate" "+%Y-%m-%d"
 
   local key=''
 
@@ -108,7 +104,7 @@ function d() {
   # not add but search search
   if [[ ! $modeAdd ]] && [[ $targetSearch ]]; then
 
-    becho "searching |$targetSearch|"
+#    becho "searching |$targetSearch|"
     grep -hi "$targetSearch" $FILE_TODO
 
     if [[ "$currentDate" != "$currentDateStatic" ]]; then
@@ -142,6 +138,7 @@ function d() {
 
     fi
 
+    echo ""
 #    return
 
   elif [[ $targetString ]]; then
@@ -158,6 +155,8 @@ function d() {
 function dlist() {
 
   local currentDateStatic="$1"
+  local modeDayOfWeek=$(date -j -f "$DATE_FORMAT_TODO" "$currentDateStatic" "+%A" | cut -c-3)
+
   # do listing
   local currentPointer='t'
   while read line; do
@@ -167,7 +166,8 @@ function dlist() {
     if [[ ("$doDate" == "$currentDateStatic") || ("$doDate" > "$currentDateStatic") ]]; then 
 
       if [[ $currentPointer ]]; then
-        echo "\033[0;32m󱅼 🯁🯂🯃    >>>>>>>> $currentDateStatic <<<<<<<<  󰭥 󱩁 \033[0m"
+        dprint "$currentDateStatic" "\033[0;32m󱅼 🯁🯂🯃 $modeDayOfWeek >>>>>>>> $currentDateStatic <<<<<<<< 󰭥 󱩁 \033[0m" "print"
+#        echo "\033[0;32m󱅼 🯁🯂🯃    $modeDayOfWeek >>>>>>>> $currentDateStatic <<<<<<<<  󰭥 󱩁 \033[0m"
       fi
       currentPointer=''
     fi
@@ -183,6 +183,12 @@ function dprint() {
   
   local modeDate="$1"
   local modeContent="$2"
+  local modeJustPrint="$3"
+
+#  echo "date -j -f \"$DATE_FORMAT_TODO\" \"$modeDate\" \"+%A\" | cut -c-3"
+  local modeDayOfWeek=$(date -j -f "$DATE_FORMAT_TODO" "$modeDate" "+%A" | cut -c-3)
+#  return;
+  
 
   local modeColor=''
   local key=''
@@ -218,8 +224,11 @@ function dprint() {
   # not important  DELEGATE  |   DELETE
   #                          | 
 
-  messageOutput="$modeDate "
-  if [[ $(dgrep "TASK" "$modeContent") ]]; then
+  messageOutput="$modeDate [$modeDayOfWeek] "
+
+  if [[ $modeJustPrint ]]; then
+    messageOutput="${messageOutput}" # have to be here and have to go 
+  elif [[ $(dgrep "TASK" "$modeContent") ]]; then
     messageOutput="${messageOutput}${dColors[red]}" # have to be here and have to go 
   elif [[ $(dgrep "MED" "$modeContent") ]]; then
     messageOutput="${messageOutput}${dColors[lred]}" # immediate attention
@@ -231,7 +240,7 @@ function dprint() {
     messageOutput="${messageOutput}${dColors[lcyan]}" # mundane logistics that need to take care of immediately
   elif [[ $(dgrep "CAR" "$modeContent") ]]; then
     messageOutput="${messageOutput}${dColors[blue]}" # mundane logistics but need to take care of
-  elif [[ $(dgrep "PLAN\|PLACE\|PAUSE" "$modeContent") ]]; then
+  elif [[ $(dgrep "PLAN\|PLACE\|PAUSE\|FYI" "$modeContent") ]]; then
     messageOutput="${messageOutput}${dColors[green]}" # Need to attend but somewhat optional
   fi
   messageOutput="${messageOutput}${modeContent}${dColors[clear]}"
