@@ -1,4 +1,5 @@
 alias don="dsetting on"
+alias ddone="d -done"
 alias doff="dsetting off"
 
 export DATE_FORMAT_TODO='%y-%m-%d'
@@ -27,6 +28,7 @@ function d() {
   local currentDateStatic=$(dgetdate)
   local currentDate=$currentDateStatic
 
+  local currentToDo=$FILE_TODO
   local lastSave=''
   local modeAbsolute=''
   local modeAdd=''
@@ -50,7 +52,8 @@ function d() {
 
     case "$key" in
 
-      '-move') modeMove='t';;
+      '-move') modeMove='t' ;;
+      '-done') currentToDo=$FILE_TODO_DONE ;;
       '-tag') modeTag=$(echo "$1 " |  tr '[:lower:]' '[:upper:]'); shift ;;
       '-add') modeAdd='t';;
       '-date') currentDate="$1"; shift ;;
@@ -105,11 +108,11 @@ function d() {
   if [[ ! $modeAdd ]] && [[ $targetSearch ]]; then
 
 #    becho "searching |$targetSearch|"
-    grep -hi "$targetSearch" $FILE_TODO
+    grep -hi "$targetSearch" $currentToDo
 
     if [[ "$currentDate" != "$currentDateStatic" ]]; then
       
-      grep -hi "$targetSearch" $FILE_TODO > $FILE_TODO_OUTPUT
+      grep -hi "$targetSearch" $currentToDo > $FILE_TODO_OUTPUT
 
       local noDate=""
       while read line; do
@@ -120,9 +123,9 @@ function d() {
 #        echo "2 current line $noDate"
 
         # remove value 
-#        sed -i '' "/$noDate/d" $FILE_TODO
-#        echo "sed -i '' \"/$line/d\" $FILE_TODO"
-        sed -i '' "/$line/d" $FILE_TODO
+#        sed -i '' "/$noDate/d" $currentToDo
+#        echo "sed -i '' \"/$line/d\" $currentToDo"
+        sed -i '' "/$line/d" $currentToDo
 
         # if relative date find relative date
         if [[ ! $modeAbsolute ]]; then
@@ -130,11 +133,11 @@ function d() {
 #          echo "dgetdate \"$lastDateChangeValue\" $doDate"
           currentDate=$(dgetdate "$lastDateChangeValue" $doDate)
         fi
-        echo "$currentDate ${modeTag}${lastSave}${noDate}" >> $FILE_TODO
+        echo "$currentDate ${modeTag}${lastSave}${noDate}" >> $currentToDo
 
       done < $FILE_TODO_OUTPUT
 
-      sort -o $FILE_TODO $FILE_TODO
+      sort -o $currentToDo $currentToDo
 
     fi
 
@@ -143,18 +146,24 @@ function d() {
 
   elif [[ $targetString ]]; then
 
-    echo "$currentDate ${modeTag}${lastSave}${targetString}" >> $FILE_TODO
-    sort -o $FILE_TODO $FILE_TODO
+    echo "$currentDate ${modeTag}${lastSave}${targetString}" >> $currentToDo
+    sort -o $currentToDo $currentToDo
 
   fi
 
-  dlist "$currentDateStatic"
+  dlist "$currentDateStatic" $currentToDo
 
 }
 
 function dlist() {
 
   local currentDateStatic="$1"
+  local currentToDo="$FILE_TODO"
+  
+  if [[ $2 ]]; then
+    currentToDo="$2"
+  fi
+
   local modeDayOfWeek=$(date -j -f "$DATE_FORMAT_TODO" "$currentDateStatic" "+%A" | cut -c-3)
 
   # do listing
@@ -174,7 +183,7 @@ function dlist() {
     dprint "$doDate" "$doContent"
 #    echo "$line"
 
-  done < $FILE_TODO
+  done < $currentToDo
 
 }
 
@@ -224,7 +233,7 @@ function dprint() {
   # not important  DELEGATE  |   DELETE
   #                          | 
 
-  messageOutput="$modeDate [$modeDayOfWeek] "
+  messageOutput="[$modeDayOfWeek] $modeDate "
 
   if [[ $modeJustPrint ]]; then
     messageOutput="${messageOutput}" # have to be here and have to go 
@@ -278,8 +287,8 @@ function dx() {
 
   local doValues=$(cat $FILE_TODO | fzf -m --ansi --color fg:-1,bg:-1,hl:46,fg+:40,bg+:233,hl+:46 --color prompt:166,border:46 --height 75%  --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ " --bind "change:execute(echo {q} > $queryFile)" --query "$defaultQuery")
 
-  echo "$doValues" >> $FILE_TODO_OUTPUT
-  echo "$doValues" > $FILE_TODO_DONE
+  echo "$doValues" >> $FILE_TODO_DONE
+  echo "$doValues" > $FILE_TODO_OUTPUT
   
   while read line; do
     echo "$line"
