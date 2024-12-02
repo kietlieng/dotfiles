@@ -318,9 +318,15 @@ unicode_blocks = {
     "Supplemental Symbols and Pictographs": (0x1F900, 0x1F9FF),
     "Chess Symbols": (0x1FA00, 0x1FA6F),
     "Symbols and Pictographs Extended-A": (0x1FA70, 0x1FAFF),
+
+
+    # kreative font
     "Symbols for Legacy Computing": (0x1FB00, 0x1FBFF),
     "Symbols for Legacy Computing Supplement": (0x1CC00, 0x1CEBF),
     "Symbols for Legacy Computing Appendix": (0xFFC00, 0xFFCFF),
+    "Block Sextants (Compatible with ZVBI)": (0xEE00, 0xEE7F ),
+    "Block Sextants (Compatible with Unscii)": (0xEE80, 0xEEFF),
+    "Hex Byte Pictures": (0xEF00, 0xEFFF), 
     "Modular Font Elements": (0xF000, 0xF0FF),
     "Modular Font Elements Extended": (0xF100, 0xF1FF),
     "Box Drawing Extended": (0xF200, 0xF20F),
@@ -329,9 +335,14 @@ unicode_blocks = {
     "Sixel Graphics": (0xF280, 0xF2BF),
     "Block Sextants": (0xF2C0, 0xF2FF),
     "Block Octants": (0xF300, 0xF3FF),
-    "Kreative Software Private Use Area 1": (0xF600, 0xF61F), 
-    "Kreative Software Private Use Area 2": (0xF700, 0xF7FF), 
-    "Kreative Software Private Use Area 3": (0xF800, 0xF89F), 
+    "C1 Control Pictures": (0xF400, 0xF43F), 
+    "C64-OS Symbols": (0xF590, 0xF5BF), 
+    "Commander X16 Symbols": (0xF5C0, 0xF5FF), 
+    "Kreative Software Private Use-F6": (0xF600, 0xF61F), 
+    "Apple MouseText Characters": (0xF680, 0xF69F), 
+    "Kreative Software Private Use-F7": (0xF700, 0xF7FF), 
+    "Kreative Software Private Use-F8": (0xF800, 0xF89F), 
+    "Klingon": (0xF8D0, 0xF8FF), 
     "Kreative Software Private Use Area 4": (0xFF000, 0xFF0FF), 
     "Kreative Software Private Use Area 5": (0xFF100, 0xFF1FF), 
     "Seven-Segment Display Patterns": (0xFF700, 0xFF7FF), 
@@ -347,6 +358,7 @@ unicode_blocks = {
 #    "CJK Unified Ideographs Extension H": (0x31350, 0x323AF), # useless
 #    "Tags": (0xE0000, 0xE007F), # blank
 #    "Variation Selectors Supplement": (0xE0100, 0xE01EF), # blank
+
     "Supplementary Private Use Area-A": (0xF0000, 0xFFFFF),
     "Supplementary Private Use Area-B": (0x100000, 0x10FFFF), # not filled out at all
 
