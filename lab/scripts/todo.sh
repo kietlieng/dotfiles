@@ -63,9 +63,12 @@ function d() {
       '-abs') modeAbsolute='t';;
 
       # single
-      '-1' ) 
-        lastDateChangeValue="${modeSub}1" 
+      '-1' | '-2' | '-3' | '-4' | '-5' | '-6' | '-7' | '-8' | '-9' | '-10' | '-11' | '-12' | '-13' | '-14' | '-15' | '-16' | '-17' | '-18' | '-19' | '-20' | '-21' | '-22' | '-23' | '-24' | '-25' | '-26' | '-27' | '-28' | '-29' | '-30' | '-31')
+        dateValue=$(echo "$key" | cut -c2-)
+        lastDateChangeValue="${modeSub}${dateValue}d" 
+        echo "dgetdate \"$lastDateChangeValue\" \"$currentDate\""
         currentDate=$(dgetdate "$lastDateChangeValue" "$currentDate")
+        echo "current Date $currentDate"
         ;;
 
       # single
@@ -168,19 +171,22 @@ function dlist() {
 
   # do listing
   local currentPointer='t'
+  local pastDue=''
   while read line; do
     doDate=$(echo "$line" | awk '{print $1 }')
     doContent=$(echo "$line" | awk '{for(i=2; i<=NF; i++) printf $i (i==NF ? "\n" : OFS)}')
     
+    pastDue='t'
     if [[ ("$doDate" == "$currentDateStatic") || ("$doDate" > "$currentDateStatic") ]]; then 
 
       if [[ $currentPointer ]]; then
-        dprint "$currentDateStatic" "\033[0;32m󱅼 🯁🯂🯃 $modeDayOfWeek >>>>>>>> $currentDateStatic <<<<<<<< 󰭥 󱩁 \033[0m" "print"
-#        echo "\033[0;32m󱅼 🯁🯂🯃    $modeDayOfWeek >>>>>>>> $currentDateStatic <<<<<<<<  󰭥 󱩁 \033[0m"
+        dprint "$currentDateStatic" "\e[0;32m󱅼 🯁🯂🯃 $modeDayOfWeek >>>>>>>> $currentDateStatic <<<<<<<< 󰭥 󱩁 \e[0m" "print"
+#        echo "\e[0;32m󱅼 🯁🯂🯃    $modeDayOfWeek >>>>>>>> $currentDateStatic <<<<<<<<  󰭥 󱩁 \e[0m"
       fi
       currentPointer=''
+      pastDue=''
     fi
-    dprint "$doDate" "$doContent"
+    dprint "$doDate" "$doContent" "" "$pastDue"
 #    echo "$line"
 
   done < $currentToDo
@@ -193,6 +199,7 @@ function dprint() {
   local modeDate="$1"
   local modeContent="$2"
   local modeJustPrint="$3"
+  local modePastDue="$4"
 
 #  echo "date -j -f \"$DATE_FORMAT_TODO\" \"$modeDate\" \"+%A\" | cut -c-3"
   local modeDayOfWeek=$(date -j -f "$DATE_FORMAT_TODO" "$modeDate" "+%A" | cut -c-3)
@@ -203,25 +210,64 @@ function dprint() {
   local key=''
 
   declare -A dColors
+  declare -A dSedBackgroundColors
+  declare -A dSedColors
 
   dColors=( 
-    ["black"]="\033[0;30m"
-    ["red"]="\033[0;31m" 
-    ["green"]="\033[0;32m"
-    ["yellow"]="\033[1;33m"
-    ["blue"]="\033[0;34m"
-    ["magenta"]="\033[0;35m"
-    ["cyan"]="\033[0;36m"
-    ["white"]="\033[1;37m"
-    ["lblack"]="1;90m"
-    ["lred"]="\033[1;91m"
-    ["lgreen"]="\033[1;92m"
-    ["lyellow"]="\033[0;93m"
-    ["lblue"]="\033[1;94m"
-    ["lmagenta"]="\033[1;95m"
-    ["lcyan"]="\033[1;96m"
-    ["white"]="\033[1;97m"
-    ["clear"]="\033[0m"
+
+    ['black']='\e[0;30m'    # -1
+    ['red']='\e[0;31m'      # 1
+    ['green']='\e[0;32m'    # 4
+    ['yellow']='\e[1;33m'   # 3
+    ['blue']='\e[0;34m'     # 5
+    ['magenta']='\e[0;35m'  # 2
+    ['cyan']='\e[0;36m'     # 6
+    ['white']='\e[1;37m'    # NA
+    ['lblack']='\e[1;90m'        # -1
+    ['lred']='\e[1;91m'     # 1
+    ['lgreen']='\e[1;92m'   # 4
+    ['lyellow']='\e[0;93m'  # 3
+    ['lblue']='\e[1;94m'    # 5
+    ['lmagenta']='\e[1;95m' # 2
+    ['lcyan']='\e[1;96m'    # 6
+    ['lwhite']='\e[1;97m'   # na
+    ['clear']='\e[0m'       # clear
+
+  )
+
+  dSedColors=( 
+
+    ['black']='\\e\[0;30m'    # -1
+    ['red']='\\e\[0;31m'      # 1
+    ['green']='\\e\[0;32m'    # 4
+    ['yellow']='\\e\[1;33m'   # 3
+    ['blue']='\\e\[0;34m'     # 5
+    ['magenta']='\\e\[0;35m'  # 2
+    ['cyan']='\\e\[0;36m'     # 6
+    ['white']='\\e\[1;37m'    # NA
+    ['lblack']='\\e[1;90m'        # -1
+    ['lred']='\\e\[1;91m'     # 1
+    ['lgreen']='\\e\[1;92m'   # 4
+    ['lyellow']='\\e\[0;93m'  # 3
+    ['lblue']='\\e\[1;94m'    # 5
+    ['lmagenta']='\\e\[1;95m' # 2
+    ['lcyan']='\\e\[1;96m'    # 6
+    ['lwhite']='\\e\[1;97m'   # na
+    ['clear']='\\e\[0m'       # clear
+
+  )
+
+  dSedBackgroundColors=( 
+
+    ['black']='\\e\[40m'   # -1
+    ['red']='\\e\[41m'      # 1
+    ['green']='\\e\[42m'    # 4
+    ['yellow']='\\e\[43m'   # 3
+    ['blue']='\\e\[44m'     # 5
+    ['magenta']='\\e\[45m'  # 2
+    ['cyan']='\\e\[46m'     # 6
+    ['white']='\\e\[47m'    # NA
+
   )
 
 
@@ -233,24 +279,28 @@ function dprint() {
   # not important  DELEGATE  |   DELETE
   #                          | 
 
+  modeContent=$(echo "$modeContent" | sed "s/ANSWER/ANSWER${dSedColors[lcyan]}${dSedBackgroundColors[black]}/g")
   messageOutput="[$modeDayOfWeek] $modeDate "
+#  echo "blah $modePastDue"
 
   if [[ $modeJustPrint ]]; then
     messageOutput="${messageOutput}" # have to be here and have to go 
-  elif [[ $(dgrep "TASK" "$modeContent") ]]; then
+  elif [[ $(dgrep "TASK" "$modeContent") || $modePastDue ]]; then
     messageOutput="${messageOutput}${dColors[red]}" # have to be here and have to go 
   elif [[ $(dgrep "MED" "$modeContent") ]]; then
     messageOutput="${messageOutput}${dColors[lred]}" # immediate attention
   elif [[ $(dgrep "BDAY" "$modeContent") ]]; then
-    messageOutput="${messageOutput}${dColors[yellow]}" # secondary attention
+    messageOutput="${messageOutput}${dColors[lyellow]}" # secondary attention
   elif [[ $(dgrep "TAX\|TRIP" "$modeContent") ]]; then 
-    messageOutput="${messageOutput}${dColors[magenta]}" # firm dates that can't be moved
+    messageOutput="${messageOutput}${dColors[lmagenta]}" # firm dates that can't be moved
   elif [[ $(dgrep "ASK" "$modeContent") ]]; then
     messageOutput="${messageOutput}${dColors[lcyan]}" # mundane logistics that need to take care of immediately
-  elif [[ $(dgrep "CAR" "$modeContent") ]]; then
-    messageOutput="${messageOutput}${dColors[blue]}" # mundane logistics but need to take care of
+  elif [[ $(dgrep "CAR\|MON" "$modeContent") ]]; then
+    messageOutput="${messageOutput}${dColors[lblue]}" # mundane logistics but need to take care of
+  elif [[ $(dgrep "FOOD\|BUY" "$modeContent") ]]; then
+    messageOutput="${messageOutput}${dColors[white]}" 
   elif [[ $(dgrep "PLAN\|PLACE\|PAUSE\|FYI" "$modeContent") ]]; then
-    messageOutput="${messageOutput}${dColors[green]}" # Need to attend but somewhat optional
+    messageOutput="${messageOutput}${dColors[lgreen]}" # Need to attend but somewhat optional
   fi
   messageOutput="${messageOutput}${modeContent}${dColors[clear]}"
   echo "$messageOutput"
@@ -263,7 +313,6 @@ function dgrep() {
 
 function da() {
 
-  echo "d -add $@"
   d -add $@
 
 }
@@ -272,13 +321,13 @@ function da() {
 # todo done and move
 function dx() {
 
-  local hashDir=$(md5 -q -s $(pwd)) 
-	local queryFile="/tmp/do-$hashDir" 
+#  local hashDir=$(md5 -q -s $(pwd)) 
+#	local queryFile="/tmp/do-$hashDir" 
 	local defaultQuery='' 
 
-	if [[ -f $queryFile ]]; then
-		defaultQuery=$(cat $queryFile) 
-	fi
+#	if [[ -f $queryFile ]]; then
+#		defaultQuery=$(cat $queryFile) 
+#	fi
 
 	if [[ $# -gt 0 ]]; then
 		defaultQuery=$1 

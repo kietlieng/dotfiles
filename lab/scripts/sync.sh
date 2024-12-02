@@ -54,7 +54,6 @@ function cpdot() {
     cp -rf ~/.config/tmux $dConfigDir/.
     cp -rf ~/.config/nvim $dConfigDir/.
     cp -rf ~/.config/skhd $dConfigDir/.
-    rm -rf $dConfigDir/nvim/init.lua.*
 
     cp -rf ~/lab/scripts/calls $dScriptDir/.
     cp -rf ~/lab/scripts/tmuxp $dScriptDir/.
@@ -62,8 +61,15 @@ function cpdot() {
     cp -rf ~/lab/scripts/plot $dScriptDir/.
     cp -rf ~/lab/scripts/python $dScriptDir/.
     cp -rf ~/lab/scripts/zlast $dScriptDir/.
+    cp -rf ~/lab/scripts/deprecated $dScriptDir/.
 
     cp ~/.oh-my-zsh/themes/pure/pure.zsh $dPure/.
+
+
+    rm -rf $dConfigDir/nvim/init.lua.*
+    rm -rf $dConfigDir/kitty/kitty.conf.*
+
+
 
     find $sourceScript -maxdepth 1 -type f  -iname "*.sh" -exec cp {} ${dScriptDir}/. \;
 

@@ -319,6 +319,23 @@ unicode_blocks = {
     "Chess Symbols": (0x1FA00, 0x1FA6F),
     "Symbols and Pictographs Extended-A": (0x1FA70, 0x1FAFF),
     "Symbols for Legacy Computing": (0x1FB00, 0x1FBFF),
+    "Symbols for Legacy Computing Supplement": (0x1CC00, 0x1CEBF),
+    "Symbols for Legacy Computing Appendix": (0xFFC00, 0xFFCFF),
+    "Modular Font Elements": (0xF000, 0xF0FF),
+    "Modular Font Elements Extended": (0xF100, 0xF1FF),
+    "Box Drawing Extended": (0xF200, 0xF20F),
+    "Fill Patterns": (0xF210, 0xF23F),
+    "Shade Quadrants": (0xF240, 0xF27F),
+    "Sixel Graphics": (0xF280, 0xF2BF),
+    "Block Sextants": (0xF2C0, 0xF2FF),
+    "Block Octants": (0xF300, 0xF3FF),
+    "Kreative Software Private Use Area 1": (0xF600, 0xF61F), 
+    "Kreative Software Private Use Area 2": (0xF700, 0xF7FF), 
+    "Kreative Software Private Use Area 3": (0xF800, 0xF89F), 
+    "Kreative Software Private Use Area 4": (0xFF000, 0xFF0FF), 
+    "Kreative Software Private Use Area 5": (0xFF100, 0xFF1FF), 
+    "Seven-Segment Display Patterns": (0xFF700, 0xFF7FF), 
+
 #    "CJK Unified Ideographs Extension B": (0x20000, 0x2A6DF),
 #    "CJK Unified Ideographs Extension C": (0x2A700, 0x2B73F),
 #    "CJK Unified Ideographs Extension D": (0x2B740, 0x2B81F),
@@ -331,7 +348,7 @@ unicode_blocks = {
 #    "Tags": (0xE0000, 0xE007F), # blank
 #    "Variation Selectors Supplement": (0xE0100, 0xE01EF), # blank
     "Supplementary Private Use Area-A": (0xF0000, 0xFFFFF),
-#    "Supplementary Private Use Area-B": (0x100000, 0x10FFFF), # not filled out at all
+    "Supplementary Private Use Area-B": (0x100000, 0x10FFFF), # not filled out at all
 
 }
 
@@ -339,12 +356,9 @@ unicode_blocks_other = {
 
     "CJK Unified Ideographs Extension A": (0x3400, 0x4DBF), # not useful
     "CJK Unified Ideographs": (0x4E00, 0x9FFF), # not useful
-#    "Hangul Jamo Extended-A": (0xA960, 0xA97F), # not useful
-#    "Hangul Jamo Extended-B": (0xD7B0, 0xD7FF), # not useful
 #    "High Surrogates": (0xD800, 0xDB7F), # can't display
 #    "High Private Use Surrogates": (0xDB80, 0xDBFF), # can't display
 #    "Low Surrogates": (0xDC00, 0xDFFF), # can't display
-#    "Tangut": (0x17000, 0x187FF),
     "CJK Unified Ideographs Extension B": (0x20000, 0x2A6DF),
     "CJK Unified Ideographs Extension C": (0x2A700, 0x2B73F),
     "CJK Unified Ideographs Extension D": (0x2B740, 0x2B81F),
@@ -356,7 +370,6 @@ unicode_blocks_other = {
     "CJK Unified Ideographs Extension H": (0x31350, 0x323AF), # useless
     "Tags": (0xE0000, 0xE007F), # blank
     "Variation Selectors Supplement": (0xE0100, 0xE01EF), # blank
-    "Supplementary Private Use Area-B": (0x100000, 0x10FFFF), # not filled out at all
 
 }
 
