@@ -36,8 +36,11 @@ function d() {
   local modeSave=''
   local modeSub='+'
   local modeTag=''
+  local modeAnswer=''
+  local targetAnswer=''
   local targetSearch=''
   local targetString=''
+  declare -a dateChanges=()
 
   local dateValue=''
   local lastDateChangeValue=''
@@ -53,44 +56,58 @@ function d() {
     case "$key" in
 
       '-move') modeMove='t' ;;
+      '-a' | '-answer') modeAnswer='t' ;;
       '-done') currentToDo=$FILE_TODO_DONE ;;
       '-tag') modeTag=$(echo "$1 " |  tr '[:lower:]' '[:upper:]'); shift ;;
       '-add') modeAdd='t';;
       '-date') currentDate="$1"; shift ;;
       '-save' ) modeSave='t';;
       '-l' ) modeLast='t';;
-      '-sub') modeSub='-';;
+      '-sub' | '--') modeSub='-';;
       '-abs') modeAbsolute='t';;
 
       # single
       '-1' | '-2' | '-3' | '-4' | '-5' | '-6' | '-7' | '-8' | '-9' | '-10' | '-11' | '-12' | '-13' | '-14' | '-15' | '-16' | '-17' | '-18' | '-19' | '-20' | '-21' | '-22' | '-23' | '-24' | '-25' | '-26' | '-27' | '-28' | '-29' | '-30' | '-31')
         dateValue=$(echo "$key" | cut -c2-)
         lastDateChangeValue="${modeSub}${dateValue}d" 
-        echo "dgetdate \"$lastDateChangeValue\" \"$currentDate\""
-        currentDate=$(dgetdate "$lastDateChangeValue" "$currentDate")
-        echo "current Date $currentDate"
+        dateChanges+=($lastDateChangeValue)
+#        echo "dgetdate \"$lastDateChangeValue\" \"$currentDate\""
+#        currentDate=$(dgetdate "$lastDateChangeValue" "$currentDate")
+#        echo "current Date $currentDate"
         ;;
 
       # single
       '-w' | '-m' | '-y' ) 
         dateValue=$(echo "$key" | cut -c2-)
         lastDateChangeValue="${modeSub}1${dateValue}" 
-        currentDate=$(dgetdate "$lastDateChangeValue" "$currentDate")
+        dateChanges+=($lastDateChangeValue)
+#        currentDate=$(dgetdate "$lastDateChangeValue" "$currentDate")
         ;;
 
       # dates
       '-1d' | '-2d' | '-3d' | '-4d' | '-5d' | '-6d' | '-1w' | '-2w' | '-3w' | '-4w' | '-5w' | '-1m' | '-2m' | '-3m' | '-4m' | '-5m' | '-6m' | '-7m' | '-8m' | '-9m' | '-10m' | '-11m' | '-1y' | '-2y' | '-3y' | '-4y' | '-5y') 
         dateValue=$(echo "$key" | cut -c2-)
         lastDateChangeValue="${modeSub}${dateValue}" 
-        currentDate=$(dgetdate "$lastDateChangeValue" "$currentDate")
+        dateChanges+=($lastDateChangeValue)
+#        currentDate=$(dgetdate "$lastDateChangeValue" "$currentDate")
         ;;
       '-delete') echo "figure out delete later" ;;
       *) 
-        targetString="$targetString$key " 
+        if [[ $modeAnswer ]]; then
+          targetAnswer="$targetAnswer$key " 
+        else
+          targetString="$targetString$key " 
+        fi
       ;;
 
     esac
 
+  done
+
+  local dateSize=${#dateChanges[@]}
+
+  for (( i=1; i <= ${dateSize[@]}; i++ )); do
+    currentDate=$(dgetdate "${dateChanges[$i]}" "$currentDate")
   done
 
   # populate search string
@@ -106,36 +123,59 @@ function d() {
     lastSave=$(cat $FILE_TODOSAVED |  tr '[:lower:]' '[:upper:]')
   fi
 
-  local doDate=""
+  local dueDate=""
   # not add but search search
-  if [[ ! $modeAdd ]] && [[ $targetSearch ]]; then
+  if [[ ! $modeAdd && $targetSearch ]]; then
 
-#    becho "searching |$targetSearch|"
+    becho "searching |$targetSearch|"
     grep -hi "$targetSearch" $currentToDo
 
-    if [[ "$currentDate" != "$currentDateStatic" ]]; then
+    if [[ ("$currentDate" != "$currentDateStatic") || $modeAnswer ]]; then
       
       grep -hi "$targetSearch" $currentToDo > $FILE_TODO_OUTPUT
 
-      local noDate=""
+      local noDate=''
+      local sedLine=''
+
       while read line; do
-        doDate=$(echo "$line" | awk '{print $1 }')
+        dueDate=$(echo "$line" | awk '{print $1 }')
+        sedLine=$(echo "$line" | sed 's/\//\\\//g')
 
 #        echo "1 current line $line"
         noDate=$(echo "$line" | awk '{for(i=2; i<=NF; i++) printf $i (i==NF ? "\n" : OFS)}')
 #        echo "2 current line $noDate"
 
+        if [[ $modeAnswer ]]; then
+
+          echo "Appending answer2"
+          noDate=$(echo "$noDate" | sed "s/ANSWER.*//g")
+          noDate="$noDate ANSWER $targetAnswer"
+
+        fi
+
+#        echo "sedLine $sedLine"
         # remove value 
-#        sed -i '' "/$noDate/d" $currentToDo
-#        echo "sed -i '' \"/$line/d\" $currentToDo"
-        sed -i '' "/$line/d" $currentToDo
+#        sed -i '' "/$line/d" $currentToDo
+        sed -i '' "/$sedLine/d" $currentToDo
 
         # if relative date find relative date
         if [[ ! $modeAbsolute ]]; then
+
 #          echo "dDate operation |$lastDateChangeValue|"
-#          echo "dgetdate \"$lastDateChangeValue\" $doDate"
-          currentDate=$(dgetdate "$lastDateChangeValue" $doDate)
+#          echo "dgetdate \"$lastDateChangeValue\" $dueDate"
+
+          if [[ $lastDateChangeValue ]]; then
+#            currentDate=$(dgetdate "$lastDateChangeValue" $dueDate)
+
+            for (( i=1; i <= ${dateSize[@]}; i++ )); do
+              dueDate=$(dgetdate "${dateChanges[$i]}" "$dueDate")
+              echo "dueDate $dueDate"
+            done
+          fi
+          currentDate="$dueDate"
+
         fi
+        echo "INSERTING $currentDate ${modeTag}${lastSave}${noDate}"
         echo "$currentDate ${modeTag}${lastSave}${noDate}" >> $currentToDo
 
       done < $FILE_TODO_OUTPUT
@@ -173,11 +213,11 @@ function dlist() {
   local currentPointer='t'
   local pastDue=''
   while read line; do
-    doDate=$(echo "$line" | awk '{print $1 }')
+    dueDate=$(echo "$line" | awk '{print $1 }')
     doContent=$(echo "$line" | awk '{for(i=2; i<=NF; i++) printf $i (i==NF ? "\n" : OFS)}')
     
     pastDue='t'
-    if [[ ("$doDate" == "$currentDateStatic") || ("$doDate" > "$currentDateStatic") ]]; then 
+    if [[ ("$dueDate" == "$currentDateStatic") || ("$dueDate" > "$currentDateStatic") ]]; then 
 
       if [[ $currentPointer ]]; then
         dprint "$currentDateStatic" "\e[0;32m󱅼 🯁🯂🯃 $modeDayOfWeek >>>>>>>> $currentDateStatic <<<<<<<< 󰭥 󱩁 \e[0m" "print"
@@ -186,7 +226,7 @@ function dlist() {
       currentPointer=''
       pastDue=''
     fi
-    dprint "$doDate" "$doContent" "" "$pastDue"
+    dprint "$dueDate" "$doContent" "" "$pastDue"
 #    echo "$line"
 
   done < $currentToDo
@@ -279,16 +319,16 @@ function dprint() {
   # not important  DELEGATE  |   DELETE
   #                          | 
 
-  modeContent=$(echo "$modeContent" | sed "s/ANSWER/ANSWER${dSedColors[lcyan]}${dSedBackgroundColors[black]}/g")
+  modeContent=$(echo "$modeContent" | sed "s/ANSWER /ANSWER ${dSedColors[lcyan]}${dSedBackgroundColors[black]}/g")
   messageOutput="[$modeDayOfWeek] $modeDate "
 #  echo "blah $modePastDue"
 
   if [[ $modeJustPrint ]]; then
     messageOutput="${messageOutput}" # have to be here and have to go 
-  elif [[ $(dgrep "TASK" "$modeContent") || $modePastDue ]]; then
-    messageOutput="${messageOutput}${dColors[red]}" # have to be here and have to go 
-  elif [[ $(dgrep "MED" "$modeContent") ]]; then
-    messageOutput="${messageOutput}${dColors[lred]}" # immediate attention
+  elif [[ $(dgrep "IMP" "$modeContent") || $modePastDue ]]; then
+    messageOutput="${messageOutput}${dColors[red]}" # immediate attention
+  elif [[ $(dgrep "TASK\|MED" "$modeContent") ]]; then
+    messageOutput="${messageOutput}${dColors[lred]}" # have to be here and have to go 
   elif [[ $(dgrep "BDAY" "$modeContent") ]]; then
     messageOutput="${messageOutput}${dColors[lyellow]}" # secondary attention
   elif [[ $(dgrep "TAX\|TRIP" "$modeContent") ]]; then 
@@ -317,17 +357,50 @@ function da() {
 
 }
 
+function doedit() {
+  # do something
+}
+
+# do edit 
+function de() {
+
+  local fileDoEdit=/tmp/todo/do-edit.tcl
+	local defaultQuery='' 
+  local currentToDo=$FILE_TODO
+
+  if [[ $# -gt 0 ]]; then
+		defaultQuery=$1 
+		shift
+	fi
+
+  local doValues=$(cat $FILE_TODO | fzf -m --ansi --color fg:-1,bg:-1,hl:46,fg+:40,bg+:233,hl+:46 --color prompt:166,border:46 --height 75%  --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ " --bind "change:execute(echo {q} > $queryFile)" --query "$defaultQuery")
+
+  echo "$doValues" >> $FILE_TODO_DONE
+  echo "$doValues" > $FILE_TODO_OUTPUT
+
+  local sedLine='' 
+  while read line; do
+    echo "$line" > $fileDoEdit
+    vim $fileDoEdit
+
+    sedLine=$(echo "$line" | sed 's/\//\\\//g')
+
+    sed -i '' "/$sedLine/d" $currentToDo
+    cat $fileDoEdit >> $currentToDo
+
+  done < $FILE_TODO_OUTPUT
+
+  sort -o $currentToDo $currentToDo
+
+#  local currentDateStatic=$(dgetdate)
+  dlist $(dgetdate)
+
+}
 
 # todo done and move
 function dx() {
 
-#  local hashDir=$(md5 -q -s $(pwd)) 
-#	local queryFile="/tmp/do-$hashDir" 
 	local defaultQuery='' 
-
-#	if [[ -f $queryFile ]]; then
-#		defaultQuery=$(cat $queryFile) 
-#	fi
 
 	if [[ $# -gt 0 ]]; then
 		defaultQuery=$1 
@@ -343,14 +416,6 @@ function dx() {
     echo "$line"
     sed -i '' "/$line/d" $FILE_TODO
   done < $FILE_TODO_OUTPUT
-
-#  if [[ -n $doValues ]]; then
-##		echo "has doValues $doValues"
-#		for doIndex in "$doValues"; do
-##			kill $doIndex
-#			echo "x $doIndex"
-#		done
-#	fi
 
 }
 
@@ -414,7 +479,7 @@ function dreminder() {
         if [[ ! -d "$DIRECTORY_TODO" ]]; then
           mkdir $DIRECTORY_TODO
         fi
-        echo "touched $fileDo" > $fileDo
+        echo "check in" > $fileDo
       fi
     fi
   fi
