@@ -61,7 +61,10 @@ function F.setup()
   map("n", "<LEADER>jj", "<cmd>lua require('lua-fzf').openJumpFiles()<CR>", G_SILENT_NO_REMAP)     -- Jump script to vim :) 
   map("n", "<LEADER>jw", "<cmd>lua require('lua-fzf').openWorkingJumpFile()<CR>", G_SILENT_NO_REMAP)     -- Jump script to vim :) 
 
+  map("n", "<C-c>", "ciw") -- change a word
+
   ----- comment code
+  -- tips to comment out code use gcc.  Dude this just deleted my comment lua script
   -- function F.comments(aRegular, aNormalMode, aAll, aCommentOut, aInvert, aBuffer)
   -- map( "n", "<LEADER>fn", ":lua require('comments').next()<CR>", G_SILENT_NO_REMAP )                         -- test search function
   map("n", "<LEADER>cc", ":lua require('comments').comments(true, true, false, true, false)<CR>", G_SILENT_NO_REMAP)    -- comment out selected normal
@@ -189,6 +192,8 @@ function F.setup()
   map("n", "<LEADER>ucert", ":!callterminal '%:p:h' upcert<CR>", G_NO_REMAP) -- uploads
   map("n", "<LEADER>uocto", ":!callterminal '%:p:h' upocto<CR>", G_NO_REMAP) -- uploads
   map("n", "<LEADER>udot", ":!callterminal '%:p:h' cpdot<CR>", G_NO_REMAP) -- uploads syncdot
+  map("n", "<LEADER>umedia", ":!callterminal '%:p:h' upmedia<CR>", G_NO_REMAP) -- uploads syncdot
+  map("n", "<LEADER>upmedia", ":!callterminal '%:p:h' uppmedia<CR>", G_NO_REMAP) -- uploads syncdot
 
   map("n", "<LEADER><SPACE>alpha", ":set nrformats=bin,hex,alpha<CR>", G_NO_REMAP)  -- change incremental alpha
   map("n", "<LEADER><SPACE>number", ":set nrformats=bin,hex<CR>", G_NO_REMAP)       -- change incremental number: default

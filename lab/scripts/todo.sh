@@ -1,6 +1,9 @@
 alias don="dsetting on"
-alias ddone="d -done"
+alias ddone="d -editdone"
 alias doff="dsetting off"
+alias dx="d -done"
+alias de="d -edit"
+alias dchange="d -change"
 
 export DATE_FORMAT_TODO='%y-%m-%d'
 
@@ -32,14 +35,18 @@ function d() {
   local lastSave=''
   local modeAbsolute=''
   local modeAdd=''
-  local modeLast=''
-  local modeSave=''
+  local modeUseTag=''
+  local modeSaveTag=''
   local modeSub='+'
   local modeTag=''
   local modeAnswer=''
   local targetAnswer=''
   local targetSearch=''
   local targetString=''
+  local modeFuzzy=''
+  local fuzzyResults=''
+  local fileDoEdit=/tmp/todo/do-edit.tcl
+
   declare -a dateChanges=()
 
   local dateValue=''
@@ -55,14 +62,17 @@ function d() {
 
     case "$key" in
 
+      '-edit' | '-done' | '-change' ) 
+        modeFuzzy="$key"
+        ;;
       '-move') modeMove='t' ;;
       '-a' | '-answer') modeAnswer='t' ;;
-      '-done') currentToDo=$FILE_TODO_DONE ;;
+      '-editdone') currentToDo=$FILE_TODO_DONE ;;
       '-tag') modeTag=$(echo "$1 " |  tr '[:lower:]' '[:upper:]'); shift ;;
       '-add') modeAdd='t';;
       '-date') currentDate="$1"; shift ;;
-      '-save' ) modeSave='t';;
-      '-l' ) modeLast='t';;
+      '-tag' ) modeSaveTag='t';;
+      '-usetag' ) modeUseTag='t';;
       '-sub' | '--') modeSub='-';;
       '-abs') modeAbsolute='t';;
 
@@ -113,14 +123,75 @@ function d() {
   # populate search string
   targetSearch=$(echo "$targetString" | xargs | sed 's/ /.*/g')
 
-  if [[ $modeSave ]]; then
+  if [[ $modeSaveTag ]]; then
     echo "$targetString" > $FILE_TODOSAVED
     echo "Saved: $targetString"
     return
   fi
 
-  if [[ $modeLast ]]; then
+  if [[ $modeUseTag ]]; then
     lastSave=$(cat $FILE_TODOSAVED |  tr '[:lower:]' '[:upper:]')
+  fi
+
+  if [[ $modeFuzzy ]]; then
+
+    fuzzyResults=$(dfuzzy)
+
+    local sedLine='' 
+    while read line; do
+    
+      if [[ ! $line ]]; then
+        continue
+      fi
+
+      dueDate=$(echo "$line" | awk '{print $1 }')
+      sedLine=$(echo "$line" | sed 's/\//\\\//g')
+
+      noDate=$(echo "$line" | awk '{for(i=2; i<=NF; i++) printf $i (i==NF ? "\n" : OFS)}')
+
+
+      # always delete
+      sed -i '' "/$sedLine/d" $currentToDo
+
+      # if done move to done list
+      if [[ $modeFuzzy == '-done' ]]; then
+        echo "$fuzzyResults" >> $FILE_TODO_DONE
+
+      # if edit save to file and edit 
+      elif [[ $modeFuzzy == '-edit' ]]; then
+        echo "$line" > $fileDoEdit
+        vim $fileDoEdit
+        cat $fileDoEdit >> $currentToDo
+
+      elif [[ $modeFuzzy == '-change' ]]; then
+
+        # if relative date find relative date
+        if [[ ! $modeAbsolute ]]; then
+
+#          echo "dDate operation |$lastDateChangeValue|"
+#          echo "dgetdate \"$lastDateChangeValue\" $dueDate"
+
+          if [[ $lastDateChangeValue ]]; then
+#            currentDate=$(dgetdate "$lastDateChangeValue" $dueDate)
+
+            for (( i=1; i <= ${dateSize[@]}; i++ )); do
+              dueDate=$(dgetdate "${dateChanges[$i]}" "$dueDate")
+              echo "dueDate $dueDate"
+            done
+          fi
+          currentDate="$dueDate"
+
+        fi
+        echo "INSERTING $currentDate ${modeTag}${lastSave}${noDate}"
+        echo "$currentDate ${modeTag}${lastSave}${noDate}" >> $currentToDo
+
+      fi
+
+    done < $FILE_TODO_OUTPUT
+
+    sort -o $FILE_TODO $FILE_TODO
+
+    return 
   fi
 
   local dueDate=""
@@ -171,6 +242,7 @@ function d() {
               dueDate=$(dgetdate "${dateChanges[$i]}" "$dueDate")
               echo "dueDate $dueDate"
             done
+
           fi
           currentDate="$dueDate"
 
@@ -327,7 +399,7 @@ function dprint() {
     messageOutput="${messageOutput}" # have to be here and have to go 
   elif [[ $(dgrep "IMP" "$modeContent") || $modePastDue ]]; then
     messageOutput="${messageOutput}${dColors[red]}" # immediate attention
-  elif [[ $(dgrep "TASK\|MED" "$modeContent") ]]; then
+  elif [[ $(dgrep "MED" "$modeContent") ]]; then
     messageOutput="${messageOutput}${dColors[lred]}" # have to be here and have to go 
   elif [[ $(dgrep "BDAY" "$modeContent") ]]; then
     messageOutput="${messageOutput}${dColors[lyellow]}" # secondary attention
@@ -336,6 +408,8 @@ function dprint() {
   elif [[ $(dgrep "ASK" "$modeContent") ]]; then
     messageOutput="${messageOutput}${dColors[lcyan]}" # mundane logistics that need to take care of immediately
   elif [[ $(dgrep "CAR\|MON" "$modeContent") ]]; then
+    messageOutput="${messageOutput}${dColors[blue]}" # mundane logistics but need to take care of
+  elif [[ $(dgrep "TASK" "$modeContent") ]]; then
     messageOutput="${messageOutput}${dColors[lblue]}" # mundane logistics but need to take care of
   elif [[ $(dgrep "FOOD\|BUY" "$modeContent") ]]; then
     messageOutput="${messageOutput}${dColors[white]}" 
@@ -348,7 +422,7 @@ function dprint() {
 }
 
 function dgrep() {
-  echo "$2" | grep -m 1 "$1"
+  echo "$2" | grep -w -m 1 "$1"
 }
 
 function da() {
@@ -357,65 +431,32 @@ function da() {
 
 }
 
-function doedit() {
-  # do something
-}
+function dfuzzy() {
 
-# do edit 
-function de() {
+  local key=''
+  local modeInput=$FILE_TODO
+  local modeOutput=$FILE_TODO_OUTPUT
+  local modePrompt='➤  '
+  local modeQuery='' 
 
-  local fileDoEdit=/tmp/todo/do-edit.tcl
-	local defaultQuery='' 
-  local currentToDo=$FILE_TODO
+  while [[ $# -gt 0 ]]; do
 
-  if [[ $# -gt 0 ]]; then
-		defaultQuery=$1 
-		shift
-	fi
+    key="$1"
+    shift
 
-  local doValues=$(cat $FILE_TODO | fzf -m --ansi --color fg:-1,bg:-1,hl:46,fg+:40,bg+:233,hl+:46 --color prompt:166,border:46 --height 75%  --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ " --bind "change:execute(echo {q} > $queryFile)" --query "$defaultQuery")
+    case "$key" in
+      '-prompt') modePrompt="$1 "; shift ;;
+      '-input') modeInput="$1"; shift ;;
+      '-output') modeOutput="$1"; shift ;;
+      *) modeQuery=$1 ;;
+    esac
 
-  echo "$doValues" >> $FILE_TODO_DONE
-  echo "$doValues" > $FILE_TODO_OUTPUT
+  done
 
-  local sedLine='' 
-  while read line; do
-    echo "$line" > $fileDoEdit
-    vim $fileDoEdit
+  local doValues=$(cat $modeInput | fzf -m --ansi --color fg:-1,bg:-1,hl:46,fg+:40,bg+:233,hl+:46 --color prompt:166,border:46 --height 75%  --border=sharp --prompt="$modePrompt" --pointer="➤ " --marker="➤ " --bind "change:execute(echo {q} > $queryFile)" --query "$modeQuery")
 
-    sedLine=$(echo "$line" | sed 's/\//\\\//g')
-
-    sed -i '' "/$sedLine/d" $currentToDo
-    cat $fileDoEdit >> $currentToDo
-
-  done < $FILE_TODO_OUTPUT
-
-  sort -o $currentToDo $currentToDo
-
-#  local currentDateStatic=$(dgetdate)
-  dlist $(dgetdate)
-
-}
-
-# todo done and move
-function dx() {
-
-	local defaultQuery='' 
-
-	if [[ $# -gt 0 ]]; then
-		defaultQuery=$1 
-		shift
-	fi
-
-  local doValues=$(cat $FILE_TODO | fzf -m --ansi --color fg:-1,bg:-1,hl:46,fg+:40,bg+:233,hl+:46 --color prompt:166,border:46 --height 75%  --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ " --bind "change:execute(echo {q} > $queryFile)" --query "$defaultQuery")
-
-  echo "$doValues" >> $FILE_TODO_DONE
-  echo "$doValues" > $FILE_TODO_OUTPUT
-  
-  while read line; do
-    echo "$line"
-    sed -i '' "/$line/d" $FILE_TODO
-  done < $FILE_TODO_OUTPUT
+  echo "$doValues" > $modeOutput
+  echo "$doValues"
 
 }
 

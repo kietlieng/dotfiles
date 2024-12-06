@@ -137,7 +137,6 @@ require('lazy').setup({
     { 'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons', config = function() require('lua-bufferline').setup() end },
     { 'godlygeek/tabular' }, -- sort table values
 
-
     -- coc for preview
 
     { 'neoclide/coc.nvim', branch = 'release' },
