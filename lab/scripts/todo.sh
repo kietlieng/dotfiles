@@ -81,9 +81,6 @@ function d() {
         dateValue=$(echo "$key" | cut -c2-)
         lastDateChangeValue="${modeSub}${dateValue}d" 
         dateChanges+=($lastDateChangeValue)
-#        echo "dgetdate \"$lastDateChangeValue\" \"$currentDate\""
-#        currentDate=$(dgetdate "$lastDateChangeValue" "$currentDate")
-#        echo "current Date $currentDate"
         ;;
 
       # single
@@ -91,7 +88,6 @@ function d() {
         dateValue=$(echo "$key" | cut -c2-)
         lastDateChangeValue="${modeSub}1${dateValue}" 
         dateChanges+=($lastDateChangeValue)
-#        currentDate=$(dgetdate "$lastDateChangeValue" "$currentDate")
         ;;
 
       # dates
@@ -99,7 +95,6 @@ function d() {
         dateValue=$(echo "$key" | cut -c2-)
         lastDateChangeValue="${modeSub}${dateValue}" 
         dateChanges+=($lastDateChangeValue)
-#        currentDate=$(dgetdate "$lastDateChangeValue" "$currentDate")
         ;;
       '-delete') echo "figure out delete later" ;;
       *) 
@@ -399,7 +394,7 @@ function dprint() {
     messageOutput="${messageOutput}" # have to be here and have to go 
   elif [[ $(dgrep "IMP" "$modeContent") || $modePastDue ]]; then
     messageOutput="${messageOutput}${dColors[red]}" # immediate attention
-  elif [[ $(dgrep "MED" "$modeContent") ]]; then
+  elif [[ $(dgrep "MED\|EVENT" "$modeContent") ]]; then
     messageOutput="${messageOutput}${dColors[lred]}" # have to be here and have to go 
   elif [[ $(dgrep "BDAY" "$modeContent") ]]; then
     messageOutput="${messageOutput}${dColors[lyellow]}" # secondary attention
@@ -413,7 +408,7 @@ function dprint() {
     messageOutput="${messageOutput}${dColors[lblue]}" # mundane logistics but need to take care of
   elif [[ $(dgrep "FOOD\|BUY" "$modeContent") ]]; then
     messageOutput="${messageOutput}${dColors[white]}" 
-  elif [[ $(dgrep "PLAN\|PLACE\|PAUSE\|FYI" "$modeContent") ]]; then
+  elif [[ $(dgrep "PLAN\|PLACE\|PAUSE\|FYI\|EVENT" "$modeContent") ]]; then
     messageOutput="${messageOutput}${dColors[lgreen]}" # Need to attend but somewhat optional
   fi
   messageOutput="${messageOutput}${modeContent}${dColors[clear]}"
@@ -505,23 +500,27 @@ function dreminder() {
     #  echo "$fileDo"
     local onVideo=$(ps aux | grep -i "zoom.us.app\|Microsoft Teams.app" | wc -l)
     #  echo "shouldDisplay $shouldDisplay"
-    if [[ onVideo -gt 1 ]]; then 
-      echo "Zoom / MS Teams detected."
-      return
-    else
-      if [[ $# -gt 0 ]]; then
-        d
-        return 
-      fi
+    if [[ ! -f $fileDo ]]; then
 
-      if [[ ! -f $fileDo ]]; then
+      if [[ onVideo -gt 1 ]]; then 
+        echo "Zoom / MS Teams detected. Skipping"
+        echo "check in" > $fileDo
+        return
+      else
+        if [[ $# -gt 0 ]]; then
+          d
+          return 
+        fi
+
         d
 
         if [[ ! -d "$DIRECTORY_TODO" ]]; then
           mkdir $DIRECTORY_TODO
         fi
         echo "check in" > $fileDo
+
       fi
+
     fi
   fi
 

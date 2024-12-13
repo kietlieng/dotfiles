@@ -319,7 +319,6 @@ unicode_blocks = {
     "Chess Symbols": (0x1FA00, 0x1FA6F),
     "Symbols and Pictographs Extended-A": (0x1FA70, 0x1FAFF),
 
-
     # kreative font
     "Symbols for Legacy Computing": (0x1FB00, 0x1FBFF),
     "Symbols for Legacy Computing Supplement": (0x1CC00, 0x1CEBF),

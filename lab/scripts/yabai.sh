@@ -1161,11 +1161,14 @@ function ytogpadding() {
 
   # it's half
   if [[ $currentPadding -gt $yWHalf3 ]]; then
-      yH
+    pecho "half"
+    yH
   elif [[ $currentPadding -gt 0 ]]; then # it's 1/3 padding
-      yf
+    pecho "full"
+    yf
   else
-      yh
+    pecha "half2"
+    yh
   fi
 
 #  # it's half

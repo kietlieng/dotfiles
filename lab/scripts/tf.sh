@@ -344,7 +344,7 @@ function tunlock() {
 }
 
 # show in terraform
-function tfshow() {
+function tfresource() {
   terraform show
 }
 
@@ -362,4 +362,9 @@ function tspace() {
 
   terraform workspace select $workspace || terraform workspace new $workspace
 
+}
+
+# remove resources
+function tfrm() {
+  terraform state rm $1
 }
