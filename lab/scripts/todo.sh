@@ -30,6 +30,7 @@ function d() {
 
   local currentDateStatic=$(dgetdate)
   local currentDate=$currentDateStatic
+  local endDateStatic=$(dgetdate "+7d" "$currentDate")
 
   local currentToDo=$FILE_TODO
   local lastSave=''
@@ -261,18 +262,26 @@ function d() {
 
   fi
 
-  dlist "$currentDateStatic" $currentToDo
+  dlist "$currentDateStatic" $currentToDo "$endDateStatic"
 
 }
 
 function dlist() {
 
   local currentDateStatic="$1"
+  shift
   local currentToDo="$FILE_TODO"
+  local endPointer='t'
   
-  if [[ $2 ]]; then
-    currentToDo="$2"
+  if [[ $1 ]]; then
+    currentToDo="$1"
+    shift
   fi
+  if [[ $1 ]]; then
+    endPointer="$1"
+    shift
+  fi
+
 
   local modeDayOfWeek=$(date -j -f "$DATE_FORMAT_TODO" "$currentDateStatic" "+%A" | cut -c-3)
 
@@ -287,11 +296,17 @@ function dlist() {
     if [[ ("$dueDate" == "$currentDateStatic") || ("$dueDate" > "$currentDateStatic") ]]; then 
 
       if [[ $currentPointer ]]; then
-        dprint "$currentDateStatic" "\e[0;32m󱅼 🯁🯂🯃 $modeDayOfWeek >>>>>>>> $currentDateStatic <<<<<<<< 󰭥 󱩁 \e[0m" "print"
+        dprint "$currentDateStatic" "\e[0;32m꧈⭜ 󰻃 𐠛  $modeDayOfWeek >>>>>>>>>>>>>>>>> $currentDateStatic <<<<<<<< \e[0m" "print"
 #        echo "\e[0;32m󱅼 🯁🯂🯃    $modeDayOfWeek >>>>>>>> $currentDateStatic <<<<<<<<  󰭥 󱩁 \e[0m"
       fi
       currentPointer=''
       pastDue=''
+    fi
+    if [[ $endPointer && ("$dueDate" > "$endPointer") ]]; then 
+
+      dprint "$currentDateStatic" "\e[0;32m󱅼 🯁🯂🯃 $modeDayOfWeek >>>>>>>>>>>>>>>>> 1 Week <<<<<<<< ꧈⭜ 󰻃 𐠛  \e[0m" "print"
+#        echo "\e[0;32m󱅼 🯁🯂🯃    $modeDayOfWeek >>>>>>>> $currentDateStatic <<<<<<<<  󰭥 󱩁 \e[0m"
+      endPointer=''
     fi
     dprint "$dueDate" "$doContent" "" "$pastDue"
 #    echo "$line"
@@ -307,6 +322,7 @@ function dprint() {
   local modeContent="$2"
   local modeJustPrint="$3"
   local modePastDue="$4"
+  local modeRainbow=''
 
 #  echo "date -j -f \"$DATE_FORMAT_TODO\" \"$modeDate\" \"+%A\" | cut -c-3"
   local modeDayOfWeek=$(date -j -f "$DATE_FORMAT_TODO" "$modeDate" "+%A" | cut -c-3)
@@ -392,13 +408,14 @@ function dprint() {
 
   if [[ $modeJustPrint ]]; then
     messageOutput="${messageOutput}" # have to be here and have to go 
+    modeRainbow='t'
   elif [[ $(dgrep "IMP" "$modeContent") || $modePastDue ]]; then
     messageOutput="${messageOutput}${dColors[red]}" # immediate attention
-  elif [[ $(dgrep "MED\|EVENT" "$modeContent") ]]; then
+  elif [[ $(dgrep "MED\|TAX" "$modeContent") ]]; then
     messageOutput="${messageOutput}${dColors[lred]}" # have to be here and have to go 
   elif [[ $(dgrep "BDAY" "$modeContent") ]]; then
     messageOutput="${messageOutput}${dColors[lyellow]}" # secondary attention
-  elif [[ $(dgrep "TAX\|TRIP" "$modeContent") ]]; then 
+  elif [[ $(dgrep "EVENT\|TRIP" "$modeContent") ]]; then 
     messageOutput="${messageOutput}${dColors[lmagenta]}" # firm dates that can't be moved
   elif [[ $(dgrep "ASK" "$modeContent") ]]; then
     messageOutput="${messageOutput}${dColors[lcyan]}" # mundane logistics that need to take care of immediately
@@ -408,11 +425,15 @@ function dprint() {
     messageOutput="${messageOutput}${dColors[lblue]}" # mundane logistics but need to take care of
   elif [[ $(dgrep "FOOD\|BUY" "$modeContent") ]]; then
     messageOutput="${messageOutput}${dColors[white]}" 
-  elif [[ $(dgrep "PLAN\|PLACE\|PAUSE\|FYI\|EVENT" "$modeContent") ]]; then
+  elif [[ $(dgrep "PLAN\|PLACE\|PAUSE\|FYI" "$modeContent") ]]; then
     messageOutput="${messageOutput}${dColors[lgreen]}" # Need to attend but somewhat optional
   fi
   messageOutput="${messageOutput}${modeContent}${dColors[clear]}"
-  echo "$messageOutput"
+  if [[ $modeRainbow ]]; then
+    echo "$messageOutput" | lolcat -p .5
+  else
+    echo "$messageOutput"
+  fi
 
 }
 

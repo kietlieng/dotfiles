@@ -15,7 +15,7 @@ function F.setup()
 
   -- find files with telescope
   map("n", "<LEADER>/", "<cmd>lua require('tele').dirDepthJump(0)<CR>", G_SILENT_NO_REMAP)      -- search from current directory
-  map("n", "<LEADER>-", "<cmd>lua require('tele').dirDepthJump(-1)<CR>", G_SILENT_NO_REMAP)     -- search from git root directory
+  map("n", "<LEADER>-/", "<cmd>lua require('tele').dirDepthJump(-1)<CR>", G_SILENT_NO_REMAP)     -- search from git root directory
   map("n", "<LEADER>0", "<cmd>lua require('tele').dirDepthJump(-99)<CR>", G_SILENT_NO_REMAP)    -- search from current open file root directory
   map("n", "<LEADER>1/", "<cmd>lua require('tele').dirDepthJump(1)<CR>", G_SILENT_NO_REMAP)     -- search from 1 up
   map("n", "<LEADER>2/", "<cmd>lua require('tele').dirDepthJump(2)<CR>", G_SILENT_NO_REMAP)     -- search from 2 up
@@ -61,8 +61,8 @@ function F.setup()
   map("n", "<LEADER>jj", "<cmd>lua require('lua-fzf').openJumpFiles()<CR>", G_SILENT_NO_REMAP)     -- Jump script to vim :) 
   map("n", "<LEADER>jw", "<cmd>lua require('lua-fzf').openWorkingJumpFile()<CR>", G_SILENT_NO_REMAP)     -- Jump script to vim :) 
 
-  map("n", "<C-c>", "ciw") -- change a word
-  map("n", "yc", "yygccp")
+  map("n", "<C-c>", "ciw", G_SILENT_NO_REMAP) -- change a word
+--  map("n", "yc", "yygccp<CR>", G_SILENT_NO_REMAP)
 
   ----- comment code
   -- tips to comment out code use gcc.  Dude this just deleted my comment lua script

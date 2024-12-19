@@ -643,9 +643,11 @@ function gclone() {
   # removes trailing slashes from parameter
   mungedURL="${1%/}"
 
-  if [[ $mungedURL != *"github.com"* ]]; then
+  echo "1 mungedURL $mungedURL"
+  if [[ $mungedURL == *"github.com"* ]]; then
     mungedURL="${mungedURL/\/-*/}"
-    mungedURL=$(echo "$mungedURL" | sed "s/https:\/\//git@/g")
+    mungedURL=$(echo "$mungedURL" | sed "s/https:\/\/github.com\//git@github.com:/g")
+    echo "2 mungedURL $mungedURL"
   else
     # remove everything after blob
     #mungedURL="${mungedURL%/blob*}"
