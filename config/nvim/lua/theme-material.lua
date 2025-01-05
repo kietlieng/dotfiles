@@ -43,7 +43,7 @@ function F.setup()
 
 
   vim.opt.background = "dark" -- dark / light
-  vim.cmd.colorscheme "oceanic_material"
+  vim.cmd.colorscheme "gruvbox_material"
 
   vim.cmd([[
 

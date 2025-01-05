@@ -30,3 +30,19 @@ function zkvimfetch() {
   echo "$zkoutput"
   echo -n "$zkoutput" | pbcopy
 }
+
+zoostart() {
+  CURRENT_DIRECTORY=$(pwd)
+  cd ~/lab/repos/kafka/kafka_2.12-2.2.0
+  # cd ~/lab/zookeeper-3.4.14
+  bash bin/zookeeper-server-start.sh config/zookeeper.properties &!
+  cd $CURRENT_DIRECTORY
+}
+
+zoostop() {
+  CURRENT_DIRECTORY=$(pwd)
+  cd ~/lab/repos/kafka/kafka_2.12-2.2.0
+  # cd ~/lab/zookeeper-3.4.14
+  bash bin/zookeeper-server-stop.sh
+  cd $CURRENT_DIRECTORY
+}

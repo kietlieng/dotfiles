@@ -264,7 +264,6 @@ require('lazy').setup({
     -- { 'embark-theme/vim', as = 'embark' },                                                                         -- looks good but not functional
     -- { 'ghifarit53/tokyonight-vim' },
     -- { 'hardcoreplayers/oceanic-material', config = function() require('theme-oceanic-material').setup() end },           -- meh
-    -- { 'sainnhe/gruvbox-material', config = function() require('theme-material').setup() end },
     -- { 'tjdevries/colorbuddy.vim' }, { 'tjdevries/gruvbuddy.nvim' },                                                -- don't really like
     -- { 'xero/miasma.nvim', lazy = false, priority = 1000, config = function() vim.cmd('colorscheme miasma') end, }, -- way too gloomy
     -- { 'morhetz/gruvbox', config = function() require('gruvbox').setup() end  },                                    -- it's morhetz fork but with support },
@@ -278,6 +277,7 @@ require('lazy').setup({
     -- { 'mellow-theme/mellow.nvim' }, -- similar to molokai
     -- { 'tamelion/neovim-molokai', priority = 1000 }, -- bland. I like it
     -- { 'olimorris/onedarkpro.nvim', priority = 1000 }, -- too much red for config
+    -- { 'sainnhe/gruvbox-material', config = function() require('theme-material').setup() end },
 
     -- best
     { 'gruvbox-community/gruvbox', config = function() require('theme-gruvbox').setup() end }, -- it's morhetz fork but with support.  Best thing around

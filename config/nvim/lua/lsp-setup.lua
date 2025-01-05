@@ -27,6 +27,7 @@ function F.setup()
     "ts_ls",
     "lua_ls",
 --    "yamlls",
+    "zls",
 
   }
 

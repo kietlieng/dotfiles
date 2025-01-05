@@ -35,6 +35,7 @@ function F.setup()
 --      "tsserver",
       "ts_ls",
       "yamlls",
+      "zls",
 
     },
   }

@@ -1,3 +1,31 @@
+function syncmovies() {
+
+  local targetX='*'
+  local key=''
+
+  while [[ $# -gt 0 ]]; do
+
+    key="$1"
+    shift
+
+    case "$key" in
+      *) targetX="${targetX}$key*" ;;
+    esac
+
+  done
+
+  if [[ $targetX == '*' ]]; then
+    echo "none"
+    return
+  else
+#    which rsync
+    echo "rsync -av $targetX ~/lab/movies/." | pbcopy
+#    rsync -av $targetX ~/lab/movies/.
+  fi
+
+
+}
+
 function synctolast() {
     echo "parameters $# pwd"
     targetpath=$(pwd)
@@ -47,6 +75,7 @@ function cpdot() {
 
 #    cp ~/.tmux.conf ${dFileDir}/.
     cp ~/.yabairc ${dFileDir}/.
+    cp ~/.zshrc ${dFileDir}/.
 
     # copy init
 
