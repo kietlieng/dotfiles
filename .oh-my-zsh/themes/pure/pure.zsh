@@ -160,6 +160,11 @@ prompt_pure_preprompt_render() {
 	if [[ -n $prompt_pure_vcs_info[branch] ]]; then
 		preprompt_parts+=("%F{$git_color}"'${prompt_pure_vcs_info[branch]}'"%F{$git_dirty_color}"'${prompt_pure_git_dirty}%f')
 	fi
+
+	# git branch hash
+	if [[ -n $prompt_pure_vcs_info[commithash] ]]; then
+		preprompt_parts+=("%F{$git_color}"'${prompt_pure_vcs_info[commithash]}'"%F{$git_dirty_color}"'${prompt_pure_git_dirty}%f')
+	fi
 	# Git action (for example, merge).
 	if [[ -n $prompt_pure_vcs_info[action] ]]; then
 		preprompt_parts+=("%F{$prompt_pure_colors[git:action]}"'$prompt_pure_vcs_info[action]%f')
@@ -291,11 +296,13 @@ prompt_pure_async_vcs_info() {
 	# to be used or configured as the user pleases.
 	zstyle ':vcs_info:*' enable git
 	zstyle ':vcs_info:*' use-simple true
+  zstyle ':vcs_info:*' get-revision true
 	# Only export four message variables from `vcs_info`.
-	zstyle ':vcs_info:*' max-exports 3
-	# Export branch (%b), Git toplevel (%R), action (rebase/cherry-pick) (%a)
-	zstyle ':vcs_info:git*' formats '%b' '%R' '%a'
-	zstyle ':vcs_info:git*' actionformats '%b' '%R' '%a'
+  #zstyle ':vcs_info:*' max-exports 3
+	zstyle ':vcs_info:*' max-exports 4
+	# Export branch (%b), Git toplevel (%R), action (rebase/cherry-pick) (%a) hash (length 8)
+	zstyle ':vcs_info:git*' formats '%b' '%R' '%a' '%8.8i'
+	zstyle ':vcs_info:git*' actionformats '%b' '%R' '%a' '%8.8i'
 
 	vcs_info
 
@@ -304,6 +311,7 @@ prompt_pure_async_vcs_info() {
 	info[branch]=${vcs_info_msg_0_//\%/%%}
 	info[top]=$vcs_info_msg_1_
 	info[action]=$vcs_info_msg_2_
+	info[commithash]=${vcs_info_msg_3_}
 
 	print -r - ${(@kvq)info}
 }
@@ -455,6 +463,7 @@ prompt_pure_async_tasks() {
 		unset prompt_pure_git_fetch_pattern
 		prompt_pure_vcs_info[branch]=
 		prompt_pure_vcs_info[top]=
+		prompt_pure_vcs_info[commithash]=
 	fi
 	unset MATCH MBEGIN MEND
 
@@ -573,6 +582,7 @@ prompt_pure_async_callback() {
 
 			# Always update branch, top-level and stash.
 			prompt_pure_vcs_info[branch]=$info[branch]
+			prompt_pure_vcs_info[commithash]=$info[commithash]
 			prompt_pure_vcs_info[top]=$info[top]
 			prompt_pure_vcs_info[action]=$info[action]
 

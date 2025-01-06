@@ -18,9 +18,12 @@ function syncmovies() {
     echo "none"
     return
   else
+    pwd
 #    which rsync
+    modeCommand="rsync -av $targetX ~/lab/movies/." 
+    echo "$modeCommand" | pbcopy
     echo "rsync -av $targetX ~/lab/movies/." | pbcopy
-#    rsync -av $targetX ~/lab/movies/.
+    rsync -av $targetX ~/lab/movies/.
   fi
 
 
