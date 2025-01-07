@@ -157,14 +157,16 @@ prompt_pure_preprompt_render() {
 
 	# Git branch and dirty status info.
 	typeset -gA prompt_pure_vcs_info
-	if [[ -n $prompt_pure_vcs_info[branch] ]]; then
-		preprompt_parts+=("%F{$git_color}"'${prompt_pure_vcs_info[branch]}')
-	fi
 
 	# git branch hash
 	if [[ -n $prompt_pure_vcs_info[commithash] ]]; then
-		preprompt_parts+=("%F{$git_color}"'${prompt_pure_vcs_info[commithash]}'"%F{$git_dirty_color}"'${prompt_pure_git_dirty}%f')
+		preprompt_parts+=("%F{$git_color}"'${prompt_pure_vcs_info[commithash]}')
 	fi
+
+	if [[ -n $prompt_pure_vcs_info[branch] ]]; then
+		preprompt_parts+=("%F{$git_color}"'${prompt_pure_vcs_info[branch]}'"%F{$git_dirty_color}"'${prompt_pure_git_dirty}%f')
+	fi
+
 	# Git action (for example, merge).
 	if [[ -n $prompt_pure_vcs_info[action] ]]; then
 		preprompt_parts+=("%F{$prompt_pure_colors[git:action]}"'$prompt_pure_vcs_info[action]%f')

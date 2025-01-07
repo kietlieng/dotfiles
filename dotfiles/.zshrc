@@ -184,6 +184,9 @@ done
 # nvim / kitty bin.  Don't need a nightly build.  But it's nice to know that I can
 #export PATH="/opt/nightly/nvim-macos/bin:/opt/homebrew/bin:$PATH"
 
+# use direnv
+eval "$(direnv hook zsh)"
+
 # extend history limit
 
 setopt BANG_HIST               # Treat the '!' character specially during expansion.

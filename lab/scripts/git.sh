@@ -6,11 +6,12 @@ alias ga='git add -f' # -f is for force add
 alias gbr="g -branch"
 alias gco="git checkout "
 #alias gd='git diff'
-alias gd='git difftool -y'
+#alias gd='git difftool -y'
+alias gd='git -c diff.external=difft diff'
 alias gdstaged='git difftool --staged -y'
 alias gfetch="git fetch --all"
 alias gfiles="git log --name-only --oneline"
-alias gl="git log -p"
+alias gl="git -c diff.external=difft log -p --ext-diff"
 alias glines="git log -p --unified=0"
 alias glogfiles="git log --name-only"
 alias gmmaster="git merge master"

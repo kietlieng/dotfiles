@@ -128,6 +128,7 @@ function F.setup()
 -- map("n", "<LEADER>gd", ":Git diff<CR>", G_NO_REMAP)                            -- diff
 
   map("n", "<LEADER>gn", ":GitGutterNextHunk<CR>", G_NO_REMAP)                                               -- next githunk
+  map("n", "<LEADER>Gp", ":GitGutterPreviousHunk<CR>", G_NO_REMAP)                                           -- next githunk
   map("n", "<LEADER>gB", ":!callterminal '%:p:h' g ", G_NO_REMAP)                                            -- create branch
                                                                                                              -- map("n", "<LEADER>gl", ":!callterminalless '%:p:h' glog<CR>", G_NO_REMAP) -- git log but it's not working out for me
   map("n", "<LEADER>gl", ":silent !callterminal '%:p:h' glink<CR>", G_NO_REMAP)                              -- link
