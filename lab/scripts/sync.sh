@@ -93,6 +93,7 @@ function cpdot() {
     cp -rf ~/lab/scripts/plot $dScriptDir/.
     cp -rf ~/lab/scripts/python $dScriptDir/.
     cp -rf ~/lab/scripts/zlast $dScriptDir/.
+    cp -rf ~/lab/scripts/ruby $dScriptDir/.
 #    cp -rf ~/lab/scripts/deprecated $dScriptDir/.
 
     cp ~/.oh-my-zsh/themes/pure/pure.zsh $dPure/.

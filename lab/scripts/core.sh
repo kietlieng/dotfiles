@@ -5,6 +5,7 @@ alias cl="c -"
 alias cy="c y"
 alias jote="jot -query ''"
 alias lint="yamllint "
+alias zhistrestore="cp ~/.merged_history ~/.zsh_history"
 alias wfood="wonderfood"
 alias wtitle="wondertitle"
 alias xd="x -cd"
@@ -1112,17 +1113,27 @@ function xenv() {
 function hbackup() {
 
     local histDir=~/.config/zshhistory
+    local currentTime=$(date +"%y%m%d")
     if [[ ! -f $histDir/.zsh_history.${currentTime} ]]; then
-      local currentTime=$(date +"%y%m%d")
+
       local hCount=$(wc -l < ~/.zsh_history | xargs)
       local histLowCount=1260
 
       # only perform backup if it doesn't exists and over a certain limit
-      if [[ $hCount -gt $histLowCount ]]; then
+     # if [[ $hCount -gt $histLowCount ]]; then
         cp ~/.zsh_history $histDir/.zsh_history.${currentTime}
-      fi
+     # fi
 
     fi
+
+}
+
+# restore the merge function
+function zhistmerge() {
+
+  pushd ~/.config/zshhistory/
+  ruby ~/lab/scripts/ruby/restorehistory.rb .zsh_history.* > ~/.merged_history
+  popd
 
 }
 

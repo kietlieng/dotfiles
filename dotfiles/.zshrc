@@ -207,7 +207,7 @@ setopt SHARE_HISTORY           # Share history between all sessions.
 
 ## kl pure theme begin
 ## pure theme be sure to comment out geometry theme on top
-fpath=(~/.oh-my-zsh/themes/pure $fpath)
+fpath+=("$(brew --prefix)/share/zsh/site-functions" ~/.oh-my-zsh/themes/pure)
 
 # load pure prompt
 autoload -U promptinit; promptinit

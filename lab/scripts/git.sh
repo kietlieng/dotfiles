@@ -1,16 +1,14 @@
-#alias gp="git pull"
-#alias gs="git status"
-alias gD="git difftool --staged -y"
-alias gP="gpush"
+alias gD='git -c diff.external=difft diff --staged'
+alias gHash="git rev-parse HEAD && git rev-parse HEAD | pbcopy"
+alias gP='gpush'
 alias ga='git add -f' # -f is for force add
-alias gbr="g -branch"
-alias gco="git checkout "
-#alias gd='git diff'
-#alias gd='git difftool -y'
+alias gbr='g -branch'
+alias gco='git checkout '
 alias gd='git -c diff.external=difft diff'
-alias gdstaged='git difftool --staged -y'
+alias gdstaged='git -c diff.external=difft diff --staged'
 alias gfetch="git fetch --all"
 alias gfiles="git log --name-only --oneline"
+alias ghash="git rev-parse HEAD && git rev-parse HEAD | cut -c -8 | pbcopy"
 alias gl="git -c diff.external=difft log -p --ext-diff"
 alias glines="git log -p --unified=0"
 alias glogfiles="git log --name-only"
@@ -21,13 +19,13 @@ alias gr='groot'
 alias grebaseabort='git rebase --abort'
 alias grebasedelete='rm -fr ".git/rebase-merge"'
 alias gslist="git stash list"
+alias gspop="git stash pop"
+alias gspush="git stash push"
 alias gsstack="git log --name-status --oneline"
 alias gtrack="git update-index --no-assume-unchanged "
 alias guadd='git restore --staged'
 alias guntrack="git update-index --assume-unchanged "
 alias guntracklist="git ls-files -v | grep \"^[[:lower:]]\""
-alias spop="git stash pop"
-alias spush="git stash push"
 
 # commit message inline or via editor
 function gacom() {
