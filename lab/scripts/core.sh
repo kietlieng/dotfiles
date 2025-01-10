@@ -5,7 +5,6 @@ alias cl="c -"
 alias cy="c y"
 alias jote="jot -query ''"
 alias lint="yamllint "
-alias zhistrestore="cp ~/.merged_history ~/.zsh_history"
 alias wfood="wonderfood"
 alias wtitle="wondertitle"
 alias xd="x -cd"
@@ -591,14 +590,6 @@ function strr() {
 
 #source ~/lab/scrap/bash/test.sh
 
-# experimenting with commands to
-function vcom() {
-
-    echo "$(history | tail -n 1 | awk '{$1="";print $0}')" > /tmp/lastcommand.txt
-    vim /tmp/lastcommand.txt
-
-}
-
 # jot down on napkin 
 # jot will create file in /tmp
 function jot() {
@@ -1075,19 +1066,6 @@ function needleHay() {
 
 }
 
-hscrub() {
-
-  currentLang=$LANG
-
-  export LANG="C"
-  echo "sed -ir \"/$1/Id\" ~/.zsh_history"
-  sed -ir "/$1/Id" ~/.zsh_history
-#  mv ~/.zsh_history.bak ~/.zsh_history
-
-  export LANG=$currentLang
-
-}
-
 function hscrubaws() {
 
   hscrub 'AWS_ACCESS_KEY_ID'
@@ -1107,34 +1085,6 @@ function termmask() {
 # grep environment variable
 function xenv() {
   env | fzf
-}
-
-# history backup file
-function hbackup() {
-
-    local histDir=~/.config/zshhistory
-    local currentTime=$(date +"%y%m%d")
-    if [[ ! -f $histDir/.zsh_history.${currentTime} ]]; then
-
-      local hCount=$(wc -l < ~/.zsh_history | xargs)
-      local histLowCount=1260
-
-      # only perform backup if it doesn't exists and over a certain limit
-     # if [[ $hCount -gt $histLowCount ]]; then
-        cp ~/.zsh_history $histDir/.zsh_history.${currentTime}
-     # fi
-
-    fi
-
-}
-
-# restore the merge function
-function zhistmerge() {
-
-  pushd ~/.config/zshhistory/
-  ruby ~/lab/scripts/ruby/restorehistory.rb .zsh_history.* > ~/.merged_history
-  popd
-
 }
 
 # cat copy via arguement
