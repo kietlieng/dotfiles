@@ -143,8 +143,8 @@ lctrl - 4 : ~/lab/scripts/calls/calllastscreen
 lalt - 4 : ~/lab/scripts/calls/calllastdownload
 
 # copy 
-rctrl - 5 : ~/lab/scripts/calls/copg
-lctrl - 5 : ~/lab/scripts/calls/copg
+rctrl - 8 : ~/lab/scripts/calls/copg
+lctrl - 8 : ~/lab/scripts/calls/copg
 
 # yabai window management
 lctrl - g : ~/lab/scripts/calls/callyrot

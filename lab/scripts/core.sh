@@ -620,7 +620,6 @@ function jot() {
     if [[ $fileScratch != "nap" ]]; then
 
       vim "/tmp/${fileScratch}"
-      echo "blah /tmp/${fileScratch}"
 
     else
 
@@ -633,7 +632,7 @@ function jot() {
       done
 #      editFiles=($(echo "$filesToEdit" | sed -r 's/nap/\/tmp\/nap/g'))
 
-      local fzfQuery=$(cat /tmp/fzf-query)
+      local fzfQuery=$(cat /tmp/fzf-query | sed 's/ /-/g')
       if [[ "$editFiles" ]]; then
         vim $editFiles
         echo "|$editFiles|"

@@ -5,6 +5,8 @@ function F.setup()
   local map = vim.keymap.set
   vim.g.mapleader = " "                                     -- core remaps
 
+  local G_REMAP = { silent = false, remap = true }        -- repetitive remaps.  Remap even if mapped
+  local G_SILENT_REMAP = { silent = true, remap = true }  -- repetitive remaps.  Remap even if mapped
   local G_NO_REMAP = { silent = false, remap = false }        -- repetitive remaps
   local G_SILENT_NO_REMAP = { silent = true, remap = false }  -- repetitive remaps
 
@@ -62,7 +64,7 @@ function F.setup()
   map("n", "<LEADER>jw", "<cmd>lua require('lua-fzf').openWorkingJumpFile()<CR>", G_SILENT_NO_REMAP)     -- Jump script to vim :) 
 
   map("n", "<C-c>", "ciw", G_SILENT_NO_REMAP) -- change a word
---  map("n", "yc", "yygccp<CR>", G_SILENT_NO_REMAP)
+  map("n", "yc", "yygccpi", G_SILENT_REMAP)
 
   ----- comment code
   -- tips to comment out code use gcc.  Dude this just deleted my comment lua script
