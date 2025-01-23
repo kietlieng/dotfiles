@@ -8,7 +8,12 @@ alias lint="yamllint "
 alias wfood="wonderfood"
 alias wtitle="wondertitle"
 alias xd="x -cd"
-alias xl="x -l"
+alias ux="xl"
+alias xx="xl 2"
+alias x2="xx"
+alias x3="xl 3"
+alias x4="xl 4"
+alias x5="xl 5"
 
 # edit git file
 function xgit() {
@@ -121,6 +126,23 @@ function xt() { # search /tmp directory
     vim -f $editFiles
   fi
 
+
+}
+
+function xl() {
+
+  local modeTail=1
+  local key=''
+
+  while [[ $# -gt 0 ]]; do
+    modeTail="$1"
+    shift
+  done
+
+  # echo "tail $modeTail"
+  local vimToEdit=($(eza --all --sort=modified --long -f | tail -n $modeTail | awk '{print $(NF)}' |  sed -r 's/\n/ /g'))
+#  echo "|$vimToEdit|"
+  vim $vimToEdit
 
 }
 
@@ -1121,5 +1143,15 @@ function wondertitle() {
   if [[ $# -gt 0 ]]; then
     echo $RANDOM_TITLE1
   fi
+
+}
+
+function oo() {
+
+  if [[ $# -gt 0 ]]; then
+    open $1
+    return
+  fi
+  open .
 
 }

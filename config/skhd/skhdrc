@@ -154,8 +154,9 @@ lctrl - 9 : ~/lab/scripts/calls/scriptcall ytdecrease
 rctrl + shift - e : ~/lab/scripts/calls/scriptcall yf
 rctrl - x : ~/lab/scripts/calls/scriptcall ytogpadding
 rctrl - a : ~/lab/scripts/calls/scriptcall ytoganchor
-rctrl + shift - a : ~/lab/scripts/calls/scriptcall rot
 
+# y move window to differrent screen
+rctrl + shift - a : ~/lab/scripts/calls/scriptcall rot
 
 #lctrl - shift [
 #    "kitty"       : echo "hello kitty"

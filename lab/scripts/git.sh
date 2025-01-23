@@ -653,6 +653,7 @@ function gclone() {
     # remove everything after tree
     mungedURL="${mungedURL%tree*}"
     mungedURL="${mungedURL/\/blob*/}"
+    mungedURL=$(echo "$mungedURL" | sed "s/https:\/\/gitlabdev/git@gitlabdev/g")
   fi
   mungedURL=$(echo "$mungedURL" | sed "s/info\//info:/g")
   echo "$mungedURL"

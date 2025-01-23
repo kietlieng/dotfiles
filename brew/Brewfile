@@ -115,7 +115,7 @@ brew "mpv"
 brew "mtr"
 brew "multitail"
 brew "mutt"
-brew "mysql"
+brew "mysql", restart_service: :changed
 brew "mysql-client@8.4"
 brew "n"
 brew "neofetch"

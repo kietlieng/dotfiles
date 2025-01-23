@@ -64,7 +64,8 @@ function F.setup()
   map("n", "<LEADER>jw", "<cmd>lua require('lua-fzf').openWorkingJumpFile()<CR>", G_SILENT_NO_REMAP)     -- Jump script to vim :) 
 
   map("n", "<C-c>", "ciw", G_SILENT_NO_REMAP) -- change a word
-  map("n", "yc", "yygccpi", G_SILENT_REMAP)
+--  map("n", "YY", "yygccpi", G_SILENT_REMAP)
+  map("n", "<C-y>", "yygccp", G_SILENT_REMAP)
 
   ----- comment code
   -- tips to comment out code use gcc.  Dude this just deleted my comment lua script
@@ -198,6 +199,7 @@ function F.setup()
   map("n", "<LEADER>udot", ":!callterminal '%:p:h' cpdot<CR>", G_NO_REMAP) -- uploads syncdot
   map("n", "<LEADER>umedia", ":!callterminal '%:p:h' upmedia<CR>", G_NO_REMAP) -- uploads syncdot
   map("n", "<LEADER>upmedia", ":!callterminal '%:p:h' uppmedia<CR>", G_NO_REMAP) -- uploads syncdot
+  map("n", "<LEADER>upi", ":!callterminal '%:p:h' upivanti<CR>", G_NO_REMAP) -- uploads syncdot
 
   map("n", "<LEADER><SPACE>alpha", ":set nrformats=bin,hex,alpha<CR>", G_NO_REMAP)  -- change incremental alpha
   map("n", "<LEADER><SPACE>number", ":set nrformats=bin,hex<CR>", G_NO_REMAP)       -- change incremental number: default
@@ -264,7 +266,7 @@ function F.setup()
   map("n", "<LEADER>virule", ":next ~/lab/repos/irules-engine/modules/download_irule.py <CR>", G_SILENT_NO_REMAP) -- dns dev
   map("n", "<LEADER>visre", ":next ~/lab/repos/srebot/src/index.js <CR>", G_SILENT_NO_REMAP) -- dns dev
 
-  map("n", "<LEADER>rn", ":set rnu!<CR>", G_SILENT_NO_REMAP) -- math
+  map("n", "<LEADER>nre", ":set rnu!<CR>", G_SILENT_NO_REMAP) -- math
   map("n", "<LEADER>ma", ":MdMath enable<CR>", G_SILENT_NO_REMAP) -- math
 
   -- flash 
