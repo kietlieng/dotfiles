@@ -1272,7 +1272,12 @@ function yfocuswin() {
 
   local yWindows=''
 #  yWindows=$(yabai -m query --windows)
-
-
   
+}
+
+function yswitchmonitor() {
+
+  yUnfocused=$(yabai -m query --displays | jq ".[] | select(.[\"has-focus\"] == false) | .id")
+  pecho "focus is $yUnfocused"
+
 }

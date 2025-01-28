@@ -147,6 +147,7 @@ rctrl - 8 : ~/lab/scripts/calls/copg
 lctrl - 8 : ~/lab/scripts/calls/copg
 
 # yabai window management
+#lctrl - a : ~/lab/scripts/calls/scriptcall yswitchmonitor
 lctrl - g : ~/lab/scripts/calls/callyrot
 lctrl + shift - g : ~/lab/scripts/calls/scriptcall yshift -f
 lctrl - 0 : ~/lab/scripts/calls/scriptcall ytincrease

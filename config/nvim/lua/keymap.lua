@@ -106,6 +106,8 @@ function F.setup()
   map("v", "<LEADER>sR", ":s///gc<LEFT><LEFT><LEFT>", G_NO_REMAP)   -- tab visual
   map("v", "<LEADER>sr", ":s///g<LEFT><LEFT>", G_NO_REMAP)          -- tab visual
 
+  map("n", "<LEADER>su", ":!callterminal '%:p:h'  slackuserscopy l=", G_NO_REMAP)          -- tab visual
+
   map("n", "<C-t>", ":!callterminal '%:p:h' ", G_NO_REMAP)  -- terminal runs
 
 --  map("v", "<LEADER>zget", ":'<,'>lua require('zookeeper').zkget()<CR>", G_SILENT_NO_REMAP) -- zk copy
