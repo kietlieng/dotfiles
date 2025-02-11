@@ -96,8 +96,8 @@ function yWindowMove() {
         esac
     done
 
-    local yWindowIDs=$(yabai -m query --windows | jq "$yQuery" | jq '.id')
-    local yCurrentDisplay=$(yabai -m query --windows | jq "$yQuery" | jq '.display')
+    local yWindowIDs=$(yabai -m query --windows | sed 's/,]/]/' | jq "$yQuery" | jq '.id')
+    local yCurrentDisplay=$(yabai -m query --windows | sed 's/,]/]/' | jq "$yQuery" | jq '.display')
     local yMainWindow=$(yabai -m query --displays | jq '.[] | select(.frame.x == 0 and .frame.y == 0)' | jq '.index')
     local lastResult=''
     #echo "mainWindow $yMainWindow"
@@ -167,7 +167,7 @@ function yo() {
     local yPositionChange="f"
 
     #local yContext=$(yabai -m query --windows | jq ".[] | select(.title | contains(\"$targetWindow\"))" | jq '.display' )
-    local yContext=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .display')
+    local yContext=$(yabai -m query --windows | sed 's/,]/]/' | jq '.[] | select(."has-focus") | .display')
     local yWidth=$(yabai -m query --displays | jq ".[] | select(.index==$yContext)" | jq '.frame.w' )
     local yHeight=$(yabai -m query --displays | jq ".[] | select(.index==$yContext)" | jq '.frame.h' )
 
@@ -271,7 +271,7 @@ function yo() {
 
 function yissingle() {
 
-    local yTargetInstances=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty") or contains("Ghostty")) | select(."is-visible") | select(."is-minimized"|not) | .display' | wc -l)
+    local yTargetInstances=$(yabai -m query --windows | sed 's/,]/]/' | jq '.[] | select(.app | contains("kitty") or contains("Ghostty")) | select(."is-visible") | select(."is-minimized"|not) | .display' | wc -l)
     ((yTargetInstances=yTargetInstances))
 #    becho "$yTargetInstances"
     if [[ $yTargetInstances -lt 2 ]]; then
@@ -302,9 +302,9 @@ function yt() {
     # show me the highest number display
     local yDisplays=$(yabai -m query --displays | jq '.[].index' | grep -i -o '[0-9]')
     echo "displays $yDisplays"
-    local yWindowID=$(yabai -m query --windows | jq '.[] | select(.title | contains("yt"))' | jq '.id')
+    local yWindowID=$(yabai -m query --windows |  sed 's/,]/]/' | jq '.[] | select(.title | contains("yt"))' | jq '.id')
     echo "windowID $yWindowID"
-    local yCurrentDisplay=$(yabai -m query --windows | jq '.[] | select(.title | contains("yt"))' | jq '.display' | tail -n 1)
+    local yCurrentDisplay=$(yabai -m query --windows |  sed 's/,]/]/' | jq '.[] | select(.title | contains("yt"))' | jq '.display' | tail -n 1)
     local yCurrentDisplay=${yCurrentDisplay//[$'\t\r\n']}
     local nextDisplay=$((yCurrentDisplay+1))
 
@@ -346,12 +346,12 @@ function ymanage() {
         sleep .2
 
         # get width of kitty
-        kittyWidth=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty") or contains("Ghostty"))' | jq '.frame.w' | awk '{sum += $1} END {print sum}')
+        kittyWidth=$(yabai -m query --windows  | sed 's/,]/]/' | jq '.[] | select(.app | contains("kitty") or contains("Ghostty"))' | jq '.frame.w' | awk '{sum += $1} END {print sum}')
         totalWidth=$kittyWidth
         managedFirefox=$(yabai -m rule --list | grep -i firefox)
         fireWidth=''
         if [[ $managedFirefox ]]; then
-            fireWidth=$(yabai -m query --windows | jq '.[] | select(.app | contains("Firefox"))' | jq '.frame.w' | awk '{sum += $1} END {print sum}')
+            fireWidth=$(yabai -m query --windows | sed 's/,]/]/' | jq '.[] | select(.app | contains("Firefox"))' | jq '.frame.w' | awk '{sum += $1} END {print sum}')
             ((totalWidth=fireWidth+kittyWidth))
         fi
 
@@ -363,12 +363,12 @@ function ymanage() {
     else
 
         # kitty width
-        kittyWidth=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty") or contains("Ghostty"))' | jq '.frame.w' | awk '{sum += $1} END {print sum}')
+        kittyWidth=$(yabai -m query --windows | sed 's/,]/]/' | jq '.[] | select(.app | contains("kitty") or contains("Ghostty"))' | jq '.frame.w' | awk '{sum += $1} END {print sum}')
         totalWidth=$kittyWidth
 
         managedFirefox=$(yabai -m rule --list | grep -i firefox)
         if [[ $managedFirefox ]]; then
-            fireWidth=$(yabai -m query --windows | jq '.[] | select(.app | contains("Firefox"))' | jq '.frame.w' | awk '{sum += $1} END {print sum}')
+            fireWidth=$(yabai -m query --windows | sed 's/,]/]/' | jq '.[] | select(.app | contains("Firefox"))' | jq '.frame.w' | awk '{sum += $1} END {print sum}')
             ((totalWidth=fireWidth+kittyWidth))
         fi
         # enforcing padding should be full width
@@ -426,6 +426,7 @@ function y() {
         position=$(cat ~/.yposition)
         #                echo "position $position"
         yo "$position" -title "yh"
+        pecho "yo \"$position\" -title \"yh\""
         ;;
       
       'sp+' )
@@ -599,7 +600,7 @@ function yistop() {
 
 #  echo "isTop"
 
-  local yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty") or contains("Ghostty")) | select(."is-visible") | select(."is-minimized"|not)')
+  local yTargetDisplays=$(yabai -m query --windows | sed 's/,]/]/' | jq '.[] | select(.app | contains("kitty") or contains("Ghostty")) | select(."is-visible") | select(."is-minimized"|not)')
   local yDisplayIndex=$(echo "$yTargetDisplays" | jq '.display' | head -n 1) 
   local yHeight=$(yabai -m query --displays | jq ".[] | select(.index==$yDisplayIndex) | .frame.h")
   local yHeight=${yHeight%.*}
@@ -607,7 +608,7 @@ function yistop() {
   local yHeight=$((yHeight / 2))
   local yHeight=$((yHeight - 50))
 #  local yHeightTolerance=$((yHeight + 50))
-  local yYValue=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .frame.y')
+  local yYValue=$(yabai -m query --windows | sed 's/,]/]/' | jq '.[] | select(."has-focus") | .frame.y') 
 #  echo "yYValue |$yYValue| |$yHeight|"
   
   if [[ $yYValue -lt $yHeight ]]; then
@@ -626,7 +627,7 @@ function yanchor() {
   if [[ $yOrientation != "topdown" ]]; then return; fi
 
   #echo "yanchor"
-  local yTargetDisplays=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty") or contains("Ghostty")) | select(."is-visible") | select(."is-minimized"|not)')
+  local yTargetDisplays=$(yabai -m query --windows | sed 's/,]/]/' | jq '.[] | select(.app | contains("kitty") or contains("Ghostty")) | select(."is-visible") | select(."is-minimized"|not)')
   local yInstanceCount=$(echo "$yTargetDisplays" | jq ".frame | .h" | wc -l)
   local yInstanceCount=$((yInstanceCount)) # sting to int cast
   local yInstanceLimit=10
@@ -639,8 +640,8 @@ function yanchor() {
 
   fi
 
-  local yCurrentDisplay=$(yabai -m query --windows | jq '.[] | select(."has-focus")')
-  local yYValue=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .frame.y')
+  local yCurrentDisplay=$(yabai -m query --windows | sed 's/,]/]/' | jq '.[] | select(."has-focus")')
+  local yYValue=$(yabai -m query --windows | sed 's/,]/]/' | jq '.[] | select(."has-focus") | .frame.y')
   local yYValue=${yYValue%.*} 
   # whatever value throw it in there 
   while [[ $# -gt 0 ]]; do
@@ -931,7 +932,7 @@ function yy() {
 function ysh() {
     #!/bin/bash
 
-    win=$(yabai -m query --windows --window last | jq '.id')
+    win=$(yabai -m query --windows --window last | sed 's/,]/]/' | jq '.id')
 
     while : ; do
         yabai -m window "$win" --swap prev &> /dev/null
@@ -957,7 +958,7 @@ function yshift() {
 
   done
 
-  local yCurrentApp=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .app')
+  local yCurrentApp=$(yabai -m query --windows | sed 's/,]/]/' | jq '.[] | select(."has-focus") | .app')
 
   echo "$yCurrentApp" >> /tmp/yContext
   
@@ -981,7 +982,7 @@ function yshift() {
 
     if [[ ("$yCurrentApp" != '"kitty"' &&  "$yCurrentApp" != '"Ghostty"' ) && "$shouldFocus" == "t" ]]; then
 
-      win=$(yabai -m query --windows --window last | jq '.id')
+      win=$(yabai -m query --windows --window last | sed 's/,]/]/' | jq '.id')
       echo "last" >> /tmp/yContext
       yabai -m query --windows --window last >> /tmp/yContext
       yabai -m window "$win" --focus
@@ -990,7 +991,7 @@ function yshift() {
 
     else
 
-      win=$(yabai -m query --windows --window first | jq '.id')
+      win=$(yabai -m query --windows --window first | sed 's/,]/]/' | jq '.id')
 
       echo "first" >> /tmp/yContext
       yabai -m query --windows --window first >> /tmp/yContext
@@ -1018,11 +1019,11 @@ function yshift() {
 
     if [[ ("$yCurrentApp" != '"kitty"' &&  "$yCurrentApp" != '"Ghostty"' ) && "$shouldFocus" == "t" ]]; then
 
-      win=$(yabai -m query --windows --window first | jq '.id')
+      win=$(yabai -m query --windows --window first | sed 's/,]/]/' | jq '.id')
       echo "first2" >> /tmp/yContext
       output=$(yabai -m query --windows --window first)
       echo "$output" >> /tmp/yContext
-      yabai -m query --windows --window first | jq '.id' >> /tmp/yContext
+      yabai -m query --windows --window first | sed 's/,]/]/' | jq '.id' >> /tmp/yContext
       yabai -m window "$win" --focus
 #      echo "not working2 $yCurrentApp" >> /tmp/yContext
 #      echo "$shouldFocus" >> /tmp/yContext
@@ -1030,7 +1031,7 @@ function yshift() {
     else
 
       # cycle through clockwise
-      win=$(yabai -m query --windows --window last | jq '.id')
+      win=$(yabai -m query --windows --window last | sed 's/,]/]/' | jq '.id')
       echo "last2" >> /tmp/yContext
 
       while : ; do
@@ -1059,7 +1060,7 @@ function yshift() {
 function ytoganchor() {
 
 #  yContext=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .display')
-  local yContext=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty") or contains("Ghostty"))' | jq '.display' | head -n 1)
+  local yContext=$(yabai -m query --windows | sed 's/,]/]/' | jq '.[] | select(.app | contains("kitty") or contains("Ghostty"))' | jq '.display' | head -n 1)
 
 #  echo "$yContext"
 #  return
@@ -1132,7 +1133,7 @@ function ytoganchor() {
 function ytogpadding() {
 
 #  yContext=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .display')
-  local yContext=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty") or contains("Ghostty"))' | jq '.display' | head -n 1)
+  local yContext=$(yabai -m query --windows | sed 's/,]/]/' | jq '.[] | select(.app | contains("kitty") or contains("Ghostty"))' | jq '.display' | head -n 1)
 
 #  echo "$yContext"
 #  return
@@ -1148,16 +1149,13 @@ function ytogpadding() {
   local rightPadding=$(yabai -m config --space 1 right_padding)
   local rightPadding=${rightPadding%.*} # need int cast 
 
-  echo "$leftPadding $rightPadding"
+  pecho "$leftPadding $rightPadding"
 
   local currentPadding=$leftPadding
 
   if [[ $rightPadding -gt 0 ]]; then
-
     currentPadding=$rightPadding
-
   fi
-
 
   # it's half
   if [[ $currentPadding -gt $yWHalf3 ]]; then
@@ -1167,7 +1165,7 @@ function ytogpadding() {
     pecho "full"
     yf
   else
-    pecha "half2"
+    pecho "half2"
     yh
   fi
 
@@ -1249,9 +1247,9 @@ function yfocuswin() {
       yQuery="$yQuery | select(.title | test(\"$modeTitle\"))"
     fi
 
-    yWindows=$(yabai -m query --windows | jq "$yQuery")
-    yWinID=$(yabai -m query --windows | jq "$yQuery | .id" | head -n 1)
-    yWinFocused=$(yabai -m query --windows | jq "$yQuery | .\"has-focus\"" | head -n 1)
+    yWindows=$(yabai -m query --windows | sed 's/,]/]/' | jq "$yQuery")
+    yWinID=$(yabai -m query --windows | sed 's/,]/]/' | jq "$yQuery | .id" | head -n 1)
+    yWinFocused=$(yabai -m query --windows | sed 's/,]/]/' | jq "$yQuery | .\"has-focus\"" | head -n 1)
     
     echo "$yWindows"
     echo "$yWinFocused"

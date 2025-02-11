@@ -34,7 +34,7 @@ function F.setup()
       "terraformls",
 --      "tsserver",
       "ts_ls",
-      "yamlls",
+--      "yamlls",
       "zls",
 
     },

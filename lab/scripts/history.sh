@@ -5,6 +5,7 @@ export HISTFILE="$HOME/.zsh_history"
 export HISTSIZE=1000000
 export SAVEHIST=$HISTSIZE
 
+alias zhistandmerge="zhistmerge && zhistrestore"
 alias zhistrestore="cp ~/.merged_history ~/.zsh_history"
 
 # experimenting with commands to
