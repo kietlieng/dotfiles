@@ -4,6 +4,9 @@ from pprint import pprint
 
 GITLAB_TOKEN = os.getenv('GITLAB_TOKEN')
 GITLAB_URL = os.getenv('GITLAB_URL')
+
+print(GITLAB_TOKEN, GITLAB_URL)
+
 if len(sys.argv) < 2:
     exit(1)
 
@@ -14,11 +17,27 @@ if len(sys.argv) > 2:
 print(sys.argv)
 headers = {
     'PRIVATE-TOKEN': GITLAB_TOKEN,
+    'Content-Type': 'application/x-www-form-urlencoded',
+    "Referer": "https://gitlabdev.paciolan.info",
 }
 
 print(GITLAB_URL + '/api/v4/projects/' + projectId + '/jobs?per_page=100&page=' + currentPage)
 response = requests.get(GITLAB_URL + '/api/v4/projects/' + projectId + '/jobs?per_page=100&page=' + currentPage, headers=headers)
 responseHeaders = response.headers
+
+
+
+##
+
+#deleteResponse = requests.delete(GITLAB_URL + '/api/v4/projects/' + projectId + '/jobs/' + currentId + '/artifacts', headers=headers)
+#print(GITLAB_URL + '/api/v4/projects/' + projectId + '/jobs/' + currentId + '/artifacts', currentPage, jobCount)
+#print("response", deleteResponse)
+#print(" >>", deleteResponse.headers)
+#statusCode = deleteResponse.status_code
+#print(" >>", deleteResponse.status_code)
+#exit()
+
+##
 
 
 print(responseHeaders)
@@ -41,7 +60,6 @@ while True:
             #print("delete", getResponse)
             #print("delete2", getResponse.text)
 
-#            deleteResponse = requests.post(GITLAB_URL + '/api/v4/projects/' + projectId + '/jobs/' + currentId + '/artifacts', headers=headers)
             deleteResponse = requests.delete(GITLAB_URL + '/api/v4/projects/' + projectId + '/jobs/' + currentId + '/artifacts', headers=headers)
             print(GITLAB_URL + '/api/v4/projects/' + projectId + '/jobs/' + currentId + '/artifacts', currentPage, jobCount)
             #print(pageMessage, "delete id", currentId)

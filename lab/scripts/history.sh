@@ -40,7 +40,7 @@ function hbackup() {
 
 
     if [[ $hCount -lt $hMergedCount ]]; then
-      echo "history has been truncated $hCount/$hMergedCount. Run zhistmerge zhistrestore to rebuild" 
+      echo "history has been truncated $hCount/$hMergedCount. Run zhistandmerge (zhistmerge zhistrestore) to rebuild" 
     fi
 
     if [[ ! -f $histDir/.zsh_history.${currentTime} ]]; then
