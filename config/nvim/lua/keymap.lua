@@ -275,10 +275,10 @@ function F.setup()
   --map("n", "<c-s>", "<cmd>lua require('flash').toggle()<CR>", G_NO_REMAP)    -- flash toggle
 
 --  USER <C-w><C-w> to toggle between them
---  map("n", "<C-k>", ":wincmd k<CR>", G_SILENT_NO_REMAP) -- up
---  map("n", "<C-j>", ":wincmd j<CR>", G_SILENT_NO_REMAP) -- down
---  map("n", "<C-l>", ":wincmd l<CR>", G_SILENT_NO_REMAP) -- right 
---  map("n", "<C-h>", ":wincmd h<CR>", G_SILENT_NO_REMAP) -- left
+  map("n", "<C-k>", ":wincmd k<CR>", G_SILENT_NO_REMAP) -- up
+  map("n", "<C-j>", ":wincmd j<CR>", G_SILENT_NO_REMAP) -- down
+  map("n", "<C-l>", ":wincmd l<CR>", G_SILENT_NO_REMAP) -- right 
+  map("n", "<C-h>", ":wincmd h<CR>", G_SILENT_NO_REMAP) -- left
 
 --  map("n", "<LEADER>wj", ":only<CR>", G_SILENT_NO_REMAP) -- join all windows
 

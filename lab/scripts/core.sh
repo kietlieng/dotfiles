@@ -8,12 +8,13 @@ alias lint="yamllint "
 alias wfood="wonderfood"
 alias wtitle="wondertitle"
 alias Ed="E -cd"
-alias ue="el"
-alias ee="el 2"
+alias ue="e"
+alias ee="e 2"
+alias eee="e 3"
 alias e2="ee"
-alias e3="el 3"
-alias e4="el 4"
-alias e5="el 5"
+alias e3="e 3"
+alias e4="e 4"
+alias e5="e 5"
 
 # edit git file
 function egit() {
@@ -114,7 +115,8 @@ function fzfpreview() {
 
 }
 
-function et() { # search /tmp directory
+# search /tmp directory
+function etmp() {
 
   local tempResults=$(fzfpreview /tmp)
   local editFiles=()
@@ -129,7 +131,7 @@ function et() { # search /tmp directory
 
 }
 
-function el() {
+function e() {
 
   local modeTail=1
   local key=''
@@ -147,7 +149,7 @@ function el() {
 }
 
 # go into fzf for searching files and edit
-function e() {
+function eo() {
 
     local goToDirectory='f'
     local rootDirectory=''
@@ -232,11 +234,11 @@ function e() {
 }
 
 # same as above function except we go to the root git directory then search
-function E() {
+function EO() {
 
     rootFolder=$(gitrootfolder)
 
-    x -d $rootFolder $@
+    eo -d $rootFolder $@
 
 }
 
