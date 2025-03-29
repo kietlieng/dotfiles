@@ -20,6 +20,22 @@ alias tmv3='tmux new-session \; split-window -h \; split-window -h \; select-pan
 alias tsource="tmux source ~/.tmux.conf"
 alias tt='t -t'
 
+
+# need watchexec service
+function watchstart() {
+  countIt=$(ps aux | grep -i "watchexec.*calltmuxcallback" | wc -l | xargs)
+  countIt=$((countIt))
+
+  echo "counting |$countIt|"
+  if [[ $countIt -lt 2 ]]; then
+    echo "starting"
+    watchexec -W=/tmp/tmuxcallback calltmuxcallback &
+  else
+    echo "Already exists.  Quitting"
+  fi
+}
+
+
 function tl() {
   t -l $@
 }
