@@ -8,12 +8,12 @@ alias lint="yamllint "
 alias wfood="wonderfood"
 alias wtitle="wondertitle"
 alias Ed="X -cd"
-alias xx="x 2"
-alias xxx="x 3"
-alias x2="xx"
-alias x3="x 3"
-alias x4="x 4"
-alias x5="x 5"
+alias ee="e 2"
+alias eee="e 3"
+alias e2="ee"
+alias e3="e 3"
+alias e4="e 4"
+alias e5="e 5"
 
 # edit git file
 function xgit() {
