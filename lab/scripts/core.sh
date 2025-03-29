@@ -7,17 +7,16 @@ alias jote="jot -query ''"
 alias lint="yamllint "
 alias wfood="wonderfood"
 alias wtitle="wondertitle"
-alias Ed="E -cd"
-alias ue="e"
-alias ee="e 2"
-alias eee="e 3"
-alias e2="ee"
-alias e3="e 3"
-alias e4="e 4"
-alias e5="e 5"
+alias Ed="X -cd"
+alias xx="x 2"
+alias xxx="x 3"
+alias x2="xx"
+alias x3="x 3"
+alias x4="x 4"
+alias x5="x 5"
 
 # edit git file
-function egit() {
+function xgit() {
 
     currentFolder=$(pwd)
     rootFolder=$(gitrootfolder)
@@ -29,8 +28,7 @@ function egit() {
 
 }
 
-
-function eignore() {
+function xignore() {
 
     currentFolder=$(pwd)
     rootFolder=$(gitrootfolder)
@@ -41,12 +39,12 @@ function eignore() {
 }
 
 # find docker file
-function ed() {
+function xd() {
     vfile "Dockerfile"
 }
 
 # edit ci yaml file without looking
-function ec() {
+function xc() {
     vfile ".gitlab-ci.yml"
 }
 
@@ -116,7 +114,7 @@ function fzfpreview() {
 }
 
 # search /tmp directory
-function etmp() {
+function xtmp() {
 
   local tempResults=$(fzfpreview /tmp)
   local editFiles=()
@@ -149,7 +147,7 @@ function e() {
 }
 
 # go into fzf for searching files and edit
-function eo() {
+function x() {
 
     local goToDirectory='f'
     local rootDirectory=''
@@ -234,18 +232,18 @@ function eo() {
 }
 
 # same as above function except we go to the root git directory then search
-function EO() {
+function X() {
 
     rootFolder=$(gitrootfolder)
 
-    eo -d $rootFolder $@
+    x -d $rootFolder $@
 
 }
 
-alias eG="eg '?'"
+alias xG="eg '?'"
 
 # open all files that are modified / new / deleted to vim from git 
-function eg() {
+function xg() {
 
   key=''
 
