@@ -144,12 +144,15 @@ export GOPATH=$HOME/go
 #echo "load"
 for f in $(find ~/lab/scripts -type f -iname "*.sh" | sort);
 do
-#    echo "sourcing $f"
+
+#    timer=$(($(gdate +%s%N)/1000000))
+
     source $f
-#    echo "$f"
-#    sourceTime=$(time (source $f))
-#    echo -n "$sourceTime" >> /tmp/sourcetime
-#    echo $$
+
+#    now=$(($(gdate +%s%N)/1000000))
+#    elapsed=$(($now-$timer))
+#    echo $elapsed":" $f
+
 done
 
 #echo "runtime $runtime"

@@ -16,7 +16,7 @@ alias glogfiles="git log --name-only"
 alias gmmaster="git merge master"
 alias gprune="g -prune"
 alias gpull="git pull --all"
-alias gr='groot'
+alias gR='groot' # taken over by grep
 alias grebaseabort='git rebase --abort'
 alias grebasedelete='rm -fr ".git/rebase-merge"'
 alias gslist="git stash list"
@@ -483,9 +483,7 @@ function g() {
   fi
 
   if [[ $(glreachable) == "n" ]]; then
-    echo "!!!repo: unreachable!!!"
-    echo "!!!repo: unreachable!!!"
-    echo "!!!repo: unreachable!!!"
+    echo ">>>>> repo: unreachable!!!"
   fi
 
 }

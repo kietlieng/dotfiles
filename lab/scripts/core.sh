@@ -14,6 +14,7 @@ alias e2="ee"
 alias e3="e 3"
 alias e4="e 4"
 alias e5="e 5"
+alias fo="f -o"
 
 # edit git file
 function xgit() {
@@ -306,7 +307,7 @@ function hashdir() {
 }
 
 # copy file path
-function fxcp() {
+function fcp() {
 
     cp $(fzf)
 
@@ -331,30 +332,30 @@ function pc() {
 }
 
 # grep listing
-function gxl() {
-    gx -l $@
+function grl() {
+    gr -l $@
 }
 
 
-# ?? not coded in gx function
-function gxi() {
+# ?? not coded in gr function
+function gri() {
 
-    gx -i $@
+    gr -i $@
 
 }
 
-function gxcdl() {
-    gx -ci -l $@
+function grcdl() {
+    gr -ci -l $@
 }
 
 # duplicate of xc
-function gxcd() {
-    gx -ci $@
+function grcd() {
+    gr -ci $@
 }
 
 # match all from file a to file b in order
 # Meaning: file a: go line by line.  Match to file b.  Output 
-function gxab() {
+function grab() {
   local fileA="$1"
   local fileB="$2"
   local results=""
@@ -410,7 +411,7 @@ function stripends() { # from the target ($1), strip out values from both ends (
 }
 
 # grep recursive
-function gx() {
+function gr() {
     local searchExpression='.*'
     local shouldList='false'
     local searchCICD='f'
@@ -420,19 +421,18 @@ function gx() {
     do
 
         key="$1"
+        shift
+
         case $key in
 
             '-l' )
                 shouldList='true'
-                shift
                 ;;
             '-ci' )
                 searchCICD='t'
-                shift
                 ;;
             * )
-                searchExpression="$searchExpression${1}.*"
-                shift
+                searchExpression="$searchExpression${key}.*"
                 ;;
 
         esac
@@ -441,14 +441,14 @@ function gx() {
 
 
 #    echo "searchExpression $searchExpression"
-    if [[ $searchExpression = '.*' ]]; then
+    if [[ $searchExpression == '.*' ]]; then
         echo "No expression"
     else
         searchExpression=${searchExpression##\.\*}
         searchExpression=${searchExpression%%\.\*}
 
         #echo "search term $searchExpression"
-        if [[ $searchCICD = 't' ]]; then
+        if [[ $searchCICD == 't' ]]; then
             if [[ $shouldList = "true" ]]; then
                 find . -iname ".gitlab-ci.yml" -exec grep -il "$searchExpression" {} \;
             else
@@ -497,7 +497,7 @@ function gx() {
 }
 
 # rename function.  
-function fxrename() {
+function frename() {
 
   currentName="$1"
   newName="${currentName// /_}"
@@ -511,25 +511,49 @@ function fxrename() {
 }
 
 # find file
-function fx() {
+function f() {
+
     searchexpression="*"
-    while [[ $# -gt 0 ]]
-    do
-        searchexpression="$searchexpression${1}*"
+    optionOpen='f'
+
+
+    while [[ $# -gt 0 ]]; do
+        key="$1"
         shift
+
+        case $key in
+
+            '-o' )
+                optionOpen='t'
+                ;;
+
+            * )
+                searchexpression="$searchexpression${key}*"
+                ;;
+        esac
+
     done
-    echo "find . -iname \"$searchexpression\""
-    find . -iname $searchexpression
+
+
+    if [[ $optionOpen == 't' ]]; then
+      echo "find . -iname \"$searchexpression\" -exec open {} \\;"
+      find . -iname $searchexpression -exec open {} \;
+    else
+      echo "find . -iname \"$searchexpression\""
+      find . -iname $searchexpression
+    fi
+
 }
 
+
 # find and grep list
-function fgxl() {
-    fgx $@ -l
+function fgrl() {
+    fgr $@ -l
 
 }
 
 # find and grep
-function fgx() {
+function fgr() {
     fileExpression="$1"
     searchExpression="$2"
     listOption='f'
@@ -539,18 +563,18 @@ function fgx() {
     while [[ $# -gt 0 ]];
     do
         key="$1"
+        shift 
+
         case $key in
             '-l' )
                 listOption='t'
-                shift
                 ;;
             * )
-                shift
                 ;;
         esac
     done
 
-    if [[ $listOption = 't' ]];
+    if [[ $listOption == 't' ]];
     then
         find . -iname "*${fileExpression}*" -exec grep -il "${searchExpression}" {} \;
     else
@@ -579,25 +603,23 @@ function strr() {
     while [[ $# -gt 0 ]];
     do
         key="$1"
+        shift
+
         case $key in
             '-s' )
                 searchTerm="$2"
-                shift
                 shift
                 ;;
             '-r' )
                 replaceTerm="$2"
                 shift
-                shift
                 ;;
             '-c' )
                 copy='true'
-                shift
                 ;;
             * )
                 shortened=$(echo $key | sed "s/$searchTerm/$replaceTerm/g")
                 searchExpression="$searchExpression${replaceTerm}${shortened}"
-                shift
                 ;;
         esac
     done
