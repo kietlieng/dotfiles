@@ -206,7 +206,8 @@ function x() {
       local fileCount=$(echo "$filesToEdit" | wc -l)
       fileCount=$((fileCount))
       if [[ $fileCount -gt 1 ]]; then
-        filesToEdit=$(ls -1t modified -snew | fzf --multi --query "$searchString")
+#        filesToEdit=$(ls -1t modified -snew | fzf --multi --query "$searchString")
+        filesToEdit=$(ls -1t modified -sold | fzf --multi --query "$searchString")
       fi
 
       if [[ ${#filesToEdit[@]} != 0 ]]; then
