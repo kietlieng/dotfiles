@@ -206,7 +206,7 @@ function x() {
       local fileCount=$(echo "$filesToEdit" | wc -l)
       fileCount=$((fileCount))
       if [[ $fileCount -gt 1 ]]; then
-        filesToEdit=$(fzf --multi --query "$searchString")
+        filesToEdit=$(ls -1t modified -snew | fzf --multi --query "$searchString")
       fi
 
       if [[ ${#filesToEdit[@]} != 0 ]]; then
@@ -535,12 +535,20 @@ function f() {
     done
 
 
-    if [[ $optionOpen == 't' ]]; then
-      echo "find . -iname \"$searchexpression\" -exec open {} \\;"
-      find . -iname $searchexpression -exec open {} \;
-    else
-      echo "find . -iname \"$searchexpression\""
-      find . -iname $searchexpression
+    if [[ $searchExpression != '*' ]]; then
+
+      if [[ $optionOpen == 't' ]]; then
+        echo "find . -iname \"$searchexpression\" -exec open {} \\;"
+        find . -iname $searchexpression -exec open {} \;
+      else
+        echo "find . -iname \"$searchexpression\""
+        find . -iname $searchexpression
+      fi
+
+    else 
+
+      echo "expression?"
+
     fi
 
 }
