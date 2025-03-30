@@ -483,7 +483,9 @@ function g() {
   fi
 
   if [[ $(glreachable) == "n" ]]; then
-    echo "repo: unreachable!!!"
+    echo "!!!repo: unreachable!!!"
+    echo "!!!repo: unreachable!!!"
+    echo "!!!repo: unreachable!!!"
   fi
 
 }

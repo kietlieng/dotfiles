@@ -206,8 +206,8 @@ function F.setup()
   map("n", "<LEADER><SPACE>alpha", ":set nrformats=bin,hex,alpha<CR>", G_NO_REMAP)  -- change incremental alpha
   map("n", "<LEADER><SPACE>number", ":set nrformats=bin,hex<CR>", G_NO_REMAP)       -- change incremental number: default
 
-  map("v", "J", ":m '>+1<CR>gv=gv", G_NO_REMAP)                               -- visual move down
-  map("v", "K", ":m '<-2<CR>gv=gv", G_NO_REMAP)                               -- visual move up
+--  map("v", "J", ":m '>+1<CR>gv=gv", G_NO_REMAP)                               -- visual move down
+--  map("v", "K", ":m '<-2<CR>gv=gv", G_NO_REMAP)                               -- visual move up
 
 
   --map( "n", "<LEADER>pp", ":PrettierAsync<CR>", G_SILENT_NO_REMAP ) -- prettier

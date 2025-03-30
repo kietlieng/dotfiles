@@ -67,7 +67,7 @@ function t() {
   local modePopup=''
   local modeTemplate=''
 
-  local currentTemplate=$(cat ~/.tmuxdefault | xargs)
+  local currentTemplate=$(cat ~/.tmuxdefault1 | xargs)
 
   while [[ $# -gt 0 ]]; do
 
@@ -466,7 +466,7 @@ function calltmuxcreatewindow() {
 
   local inSession=$(tmux display-message -p '#{session_name}')
   local inWindow=$(tmux display-message -p '#{window_name}')
-  local currentTemplate=$(cat ~/.tmuxdefault | xargs)
+  local currentTemplate=$(cat ~/.tmuxdefault2 | xargs)
 
   while [[ $# -gt 0 ]]; do
 
@@ -592,32 +592,44 @@ function tmdisplay() {
   local tmOutput=$(tmux ls 2>&1 | grep -v "no server running on")
 
   echo "$tmSize" > ~/.tmuxsize
-  echo "\nSession($tmSize): $(cat ~/.tmuxdefault)"
+  echo "\nSession($tmSize): $(cat ~/.tmuxdefault1) / $(cat ~/.tmuxdefault2)"
   echo "$tmOutput"
 
 }
 
 # set tmux default value
-function tdefault() {
+function tdef() {
 
   local key=''
-  local tmuxdefault=""
+  local tmuxdefault1=""
+  local tmuxdefault2=""
+  local key=""
 
-  while [[ $# -gt 0 ]]; do
+  if [[ $# -gt 0 ]]; then
 
     key="$1"
     shift
-
-    case "$key" in
-      *)
-        tmuxdefault="$key"
-        ;;
-    esac
     
-  done
+    if [[ "$key" != "- " ]]; then
+      tmuxdefault1="$key"
+      echo "$tmuxdefault1" > ~/.tmuxdefault1
+    fi
 
-  echo "$tmuxdefault" > ~/.tmuxdefault
-  echo "Setting template to: $tmuxdefault ..."
+  fi
+
+  if [[ $# -gt 0 ]]; then
+
+    key="$1"
+    shift
+    
+    if [[ "$key" != "- " ]]; then
+      tmuxdefault2="$key"
+      echo "$tmuxdefault2" > ~/.tmuxdefault2
+    fi
+
+  fi
+
+  echo "Setting template to: $tmuxdefault1 / $tmuxdefault2 ..."
 
 }
 
