@@ -166,17 +166,17 @@ function F.setup()
   --map( "n", "<C-c>", ":copen<CR>", G_SILENT_NO_REMAP )
   map("n", "<LEADER>zc", ":call ToggleList(\"Quickfix List\", 'c')<CR>", G_SILENT_NO_REMAP)
 
-  map("n", "<LEADER>Lz", ":Lazy<CR>", G_NO_REMAP) -- open Lazy
+  map("n", "<LEADER>Olz", ":Lazy<CR>", G_NO_REMAP) -- open Lazy
 
   -- Lspinfo
-  map("n", "<LEADER>Lst", ":LspStop bufnr()<CR>", G_NO_REMAP) -- disable lsp
-  map("n", "<LEADER>Lhealth", ":checkHealth<CR>", G_NO_REMAP)
-  map("n", "<LEADER>Linfo", ":LspInfo<CR>", G_NO_REMAP)
-  map("n", "<LEADER>Llog", ":LspLog<CR>", G_NO_REMAP)
-  map("n", "<LEADER>Linstall", ":LspInstall<CR>", G_NO_REMAP)
-  map("n", "<LEADER>Lml", ":MasonLog<CR>", G_NO_REMAP)
-  map("n", "<LEADER>Lmi", ":MasonInstall<SPACE>", G_NO_REMAP)
-  map("n", "<LEADER>Lmu", ":MasonUpdate<CR>", G_NO_REMAP)
+  map("n", "<LEADER>Ost", ":LspStop bufnr()<CR>", G_NO_REMAP) -- disable lsp
+  map("n", "<LEADER>Ohealth", ":checkHealth<CR>", G_NO_REMAP)
+  map("n", "<LEADER>Oinfo", ":LspInfo<CR>", G_NO_REMAP)
+  map("n", "<LEADER>Olog", ":LspLog<CR>", G_NO_REMAP)
+  map("n", "<LEADER>Oinstall", ":LspInstall<CR>", G_NO_REMAP)
+  map("n", "<LEADER>Oml", ":MasonLog<CR>", G_NO_REMAP)
+  map("n", "<LEADER>Omi", ":MasonInstall<SPACE>", G_NO_REMAP)
+  map("n", "<LEADER>Omu", ":MasonUpdate<CR>", G_NO_REMAP)
 
   map("n", "<C-n>", ":bn<CR>", G_SILENT_NO_REMAP)       -- buffer next
   map("n", "<C-p>", ":bp<CR>", G_SILENT_NO_REMAP)       -- buffer previous

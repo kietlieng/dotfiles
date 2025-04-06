@@ -12,8 +12,11 @@ alias ee="e 2"
 alias eee="e 3"
 alias e2="ee"
 alias e3="e 3"
+alias eee="e 3"
 alias e4="e 4"
+alias eeee="e 4"
 alias e5="e 5"
+alias eeeee="e 5"
 alias fo="f -o"
 
 # edit git file
@@ -206,8 +209,8 @@ function x() {
       local fileCount=$(echo "$filesToEdit" | wc -l)
       fileCount=$((fileCount))
       if [[ $fileCount -gt 1 ]]; then
-#        filesToEdit=$(ls -1t modified -snew | fzf --multi --query "$searchString")
-        filesToEdit=$(ls -1t modified -sold | fzf --multi --query "$searchString")
+#        filesToEdit=$(ls -1t modified -sold | fzf --multi --query "$searchString")
+        filesToEdit=$(fzf --multi --query "$searchString")
       fi
 
       if [[ ${#filesToEdit[@]} != 0 ]]; then

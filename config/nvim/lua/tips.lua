@@ -1,8 +1,17 @@
+-- global command
+-- 
+-- upper case the whole line
+-- :g/^/norm! gUU
+--
+-- append found foo to end of line
+-- :g/foo/s/$/ <-- found foo/
+--
 --duplicate lines and change the second line to == charecters
 --:g/^\w/t.|s/./=/g
 --
 --double space every line pu (put text after the line)
 --:g/^/pu =\"\n\"
+--:g/^/put =\"\n\"
 --
 --In order to double the number of spaces at the beginning of every line (and only at the beginning):
 --:%s/^\s*/&&/g
@@ -21,10 +30,12 @@
 -- buffer navigation
 -- shortcuts
 
-
-# to delete html tags.
+--# to delete html tags.
 -- qqda>@qq@qZZ
 -- da> delete's tags
 -- qq recorder with on key q
 -- @qq call recorder q and stop recording (q)
 -- @q call the macro that will repeat itself 
+--
+--
+-- 

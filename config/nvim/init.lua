@@ -338,7 +338,7 @@ vim.cmd([[
      \   exe "normal! g`\"" |
      \ endif
 
-  let g:loaded_perl_provider               = 0  "" disable perl from checkhealth
+  let g:loaded_perl_provider = 0  "" disable perl from checkhealth
 
   function! GetBufferList()
     redir =>buflist
@@ -431,11 +431,13 @@ vim.cmd([[
 
   ""nnoremap <LEADER>R :Ack!<SPACE> -- don't actually like this command does not work properly
   ""autocmd BufWritePre * call StripTrailingWhitespaces() "" doesn't work with oil remap manually
+  autocmd BufWritePre * call SaveIt() "" doesn't work with oil remap manually
+
 
 ]])
-
 -- COMMAND END
 
+--require('autosave-unnamed').setup()                  -- setup snippet engine
 require('snippet-luasnip').setup()                  -- setup snippet engine
 require("luasnip.loaders.from_vscode").lazy_load()  -- lead friendly-snippets support into luasnip
 require('mason-setup').setup()                      -- setup syntax for treesitter

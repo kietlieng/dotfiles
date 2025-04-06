@@ -83,6 +83,7 @@ export DISABLE_AUTO_TITLE="true"
 # Add wisely, as too many plugins slow down shell startup.
 # kl created my own
 #plugins=( #git)
+#plugins=( zsh-lazyload )
 
 # marked directory position
 cd `cat ~/.jumplast`

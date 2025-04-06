@@ -13,7 +13,7 @@ alias gl="git -c diff.external=difft log -p --ext-diff"
 alias gL="git diff --cached"
 alias glines="git log -p --unified=0"
 alias glogfiles="git log --name-only"
-alias gmmaster="git merge master"
+alias gm="git merge"
 alias gprune="g -prune"
 alias gpull="git pull --all"
 alias gR='groot' # taken over by grep
