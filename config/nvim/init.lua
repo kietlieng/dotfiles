@@ -36,7 +36,7 @@ set.incsearch      = true
 set.lazyredraw     = true
 --set.lazyredraw     = false
 set.number         = true
-set.relativenumber = true
+-- set.relativenumber = true
 set.ruler          = true
 set.scrolloff      = 8                                                                -- give at list X space before / after cursor
 set.shiftwidth     = swnumber
@@ -339,6 +339,19 @@ vim.api.nvim_create_autocmd( { 'BufWinEnter' }, -- disable yaml if buf path has 
 
 vim.cmd([[
 
+
+  augroup highlight_follows_focus
+    autocmd!
+    autocmd WinEnter * set cursorline
+    autocmd WinLeave * set nocursorline
+  augroup END
+
+  augroup highligh_follows_vim
+    autocmd!
+    autocmd FocusGained * set cursorline
+    autocmd FocusLost * set nocursorline
+  augroup END
+
   ""g:fzf_vim.listproc = { list -> fzf#vim#listproc#quickfix(list) } "" currently not working
 
   "" Remember / Return to last edit position when opening files (You want this!)
@@ -453,7 +466,6 @@ vim.cmd([[
   ""nnoremap <LEADER>R :Ack!<SPACE> -- don't actually like this command does not work properly
   ""autocmd BufWritePre * call StripTrailingWhitespaces() "" doesn't work with oil remap manually
   ""autocmd BufWritePre * call SaveIt() "" doesn't work with oil remap manually
-
 
 ]])
 -- COMMAND END

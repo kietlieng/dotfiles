@@ -73,10 +73,10 @@ function F.setup()
   -- map( "n", "<LEADER>fn", ":lua require('comments').next()<CR>", G_SILENT_NO_REMAP )                         -- test search function
 
 --  map("n", "<LEADER>cc", ":lua require('comments').comments(true, true, false, true, false)<CR>", G_SILENT_NO_REMAP)    -- comment out selected normal
-  map("n", "<LEADER>cc", "Vgc<CR>", G_SILENT_REMAP)    -- comment out selected normal
+  map("n", "<LEADER>cc", "mcVgc<CR>`c", G_SILENT_REMAP)    -- comment out selected normal
 
 --  map("v", "<LEADER>cc", ":lua require('comments').comments(true, false, false, true, false)<CR>", G_SILENT_NO_REMAP)   -- comment out selected visual
-  map("v", "<LEADER>cc", "gc<CR>", G_SILENT_REMAP)   -- comment out selected visual
+  map("v", "<LEADER>cc", "mcgc<CR>k`c", G_SILENT_REMAP)   -- comment out selected visual
 
 --  map("n", "<LEADER>cu", ":lua require('comments').comments(true, true, false, false, false)<CR>", G_SILENT_NO_REMAP)   -- uncomment out selected normal
 --  map("n", "<LEADER>cu", "vipgc", G_SILENT_NO_REMAP)   -- uncomment out selected normal
