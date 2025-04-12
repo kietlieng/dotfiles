@@ -63,7 +63,16 @@ set.viminfo        = "'100,f1"                                                  
 set.wildignore     = '*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx'  -- avoid
 set.guicursor      = 'a:blinkon100'
 
-vim.cmd([[let &t_ut='']]) -- solves redraw issue with using gruvbox
+vim.cmd([[
+
+  let &t_ut=''
+
+  "let &t_Co="256"
+  "let &t_SI.="\e[5 q" 
+  "let &t_SR.="\e[4 q" 
+  "let &t_EI.="\e[1 q" 
+
+]]) -- solves redraw issue with using gruvbox
 
 --set.completeopt = 'menu,menuone' -- duo
 
@@ -427,11 +436,23 @@ vim.cmd([[
 
   endfunction
 
+  ""function! s:SaveIt()
+
+  ""  echo "testing"
+  ""  if bufname("%")==''
+  ""      exec 'w /tmp/note_'.localtime()
+  ""  else
+  ""      w
+  ""  endif
+  ""
+  ""endfunction
+
+
   autocmd BufNewFile,BufRead * if &syntax == '' | set syntax=yaml | endif "" make syntax yaml if no syntax is found
 
   ""nnoremap <LEADER>R :Ack!<SPACE> -- don't actually like this command does not work properly
   ""autocmd BufWritePre * call StripTrailingWhitespaces() "" doesn't work with oil remap manually
-  autocmd BufWritePre * call SaveIt() "" doesn't work with oil remap manually
+  ""autocmd BufWritePre * call SaveIt() "" doesn't work with oil remap manually
 
 
 ]])

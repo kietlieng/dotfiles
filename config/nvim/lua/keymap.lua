@@ -71,18 +71,30 @@ function F.setup()
   -- tips to comment out code use gcc.  Dude this just deleted my comment lua script
   -- function F.comments(aRegular, aNormalMode, aAll, aCommentOut, aInvert, aBuffer)
   -- map( "n", "<LEADER>fn", ":lua require('comments').next()<CR>", G_SILENT_NO_REMAP )                         -- test search function
-  map("n", "<LEADER>cc", ":lua require('comments').comments(true, true, false, true, false)<CR>", G_SILENT_NO_REMAP)    -- comment out selected normal
-  map("v", "<LEADER>cc", ":lua require('comments').comments(true, false, false, true, false)<CR>", G_SILENT_NO_REMAP)   -- comment out selected visual
-  map("n", "<LEADER>cu", ":lua require('comments').comments(true, true, false, false, false)<CR>", G_SILENT_NO_REMAP)   -- uncomment out selected normal
-  map("v", "<LEADER>cu", ":lua require('comments').comments(true, false, false, false, false)<CR>", G_SILENT_NO_REMAP)  -- uncomment out selected visual
 
-  map("n", "<LEADER>CC", ":lua require('comments').comments(false, true, true, true, false)<CR>", G_SILENT_NO_REMAP)   -- global comment
-  map("n", "<LEADER>CU", ":lua require('comments').comments(false, true, true, false, false)<CR>", G_SILENT_NO_REMAP)  -- glubal uncomment
+--  map("n", "<LEADER>cc", ":lua require('comments').comments(true, true, false, true, false)<CR>", G_SILENT_NO_REMAP)    -- comment out selected normal
+  map("n", "<LEADER>cc", "Vgc<CR>", G_SILENT_REMAP)    -- comment out selected normal
+
+--  map("v", "<LEADER>cc", ":lua require('comments').comments(true, false, false, true, false)<CR>", G_SILENT_NO_REMAP)   -- comment out selected visual
+  map("v", "<LEADER>cc", "gc<CR>", G_SILENT_REMAP)   -- comment out selected visual
+
+--  map("n", "<LEADER>cu", ":lua require('comments').comments(true, true, false, false, false)<CR>", G_SILENT_NO_REMAP)   -- uncomment out selected normal
+--  map("n", "<LEADER>cu", "vipgc", G_SILENT_NO_REMAP)   -- uncomment out selected normal
+
+--  map("v", "<LEADER>cu", ":lua require('comments').comments(true, false, false, false, false)<CR>", G_SILENT_NO_REMAP)  -- uncomment out selected visual
+--  map("v", "<LEADER>cu", "gc", G_SILENT_NO_REMAP)  -- uncomment out selected visual
+
+--  map("n", "<LEADER>CC", ":lua require('comments').comments(false, true, true, true, false)<CR>", G_SILENT_NO_REMAP)   -- global comment
+  map("n", "<LEADER>CC", "mcggVGgc<CR>`c", G_SILENT_REMAP)   -- global comment
+
+  map("n", "<LEADER>CU", ":lua require('comments').comments(false, true, true, false, false)<CR>", G_SILENT_NO_REMAP)  -- glubal uncomment invert
   map("v", "<LEADER>CC", ":lua require('comments').comments(false, false, true, true, true)<CR>", G_SILENT_NO_REMAP)   -- global comment invert
 
-  map("n", "<LEADER>bc", ":lua require('comments').comments(false, true, false, true, false)<CR>", G_SILENT_NO_REMAP)        -- block comment
+--  map("n", "<LEADER>bc", ":lua require('comments').comments(false, true, false, true, false)<CR>", G_SILENT_NO_REMAP)        -- block comment
+  map("n", "<LEADER>bc", "mcvipgc<CR>`c", G_SILENT_REMAP)        -- block comment
+
   map("n", "<LEADER>bC", ":lua require('comments').comments(true, true, false, true, false, true)<CR>", G_SILENT_NO_REMAP)   -- select block, comment out invert of block
-  map("n", "<LEADER>bu", ":lua require('comments').comments(false, true, false, false, false)<CR>", G_SILENT_NO_REMAP)       -- block uncomment
+  -- map("n", "<LEADER>bu", ":lua require('comments').comments(false, true, false, false, false)<CR>", G_SILENT_NO_REMAP)       -- block uncomment taken care of by gc
   map("n", "<LEADER>bU", ":lua require('comments').comments(true, true, false, false, false, true)<CR>", G_SILENT_NO_REMAP)  -- select block, uncomment invert of block
   map("v", "<LEADER>bc", ":lua require('comments').comments(false, false, false, true, true)<CR>", G_SILENT_NO_REMAP)        -- block comment invert
 
@@ -190,6 +202,8 @@ function F.setup()
   map("n", "<LEADER>FF", "mcvi{c<CR><CR><CR><UP><UP><ESC>p<CR>vi{:'<,'>!cat -s<CR>`c<DOWN><DOWN>vip:'<,'>Tabularize/=<CR>", G_NO_REMAP) -- format the function and paragraph
   map("n", "<LEADER>fblack", "mc:%!black - -q<CR>`c", G_SILENT_NO_REMAP) -- python format stytle black
 
+
+  map("n", "gV", "`[V`]", G_NO_REMAP)  -- select what got pasted
   map("n", "<LEADER>==", "gg=G<CR>", G_SILENT_NO_REMAP) -- format
 --  map("n", "<LEADER>zjson", ":%!/opt/homebrew/opt/python@3.11/libexec/bin/python3 -m json.tool<CR>", G_SILENT_NO_REMAP)
   map("n", "<LEADER><SPACE>fjson", ":%!jq<CR>", G_SILENT_NO_REMAP)  -- jq format

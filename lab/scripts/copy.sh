@@ -9,6 +9,19 @@ function refinspect() {
   osascript -e 'the clipboard as record'
 }
 
+function rreact() {
+
+  filePath=$(/bin/ls -1 $DIR_REACTION/$1* | head -n 1)
+
+  # Use osascript to copy the file reference with metadata to the clipboard
+  osascript -e "
+  tell application \"Finder\"
+      set theFile to POSIX file \"$filePath\" as alias
+      set the clipboard to (theFile as «class furl»)
+  end tell"
+
+}
+
 # reference a file
 function ref() {
 
