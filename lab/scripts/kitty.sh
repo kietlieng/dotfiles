@@ -23,6 +23,7 @@ function kreplacelauncher() {
 #  sudo cp -rf /Applications/kitty.app /Applications/kitty.app.${fileNameDate}
   sudo mv -f /Applications/kitty.app /Applications/kitty.app.${fileNameDate}
   sudo cp -rf ~/lab/repos/kitty/kitty/launcher/kitty.app /Applications/.
+  echo "done!"
 }
 
 function kfontdebug() {
