@@ -99,8 +99,8 @@ function cpdot() {
     cp ~/.oh-my-zsh/themes/pure/pure.zsh $dPure/.
 
 
-    rm -rf $dConfigDir/nvim/init.lua.*
-    rm -rf $dConfigDir/kitty/kitty.conf.*
+    rm $dConfigDir/nvim/init.lua.*
+    rm $dConfigDir/kitty/kitty.conf.*
 
     find $sourceScript -maxdepth 1 -type f  -iname "*.sh" -exec cp {} ${dScriptDir}/. \;
 

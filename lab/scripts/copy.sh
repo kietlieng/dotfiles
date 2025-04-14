@@ -63,14 +63,13 @@ function ref() {
 
 }
 
+# swift can take a time limit to reference multiple files
 function refswift() {
 
-  local currentLocation=$(pwd)
   # Define the file path you want to copy
-  # filePath="/Users/klieng/Downloads/Goals.pdf"  # Replace this with the actual file path
 
   local key=''
-  local optionDir="$currentLocation"
+  local optionDir=""
   local optionTime="5"
 
   while [[ $# -gt 0 ]]; do
@@ -90,14 +89,8 @@ function refswift() {
         shift
         ;;
 
-      '-f') 
-        filePath="$1"
-        shift
-        ;;
-
       *) 
         pecho "set current value"
-        filePath="$currentLocation/$key"  # Replace this with the actual file path
         ;;
     esac
 
@@ -109,7 +102,7 @@ function refswift() {
 
   local swiftContent="import AppKit;"
   local swiftContent="$swiftContent\nlet files = ["
-  local isFirst="1"
+  local isFound="0"
 
   # local lastFile=$(find $optionDir -mmin "-$optionTime" | tail -n 1)
     
@@ -124,7 +117,16 @@ function refswift() {
       swiftContent="$swiftContent\n "
     fi
 
+    isFound="1";
+
   done
+
+  # if you can't find any values set to empty and return
+  if [[ "$isFound" == "0" ]]; then
+    echo -n "" | pbcopy
+    return;
+  fi
+
   swiftContent="$swiftContent\n];"
   swiftContent="$swiftContent\nlet urls = files.compactMap { URL(fileURLWithPath: \$0) };"
   swiftContent="$swiftContent\nlet pasteboard = NSPasteboard.general;"
@@ -136,8 +138,6 @@ function refswift() {
 
   echo "swift -e '$swiftContent'"
   echo "$swiftContent" > $swiftRef
-
-  # cd "$currentLocation"
 
   # Use swift to copy the file reference with metadata to the clipboard
   # swift "$swiftRef"
