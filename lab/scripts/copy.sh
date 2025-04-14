@@ -63,45 +63,86 @@ function ref() {
 
 }
 
+function refswift() {
 
-# not working
-function refmulti() {
-  
-  # Define the file paths you want to simulate copying
-  file_paths=(
-      "/Users/klieng/Downloads/test1.png"
-      "/Users/klieng/Downloads/test2.png"
-  )  # Replace these paths with the actual file paths you want to copy
-  
-  # Build the AppleScript command to copy multiple files via Finder
-  script="
-  tell application \"Finder\"
-      set fileList to {}"
-  
-  # Add each file path to the AppleScript command as Finder items
-  for file in "${file_paths[@]}"; do
-      script+="
-      set end of fileList to (POSIX file \"$file\" as alias)
-      set the clipboard to fileList
-      "
-#      set the clipboard to fileList"
-#      set the clipboard to (fileList as «class furl»)"
+  local currentLocation=$(pwd)
+  # Define the file path you want to copy
+  # filePath="/Users/klieng/Downloads/Goals.pdf"  # Replace this with the actual file path
+
+  local key=''
+  local optionDir="$currentLocation"
+  local optionTime="5"
+
+  while [[ $# -gt 0 ]]; do
+
+    key="$1"
+    shift
+
+    case "$key" in
+
+      '-t') # time in minutes
+        optionTime="$1"
+        shift
+        ;;
+
+      '-d') # directory
+        optionDir="$1"
+        shift
+        ;;
+
+      '-f') 
+        filePath="$1"
+        shift
+        ;;
+
+      *) 
+        pecho "set current value"
+        filePath="$currentLocation/$key"  # Replace this with the actual file path
+        ;;
+    esac
+
   done
-  
-  script+="
-    set the clipboard to fileList
-  end tell
-  "
 
-#  # Set the clipboard to the list of Finder file references
-#  script+="
-#      set the clipboard to (fileList as «class furl»)
-#  end tell
-#  "
-  
-  # Execute the constructed AppleScript command using osascript
-  osascript -e "$script"
-  
+  # cd "$optionDir"
+
+  echo "find $optionDir -mmin \"-$optionTime\" "
+
+  local swiftContent="import AppKit;"
+  local swiftContent="$swiftContent\nlet files = ["
+  local isFirst="1"
+
+  # local lastFile=$(find $optionDir -mmin "-$optionTime" | tail -n 1)
+    
+  find $optionDir -type f -mmin "-$optionTime" | while read currentFile
+  do
+    
+    # echo "referencing $currentFile"
+    swiftContent="$swiftContent\n\"$currentFile\""
+    if [[ "$currentFile" != "$lastFile" ]]; then
+      swiftContent="$swiftContent,\n"
+    else
+      swiftContent="$swiftContent\n "
+    fi
+
+  done
+  swiftContent="$swiftContent\n];"
+  swiftContent="$swiftContent\nlet urls = files.compactMap { URL(fileURLWithPath: \$0) };"
+  swiftContent="$swiftContent\nlet pasteboard = NSPasteboard.general;"
+  swiftContent="$swiftContent\npasteboard.clearContents();"
+  swiftContent="$swiftContent\npasteboard.writeObjects(urls as [NSPasteboardWriting]);"
+
+
+  local swiftRef="/tmp/swiftref.swift"
+
+  echo "swift -e '$swiftContent'"
+  echo "$swiftContent" > $swiftRef
+
+  # cd "$currentLocation"
+
+  # Use swift to copy the file reference with metadata to the clipboard
+  # swift "$swiftRef"
+  swift $swiftRef
+
 }
 
 function reftext() {
@@ -137,15 +178,35 @@ osascript -e 'tell application "Finder"
 end tell'
 }
 
-function dreflast() {
+function refdownloads() {
 
   local sOutput=$(/bin/ls -1tr $DOWNLOAD_DIRECTORY | tail -n 1)
 
   if [[ $sOutput ]]; then
 
-    ref -f "$DOWNLOAD_DIRECTORY/$sOutput"
+    # ref -f "$DOWNLOAD_DIRECTORY/$sOutput"
+    refswift -d $DOWNLOAD_DIRECTORY -t 60
 
     pecho "ref -f \"$DOWNLOAD_DIRECTORY/$sOutput\""
+
+  fi
+
+}
+
+
+# if there is a new file reference
+function refscreenshots() {
+
+  rm -rf $SCREENSHOT_DIRECTORY/.DS_Store
+  local sOutput=$(/bin/ls -1tr $SCREENSHOT_DIRECTORY | tail -n 1)
+
+  if [[ $sOutput ]]; then
+
+    refswift -d $SCREENSHOT_DIRECTORY 
+
+    # ref -f "$SCREENSHOT_DIRECTORY/$sOutput"
+
+    pecho "ref -f \"$SCREENSHOT_DIRECTORY/$sOutput\""
 
   fi
 
