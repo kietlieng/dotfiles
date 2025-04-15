@@ -1,0 +1,5 @@
+#!/opt/homebrew/bin/zsh
+
+source ~/lab/scripts/calls/sourceall
+
+refprepfiles -d $DOWNLOAD_DIRECTORY -t 60 -c && refprepfiles -d $SCREENSHOT_DIRECTORY -t 60 && refprepswift

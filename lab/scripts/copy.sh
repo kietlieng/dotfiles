@@ -63,6 +63,100 @@ function ref() {
 
 }
 
+function refprepfiles() {
+
+  # Define the file path you want to copy
+
+  local key=''
+  local optionDir=''
+  local optionTime='5'
+  local swiftPrepFile="/tmp/swiftprep.txt"
+
+  while [[ $# -gt 0 ]]; do
+
+    key="$1"
+    shift
+
+    case "$key" in
+
+      '-t') # time in minutes
+        optionTime="$1"
+        shift
+        ;;
+
+      '-d') # directory
+        optionDir="$1"
+        shift
+        ;;
+
+      '-c') # clear directory
+        echo -n "" > $swiftPrepFile
+        ;;
+
+      *) 
+        pecho "set current value"
+        ;;
+
+    esac
+
+  done
+
+  # cd "$optionDir"
+
+  local swiftContent=""
+
+  # local lastFile=$(find $optionDir -cmin "-$optionTime" | tail -n 1)
+    
+  find $optionDir -type f -cmin "-$optionTime" | while read currentFile
+  do
+    echo "$optionTime referencing $currentFile"
+    if [[ "$currentFile" != *.DS_Store* ]]; then 
+      echo "$optionTime $currentFile"
+      swiftContent="$swiftContent\n \"$currentFile\","
+    fi
+
+  done
+
+  echo -n "$swiftContent" >> $swiftPrepFile
+
+}
+
+
+# swift can take a time limit to reference multiple files
+function refprepswift() {
+
+  # Define the file path you want to copy
+
+  local key=''
+  local optionDir=""
+  local optionTime="5"
+
+  local swiftPrepFile="/tmp/swiftprep.txt"
+  local swiftRef="/tmp/swiftref.swift"
+
+
+  echo -n "" > $swiftRep
+
+  local swiftContent="import AppKit;"
+  swiftContent="$swiftContent\nlet files = ["
+
+  echo -n "$swiftContent" > $swiftRef
+  cat $swiftPrepFile >> $swiftRef
+
+  swiftContent="\n];"
+  swiftContent="$swiftContent\nlet urls = files.compactMap { URL(fileURLWithPath: \$0) };"
+  swiftContent="$swiftContent\nlet pasteboard = NSPasteboard.general;"
+  swiftContent="$swiftContent\npasteboard.clearContents();"
+  swiftContent="$swiftContent\npasteboard.writeObjects(urls as [NSPasteboardWriting]);"
+
+  echo -n "$swiftContent" >> $swiftRef
+
+  # Use swift to copy the file reference with metadata to the clipboard
+  # swift "$swiftRef"
+  swift $swiftRef
+
+}
+
 # swift can take a time limit to reference multiple files
 function refswift() {
 
@@ -98,26 +192,23 @@ function refswift() {
 
   # cd "$optionDir"
 
-  echo "find $optionDir -mmin \"-$optionTime\" "
+  echo "find $optionDir -cmin \"-$optionTime\" "
 
   local swiftContent="import AppKit;"
-  local swiftContent="$swiftContent\nlet files = ["
+  swiftContent="$swiftContent\nlet files = ["
   local isFound="0"
 
-  # local lastFile=$(find $optionDir -mmin "-$optionTime" | tail -n 1)
+  # local lastFile=$(find $optionDir -cmin "-$optionTime" | tail -n 1)
     
-  find $optionDir -type f -mmin "-$optionTime" | while read currentFile
+  # find $optionDir -type f -cmin "-$optionTime" | while read currentFile
+  find $optionDir -type f -cmin "-$optionTime" | while read currentFile
   do
     
-    # echo "referencing $currentFile"
-    swiftContent="$swiftContent\n\"$currentFile\""
-    if [[ "$currentFile" != "$lastFile" ]]; then
-      swiftContent="$swiftContent,\n"
-    else
-      swiftContent="$swiftContent\n "
+    if [[ "$currentFile" != *.DS_Store* ]]; then 
+      # echo "referencing $currentFile"
+      swiftContent="$swiftContent\n\"$currentFile\",\n"
+      isFound="1";
     fi
-
-    isFound="1";
 
   done
 
