@@ -69,8 +69,11 @@ function refprepfiles() {
 
   local key=''
   local optionDir=''
+  local optionGrabLastIfNone='f'
   local optionTime='5'
+  local optionSeconds=$(($optionTime * 60))
   local swiftPrepFile="/tmp/swiftprep.txt"
+  local hasAny='f'
 
   while [[ $# -gt 0 ]]; do
 
@@ -81,6 +84,7 @@ function refprepfiles() {
 
       '-t') # time in minutes
         optionTime="$1"
+        optionSeconds=$(($optionTime * 60))
         shift
         ;;
 
@@ -91,6 +95,10 @@ function refprepfiles() {
 
       '-c') # clear directory
         echo -n "" > $swiftPrepFile
+        ;;
+
+      '-l') # get at least 1
+        optionGrabLastIfNone='t'
         ;;
 
       *) 
@@ -105,19 +113,43 @@ function refprepfiles() {
 
   local swiftContent=""
 
-  # local lastFile=$(find $optionDir -cmin "-$optionTime" | tail -n 1)
+  # local lastFile=$(find $optionDir -mmin "-$optionTime" | tail -n 1)
     
-  find $optionDir -type f -cmin "-$optionTime" | while read currentFile
+  # find /path/to/dir -type f -exec stat -f "%B %N" {} \; | awk -v now="$(date +%s)" '$1 > now - 1800'
+  # find $optionDir -type f -mmin "-$optionTime" | while read currentFile
+  # find $optionDir -type f -exec stat -f "%B %N" {} \; | awk -v now="$(date +%s)" -v interval="$optionSeconds" '$1 > now - interval' | while read currentFile
+  # echo "before"
+
+  find $optionDir -type f -mmin "-$optionTime" | while read currentFile
   do
     echo "$optionTime referencing $currentFile"
     if [[ "$currentFile" != *.DS_Store* ]]; then 
       echo "$optionTime $currentFile"
       swiftContent="$swiftContent\n \"$currentFile\","
+      hasAny='t'
     fi
 
   done
+  # echo "before"
 
-  echo -n "$swiftContent" >> $swiftPrepFile
+  # echo  "$optionGrabLastIfNone $hasAny"
+  # if we want at least 1 reference.  Check to see if any references was made in last loop
+  # if there isn't get last modified file
+  if [[ "$optionGrabLastIfNone" == 't' && "$hasAny" == 'f' ]]; then
+   
+    local sOutput=$(/bin/ls -1tr $optionDir | tail -n 1)
+  
+    if [[ $sOutput ]]; then
+
+      swiftContent="$swiftContent\n \"$optionDir/$sOutput\","
+
+    fi
+
+  fi
+
+  if [[ $swiftContent ]]; then
+    echo -n "$swiftContent" >> $swiftPrepFile
+  fi
 
 }
 
@@ -134,6 +166,13 @@ function refprepswift() {
   local swiftPrepFile="/tmp/swiftprep.txt"
   local swiftRef="/tmp/swiftref.swift"
 
+  local preppedContent=$(cat $swiftPrepFile)
+
+  # if you can't find any values set to empty and return
+  if [[ "$preppedContent" == "" ]]; then
+    echo -n "" | pbcopy
+    return;
+  fi
 
   echo -n "" > $swiftRep
 
@@ -192,16 +231,16 @@ function refswift() {
 
   # cd "$optionDir"
 
-  echo "find $optionDir -cmin \"-$optionTime\" "
+  echo "find $optionDir -mmin \"-$optionTime\" "
 
   local swiftContent="import AppKit;"
   swiftContent="$swiftContent\nlet files = ["
   local isFound="0"
 
-  # local lastFile=$(find $optionDir -cmin "-$optionTime" | tail -n 1)
+  # local lastFile=$(find $optionDir -mmin "-$optionTime" | tail -n 1)
     
-  # find $optionDir -type f -cmin "-$optionTime" | while read currentFile
-  find $optionDir -type f -cmin "-$optionTime" | while read currentFile
+  # find $optionDir -type f -mmin "-$optionTime" | while read currentFile
+  find $optionDir -type f -mmin "-$optionTime" | while read currentFile
   do
     
     if [[ "$currentFile" != *.DS_Store* ]]; then 
