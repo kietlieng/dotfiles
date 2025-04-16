@@ -2,4 +2,5 @@
 
 source ~/lab/scripts/calls/sourceall
 
-refscreenshots
+refprepfiles -d $SCREENSHOT_DIRECTORY -t 5 -c -l && \
+refprepswift

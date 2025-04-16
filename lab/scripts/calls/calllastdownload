@@ -2,4 +2,5 @@
 
 source ~/lab/scripts/calls/sourceall
 
-refdownloads
+refprepfiles -d $DOWNLOAD_DIRECTORY -t 60 -c -l && \
+refprepswift

@@ -139,8 +139,9 @@ rctrl - e: ~/lab/scripts/calls/calltmuxcreatewindow -popup
 
 # screenshots
 lctrl - 4 : ~/lab/scripts/calls/callfilesboth
-lctrl - 5 : ~/lab/scripts/calls/calllastscreen
-# rctrl - 4 : ~/lab/scripts/calls/calllastdownload
+rctrl - 4 : ~/lab/scripts/calls/calllastscreen
+lctrl - 5 : ~/lab/scripts/calls/calllastdownload
+# lalt - 4 : ~/lab/scripts/calls/calllastdownload
 # rctrl - 4 : ~/lab/scripts/calls/calllastdownload
 
 # copy 
