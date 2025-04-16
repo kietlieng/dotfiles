@@ -14,6 +14,7 @@ function F.setup()
   map("n", "Q", "", G_SILENT_NO_REMAP)   -- disable Q to avoid mode
   map("n", ";", ":", G_SILENT_NO_REMAP)  -- swap for : cause it's easier
   map("n", ":", ";", G_SILENT_NO_REMAP)  -- swap for ; cause I'm not using it often enough
+  map("n", "*", "*``", G_SILENT_NO_REMAP)  -- search the word under cursor.  Stay where you were instead of jumping to the search term
 
   -- find files with telescope
   map("n", "<LEADER>/", "<cmd>lua require('tele').dirDepthJump(0)<CR>", G_SILENT_NO_REMAP)      -- search from current directory

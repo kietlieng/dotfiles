@@ -2,4 +2,4 @@
 export DIRENV_LOG_FORMAT=
 
 alias xde='nvim .envrc'
-alias deallow="direnv allow"
+alias dirallow="direnv allow"
