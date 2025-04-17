@@ -1,6 +1,7 @@
 alias refassemble='ref -f "/tmp/assemble-dependencies.csv"'
 alias rreact='ref -react'
 alias cfiles="cat /tmp/swiftprep.txt"
+alias refsetc="refset -c"
 
 function reftime() {
   
@@ -373,7 +374,6 @@ function refdownloads() {
 
 }
 
-
 # if there is a new file reference
 function refscreenshots() {
 
@@ -389,5 +389,142 @@ function refscreenshots() {
     pecho "ref -f \"$SCREENSHOT_DIRECTORY/$sOutput\""
 
   fi
+
+}
+
+function refsetprep() {
+
+  local optionDir="$SCREENSHOT_DIRECTORY"
+  local optionResults="$REF_RESULTS"
+  local optionResultsTmp="$REF_RESULTS_TMP"
+  local optionTime='1'
+
+  while [[ $# -gt 0 ]]; do
+
+    key="$1"
+    shift
+
+    case "$key" in
+
+      '-d') # directory
+        optionDir="$1"
+        shift
+        ;;
+
+      '-t') # clear directory
+        optionTime="$1"
+        shift
+        ;;
+
+      '-c') # get at least 1
+        echo -n "" > $optionResults
+        echo -n "" > $optionResultsTmp
+        ;;
+
+      *) 
+        pecho "set current value"
+        ;;
+
+    esac
+
+  done
+
+  find $optionDir -type f -mtime "-$optionTime" | while read file; do
+
+    mod_time=$(stat -f "%m" "$file")
+    now=$(date +%s)
+    diff_min=$(( (now - mod_time) / 60 ))
+    # echo "$diff_min $file"
+    printf "%05d \"%s\"\n" "$diff_min" "$file" 
+
+  done >> $optionResultsTmp
+
+  # cat $optionResultsTmp
+
+}
+
+function refset() {
+
+  local optionResults="$REF_RESULTS"
+  local optionResultsTmp="$REF_RESULTS_TMP"
+  local currentMinute=''
+  local currentDirectory=''
+  local foundDownload=''
+  local timeDownload="$(cat $DOWNLOAD_TIME_FILE)"
+  local foundScreenshot=''
+  local timeScreenshot="$(cat $SCREENSHOT_TIME_FILE)"
+  local refsetClear=''
+  local key=''
+
+  while [[ $# -gt 0 ]]; do
+
+    key="$1"
+    shift
+
+    case "$key" in
+
+      '-c') # clear
+        timeDownload='0'
+        timeScreenshot='0'
+        refsetClear='t'
+        ;;
+
+      *) 
+        pecho "set current value"
+        ;;
+
+    esac
+
+  done
+
+  refsetprep -c && refsetprep -d $DOWNLOAD_DIRECTORY -t 7
+  cat $optionResultsTmp | sort > $optionResults
+
+  cat $optionResults | fzf --multi | while read currentFile; do 
+
+    currentMinute=$(echo "$currentFile" | awk '{print $1 }')
+    currentDirectory=$(echo "$currentFile" | awk '{print $2 }')
+    # echo "currentFile $currentFile | $currentMinute | $currentDirectory"
+
+    if [[ "$currentFile" = *$DOWNLOAD_DIRECTORY* ]]; then
+      echo "is download"
+
+      if [[ -z "$foundDownload" ]]; then
+        timeDownload=$currentMinute
+        foundDownload='t'
+      fi
+
+    elif [[ "$currentFile" = *$SCREENSHOT_DIRECTORY* ]]; then
+      echo "is screenshot"
+
+      if [[ -z "$foundScreenshot" ]]; then
+        timeScreenshot=$currentMinute
+        foundScreenshot='t'
+      fi
+
+    fi
+
+  done
+
+  # if it's not set to clear then increment
+  if [[ -z "$refsetClear" ]]; then
+    echo "increment"
+
+    # only increment went found
+    if [[ -n "$foundDownload" ]]; then
+      timeDownload="${timeDownload#"${timeDownload%%[!0]*}"}"
+      ((timeDownload++))
+    fi
+
+    # only increment when found
+    if [[ -n "$foundScreenshot" ]]; then
+      timeScreenshot="${timeScreenshot#"${timeScreenshot%%[!0]*}"}"
+      ((timeScreenshot++))
+    fi
+
+  fi
+
+  echo "timeDownload: $timeDownload screenshot: $timeScreenshot"
+  reftime -d $timeDownload -s $timeScreenshot
 
 }

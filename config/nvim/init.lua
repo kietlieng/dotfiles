@@ -61,14 +61,7 @@ set.ttimeoutlen    = 0                                                          
 set.updatetime     = 100                                                              -- gitgutter delay
 set.viminfo        = "'100,f1"                                                        -- persistent marks up to 100
 set.wildignore     = '*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx'  -- avoid
--- set.guicursor      = 'a:blinkon100'
-
-set.guicursor = {
-  "n-v-c:block-blinkon500",
-  "i-ci-ve:ver25-blinkon500",
-  "r-cr:hor20-blinkon500",
-  "o:hor50-blinkon500"
-}
+set.guicursor      = 'a:blinkon100'
 
 vim.cmd([[
 
