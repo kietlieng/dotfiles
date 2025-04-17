@@ -1,9 +1,10 @@
-alias refassemble='ref -f "/tmp/assemble-dependencies.csv"'
-alias rreact='ref -react'
+alias refassemble='cpfile -f "/tmp/assemble-dependencies.csv"'
+alias rreact='cpfile -react'
 alias cfiles="cat /tmp/swiftprep.txt"
-alias refsetc="refset -c"
+alias cprc="cpr -c"
+alias cpreset="cptime -d 60 -s 10"
 
-function reftime() {
+function cptime() {
   
   local downloadTime=$(cat $DOWNLOAD_TIME_FILE)
   local screenshotTime=$(cat $SCREENSHOT_TIME_FILE)
@@ -56,7 +57,7 @@ function runosa() {
   osascript -e "$1"
 }
 
-function refinspect() {
+function cpinspect() {
   osascript -e 'the clipboard as record'
 }
 
@@ -74,7 +75,7 @@ function rreact() {
 }
 
 # reference a file
-function ref() {
+function cpfile() {
 
   local currentLocation=$(pwd)
   # Define the file path you want to copy
@@ -114,7 +115,7 @@ function ref() {
 
 }
 
-function refprepfiles() {
+function cpprepfiles() {
 
   # Define the file path you want to copy
 
@@ -206,7 +207,7 @@ function refprepfiles() {
 
 
 # swift can take a time limit to reference multiple files
-function refprepswift() {
+function cpprepswift() {
 
   # Define the file path you want to copy
 
@@ -225,7 +226,7 @@ function refprepswift() {
     return;
   fi
 
-  echo -n "" > $swiftRep
+  echo -n "" > $swiftRef
 
   local swiftContent="import AppKit;"
   swiftContent="$swiftContent\nlet files = ["
@@ -248,7 +249,7 @@ function refprepswift() {
 }
 
 # swift can take a time limit to reference multiple files
-function refswift() {
+function cpswift() {
 
   # Define the file path you want to copy
 
@@ -326,73 +327,40 @@ function refswift() {
 
 }
 
-function reftext() {
-
-  # Define the directory where your files are located
-  local appleScript="tell application \"Finder\"
-	set pathFile to selection as text
-	set pathFile to get POSIX path of pathFile
-	set the clipboard to pathFile
-end tell"
-  
-  # Execute the AppleScript
-  echo -e "$appleScript" | osascript
-
-}
-
-
-function reftext2() {
-  # Get paths of files from the clipboard
-  file_paths=$(osascript -e 'tell app "Finder" to get selection as alias list')
-  echo "$file_paths" | pbcopy
-
-}
-
-function reftest() {
-osascript -e 'tell application "Finder"
-    set filePaths to ""
-    set theSelection to selection
-    repeat with aFile in theSelection
-        set filePaths to filePaths & POSIX path of (aFile as text) & "\n"
-    end repeat
-    set the clipboard to filePaths
-end tell'
-}
-
-function refdownloads() {
+function cpdownloads() {
 
   local sOutput=$(/bin/ls -1tr $DOWNLOAD_DIRECTORY | tail -n 1)
 
   if [[ $sOutput ]]; then
 
     # ref -f "$DOWNLOAD_DIRECTORY/$sOutput"
-    refswift -d $DOWNLOAD_DIRECTORY -t 60
+    cpswift -d $DOWNLOAD_DIRECTORY -t 60
 
-    pecho "ref -f \"$DOWNLOAD_DIRECTORY/$sOutput\""
+    pecho "cpfile -f \"$DOWNLOAD_DIRECTORY/$sOutput\""
 
   fi
 
 }
 
 # if there is a new file reference
-function refscreenshots() {
+function cpscreenshots() {
 
   rm -rf $SCREENSHOT_DIRECTORY/.DS_Store
   local sOutput=$(/bin/ls -1tr $SCREENSHOT_DIRECTORY | tail -n 1)
 
   if [[ $sOutput ]]; then
 
-    refswift -d $SCREENSHOT_DIRECTORY 
+    cpswift -d $SCREENSHOT_DIRECTORY 
 
-    # ref -f "$SCREENSHOT_DIRECTORY/$sOutput"
+    # cpfile -f "$SCREENSHOT_DIRECTORY/$sOutput"
 
-    pecho "ref -f \"$SCREENSHOT_DIRECTORY/$sOutput\""
+    pecho "cpfile -f \"$SCREENSHOT_DIRECTORY/$sOutput\""
 
   fi
 
 }
 
-function refsetprep() {
+function cprprep() {
 
   local optionDir="$SCREENSHOT_DIRECTORY"
   local optionResults="$REF_RESULTS"
@@ -443,7 +411,7 @@ function refsetprep() {
 
 }
 
-function refset() {
+function cpr() {
 
   local optionResults="$REF_RESULTS"
   local optionResultsTmp="$REF_RESULTS_TMP"
@@ -477,7 +445,7 @@ function refset() {
 
   done
 
-  refsetprep -c && refsetprep -d $DOWNLOAD_DIRECTORY -t 7
+  cprprep -c && cprprep -d $DOWNLOAD_DIRECTORY -t 7
   cat $optionResultsTmp | sort > $optionResults
 
   cat $optionResults | fzf --multi | while read currentFile; do 
@@ -498,6 +466,7 @@ function refset() {
       echo "is screenshot"
 
       if [[ -z "$foundScreenshot" ]]; then
+        echo "is screenshot"
         timeScreenshot=$currentMinute
         foundScreenshot='t'
       fi
@@ -506,25 +475,20 @@ function refset() {
 
   done
 
-  # if it's not set to clear then increment
-  if [[ -z "$refsetClear" ]]; then
-    echo "increment"
-
-    # only increment went found
-    if [[ -n "$foundDownload" ]]; then
-      timeDownload="${timeDownload#"${timeDownload%%[!0]*}"}"
-      ((timeDownload++))
-    fi
-
-    # only increment when found
-    if [[ -n "$foundScreenshot" ]]; then
-      timeScreenshot="${timeScreenshot#"${timeScreenshot%%[!0]*}"}"
-      ((timeScreenshot++))
-    fi
-
+  # only increment went found
+  if [[ -n "$foundDownload" ]]; then
+    timeDownload="${timeDownload#"${timeDownload%%[!0]*}"}"
+    ((timeDownload++))
   fi
 
-  echo "timeDownload: $timeDownload screenshot: $timeScreenshot"
-  reftime -d $timeDownload -s $timeScreenshot
+  # only increment when found
+  if [[ -n "$foundScreenshot" ]]; then
+    echo "blah screenshot"
+    timeScreenshot="${timeScreenshot#"${timeScreenshot%%[!0]*}"}"
+    ((timeScreenshot++))
+  fi
+
+  echo "screenshots: $timeScreenshot download: $timeDownload"
+  cptime -d $timeDownload -s $timeScreenshot
 
 }
