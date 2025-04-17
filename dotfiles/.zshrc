@@ -189,7 +189,7 @@ done
 #export PATH="/opt/nightly/nvim-macos/bin:/opt/homebrew/bin:$PATH"
 
 # use direnv
-eval "$(direnv hook zsh)"
+eval "$(direnv hook zsh)" &> /dev/null
 
 # extend history limit
 

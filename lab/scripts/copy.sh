@@ -1,5 +1,55 @@
 alias refassemble='ref -f "/tmp/assemble-dependencies.csv"'
 alias rreact='ref -react'
+alias cfiles="cat /tmp/swiftprep.txt"
+
+function reftime() {
+  
+  local downloadTime=$(cat $DOWNLOAD_TIME_FILE)
+  local screenshotTime=$(cat $SCREENSHOT_TIME_FILE)
+  local setScreenshot='t'
+  
+  while [[ $# -gt 0 ]]; do
+
+    key="$1"
+    shift
+
+    case "$key" in
+
+      '-d') 
+
+        echo -n "$1" > $DOWNLOAD_TIME_FILE
+        shift
+        ;;
+
+      '-s')
+
+        echo -n "$1" > $SCREENSHOT_TIME_FILE
+        shift
+        ;;
+
+      *) 
+
+        pecho "pass"
+        if [[ $setScreenshot == 't' ]]; then
+          
+          echo -n "$key" > $SCREENSHOT_TIME_FILE
+          setScreenshot='f'
+
+        else
+
+          echo -n "$key" > $DOWNLOAD_TIME_FILE
+
+        fi
+        ;;
+
+    esac
+
+  done
+
+  echo -n "screenshots: ($(cat $SCREENSHOT_TIME_FILE)) / "
+  echo "downloads: ($(cat $DOWNLOAD_TIME_FILE)) "
+
+}
 
 function runosa() {
   osascript -e "$1"

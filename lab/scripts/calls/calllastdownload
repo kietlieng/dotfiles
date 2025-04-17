@@ -2,5 +2,5 @@
 
 source ~/lab/scripts/calls/sourceall
 
-refprepfiles -d $DOWNLOAD_DIRECTORY -t 60 -c -l && \
+refprepfiles -d $DOWNLOAD_DIRECTORY -t "$(cat $DOWNLOAD_TIME_FILE)" -c -l && \
 refprepswift

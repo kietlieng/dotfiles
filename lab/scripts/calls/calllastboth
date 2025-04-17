@@ -1,0 +1,7 @@
+#!/opt/homebrew/bin/zsh
+
+source ~/lab/scripts/calls/sourceall
+
+refprepfiles -d $SCREENSHOT_DIRECTORY -t "$(cat $SCREENSHOT_TIME_FILE)" -l -c && \
+refprepfiles -d $DOWNLOAD_DIRECTORY -t "$(cat $DOWNLOAD_TIME_FILE)" && \
+refprepswift

@@ -138,7 +138,7 @@ lctrl - z : ~/lab/scripts/calls/calltmuxcreatewindow -background
 rctrl - e: ~/lab/scripts/calls/calltmuxcreatewindow -popup
 
 # screenshots
-lctrl - 4 : ~/lab/scripts/calls/callfilesboth
+lctrl - 4 : ~/lab/scripts/calls/calllastboth
 rctrl - 4 : ~/lab/scripts/calls/calllastscreen
 lctrl - 5 : ~/lab/scripts/calls/calllastdownload
 # lalt - 4 : ~/lab/scripts/calls/calllastdownload
