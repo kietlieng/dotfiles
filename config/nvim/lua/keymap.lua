@@ -10,11 +10,13 @@ function F.setup()
   local G_NO_REMAP = { silent = false, remap = false }        -- repetitive remaps
   local G_SILENT_NO_REMAP = { silent = true, remap = false }  -- repetitive remaps
 
-  map("n", " ", "", G_SILENT_NO_REMAP)   -- set leader to space
-  map("n", "Q", "", G_SILENT_NO_REMAP)   -- disable Q to avoid mode
-  map("n", ";", ":", G_SILENT_NO_REMAP)  -- swap for : cause it's easier
-  map("n", ":", ";", G_SILENT_NO_REMAP)  -- swap for ; cause I'm not using it often enough
-  map("n", "*", "*``", G_SILENT_NO_REMAP)  -- search the word under cursor.  Stay where you were instead of jumping to the search term
+  map("n", " ", "", G_SILENT_NO_REMAP)                 -- set leader to space
+  map("n", "Q", "", G_SILENT_NO_REMAP)                 -- disable Q to avoid mode
+  map("n", ";", ":", G_SILENT_NO_REMAP)                -- swap for : cause it's easier
+  map("n", ":", ";", G_SILENT_NO_REMAP)                -- swap for ; cause I'm not using it often enough
+  map("n", "*", "*``", G_SILENT_NO_REMAP)              -- search the word under cursor.  Stay where you were instead of jumping to the search term
+  map("n", "n", ":norm! nzzzv<CR>", G_SILENT_NO_REMAP) -- Search but keep the view centered
+  map("n", "N", ":norm! Nzzzv<CR>", G_SILENT_NO_REMAP) -- Search but keep the view centered
 
   -- find files with telescope
   map("n", "<LEADER>/", "<cmd>lua require('tele').dirDepthJump(0)<CR>", G_SILENT_NO_REMAP)      -- search from current directory
@@ -26,8 +28,8 @@ function F.setup()
 
   -- grep string in file
   --map( "n", "<LEADER>", ":Rg<CR>", G_NO_REMAP ) -- ripgrep current directory
-  map("n", "<LEADER>gx", "<cmd>lua require('ripgrepper').grepLevel(0)<CR>", G_NO_REMAP)    -- grep from current directory
-  map("n", "<LEADER>GX", "<cmd>lua require('ripgrepper').grepLevel(-1)<CR>", G_NO_REMAP)   -- grep from git root
+  map("n", "<LEADER>gr", "<cmd>lua require('ripgrepper').grepLevel(0)<CR>", G_NO_REMAP)    -- grep from current directory
+  map("n", "<LEADER>gR", "<cmd>lua require('ripgrepper').grepLevel(-1)<CR>", G_NO_REMAP)   -- grep from git root
   map("n", "<LEADER>1r", "<cmd>lua require('ripgrepper').grepLevel(1)<CR>", G_NO_REMAP)   -- grep from 1 parent up
   map("n", "<LEADER>2r", "<cmd>lua require('ripgrepper').grepLevel(2)<CR>", G_NO_REMAP)   -- grep from 2 parent up
   map("n", "<LEADER>4r", "<cmd>lua require('ripgrepper').grepLevel(-2)<CR>", G_NO_REMAP)  -- grep from cwd
@@ -64,40 +66,22 @@ function F.setup()
   map("n", "<LEADER>jj", "<cmd>lua require('lua-fzf').openJumpFiles()<CR>", G_SILENT_NO_REMAP)     -- Jump script to vim :) 
   map("n", "<LEADER>jw", "<cmd>lua require('lua-fzf').openWorkingJumpFile()<CR>", G_SILENT_NO_REMAP)     -- Jump script to vim :) 
 
+
   map("n", "<C-c>", "ciw", G_SILENT_NO_REMAP) -- change a word
---  map("n", "YY", "yygccpi", G_SILENT_REMAP)
-  map("n", "<C-y>", "yygccp", G_SILENT_REMAP)
+  map("n", "<C-y>", "yygccp", G_SILENT_REMAP) -- duplicate line and commentout
 
   ----- comment code
   -- tips to comment out code use gcc.  Dude this just deleted my comment lua script
-  -- function F.comments(aRegular, aNormalMode, aAll, aCommentOut, aInvert, aBuffer)
-  -- map( "n", "<LEADER>fn", ":lua require('comments').next()<CR>", G_SILENT_NO_REMAP )                         -- test search function
 
---  map("n", "<LEADER>cc", ":lua require('comments').comments(true, true, false, true, false)<CR>", G_SILENT_NO_REMAP)    -- comment out selected normal
-  map("n", "<LEADER>cc", "mcVgc<CR>`c", G_SILENT_REMAP)    -- comment out selected normal
-
---  map("v", "<LEADER>cc", ":lua require('comments').comments(true, false, false, true, false)<CR>", G_SILENT_NO_REMAP)   -- comment out selected visual
-  map("v", "<LEADER>cc", "mcgc<CR>k`c", G_SILENT_REMAP)   -- comment out selected visual
-
---  map("n", "<LEADER>cu", ":lua require('comments').comments(true, true, false, false, false)<CR>", G_SILENT_NO_REMAP)   -- uncomment out selected normal
---  map("n", "<LEADER>cu", "vipgc", G_SILENT_NO_REMAP)   -- uncomment out selected normal
-
---  map("v", "<LEADER>cu", ":lua require('comments').comments(true, false, false, false, false)<CR>", G_SILENT_NO_REMAP)  -- uncomment out selected visual
---  map("v", "<LEADER>cu", "gc", G_SILENT_NO_REMAP)  -- uncomment out selected visual
-
---  map("n", "<LEADER>CC", ":lua require('comments').comments(false, true, true, true, false)<CR>", G_SILENT_NO_REMAP)   -- global comment
-  map("n", "<LEADER>CC", "mcggVGgc<CR>`c", G_SILENT_REMAP)   -- global comment
-
-  map("n", "<LEADER>CU", ":lua require('comments').comments(false, true, true, false, false)<CR>", G_SILENT_NO_REMAP)  -- glubal uncomment invert
-  map("v", "<LEADER>CC", ":lua require('comments').comments(false, false, true, true, true)<CR>", G_SILENT_NO_REMAP)   -- global comment invert
-
---  map("n", "<LEADER>bc", ":lua require('comments').comments(false, true, false, true, false)<CR>", G_SILENT_NO_REMAP)        -- block comment
-  map("n", "<LEADER>bc", "mcvipgc<CR>`c", G_SILENT_REMAP)        -- block comment
-
-  map("n", "<LEADER>bC", ":lua require('comments').comments(true, true, false, true, false, true)<CR>", G_SILENT_NO_REMAP)   -- select block, comment out invert of block
-  -- map("n", "<LEADER>bu", ":lua require('comments').comments(false, true, false, false, false)<CR>", G_SILENT_NO_REMAP)       -- block uncomment taken care of by gc
-  map("n", "<LEADER>bU", ":lua require('comments').comments(true, true, false, false, false, true)<CR>", G_SILENT_NO_REMAP)  -- select block, uncomment invert of block
-  map("v", "<LEADER>bc", ":lua require('comments').comments(false, false, false, true, true)<CR>", G_SILENT_NO_REMAP)        -- block comment invert
+  map("n", "<LEADER>cc", "mcVgc<CR>`c", G_SILENT_REMAP)                                                                     -- comment out selected normal
+  map("v", "<LEADER>cc", "mcgc<CR>k`c", G_SILENT_REMAP)                                                                     -- comment out selected visual
+  map("n", "<LEADER>CC", "mcggVGgc<CR>`c", G_SILENT_REMAP)                                                                  -- global comment
+  map("n", "<LEADER>CU", ":lua require('comments').comments(false, true, true, false, false)<CR>", G_SILENT_NO_REMAP)       -- glubal uncomment invert
+  map("v", "<LEADER>CC", ":lua require('comments').comments(false, false, true, true, true)<CR>", G_SILENT_NO_REMAP)        -- global comment invert
+  map("n", "<LEADER>bc", "mcvipgc<CR>`c", G_SILENT_REMAP)                                                                   -- block comment
+  map("n", "<LEADER>bC", ":lua require('comments').comments(true, true, false, true, false, true)<CR>", G_SILENT_NO_REMAP)  -- select block, comment out invert of block
+  map("n", "<LEADER>bU", ":lua require('comments').comments(true, true, false, false, false, true)<CR>", G_SILENT_NO_REMAP) -- select block, uncomment invert of block
+  map("v", "<LEADER>bc", ":lua require('comments').comments(false, false, false, true, true)<CR>", G_SILENT_NO_REMAP)       -- block comment invert
 
   map("n", "<LEADER>ba", "vip<C-v>$A", G_SILENT_NO_REMAP)             -- block insert end
   map("n", "<LEADER>bb", "vip<C-v>^o", G_SILENT_NO_REMAP)             -- block
@@ -111,13 +95,14 @@ function F.setup()
   -- search and replace
   --map( "n", "<LEADER>bd", ":bufdo %s//<C-r>./gc<CR>", G_NO_REMAP ) -- repeat replace
   -- https://github.com/kaddkaka/vim_examples/blob/main/README.md#repeat-last-change-in-all-of-file-global-repeat-similar-to-g
-  map("n", "<LEADER>sG", ":%s//<C-r>./gc<CR>", G_NO_REMAP)          -- repeat replace from normal mode
-  map("n", "<LEADER>sg", ":%s//<C-r>./g<CR>", G_NO_REMAP)           -- repeat replace from normal mode
-  map("n", "<LEADER>sc", ":%s///gn<CR>", G_NO_REMAP)                -- search count
-  map("n", "<LEADER>sR", ":%s///gc<LEFT><LEFT><LEFT>", G_NO_REMAP)  -- search and replace with prompt
-  map("n", "<LEADER>sr", ":%s///g<LEFT><LEFT>", G_NO_REMAP)         -- search and replace all
-  map("v", "<LEADER>sR", ":s///gc<LEFT><LEFT><LEFT>", G_NO_REMAP)   -- tab visual
-  map("v", "<LEADER>sr", ":s///g<LEFT><LEFT>", G_NO_REMAP)          -- tab visual
+  -- map("n", "<LEADER>sG", ":%s//<C-r>./gc<CR>", G_NO_REMAP)          -- repeat replace from normal mode
+  -- map("n", "<LEADER>sg", ":%s//<C-r>./g<CR>", G_NO_REMAP)           -- repeat replace from normal mode
+  -- map("n", "<LEADER>sc", ":%s///gn<CR>", G_NO_REMAP)                -- search count
+
+  map("n", "<LEADER>sR", ":%s///gc<LEFT><LEFT><LEFT>", G_NO_REMAP) -- search and replace with prompt
+  map("n", "<LEADER>sr", ":%s///g<LEFT><LEFT>", G_NO_REMAP)        -- search and replace all
+  map("v", "<LEADER>sR", ":s///gc<LEFT><LEFT><LEFT>", G_NO_REMAP)  -- tab visual
+  map("v", "<LEADER>sr", ":s///g<LEFT><LEFT>", G_NO_REMAP)         -- tab visual
 
   map("n", "<LEADER>su", ":!callterminal '%:p:h'  slackuserscopy l=", G_NO_REMAP)          -- tab visual
 
@@ -148,7 +133,7 @@ function F.setup()
   map("n", "<LEADER>gn", ":GitGutterNextHunk<CR>", G_NO_REMAP)                                               -- next githunk
   map("n", "<LEADER>Gp", ":GitGutterPreviousHunk<CR>", G_NO_REMAP)                                           -- next githunk
   map("n", "<LEADER>gB", ":!callterminal '%:p:h' g ", G_NO_REMAP)                                            -- create branch
-                                                                                                             -- map("n", "<LEADER>gl", ":!callterminalless '%:p:h' glog<CR>", G_NO_REMAP) -- git log but it's not working out for me
+                                                                                                             -- map("n", "<LEADER>gl", ":!callterminalless '%:p:h' glog<CR>", G_NO_REMAP)   -- git log but it's not working out for me
   map("n", "<LEADER>gl", ":silent !callterminal '%:p:h' glink<CR>", G_NO_REMAP)                              -- link
   map("n", "<LEADER>gpull", ":!callterminal '%:p:h' gp<CR>", G_NO_REMAP)                                     -- pull
   map("n", "<LEADER>ga", ":Git add %<CR>", G_NO_REMAP)                                                       -- add current file
@@ -159,21 +144,21 @@ function F.setup()
   map("n", "<LEADER>Gc", ":!callterminal2count '%:p:h' gcpush ''<LEFT>", G_NO_REMAP)                         -- commit and push
   map("n", "<LEADER>gs", ":!callterminal2count '%:p:h' gcpushs ''<LEFT>", G_NO_REMAP)                        -- commit and push silent
   map("n", "<LEADER>gm", ":!callterminal '%:p:h' g master<CR>", G_NO_REMAP)                                  -- checkout master
-  -- map("n", "<LEADER>gco", ":!callterminal '%:p:h' gco", G_NO_REMAP)                  -- checkout a specific branch
+                                                                                                             -- map("n", "<LEADER>gco", ":!callterminal '%:p:h' gco", G_NO_REMAP)           -- checkout a specific branch
   map("n", "<LEADER>gp", ":!callterminal '%:p:h' gpush -p '%:p:h'<CR>", G_NO_REMAP)                          -- push
   map("n", "<LEADER>gP", ":!callterminal '%:p:h' gpushs -p '%:p:h'<CR>", G_NO_REMAP)                         -- push silent
---  map("n", "<LEADER>greset", ":!callterminal '%:p:h' greset<CR>", G_NO_REMAP)                                -- reset
+                                                                                                             -- map("n", "<LEADER>greset", ":!callterminal '%:p:h' greset<CR>", G_NO_REMAP) -- reset
   map("n", "<LEADER>G", ":!callterminal '%:p:h' g<CR>", G_NO_REMAP)                                          -- status
-
-  map("n", "<LEADER>gA", ":G<CR>/Unstaged<CR>j", G_NO_REMAP) -- staging chunks
-                                                             -- Select file then >
-                                                             -- Add chunk via visual mode select
-                                                             -- s to add chunk
+  map("n", "<LEADER>gA", ":G<CR>/Unstaged<CR>j", G_NO_REMAP)                                                 -- staging chunks
+                                                                                                             -- Select file then >
+                                                                                                             -- Add chunk via visual mode select
+                                                                                                             -- s to add chunk
 
   -- U KEYS: Utility keys that are infrequently used
-  map("n", "<LEADER><SPACE>source", ":source ~/.config/nvim/init.lua<CR>", G_SILENT_NO_REMAP)  -- source file not working as expecting
-  map("n", "<LEADER>sp", ":%!cat -s<CR>", G_SILENT_NO_REMAP)                             -- trim mulitple consecutive lines to one
-  map("v", "<LEADER>sp", ":'<,'>!cat -s<CR>", G_SILENT_NO_REMAP)                         -- trim multiple consecutive lines to one
+
+  map("n", "<LEADER><SPACE>source", ":source ~/.config/nvim/init.lua<CR>", G_SILENT_NO_REMAP) -- source file not working as expecting
+  map("n", "<LEADER>sp", ":%!cat -s<CR>", G_SILENT_NO_REMAP)                                  -- trim mulitple consecutive lines to one
+  map("v", "<LEADER>sp", ":'<,'>!cat -s<CR>", G_SILENT_NO_REMAP)                              -- trim multiple consecutive lines to one
 
   --map( "n", "<C-c>", ":call ToggleList(\"Quickfix List\", 'c')<CR>", G_SILENT_NO_REMAP )
   --map( "n", "<C-c>", ":copen<CR>", G_SILENT_NO_REMAP )
@@ -191,18 +176,18 @@ function F.setup()
   map("n", "<LEADER>Omi", ":MasonInstall<SPACE>", G_NO_REMAP)
   map("n", "<LEADER>Omu", ":MasonUpdate<CR>", G_NO_REMAP)
 
-  map("n", "<C-n>", ":bn<CR>", G_SILENT_NO_REMAP)       -- buffer next
-  map("n", "<C-p>", ":bp<CR>", G_SILENT_NO_REMAP)       -- buffer previous
-  map("n", "<LEADER>bd", ":bd<CR>", G_SILENT_NO_REMAP)  -- buffer delete
-  map("n", "<LEADER>bl", ":ls<CR>", G_SILENT_NO_REMAP)  -- buffer list
+  -- map("n", "<C-b>", ":b#<CR>", G_SILENT_NO_REMAP) -- switch back to previous buffer
+  map("n", "<C-n>", ":bn<CR>", G_SILENT_NO_REMAP)      -- buffer next
+  map("n", "<C-p>", ":bp<CR>", G_SILENT_NO_REMAP)      -- buffer previous
+  map("n", "<LEADER>bd", ":bd<CR>", G_SILENT_NO_REMAP) -- buffer delete
+  map("n", "<LEADER>bl", ":ls<CR>", G_SILENT_NO_REMAP) -- buffer list
 
   map("n", "<LEADER>ss", "mcggVG:sort<CR>`ck<CR>", G_SILENT_NO_REMAP) -- sort
-  map("v", "<LEADER>ss", ":sort<CR>", G_SILENT_NO_REMAP) -- sort
+  map("v", "<LEADER>ss", ":sort<CR>", G_SILENT_NO_REMAP)              -- sort
 
-  map("n", "<LEADER>ff", "mcvi{c<CR><CR><CR><UP><UP><ESC>p<CR>vi{:'<,'>!cat -s<CR>`c<DOWN>", G_SILENT_NO_REMAP) -- format the function
+  map("n", "<LEADER>ff", "mcvi{c<CR><CR><CR><UP><UP><ESC>p<CR>vi{:'<,'>!cat -s<CR>`c<DOWN>", G_SILENT_NO_REMAP)                         -- format the function
   map("n", "<LEADER>FF", "mcvi{c<CR><CR><CR><UP><UP><ESC>p<CR>vi{:'<,'>!cat -s<CR>`c<DOWN><DOWN>vip:'<,'>Tabularize/=<CR>", G_NO_REMAP) -- format the function and paragraph
-  map("n", "<LEADER>fblack", "mc:%!black - -q<CR>`c", G_SILENT_NO_REMAP) -- python format stytle black
-
+  map("n", "<LEADER>fblack", "mc:%!black - -q<CR>`c", G_SILENT_NO_REMAP)                                                                -- python format stytle black
 
   map("n", "gV", "`[V`]", G_NO_REMAP)  -- select what got pasted
   map("n", "<LEADER>==", "gg=G<CR>", G_SILENT_NO_REMAP) -- format
@@ -210,16 +195,16 @@ function F.setup()
   map("n", "<LEADER><SPACE>fjson", ":%!jq<CR>", G_SILENT_NO_REMAP)  -- jq format
   map("v", "<LEADER><SPACE>fjson", ":!jq<CR>", G_NO_REMAP)             -- jq format 
 
-  map("n", "<LEADER>uad", ":!callterminal '%:p:h' upad21<CR>", G_NO_REMAP) -- uploads
-  map("n", "<LEADER>ucert", ":!callterminal '%:p:h' upcert<CR>", G_NO_REMAP) -- uploads
-  map("n", "<LEADER>uocto", ":!callterminal '%:p:h' upocto<CR>", G_NO_REMAP) -- uploads
-  map("n", "<LEADER>udot", ":!callterminal '%:p:h' cpdot<CR>", G_NO_REMAP) -- uploads syncdot
-  map("n", "<LEADER>umedia", ":!callterminal '%:p:h' upmedia<CR>", G_NO_REMAP) -- uploads syncdot
+  map("n", "<LEADER>uad", ":!callterminal '%:p:h' upad21<CR>", G_NO_REMAP)       -- uploads
+  map("n", "<LEADER>ucert", ":!callterminal '%:p:h' upcert<CR>", G_NO_REMAP)     -- uploads
+  map("n", "<LEADER>uocto", ":!callterminal '%:p:h' upocto<CR>", G_NO_REMAP)     -- uploads
+  map("n", "<LEADER>udot", ":!callterminal '%:p:h' cpdot<CR>", G_NO_REMAP)       -- uploads syncdot
+  map("n", "<LEADER>umedia", ":!callterminal '%:p:h' upmedia<CR>", G_NO_REMAP)   -- uploads syncdot
   map("n", "<LEADER>upmedia", ":!callterminal '%:p:h' uppmedia<CR>", G_NO_REMAP) -- uploads syncdot
-  map("n", "<LEADER>upi", ":!callterminal '%:p:h' upivanti<CR>", G_NO_REMAP) -- uploads syncdot
+  map("n", "<LEADER>upi", ":!callterminal '%:p:h' upivanti<CR>", G_NO_REMAP)     -- uploads syncdot
 
-  map("n", "<LEADER><SPACE>alpha", ":set nrformats=bin,hex,alpha<CR>", G_NO_REMAP)  -- change incremental alpha
-  map("n", "<LEADER><SPACE>number", ":set nrformats=bin,hex<CR>", G_NO_REMAP)       -- change incremental number: default
+  map("n", "<LEADER><SPACE>alpha", ":set nrformats=bin,hex,alpha<CR>", G_NO_REMAP) -- change incremental alpha
+  map("n", "<LEADER><SPACE>number", ":set nrformats=bin,hex<CR>", G_NO_REMAP)      -- change incremental number: default
 
 --  map("v", "J", ":m '>+1<CR>gv=gv", G_NO_REMAP)                               -- visual move down
 --  map("v", "K", ":m '<-2<CR>gv=gv", G_NO_REMAP)                               -- visual move up
@@ -257,12 +242,6 @@ function F.setup()
   --map( "n", '<SPACE>q', vim.diagnostic.setloclist )
   --map( "n", '[d', vim.diagnostic.goto_prev )
   --map( "n", ']d', vim.diagnostic.goto_next )
-
-  -- harpoon shortcuts
---  map("n", "<C-h>", ':lua require( "harpoon.ui").nav_next()<CR>', G_SILENT_NO_REMAP)                -- next
---  map("n", "<C-l>", ':lua require( "harpoon.ui").nav_prev()<CR>', G_SILENT_NO_REMAP)                -- prev
---  map("n", "<LEADER>ha", ':lua require( "harpoon.mark").add_file()<CR>', G_SILENT_NO_REMAP)         -- harpoon add
---  map("n", "<LEADER>hm", ':lua require( "harpoon.ui").toggle_quick_menu()<CR>', G_SILENT_NO_REMAP)  -- harpoon menu
 
   -- telescope to move around
   map("n", "<LEADER>jbig", ":lua require('tele').dirJump('bigip')<CR>", G_SILENT_NO_REMAP)
