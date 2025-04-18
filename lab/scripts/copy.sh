@@ -79,7 +79,6 @@ function cpfile() {
 
   local currentLocation=$(pwd)
   # Define the file path you want to copy
-  # filePath="/Users/klieng/Downloads/Goals.pdf"  # Replace this with the actual file path
 
   local filePath="$currentLocation/$1"  # Replace this with the actual file path
   local key=''

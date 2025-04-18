@@ -101,6 +101,7 @@ function cpdot() {
 
     rm $dConfigDir/nvim/init.lua.*
     rm $dConfigDir/kitty/kitty.conf.*
+    rm $dConfigDir/kitty/kitty.*.conf
 
     find $sourceScript -maxdepth 1 -type f  -iname "*.sh" -exec cp {} ${dScriptDir}/. \;
 

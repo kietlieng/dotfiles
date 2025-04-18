@@ -1,4 +1,4 @@
-alias htail="tail -f /tmp/skhd_klieng.err.log /tmp/skhd_klieng.out.log" 
+alias htail="tail -f /tmp/skhd_*.err.log /tmp/skhd_*.out.log" 
 
 function hot() {
     while [[ $# -gt 0 ]]; do

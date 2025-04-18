@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 # Path to your oh-my-zsh installation.
 #
-export ZSH="/Users/klieng/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 # syntax highlights for terminal
 # kl slow
 #source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

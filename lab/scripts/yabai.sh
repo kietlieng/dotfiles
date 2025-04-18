@@ -43,7 +43,7 @@ alias yrestart="y restart"
 alias yrules="y rlist'"
 alias yspd="y sp-"
 alias yspi="y sp+"
-alias ytail="tail -f /tmp/yabai_klieng.err.log /tmp/yabai_klieng.out.log"
+alias ytail="tail -f /tmp/yabai_*.err.log /tmp/yabai_*.out.log"
 alias ytdecrease="yspd"
 alias ytincrease="yspi"
 
