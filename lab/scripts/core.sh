@@ -245,6 +245,28 @@ function X() {
 
 }
 
+
+function xr() {
+
+  # ripgrep->fzf->vim [QUERY]
+  local RELOAD="reload:rg --column --color=always --smart-case {q} || :"
+  local OPENER='if [[ $FZF_SELECT_COUNT -eq 0 ]]; then
+            nvim {1} +{2}     # No selection. Open the current line in Vim.
+          else
+            nvim +cw -q {+f}  # Build quickfix list for the selected items.
+          fi'
+  fzf --disabled --ansi --multi \
+      --bind "start:$RELOAD" --bind "change:$RELOAD" \
+      --bind "enter:become:$OPENER" \
+      --bind "ctrl-o:execute:$OPENER" \
+      --bind 'alt-a:select-all,alt-d:deselect-all,ctrl-/:toggle-preview' \
+      --delimiter : \
+      --preview 'bat --style=full --color=always --highlight-line {2} {1}' \
+      --preview-window '~4,+{2}+4/3,<80(up)' \
+      --query "$*"
+
+}
+
 alias xG="eg '?'"
 
 # open all files that are modified / new / deleted to vim from git 
@@ -722,7 +744,7 @@ function xshot() {
   local fzfDefaultCommandBackup=$FZF_DEFAULT_COMMAND
 #  unset FZF_DEFAULT_COMMAND
 
-  cd ~/lab/screenshots
+  cd $HOME/lab/screenshots
   local screenDir=$(pwd)
   local output=$(ls -1t | fzf --preview='kitten icat --clear --transfer-mode=memory --stdin=no --place=${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@65x10 {} > /dev/tty')
 #  ls -1t | fzf --preview='kitten icat --clear --transfer-mode=memory --stdin=no --place=${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@65x10 {} > /dev/tty'
@@ -858,7 +880,7 @@ function xscript() {
 
   cd "$HOME/lab/scripts"
   # query via filenames 
-#  filesToEdit=$(find ~/lab/scripts -iname "*.sh" | fzf --multi --preview "bat --style=numbers --color=always --line-range :500 {}")
+#  filesToEdit=$(find $HOME/lab/scripts -iname "*.sh" | fzf --multi --preview "bat --style=numbers --color=always --line-range :500 {}")
   local filesToEdit=$(fzf --multi --ansi --disabled --query "$INITIAL_QUERY" \
     --bind "start:reload:$RG_PREFIX {q}" \
     --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
@@ -975,10 +997,10 @@ function cyaml() {
 
 function c() {
   
-  local scriptDir=~/lab/scripts
+  local scriptDir=$HOME/lab/scripts
   local targetDir="$scriptDir/1first"
   local searchExt='.sh'
-  local yamlDir=~/lab/scripts/tmuxp
+  local yamlDir=$HOME/lab/scripts/tmuxp
   local defaultSearch=''
   local searchTerm="$defaultSearch"
   local sFilename="$defaultSearch"
@@ -1044,22 +1066,13 @@ function c() {
       return
   fi
 
-
   local scriptQuery=$searchTerm
-  if [[ $searchTerm ]]; then
 
-    filesToEdit=$(find ~/lab/scripts -type f -iname "*$searchTerm$shExt" -o -iname "*$searchTerm$yamlExt")
-    echo "Targets $filesToEdit"
-
-    if [[ $filesToEdit ]]; then
-      vim $(echo "$filesToEdit")
-      return
-    fi
-
-  else
+  # if there is no terms 
+  if [[ -z $searchTerm ]]; then
 
     echo "" > "/tmp/script-query"
-    filesToEdit=$(rg --files ~/lab/scripts | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 {}' --bind 'change:execute(echo {q} > /tmp/script-query)' --bind 'ctrl-r:execute(echo "" > /tmp/script-query)')
+    filesToEdit=$(rg --files $HOME/lab/scripts | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 {}' --bind 'change:execute(echo {q} > /tmp/script-query)' --bind 'ctrl-r:execute(echo "" > /tmp/script-query)')
     
     local editFiles=()
     for tempFile in $(echo "$filesToEdit"); do
@@ -1072,17 +1085,59 @@ function c() {
       return
     fi
 
+  else
+
+    # if there is terms try to find it 
+    filesToEdit=$(find $HOME/lab/scripts -type f -iname "*$searchTerm$shExt" -o -iname "*$searchTerm$yamlExt")
+    echo "Targets $filesToEdit"
+
+    # if you have a file to edit edit
+    if [[ $filesToEdit ]]; then
+
+      vim $(echo "$filesToEdit")
+      return
+
+    fi
+
   fi
 
   becho "searchTerm |$searchTerm|"
 
   if [[ $searchTerm ]]; then
+
     scriptQuery=$(echo "$searchTerm" | tr -d '*')
 
   else
+
     scriptQuery=$(cat /tmp/script-query)
+
+    # if query is a key word
+    if [[ $scriptQuery == 'Z' ]]; then
+
+      # ripgrep->fzf->vim [QUERY]
+      local RELOAD="reload:rg --column --color=always --smart-case {q} $HOME/lab/scripts || :"
+      local OPENER='if [[ $FZF_SELECT_COUNT -eq 0 ]]; then
+                nvim {1} +{2}     # No selection. Open the current line in Vim.
+              else
+                nvim +cw -q {+f}  # Build quickfix list for the selected items.
+              fi'
+
+      fzf --disabled --ansi --multi \
+          --bind "start:$RELOAD" --bind "change:$RELOAD" \
+          --bind "enter:become:$OPENER" \
+          --bind "ctrl-o:execute:$OPENER" \
+          --bind 'alt-a:select-all,alt-d:deselect-all,ctrl-/:toggle-preview' \
+          --delimiter : \
+          --preview 'bat --style=full --color=always --highlight-line {2} {1}' \
+          --preview-window '~4,+{2}+4/3,<80(up)' \
+          --query "$*"
+
+      return
+    fi
+
   fi
 
+  
   becho "searchTerm |$searchTerm|"
   
   sFilename="$scriptQuery"
@@ -1149,8 +1204,8 @@ function catcp() {
 }
 
 function wonderfood() {
-#  ~/lab/scripts/python/wonderfood.py | sed 's/ /-/g'
-  local foodSent=$(~/lab/scripts/python/wonderfood.py)
+#  $HOME/lab/scripts/python/wonderfood.py | sed 's/ /-/g'
+  local foodSent=$($HOME/lab/scripts/python/wonderfood.py)
   echo "$foodSent"
 }
 
