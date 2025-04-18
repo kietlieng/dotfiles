@@ -11,7 +11,7 @@ projectID = sys.argv[1]
 jobID = sys.argv[2]
 headers = {
     'PRIVATE-TOKEN': GITLAB_TOKEN,
-    "Referer": "https://gitlabdev.paciolan.info",
+    "Referer": GITLAB_URL,
 }
 
 print(GITLAB_URL + '/api/v4/projects/' + projectID + '/jobs/' + jobID + '/artifacts')

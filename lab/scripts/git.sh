@@ -260,33 +260,6 @@ function gblast() {
 
 }
 
-# abandon cause it's gitlabdev is pingable
-#function greachable() {
-#
-#    isGitlab=$(git config --list | grep -i "gitlabdev.paciolan.info" )
-#    isGithub=$(git config --list | grep -i "github.com")
-#
-#    if [[ $isGitlab ]]; then
-#
-##        fping -c 1 "gitlabdev.paciolan.info" >/dev/null 2>&1
-#        if [[ $? == "0" ]]; then
-#          echo "true gitlabdev.paciolan.info"
-#        fi
-#        return
-#
-#    fi
-#    if [[ $isGitlab ]]; then
-#
-#        fping -c 1 "github.com" >/dev/null 2>&1
-#        if [[ $? == "0" ]]; then
-#          echo "true github"
-#        fi
-#        return
-#
-#    fi
-##    echo "root is $gitFolderDirectory"
-#}
-
 # g command is short hand for a number of things
 # list branchs and tracking branch
 # find the parent repo folder if you're nested within the repository folder

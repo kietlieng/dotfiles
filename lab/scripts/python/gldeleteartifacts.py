@@ -18,7 +18,7 @@ print(sys.argv)
 headers = {
     'PRIVATE-TOKEN': GITLAB_TOKEN,
     'Content-Type': 'application/x-www-form-urlencoded',
-    "Referer": "https://gitlabdev.paciolan.info",
+    "Referer": GITLAB_URL,
 }
 
 print(GITLAB_URL + '/api/v4/projects/' + projectId + '/jobs?per_page=100&page=' + currentPage)
