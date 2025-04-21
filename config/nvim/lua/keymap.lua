@@ -66,7 +66,6 @@ function F.setup()
   map("n", "<LEADER>jj", "<cmd>lua require('lua-fzf').openJumpFiles()<CR>", G_SILENT_NO_REMAP)     -- Jump script to vim :) 
   map("n", "<LEADER>jw", "<cmd>lua require('lua-fzf').openWorkingJumpFile()<CR>", G_SILENT_NO_REMAP)     -- Jump script to vim :) 
 
-
   map("n", "<C-c>", "ciw", G_SILENT_NO_REMAP) -- change a word
   map("n", "<C-y>", "yygccp", G_SILENT_REMAP) -- duplicate line and commentout
 
@@ -172,6 +171,7 @@ function F.setup()
   map("n", "<LEADER>Oinfo", ":LspInfo<CR>", G_NO_REMAP)
   map("n", "<LEADER>Olog", ":LspLog<CR>", G_NO_REMAP)
   map("n", "<LEADER>Oinstall", ":LspInstall<CR>", G_NO_REMAP)
+  map("n", "<LEADER>Oma", ":Mason<CR>", G_NO_REMAP)
   map("n", "<LEADER>Oml", ":MasonLog<CR>", G_NO_REMAP)
   map("n", "<LEADER>Omi", ":MasonInstall<SPACE>", G_NO_REMAP)
   map("n", "<LEADER>Omu", ":MasonUpdate<CR>", G_NO_REMAP)
@@ -204,7 +204,8 @@ function F.setup()
   map("n", "<LEADER>upi", ":!callterminal '%:p:h' upivanti<CR>", G_NO_REMAP)     -- uploads syncdot
 
   map("n", "<LEADER><SPACE>alpha", ":set nrformats=bin,hex,alpha<CR>", G_NO_REMAP) -- change incremental alpha
-  map("n", "<LEADER><SPACE>number", ":set nrformats=bin,hex<CR>", G_NO_REMAP)      -- change incremental number: default
+  -- map("n", "<LEADER><SPACE>number", ":set nrformats=bin,hex<CR>", G_NO_REMAP)      -- change incremental number: default
+  map("n", "<LEADER>nu", ":call NumberToggle()<CR>", G_NO_REMAP)      -- change incremental number: default
 
 --  map("v", "J", ":m '>+1<CR>gv=gv", G_NO_REMAP)                               -- visual move down
 --  map("v", "K", ":m '<-2<CR>gv=gv", G_NO_REMAP)                               -- visual move up

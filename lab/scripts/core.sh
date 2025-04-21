@@ -144,7 +144,7 @@ function e() {
   done
 
   # echo "tail $modeTail"
-  local vimToEdit=($(eza --all --sort=modified --long -f | tail -n $modeTail | awk '{print $(NF)}' |  sed -r 's/\n/ /g'))
+  local vimToEdit=($(eza --all --sort=modified --long -f --only-files | tail -n $modeTail | awk '{print $(NF)}' |  sed -r 's/\n/ /g'))
 #  echo "|$vimToEdit|"
   vim $vimToEdit
 
@@ -1242,5 +1242,24 @@ function oo() {
     return
   fi
   open .
+
+}
+
+function s() {
+
+  local searchString=''
+
+  while [[ $# -gt 0 ]]; do
+
+    searchString="${searchString}+${1}"
+    shift
+
+  done
+
+  if [[ $searchString ]]; then
+    open -na "Firefox" --args --private-window "https://duckduckgo.com/?q=$searchString"
+  fi
+
+  yfocuswin Firefox -title Private
 
 }

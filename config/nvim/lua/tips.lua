@@ -16,6 +16,12 @@
 --In order to double the number of spaces at the beginning of every line (and only at the beginning):
 --:%s/^\s*/&&/g
 --
+--You can create a new line under bulleted line by combining global with normal mode
+--:g/^\s*-/normal 0
+--
+--**\zs** means to start from here.  If you want to preserve the front
+--%s/^\s\{8}\zs-/#/
+--
 --motions that you don't use often
 --[count]]m ~ goes to the next function definition as in ]m
 --[count]$ ~ moves to the count lines and places cursor at the end

@@ -3,6 +3,7 @@ local swnumber = 2
 
 vim.cmd([[set runtimepath+=~/.nvim]]) --set.runtimepath:append { set.runtimepath .. "/.nvim" }
 vim.cmd([[set runtimepath+=~/.local/share/nvim/lazy/gitlab.vim]])
+vim.cmd([[set runtimepath+=~/opt/homebrew/opt/fzf]])
 --vim.cmd([[set runtimepath+=~/.luarocks/lib/luarocks/rocks-5.1]])
 
 -- wrap
@@ -36,7 +37,7 @@ set.incsearch      = true
 set.lazyredraw     = true
 --set.lazyredraw     = false
 set.number         = true
--- set.relativenumber = true
+set.relativenumber = true
 set.ruler          = true
 set.scrolloff      = 8                                                                -- give at list X space before / after cursor
 set.shiftwidth     = swnumber
@@ -151,33 +152,6 @@ require('lazy').setup({
     { 'neoclide/coc.nvim', branch = 'release' },
     { 'iamcco/markdown-preview.nvim', build = 'cd app && yarn install' },
 
--- PROBLEM
-
---    { '3rd/image.nvim', config = function() require('image-lua').setup() end },
---    { '3rd/diagram.nvim',
---      dependencies = { '3rd/image.nvim', },
---      opts = { -- you can just pass {}, defaults below
---        renderer_options = {
---          mermaid = {
---            background = nil, -- nil | 'transparent' | 'white' | '#hex'
---            theme = nil, -- nil | 'default' | 'dark' | 'forest' | 'neutral'
---            scale = 1, -- nil | 1 (default) | 2  | 3 | ...
---          },
---          plantuml = {
---            charset = nil,
---          },
---          d2 = {
---            theme_id = nil,
---            dark_theme_id = nil,
---            scale = nil,
---            layout = nil,
---            sketch = nil,
---          },
---        }
---      },
---    },
-
-
     -- NAVIGATION ---
     --{ 'kana/vim-smartword' }, -- great for navigation of words with quotes, haven't found a need to use it
     --{ 'wellle/targets.vim', config = function() require('targets').setup() end }, -- arguement text objects.  Don't know if I'm using them enough
@@ -199,6 +173,37 @@ require('lazy').setup({
     { 'williamboman/mason-lspconfig.nvim' },
     { 'neovim/nvim-lspconfig' },
     { 'rafamadriz/friendly-snippets' },
+
+    {
+      "mikavilpas/yazi.nvim",
+      event = "VeryLazy",
+      dependencies = {
+        -- check the installation instructions at
+        -- https://github.com/folke/snacks.nvim
+        "folke/snacks.nvim"
+      },
+      keys = {
+
+        { "<leader>za", mode = { "n", "v" }, "<cmd>Yazi<cr>", desc = "Open yazi at the current file", }, -- 👇 in this section, choose your own keymappings!
+        { "<leader>zc", "<cmd>Yazi cwd<cr>", desc = "Open the file manager in nvim's working directory", }, -- Open in the current working directory
+        -- { "<c-up>", "<cmd>Yazi toggle<cr>", desc = "Resume the last yazi session", },
+
+      },
+      ---@type YaziConfig | {}
+        -- if you want to open yazi instead of netrw, see below for more info
+      opts = {
+        open_for_directories = false,
+        keymaps = {
+          show_help = "<f1>",
+        },
+      },
+      -- 👇 if you use `open_for_directories=true`, this is recommended
+      init = function()
+        -- More details: https://github.com/mikavilpas/yazi.nvim/issues/802
+        -- vim.g.loaded_netrw = 1
+        vim.g.loaded_netrwPlugin = 1
+      end,
+    },
 
 --    { 'christoomey/vim-tmux-navigator',
 --      cmd = {
@@ -241,25 +246,6 @@ require('lazy').setup({
     -- { 'dcampos/cmp-snippy' },
 
     ----- CMP end -----
-
---    -- math // currently not working.  Check back on this
---    { 'Thiago4532/mdmath.nvim',
---       opts = {
---        -- Filetypes that the plugin will be enabled by default.
---        filetypes = {'markdown'},
---        -- Color of the equation, can be a highlight group or a hex color.
---        -- Examples: 'Normal', '#ff0000'
---        foreground = 'Normal',
---        -- Hide the text when the equation is under the cursor.
---        anticonceal = true,
---        -- Hide the text when in the Insert Mode.
---        hide_on_insert = true,
---        -- Scale of the equation images, increase to prevent blurry images when increasing terminal
---        -- font, high values may produce aliased images.
---        scale = 1.0,
---      },
---      dependencies = { 'nvim-treesitter/nvim-treesitter' }
---    }, -- math
 
     --{ 'prettier/vim-prettier', build =  'yarn install --frozen-lockfile --production', branch = 'release/0.x' }, -- don't think I'm using at all
     { 'stevearc/oil.nvim', opts = {}, dependencies = { 'nvim-tree/nvim-web-devicons' }, config = function() require('lua-oil').setup() end, }, -- oil setup
@@ -429,35 +415,36 @@ vim.cmd([[
 
   function! CloseBufferOrVim(saveFirst)
 
-      "" if more than 1 buffer close the current buffer only. Otherwise close vim
-      if (len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) > 1)
-        if a:saveFirst == 1
-          "" to avoid git commit window issue
-          :w
-          :bw
-        else
-          :bd!
-        endif
+    "" if more than 1 buffer close the current buffer only. Otherwise close vim
+    if (len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) > 1)
+      if a:saveFirst == 1
+        "" to avoid git commit window issue
+        :w
+        :bw
       else
-        if a:saveFirst == 1
-          :wq!
-        else
-          :q!
-        endif
+        :bd!
       endif
+    else
+      if a:saveFirst == 1
+        :wq!
+      else
+        :q!
+      endif
+    endif
 
   endfunction
 
-  ""function! s:SaveIt()
+  function! NumberToggle()
 
-  ""  echo "testing"
-  ""  if bufname("%")==''
-  ""      exec 'w /tmp/note_'.localtime()
-  ""  else
-  ""      w
-  ""  endif
-  ""
-  ""endfunction
+    if(&relativenumber == 1 && &number == 1)
+      set number
+      set norelativenumber
+    elseif (&number == 1 && &relativenumber == 0)
+      set number
+      set relativenumber
+    endif
+
+  endfunc
 
 
   autocmd BufNewFile,BufRead * if &syntax == '' | set syntax=yaml | endif "" make syntax yaml if no syntax is found
