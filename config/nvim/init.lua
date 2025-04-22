@@ -183,13 +183,11 @@ require('lazy').setup({
         "folke/snacks.nvim"
       },
       keys = {
-
-        { "<leader>za", mode = { "n", "v" }, "<cmd>Yazi<cr>", desc = "Open yazi at the current file", }, -- 👇 in this section, choose your own keymappings!
-        { "<leader>zc", "<cmd>Yazi cwd<cr>", desc = "Open the file manager in nvim's working directory", }, -- Open in the current working directory
+        -- { "<leader>za", mode = { "n", "v" }, "<cmd>Yazi<cr>", desc = "Open yazi at the current file", }, -- 👇 in this section, choose your own keymappings!
+        -- { "<leader>zc", "<cmd>Yazi cwd<cr>", desc = "Open the file manager in nvim's working directory", }, -- Open in the current working directory
         -- { "<c-up>", "<cmd>Yazi toggle<cr>", desc = "Resume the last yazi session", },
-
       },
-      ---@type YaziConfig | {}
+        -- @type YaziConfig | {}
         -- if you want to open yazi instead of netrw, see below for more info
       opts = {
         open_for_directories = false,

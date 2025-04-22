@@ -231,11 +231,16 @@ function F.setup()
   --map( "n", "k", "gk", G_SILENT_NO_REMAP ) -- wrapped text movement. Be careful the regular k needs to be expressed elsewhere
 
   -- oil. directory edits in vim
-  map("n", "<LEADER>o<SPACE>", ":Oil --float<CR>", { desc = "open up" })
+  map("n", "<LEADER>oo", ":Oil --float<CR>", { desc = "open up" })
   map("n", "<LEADER>olab", ":Oil --float ~/lab<CR>", { desc = "lab" })
   map("n", "<LEADER>olua", ":Oil --float ~/.config/nvim/lua<CR>", { desc = "lab" })
   map("n", "<LEADER>orepo", ":Oil --float ~/lab/repos<CR>", { desc = "repos" })
   map("n", "<LEADER>oscript", ":Oil --float ~/lab/scripts<CR>", { desc = "Scripts" })
+
+
+  map({"n", "v"}, "<leader>oz", "<cmd>Yazi<cr>", { desc = "Open yazi at the current file" }) -- 👇 in this section, choose your own keymappings!
+  -- map("n", "<leader>zc", "<cmd>Yazi cwd<cr>", { desc = "Open the file manager in nvim's working directory" }), -- Open in the current working directory
+
 
   ---- See `:help vim.diagnostic.*` for documentation on any of the below functions
 
