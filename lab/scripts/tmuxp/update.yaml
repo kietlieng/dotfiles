@@ -5,5 +5,5 @@ windows:
     panes:
       - shell_command:
           - brew update; brew upgrade; omz update;
-      - shell_command:
-          - kbuild
+      # - shell_command:
+      #     - kbuild

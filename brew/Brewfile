@@ -136,7 +136,7 @@ brew "pnpm"
 brew "poetry"
 brew "poppler"
 brew "postgresql@14"
-brew "pyright", link: false
+brew "pyright"
 brew "python-tk@3.10"
 brew "python@3.11"
 brew "python-tk@3.11"

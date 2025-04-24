@@ -8,15 +8,15 @@ alias lint="yamllint "
 alias wfood="wonderfood"
 alias wtitle="wondertitle"
 alias Ed="X -cd"
-alias ee="e 2"
-alias eee="e 3"
+alias ee="e -n 2"
+alias eee="e -n 3"
 alias e2="ee"
-alias e3="e 3"
-alias eee="e 3"
-alias e4="e 4"
-alias eeee="e 4"
-alias e5="e 5"
-alias eeeee="e 5"
+alias e3="e -n 3"
+alias eee="e -n 3"
+alias e4="e -n 4"
+alias eeee="e -n 4"
+alias e5="e -n 5"
+alias eeeee="e -n 5"
 alias fo="f -o"
 
 # edit git file
@@ -136,16 +136,32 @@ function xtmp() {
 function e() {
 
   local modeTail=1
+  local searchString='.'
   local key=''
 
   while [[ $# -gt 0 ]]; do
-    modeTail="$1"
+    
+    key="$1"
     shift
+
+    case "$key" in
+
+      '-n' )
+        modeTail="$1"
+        shift
+        ;;
+        
+      *) 
+        searchString="${searchString}*${key}"
+      ;;
+
+    esac
+
   done
 
   # echo "tail $modeTail"
-  local vimToEdit=($(eza --all --sort=modified --long -f --only-files | tail -n $modeTail | awk '{print $(NF)}' |  sed -r 's/\n/ /g'))
-#  echo "|$vimToEdit|"
+  local vimToEdit=($(eza --all --sort=modified --long -f --only-files | grep -i $searchString | tail -n $modeTail | awk '{print $(NF)}' |  sed -r 's/\n/ /g'))
+  echo "|$vimToEdit|"
   vim $vimToEdit
 
 }
@@ -348,13 +364,17 @@ function subd() {
 
 # copy current path
 function pc() {
+    
+  local relativePath="$PWD"
+
+  # if it's part of the home directory.  Remove home directory mention (sensitive data)
+  if [[ "$PWD" = *$HOME* ]]; then
     relativePath="~${PWD#"$HOME"}"
+  fi
 
-    echo "$relativePath/" 
+  echo "$relativePath/" 
+  echo -n "$relativePath/" | pbcopy
 
-#    if [[ $# -gt 0 ]]; then
-    echo -n "$relativePath/" | pbcopy
-#    fi
 }
 
 # grep listing
@@ -1235,7 +1255,7 @@ function wondertitle() {
 
 }
 
-function oo() {
+function O() {
 
   if [[ $# -gt 0 ]]; then
     open $1

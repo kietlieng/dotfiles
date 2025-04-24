@@ -1,4 +1,4 @@
-alias bal="y bal"
+alias bal="Y bal"
 alias rot="yrot"
 alias rotf="ycheckrot off; rot"
 alias rotn="ycheckrot topdown"
@@ -7,29 +7,29 @@ alias w1="yo t l"
 alias w2="yo t r"
 alias w3="yo b l"
 alias w4="yo b r"
-alias yH="y 3"
+alias yH="Y 3"
 alias yanchorbot="yanchor bot"
 alias yanchoroff="yanchor off"
 alias yanchorshow="cat ~/.yanchor"
 alias yanchortop="yanchor top"
-alias ybal="y bal"
+alias ybal="Y bal"
 alias ydisplay="yabai -m query --displays"
-alias yf="y f"
-alias yfb="y f bal"
-alias yff="y f; ycheckrot off; rot 2"
-alias yfire="y fire"
-alias yfn="y f; ycheckrot topdown"
-alias yh="y h"
-alias yhf="y h; ycheckrot off; rot 2"
-alias yhn="y h; ycheckrot topdown"
+alias yf="Y f"
+alias yfb="Y f bal"
+alias yff="Y f; ycheckrot off; rot 2"
+alias yfire="Y fire"
+alias yfn="Y f; ycheckrot topdown"
+alias yh="Y h"
+alias yhf="Y h; ycheckrot off; rot 2"
+alias yhn="Y h; ycheckrot topdown"
 alias yoL="yo 3 l"
 alias yoR="yo 3 r"
-alias yoa="y spa"
+alias yoa="Y spa"
 alias yob="yo b"
 alias yobl="yo b l"
 alias yobr="yo b r"
 alias yoc="yo center"
-alias yoh="y sph"
+alias yoh="Y sph"
 alias yol="yo l"
 alias yoll="yo l"
 alias yor="yo r"
@@ -37,12 +37,12 @@ alias yorr="yo r"
 alias yot="yo t"
 alias yotl="yo t l"
 alias yotr="yo t r"
-alias yov="y spv"
-alias ypadding="y padding"
-alias yrestart="y restart"
-alias yrules="y rlist'"
-alias yspd="y sp-"
-alias yspi="y sp+"
+alias yov="Y spv"
+alias ypadding="Y padding"
+alias yrestart="Y restart"
+alias yrules="Y rlist'"
+alias yspd="Y sp-"
+alias yspi="Y sp+"
 alias ytail="tail -f /tmp/yabai_*.err.log /tmp/yabai_*.out.log"
 alias ytdecrease="yspd"
 alias ytincrease="yspi"
@@ -125,12 +125,12 @@ function yWindowMove() {
 
 
 function yfull() {
-    y f left
+    Y f left
     yrot "$@"
 }
 
 function yhalf() {
-    y f right
+    Y f right
     yrot "$@"
 }
 
@@ -340,7 +340,7 @@ function ymanage() {
     #echo "$isFloat"
     # if your currently in float mode turn into manage mode
     if [[ $isFloat ]]; then
-        y 'bsp'
+        Y 'bsp'
 
         # have to wait for the window resize to figure out width of kitty
         sleep .2
@@ -358,7 +358,7 @@ function ymanage() {
         # enforce padding if it's full width
         # use greater than because some windows are not spaced absolute horizontal to each other
         if [[ $totalWidth -gt 2050 ]]; then
-            y 'f'
+            Y 'f'
         fi
     else
 
@@ -375,15 +375,15 @@ function ymanage() {
         # balance option doesn't work correctly on float layout
         # We have to make it full then balance it
         if ! [[ $totalWidth -gt 2050 ]]; then
-            y 'f' 'bal'
+            Y 'f' 'bal'
         fi
-        y 'float'
+        Y 'float'
 
     fi
 }
 
 # base command for yabai
-function y() {
+function Y() {
 
   local noCommands="true"
   local key=''
@@ -1132,7 +1132,6 @@ function ytoganchor() {
 # Leaves padding on set
 function ytogpadding() {
 
-#  yContext=$(yabai -m query --windows | jq '.[] | select(."has-focus") | .display')
   local yContext=$(yabai -m query --windows | jq '.[] | select(.app | contains("kitty") or contains("Ghostty"))' | jq '.display' | head -n 1)
 
 #  echo "$yContext"
