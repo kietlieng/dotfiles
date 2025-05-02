@@ -168,7 +168,7 @@ require('lazy').setup({
       keys = { -- https://www.youtube.com/watch?v=1iWONKe4kUY
         {
 
-          "R", -- this is a killer.  Let's see what I can do with it
+          "r", -- this is a killer.  Let's see what I can do with it
           -- try `yR` in normal mode then start trying to yank what you want to yank
           mode = { "o" },
           function()
