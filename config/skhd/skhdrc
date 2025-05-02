@@ -139,20 +139,18 @@ rctrl - e: ~/lab/scripts/calls/calltmuxcreatewindow -popup
 
 # screenshots
 lctrl - 4 : ~/lab/scripts/calls/calllastboth
-# rctrl - 4 : ~/lab/scripts/calls/calllastscreen
-# lctrl - 5 : ~/lab/scripts/calls/calllastdownload
-# lalt - 4 : ~/lab/scripts/calls/calllastdownload
-# rctrl - 4 : ~/lab/scripts/calls/calllastdownload
 
 # copy 
-lctrl - 8 : ~/lab/scripts/calls/copg
+f10 : ~/lab/scripts/calls/copg
+lctrl - 9 : ~/lab/scripts/calls/record
+lctrl - 0 : ~/lab/scripts/calls/ffmax
 
 # yabai window management
 #lctrl - a : ~/lab/scripts/calls/scriptcall yswitchmonitor
 lctrl - g : ~/lab/scripts/calls/callyrot
 lctrl + shift - g : ~/lab/scripts/calls/scriptcall yshift -f
-lctrl - 0 : ~/lab/scripts/calls/scriptcall ytincrease
-lctrl - 9 : ~/lab/scripts/calls/scriptcall ytdecrease
+f12 : ~/lab/scripts/calls/scriptcall ytincrease
+f11 : ~/lab/scripts/calls/scriptcall ytdecrease
 rctrl + shift - e : ~/lab/scripts/calls/scriptcall yf
 rctrl - x : ~/lab/scripts/calls/scriptcall ytogpadding
 rctrl - a : ~/lab/scripts/calls/scriptcall ytoganchor

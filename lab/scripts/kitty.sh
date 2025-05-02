@@ -1,5 +1,11 @@
 alias kbuild="kpull && krebuild && kreplacelauncher"
 
+function knightly() {
+  sudo rm -rf /Applications/kitty.app
+  curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin \
+    installer=nightly
+}
+
 function kterm() {
   kitty +kitten ssh "$1"
 }
@@ -15,6 +21,7 @@ function kpull() {
 
 function krebuild() {
   cd ~/lab/repos/kitty
+  # rm -rf kitty/launcher/kitt*
   ./dev.sh build
 }
 

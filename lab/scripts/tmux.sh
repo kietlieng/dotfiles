@@ -157,7 +157,8 @@ function t() {
           if [[ $modeDetach == 't' ]]; then
 
             pecho "tmuxp load -d \"$yFile\""
-            tmuxp load -d "$yFile" &!
+            # tmuxp load -d "$yFile" &!
+            tmuxp load -d "$yFile" &
 
           else
 
@@ -165,7 +166,8 @@ function t() {
             if [[ $TMUX == '' ]] && [[ $fileSize -gt 1 ]] && [[ $modeEmbed == '' ]]; then
 
               pecho "detaching |$TMUX| $fileSize"
-              tmuxp load -d "$yFile" &!
+              # tmuxp load -d "$yFile" &!
+              tmuxp load -d "$yFile" &
 
             else
 
@@ -601,8 +603,8 @@ function tmdisplay() {
 function tdef() {
 
   local key=''
-  local tmuxdefault1=""
-  local tmuxdefault2=""
+  local tmuxdefault1="$(cat ~/.tmuxdefault1)"
+  local tmuxdefault2="$(cat ~/.tmuxdefault2)"
   local key=""
 
   if [[ $# -gt 0 ]]; then

@@ -1,0 +1,4 @@
+source ~/lab/scripts/calls/sourceall
+
+echo "" >> $RECORD_FILE
+pbpaste >> $RECORD_FILE

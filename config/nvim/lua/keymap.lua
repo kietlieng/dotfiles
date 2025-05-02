@@ -68,6 +68,7 @@ function F.setup()
 
   map("n", "<C-c>", "ciw", G_SILENT_NO_REMAP) -- change a word
   map("n", "<C-y>", "yygccp", G_SILENT_REMAP) -- duplicate line and commentout
+  map("n", "<LEADER>wr", ":set wrap!<CR>", G_SILENT_NO_REMAP) -- zk copy
 
   ----- comment code
   -- tips to comment out code use gcc.  Dude this just deleted my comment lua script
@@ -113,8 +114,8 @@ function F.setup()
   map("n", "<LEADER>ze", ":lua require('zookeeper').zkenv('')<LEFT><LEFT>", G_SILENT_NO_REMAP) -- zk copy
 
   map("n", "<C-s>", ":silent !callsearchprivate ''<LEFT>", G_NO_REMAP)  -- terminal runs
-  map("n", "<LEADER>wr", ":silent !callsearch ''<LEFT>", G_NO_REMAP)  -- terminal runs
-  map("n", "<LEADER>ws", ":silent !callsearchthesaurus ''<LEFT>", G_NO_REMAP)  -- terminal runs
+  map("n", "<LEADER>tr", ":silent !callsearch ''<LEFT>", G_NO_REMAP)  -- terminal runs
+  map("n", "<LEADER>ts", ":silent !callsearchthesaurus ''<LEFT>", G_NO_REMAP)  -- terminal runs thesaurus
 
   -- G KEYS: git commands
 

@@ -7,7 +7,7 @@ alias jote="jot -query ''"
 alias lint="yamllint "
 alias wfood="wonderfood"
 alias wtitle="wondertitle"
-alias Ed="X -cd"
+alias Ed="E -cd"
 alias ee="e -n 2"
 alias eee="e -n 3"
 alias e2="ee"
@@ -20,7 +20,7 @@ alias eeeee="e -n 5"
 alias fo="f -o"
 
 # edit git file
-function xgit() {
+function egit() {
 
     currentFolder=$(pwd)
     rootFolder=$(gitrootfolder)
@@ -32,7 +32,7 @@ function xgit() {
 
 }
 
-function xignore() {
+function eignore() {
 
     currentFolder=$(pwd)
     rootFolder=$(gitrootfolder)
@@ -43,12 +43,12 @@ function xignore() {
 }
 
 # find docker file
-function xd() {
+function ed() {
     vfile "Dockerfile"
 }
 
 # edit ci yaml file without looking
-function xc() {
+function ec() {
     vfile ".gitlab-ci.yml"
 }
 
@@ -118,7 +118,7 @@ function fzfpreview() {
 }
 
 # search /tmp directory
-function xtmp() {
+function etmp() {
 
   local tempResults=$(fzfpreview /tmp)
   local editFiles=()
@@ -161,13 +161,13 @@ function e() {
 
   # echo "tail $modeTail"
   local vimToEdit=($(eza --all --sort=modified --long -f --only-files | grep -i $searchString | tail -n $modeTail | awk '{print $(NF)}' |  sed -r 's/\n/ /g'))
-  echo "|$vimToEdit|"
+  # echo "|$vimToEdit|"
   vim $vimToEdit
 
 }
 
 # go into fzf for searching files and edit
-function x() {
+function E() {
 
     local goToDirectory='f'
     local rootDirectory=''
@@ -253,16 +253,16 @@ function x() {
 }
 
 # same as above function except we go to the root git directory then search
-function X() {
+function eroot() {
 
     rootFolder=$(gitrootfolder)
 
-    x -d $rootFolder $@
+    e -d $rootFolder $@
 
 }
 
 
-function xr() {
+function er() {
 
   # ripgrep->fzf->vim [QUERY]
   local RELOAD="reload:rg --column --color=always --smart-case {q} || :"
@@ -283,10 +283,10 @@ function xr() {
 
 }
 
-alias xG="eg '?'"
+alias eG="eg '?'"
 
 # open all files that are modified / new / deleted to vim from git 
-function xg() {
+function eg() {
 
   key=''
 
@@ -394,7 +394,7 @@ function grcdl() {
     gr -ci -l $@
 }
 
-# duplicate of xc
+# duplicate of ec
 function grcd() {
     gr -ci $@
 }
@@ -540,20 +540,6 @@ function gr() {
         fi
 
     fi
-}
-
-# rename function.  
-function frename() {
-
-  currentName="$1"
-  newName="${currentName// /_}"
-  newName="${newName//\(/_}"
-  newName="${newName//\)/_}"
-  newName="${newName//'/_}"
-  renameCommand="mv '$currentName' $newName"
-  echo "$renameCommand"
-  echo -n "$renameCommand" | pbcopy
-
 }
 
 # find file
@@ -742,7 +728,7 @@ function jot() {
 
 }
 
-function ximage() {
+function eimage() {
 
   local fzfDefaultCommandBackup=$FZF_DEFAULT_COMMAND
 #  unset FZF_DEFAULT_COMMAND
@@ -757,7 +743,7 @@ function ximage() {
 
 }
 
-function xshot() {
+function eshot() {
 
   local currentDir=$(pwd)
 
@@ -777,7 +763,7 @@ function xshot() {
 
 }
 
-function xtail() {
+function etail() {
 
   local currentDirectory=$(pwd)
   local tailFiles=$(fzfpreview $currentDirectory)
@@ -894,7 +880,7 @@ function deletemacfiles() {
 }
 
 # script search in directory
-function xscript() {
+function escript() {
 
   local currentPWD=$(pwd)
 
@@ -1284,3 +1270,18 @@ function s() {
   yfocuswin Firefox -title Private
 
 }
+
+# rename function.  
+function frename() {
+
+  currentName="$1"
+  newName="${currentName// /_}"
+  newName="${newName//\(/_}"
+  newName="${newName//\)/_}"
+  # newName="${newName//'/_}"
+  renameCommand="mv '$currentName' $newName"
+  echo "$renameCommand"
+  echo -n "$renameCommand" | pbcopy
+
+}
+
