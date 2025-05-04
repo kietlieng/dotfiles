@@ -143,6 +143,7 @@ lctrl - 4 : ~/lab/scripts/calls/calllastboth
 # copy 
 f10 : ~/lab/scripts/calls/copg
 lctrl - 9 : ~/lab/scripts/calls/record
+# lctrl - 0 : ~/lab/scripts/calls/ffmax
 lctrl - 0 : ~/lab/scripts/calls/ffmax
 
 # yabai window management

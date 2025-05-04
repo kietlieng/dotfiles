@@ -1251,6 +1251,84 @@ function O() {
 
 }
 
+function grab() {
+
+  local fileGrepSource=''
+  local fileGrepTarget=''
+
+  local modeOutputFile=''
+  local modeOutput='t'
+  local targetX='.*'
+  local key=''
+
+  while [[ $# -gt 0 ]]; do
+
+    key="$1"
+    shift
+
+    case "$key" in
+
+      '-s' ) modeOutput='' ;;
+
+      '-o' ) 
+
+        modeOutputFile="$1"
+        shift
+
+        ;;
+
+      *) 
+
+        if [[ $fileGrepSource == '' ]]; then
+
+          fileGrepSource="$key" 
+      
+        else
+
+          fileGrepTarget="$key"
+
+        fi
+
+        ;;
+
+    esac
+
+  done
+
+  if [[ $fileGrepSource && $fileGrepTarget ]]; then
+
+    local grepOutput=''
+
+    if [[ $modeOutputFile ]]; then
+      
+      echo -n "" > $modeOutputFile
+
+    fi
+
+    cat $fileGrepSource | while read currentGrep; do
+      
+      if [[ $currentGrep != '' ]]; then
+        # echo "current grep $currentGrep"
+        
+        grepOutput=$(grep -ir "$currentGrep" $fileGrepTarget | tail -n 1)
+
+        if [[ $modeOutputFile ]]; then
+          echo "$grepOutput" >> $modeOutputFile
+        fi
+
+
+        if [[ $modeOutput != '' ]]; then
+          echo "$grepOutput"
+        fi
+
+      fi
+
+    done
+
+  fi
+
+}
+
 # search 
 function s() {
 
