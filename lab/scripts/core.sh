@@ -139,8 +139,9 @@ function e() {
   local key=''
   local modeTail='1'
   local modeGrep=''
+  local modeNoEdit=''
   local searchOutput="/tmp/esearch.txt"
-  local searchString='.'
+  local searchString=''
   local startLoading=''
   local targetFile=''
 
@@ -151,6 +152,8 @@ function e() {
 
     case "$key" in
 
+      '-e' ) modeNoEdit='t' ;;
+
       '-n' )
         modeTail="$1"
         shift
@@ -159,7 +162,7 @@ function e() {
       '-g' ) modeGrep='t' ;;
         
       *) 
-        searchString="${searchString}*${key}"
+        searchString="${searchString}.*${key}"
 
         if [[ $grepString == '' ]]; then
           grepString="${key}"
@@ -179,18 +182,14 @@ function e() {
   # grep the results
   if [[ $modeGrep ]]; then
 
+    echo "search | $searchString"
     vimToEdit=($(eza --all --sort=modified --long -f --only-files | grep -i $searchString | tail -n $modeTail | awk '{print $(NF)}' |  sed -r 's/\n/ /g'))
 
   else
 
-    # use the first grep and tail from there
-    if [[ $grepString != "" ]]; then
-      grepString="${grepString}"
-    fi
-
     echo -n "" > $searchOutput
 
-    # echo "tail $modeTail"
+    # echo "tail $grepString"
     eza --all --sort=modified --reverse --long -f --only-files | while read currentValue; do
 
       targetFile=$(echo "$currentValue" | awk '{print $(NF)}' )
@@ -199,8 +198,9 @@ function e() {
         echo $targetFile >> $searchOutput
       else
 
+        # echo "target: $targetFile grep to $searchString"
         # if there is a string 
-        if [[ "$targetFile" == *$grepString* ]]; then
+        if echo "$targetFile" | grep -iq "$searchString"; then
 
           # echo "!!!!breaking on $targetFile"
           startLoading='t'
@@ -218,7 +218,10 @@ function e() {
   fi
 
   echo "edit | $vimToEdit"
-  vim $vimToEdit
+
+  if [[ $modeNoEdit != 't' ]]; then
+    vim $vimToEdit
+  fi
 
 }
 
