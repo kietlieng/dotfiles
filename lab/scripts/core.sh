@@ -17,6 +17,7 @@ alias e4="e -n 4"
 alias eeee="e -n 4"
 alias e5="e -n 5"
 alias eeeee="e -n 5"
+alias ex="e -g"
 alias fo="f -o"
 
 # edit git file
@@ -154,14 +155,13 @@ function e() {
 
       '-e' ) modeNoEdit='t' ;;
 
-      '-n' )
-        modeTail="$1"
-        shift
-        ;;
-      
       '-g' ) modeGrep='t' ;;
+
+      # check to see if number
+      +([0-9])) modeTail="$key" ;;
         
       *) 
+
         searchString="${searchString}.*${key}"
 
         if [[ $grepString == '' ]]; then
@@ -176,23 +176,22 @@ function e() {
 
   done
 
-
   local vimToEdit=''
 
   # grep the results
   if [[ $modeGrep ]]; then
 
     echo "search | $searchString"
-    vimToEdit=($(eza --all --sort=modified --long -f --only-files | grep -i $searchString | tail -n $modeTail | awk '{print $(NF)}' |  sed -r 's/\n/ /g'))
+    vimToEdit=($(eza --all --sort=modified -1 -f --only-files | grep -i $searchString | tail -n $modeTail | sed -r 's/\n/ /g'))
 
   else
 
     echo -n "" > $searchOutput
 
     # echo "tail $grepString"
-    eza --all --sort=modified --reverse --long -f --only-files | while read currentValue; do
+    eza --all --sort=modified --reverse -1 -f --only-files | while read currentValue; do
 
-      targetFile=$(echo "$currentValue" | awk '{print $(NF)}' )
+      targetFile=$currentValue
       
       if [[ $startLoading ]]; then
         echo $targetFile >> $searchOutput
@@ -213,7 +212,7 @@ function e() {
 
     done
 
-    vimToEdit=($(cat $searchOutput | head -n $modeTail | awk '{print $(NF)}' |  sed -r 's/\n/ /g'))
+    vimToEdit=($(cat $searchOutput | head -n $modeTail | sed -r 's/\n/ /g'))
 
   fi
 
