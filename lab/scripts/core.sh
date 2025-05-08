@@ -135,13 +135,14 @@ function etmp() {
 }
 
 function e() {
-
+  
   local grepString=''
   local key=''
   local modeTail='1'
   local modeGrep=''
   local modeNoEdit=''
   local searchOutput="/tmp/esearch.txt"
+  local searchResults="/tmp/esearch-filter.txt"
   local searchString=''
   local startLoading=''
   local targetFile=''
@@ -189,30 +190,28 @@ function e() {
     echo -n "" > $searchOutput
 
     # echo "tail $grepString"
-    eza --all --sort=modified --reverse -1 -f --only-files | while read currentValue; do
+    eza --all --sort=modified --reverse -1 -f --only-files > $searchOutput
 
+    totalCount=$(cat $searchOutput | wc -l)
+    fileCount=0
+    fileFinal=0
+
+    while read currentValue; do
       targetFile=$currentValue
-      
-      if [[ $startLoading ]]; then
-        echo $targetFile >> $searchOutput
-      else
+      # echo $currentValue
+      if echo "$targetFile" | grep -iq "$searchString"; then
 
-        # echo "target: $targetFile grep to $searchString"
-        # if there is a string 
-        if echo "$targetFile" | grep -iq "$searchString"; then
+        break
 
-          # echo "!!!!breaking on $targetFile"
-          startLoading='t'
-          echo $targetFile >> $searchOutput
-
-        fi
       fi
+      ((fileCount=fileCount+1))
+    done < $searchOutput
 
-      # echo "|$targetFile| $grepString"
+    ((fileFinal=totalCount-fileCount))
+    tail -n $fileFinal $searchOutput >  $searchResults    
 
-    done
-
-    vimToEdit=($(cat $searchOutput | head -n $modeTail | sed -r 's/\n/ /g'))
+    # echo "|$targetFile| $grepString"
+    vimToEdit=($(cat $searchResults | head -n $modeTail | sed -r 's/\n/ /g'))
 
   fi
 
