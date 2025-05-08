@@ -130,7 +130,7 @@
 #lctrl + shift - g : ~/lab/scripts/calls/scriptcall yshift
 
 # kitty window
-lctrl - return : /Applications/kitty.app/Contents/MacOS/kitty -1
+# lctrl - return : /Applications/kitty.app/Contents/MacOS/kitty -1
 
 # tmux 
 lctrl - w : ~/lab/scripts/calls/calltmuxcreatewindow
@@ -145,6 +145,7 @@ f10 : ~/lab/scripts/calls/copg
 lctrl - 9 : ~/lab/scripts/calls/record
 # lctrl - 0 : ~/lab/scripts/calls/ffmax
 lctrl - 0 : ~/lab/scripts/calls/ffmax
+rctrl - 0 : ~/lab/scripts/calls/ffmax
 
 # yabai window management
 #lctrl - a : ~/lab/scripts/calls/scriptcall yswitchmonitor

@@ -8,7 +8,7 @@
 # alias u='lsd -ltra; date'
 alias oo='nvim .'
 alias U='eza --long --icons --git; date'
-alias oz='/opt/homebrew/bin/yazi'
+alias y='/opt/homebrew/bin/yazi'
 alias ls='eza'
 alias uu='eza -a; date'
 alias u='eza --all --sort=modified --long --icons --git; date'

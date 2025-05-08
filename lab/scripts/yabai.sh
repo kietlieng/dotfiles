@@ -1250,8 +1250,8 @@ function yfocuswin() {
     yWinID=$(yabai -m query --windows | jq "$yQuery | .id" | head -n 1)
     yWinFocused=$(yabai -m query --windows | jq "$yQuery | .\"has-focus\"" | head -n 1)
     
-    echo "$yWindows"
-    echo "$yWinFocused"
+    # echo "$yWindows"
+    # echo "$yWinFocused"
 
     # if false
     if [[ $yWinFocused == *'false'* ]]; then

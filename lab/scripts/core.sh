@@ -135,9 +135,14 @@ function etmp() {
 
 function e() {
 
-  local modeTail=1
-  local searchString='.'
+  local grepString=''
   local key=''
+  local modeTail='1'
+  local modeGrep=''
+  local searchOutput="/tmp/esearch.txt"
+  local searchString='.'
+  local startLoading=''
+  local targetFile=''
 
   while [[ $# -gt 0 ]]; do
     
@@ -150,18 +155,69 @@ function e() {
         modeTail="$1"
         shift
         ;;
+      
+      '-g' ) modeGrep='t' ;;
         
       *) 
         searchString="${searchString}*${key}"
+
+        if [[ $grepString == '' ]]; then
+          grepString="${key}"
+        else
+          grepString="${grepString}*${key}"
+        fi
+
       ;;
 
     esac
 
   done
 
-  # echo "tail $modeTail"
-  local vimToEdit=($(eza --all --sort=modified --long -f --only-files | grep -i $searchString | tail -n $modeTail | awk '{print $(NF)}' |  sed -r 's/\n/ /g'))
-  # echo "|$vimToEdit|"
+
+  local vimToEdit=''
+
+  # grep the results
+  if [[ $modeGrep ]]; then
+
+    vimToEdit=($(eza --all --sort=modified --long -f --only-files | grep -i $searchString | tail -n $modeTail | awk '{print $(NF)}' |  sed -r 's/\n/ /g'))
+
+  else
+
+    # use the first grep and tail from there
+    if [[ $grepString != "" ]]; then
+      grepString="${grepString}"
+    fi
+
+    echo -n "" > $searchOutput
+
+    # echo "tail $modeTail"
+    eza --all --sort=modified --reverse --long -f --only-files | while read currentValue; do
+
+      targetFile=$(echo "$currentValue" | awk '{print $(NF)}' )
+      
+      if [[ $startLoading ]]; then
+        echo $targetFile >> $searchOutput
+      else
+
+        # if there is a string 
+        if [[ "$targetFile" == *$grepString* ]]; then
+
+          # echo "!!!!breaking on $targetFile"
+          startLoading='t'
+          echo $targetFile >> $searchOutput
+
+        fi
+      fi
+
+      # echo "|$targetFile| $grepString"
+
+    done
+
+    vimToEdit=($(cat $searchOutput | head -n $modeTail | awk '{print $(NF)}' |  sed -r 's/\n/ /g'))
+
+  fi
+
+  echo "edit | $vimToEdit"
   vim $vimToEdit
 
 }
@@ -1241,7 +1297,7 @@ function wondertitle() {
 
 }
 
-function O() {
+function o() {
 
   if [[ $# -gt 0 ]]; then
     open $1
@@ -1258,6 +1314,7 @@ function grab() {
 
   local modeOutputFile=''
   local modeOutput='t'
+  local modeCopy=''
   local targetX='.*'
   local key=''
 
@@ -1269,6 +1326,7 @@ function grab() {
     case "$key" in
 
       '-s' ) modeOutput='' ;;
+      '-c' ) modeCopy='t' ;;
 
       '-o' ) 
 
@@ -1327,6 +1385,12 @@ function grab() {
 
   fi
 
+  if [[ $modeOutputFile && $modeCopy ]]; then
+
+    cat $modeOutputFile | pbcopy
+
+  fi
+
 }
 
 # search 
@@ -1343,9 +1407,8 @@ function s() {
 
   if [[ $searchString ]]; then
     open -na "Firefox" --args --private-window "https://duckduckgo.com/?q=$searchString"
+    yfocuswin Firefox -title Private
   fi
-
-  yfocuswin Firefox -title Private
 
 }
 
