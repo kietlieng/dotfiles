@@ -1,5 +1,5 @@
-return { 
-  'folke/flash.nvim', 
+return {
+  'folke/flash.nvim',
   event = "VeryLazy",
   opts = {
     labels = "fghjklqwetyupzcvbnm",
@@ -26,6 +26,18 @@ return {
         -- kl CURRENTLY only use flash for remote capabilities.  we don't want to mess with the current search until later
         enabled = false,
       },
+    },
+  },
+  keys = { -- https://www.youtube.com/watch?v=1iWONKe4kUY
+    {
+
+      "r", -- this is a killer.  Let's see what I can do with it
+      -- try `yR` in normal mode then start trying to yank what you want to yank
+      mode = { "o" },
+      function()
+        require("flash").remote()
+      end,
+      desc = "Remote Flash.  This is a killer.  Let's see what I can do with it. Try `yR` in normal mode then start trying to yank what you want to yank"
     },
   },
 }

@@ -176,7 +176,6 @@ require('lazy').setup({
           end,
           desc = "Remote Flash.  This is a killer.  Let's see what I can do with it. Try `yR` in normal mode then start trying to yank what you want to yank"
         },
-
       },
     },
     { 'tpope/vim-surround' }, -- surround functionality
