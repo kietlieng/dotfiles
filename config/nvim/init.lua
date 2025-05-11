@@ -44,8 +44,6 @@ require('lazy').setup( {
        rtp = {
            -- Stuff I don't use.
            disabled_plugins = {
-              'block',
-              -- 'harpoon',
               'theme-catppuccin',
               'theme-challenger-deep',
               'theme-cobalt2',
