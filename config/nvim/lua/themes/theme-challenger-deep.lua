@@ -1,3 +1,5 @@
+-- everything is too bright
+
 return {
   'challenger-deep-theme/vim'
-}                                                                               -- everything is too bright
+}
