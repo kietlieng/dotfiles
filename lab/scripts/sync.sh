@@ -104,7 +104,7 @@ function cpdot() {
     cp ~/.oh-my-zsh/themes/pure/pure.zsh $dPure/.
 
 
-    rm $dConfigDir/nvim/init.lua.*
+    # rm $dConfigDir/nvim/init.lua.*
     rm $dConfigDir/kitty/kitty.conf.*
     rm $dConfigDir/kitty/kitty.*.conf
 

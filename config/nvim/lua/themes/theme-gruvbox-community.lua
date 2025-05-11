@@ -1,4 +1,4 @@
 -- it's morhetz fork but with support.  Best thing around
-return { 
-  'gruvbox-community/gruvbox', 
+return {
+  'gruvbox-community/gruvbox',
 }

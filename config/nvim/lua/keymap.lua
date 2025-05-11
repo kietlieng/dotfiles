@@ -62,9 +62,16 @@ function F.setup()
   map("n", "<LEADER>rr", "<cmd>lua require('lua-fzf').readFiles('')<CR>", G_SILENT_NO_REMAP)     -- search from git root
   map("n", "<LEADER>RR", "<cmd>lua require('lua-fzf').readFiles('currentFileDirectory')<CR>", G_SILENT_NO_REMAP)     -- search from git root
   map("n", "<LEADER>rj", "<cmd>lua require('lua-fzf').readJumpFiles()<CR>", G_SILENT_NO_REMAP)     -- search from git root
-
   map("n", "<LEADER>jj", "<cmd>lua require('lua-fzf').openJumpFiles()<CR>", G_SILENT_NO_REMAP)     -- Jump script to vim :) 
   map("n", "<LEADER>jw", "<cmd>lua require('lua-fzf').openWorkingJumpFile()<CR>", G_SILENT_NO_REMAP)     -- Jump script to vim :) 
+
+  -- telescope to move around
+  map("n", "<LEADER>jbig", ":lua require('tele').dirJump('bigip')<CR>", G_SILENT_NO_REMAP)
+  map("n", "<LEADER>jcert", ":lua require('tele').dirJump('cert')<CR>", G_SILENT_NO_REMAP) -- forgot why it's important
+  map("n", "<LEADER>jlua", ":lua require('tele').dirJump('lua')<CR>", G_SILENT_NO_REMAP)
+  map("n", "<LEADER>jrule", ":lua require('tele').dirJump('irules')<CR>", G_SILENT_NO_REMAP)
+  map("n", "<LEADER>jscript", ":lua require('tele').dirJump('script')<CR>", G_SILENT_NO_REMAP)
+  map("n", "<LEADER>jtm", ":lua require('tele').dirJump('tmuxp')<CR>", G_SILENT_NO_REMAP)
 
   map("n", "<C-c>", "ciw", G_SILENT_NO_REMAP) -- change a word
   map("n", "<C-y>", "yygccp", G_SILENT_REMAP) -- duplicate line and commentout
@@ -252,14 +259,6 @@ function F.setup()
   --map( "n", '<SPACE>q', vim.diagnostic.setloclist )
   --map( "n", '[d', vim.diagnostic.goto_prev )
   --map( "n", ']d', vim.diagnostic.goto_next )
-
-  -- telescope to move around
-  map("n", "<LEADER>jbig", ":lua require('tele').dirJump('bigip')<CR>", G_SILENT_NO_REMAP)
-  map("n", "<LEADER>jcert", ":lua require('tele').dirJump('cert')<CR>", G_SILENT_NO_REMAP) -- forgot why it's important
-  map("n", "<LEADER>jlua", ":lua require('tele').dirJump('lua')<CR>", G_SILENT_NO_REMAP)
-  map("n", "<LEADER>jrule", ":lua require('tele').dirJump('irules')<CR>", G_SILENT_NO_REMAP)
-  map("n", "<LEADER>jscript", ":lua require('tele').dirJump('script')<CR>", G_SILENT_NO_REMAP)
-  map("n", "<LEADER>jtm", ":lua require('tele').dirJump('tmuxp')<CR>", G_SILENT_NO_REMAP)
 
   -- edits using :next instead of :e to open multiple files
   map("n", "<LEADER>vicomments", ":next ~/.config/nvim/lua/comments.lua <CR>", G_SILENT_NO_REMAP)  -- edit init file
