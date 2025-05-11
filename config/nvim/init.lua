@@ -1,96 +1,7 @@
-local set      = vim.opt
-local swnumber = 2
+require('settings')
+require('keymap').setup()                           -- key mapping
 
-vim.cmd([[set runtimepath+=~/.nvim]]) --set.runtimepath:append { set.runtimepath .. "/.nvim" }
-vim.cmd([[set runtimepath+=~/.local/share/nvim/lazy/gitlab.vim]])
-vim.cmd([[set runtimepath+=~/opt/homebrew/opt/fzf]])
---vim.cmd([[set runtimepath+=~/.luarocks/lib/luarocks/rocks-5.1]])
-
--- wrap
---set.wrap = true
-set.wrap   = false
-
-----tmux
---set.ft   = 'tmux'
---set.tw   = 0
---set.wrap = false
-
--- undo
-set.undodir  = vim.env.HOME .. '/.nvim/undodir'
-set.undofile = true
-
---set.background     = 'dark' -- should be set in theme
---set.nrformats      = set.nrformats + 'alpha'                                          -- increase alpha letters. Want numbers for now
---set.clipboard      = { 'unnamed', 'unnamedplus' } -- not what I want
-
-set.backup         = false
-set.belloff        = 'all'
-set.colorcolumn    = '80'
-set.cursorline     = true
-set.expandtab      = true
-set.fileencoding   = 'utf-8'                                                          -- encoding set to utf-8
-set.foldlevel      = 99                                                               -- no folds
-set.hidden         = true
-set.hlsearch       = true
-set.ignorecase     = true
-set.incsearch      = true
-set.lazyredraw     = true
---set.lazyredraw     = false
-set.number         = true
-set.relativenumber = true
-set.ruler          = true
-set.scrolloff      = 8                                                                -- give at list X space before / after cursor
-set.shiftwidth     = swnumber
-set.showcmd        = true
-set.showtabline    = 2
-set.sidescrolloff  = 8                                                                -- scroll page when cursor is 8 spaces from left/right
-set.signcolumn     = 'yes'
-set.smartcase      = true
-set.smartindent    = true
-set.smarttab       = true
-set.softtabstop    = 2
-set.statusline     = '%F'
-set.laststatus     = 2
-set.swapfile       = false
-set.syntax         = 'ON'
-set.tabstop        = 2
-set.termguicolors  = true                                                             -- set if you want theme challenger deep, feline        -- remove if using apple terminal
-set.timeoutlen     = 1000                                                             -- no delay on escape
-set.title          = true
-set.titlestring    = '%F'
-set.ttimeoutlen    = 0                                                                -- no delay on escape
-set.updatetime     = 100                                                              -- gitgutter delay
-set.viminfo        = "'100,f1"                                                        -- persistent marks up to 100
-set.wildignore     = '*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx'  -- avoid
-set.guicursor      = 'a:blinkon100'
-
-vim.cmd([[
-
-  let &t_ut=''
-
-  "let &t_Co="256"
-  "let &t_SI.="\e[5 q" 
-  "let &t_SR.="\e[4 q" 
-  "let &t_EI.="\e[1 q" 
-
-]]) -- solves redraw issue with using gruvbox
-
---set.completeopt = 'menu,menuone' -- duo
-
-
---set.listchars.append = { -- doesn't seem to work?
---  tab = '│ ',
---  trail = '·',
---  extends = '»',
---  precedes = '«',
---  nbsp = '+',
---  eol = '↲',
---  space = '.',
---  conceal = '┊' ,
---  multispace = '│' .. string.rep(' ', swnumber - 1)
---}
-
---- LAZY START -----
+local set = vim.opt
 
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
@@ -106,225 +17,36 @@ end
 
 set.rtp:prepend(lazypath)
 
+
+---@type LazySpec
+local plugins = 'plugins'
+
 -- lazystart
-require('lazy').setup({
+require('lazy').setup(plugins, {
 
---    -- gitlab duo
---    {
---      'git@gitlab.com:gitlab-org/editor-extensions/gitlab.vim.git',
---      event = { 'BufReadPre', 'BufNewFile' }, -- Activate when a file is created/opened
---      ft = { 'go', 'javascript', 'python', 'ruby', 'bash' }, -- Activate when a supported filetype is open
---      cond = function()
---        return vim.env.GITLAB_TOKEN ~= nil and vim.env.GITLAB_TOKEN ~= '' -- Only activate if token is present in environment variable (remove to use interactive workflow)
---      end,
---      opts = {
---        statusline = {
---          enabled = true, -- Hook into the builtin statusline to indicate the status of the GitLab Duo Code Suggestions integration
---        },
---      },
---    },
-
-   -- multicursor implementation
---   { 'jake-stewart/multicursor.nvim', branch = '1.0', config = function() require('multi-cursor').setup() end, },
-
-    -- syntax zellij
-    --{ 'imsnif/kdl.vim' },
-
--- PROBLEM
-    -- search
-    { 'junegunn/fzf', build = './install --bin', }, -- setup snippet engine
-    { 'junegunn/fzf.vim' },
-    { 'vijaymarupudi/nvim-fzf' },
-    { 'jremmen/vim-ripgrep', config = function() require('ripgrepper').setup() end, }, -- setup ripgrepper bang command to use register r
-    { 'mileszs/ack.vim' }, -- grep listing
-    { 'folke/flash.nvim', event = "VeryLazy",
-      opts = {
-        labels = "fghjklqwetyupzcvbnm",
-        search = {
-          -- If mode is set to the default "exact" if you mistype a word, it will
-          -- exit flash, and if then you type "i" for example, you will start
-          -- inserting text and fuck up your file outside
-          --
-          -- Search for me adds a protection layer, so if you mistype a word, it
-          -- doesn't exit
-          mode = "search",
-        },
-        modes = {
-          char = {
-            -- f, t, F, T motions:
-            -- After typing f{char} or F{char}, you can repeat the motion with f or go to the previous match with F to undo a jump.
-            -- Similarly, after typing t{char} or T{char}, you can repeat the motion with t or go to the previous match with T.
-            -- You can also go to the next match with ; or previous match with ,
-            -- Any highlights clear automatically when moving, changing buffers, or pressing <esc>.
-            --
-            -- Useful if you do `vtf` or `vff` and then keep pressing f to jump to
-            -- the next `f`s
-            -- enabled = true,
-            -- kl CURRENTLY only use flash for remote capabilities.  we don't want to mess with the current search until later
-            enabled = false,
-          },
-        },
-      },
-      keys = { -- https://www.youtube.com/watch?v=1iWONKe4kUY
-        {
-
-          "r", -- this is a killer.  Let's see what I can do with it
-          -- try `yR` in normal mode then start trying to yank what you want to yank
-          mode = { "o" },
-          function()
-            require("flash").remote()
-          end,
-          desc = "Remote Flash.  This is a killer.  Let's see what I can do with it. Try `yR` in normal mode then start trying to yank what you want to yank"
-        },
-
-      },
-    },
-    { 'tpope/vim-surround' }, -- surround functionality
-    { 'tpope/vim-fugitive' }, -- git operations in git
-    --{ 'tpope/vim-abolish' }, -- change variables.  abolish: change part of text, subvert substitution with parts of word, coercion change variable cases
-
-    { 'airblade/vim-gitgutter', config = function() require('gitgutter').setup() end }, -- Git gutter.  Different than fugitive
-    { 'nvim-lualine/lualine.nvim', dependencies = { 'nvim-tree/nvim-web-devicons' }, config = function() require('lua-line').setup() end  },
-    { 'akinsho/bufferline.nvim', version = "*", dependencies = 'nvim-tree/nvim-web-devicons', config = function() require('lua-bufferline').setup() end },
-    { 'godlygeek/tabular' }, -- sort table values
-
-    -- coc for preview
-
-    { 'neoclide/coc.nvim', branch = 'release' },
-    { 'iamcco/markdown-preview.nvim', build = 'cd app && yarn install' },
-
-    -- NAVIGATION ---
-    --{ 'kana/vim-smartword' }, -- great for navigation of words with quotes, haven't found a need to use it
-    --{ 'wellle/targets.vim', config = function() require('targets').setup() end }, -- arguement text objects.  Don't know if I'm using them enough
-
-    { 'skywind3000/asyncrun.vim' }, --  ' run jobs in the background
-
-    { 'ryanoasis/vim-devicons' }, -- icons for plugin
-    { 'nvim-tree/nvim-web-devicons' }, -- icons to plugins
-    { 'nvim-lua/plenary.nvim' }, -- no idea what this does but it's required by other plugins
-    --{ 'ThePrimeagen/harpoon', config = function() require('lua-harpoon').setup() end, }, -- navigation.  Not really using it
-    { 'nvim-telescope/telescope.nvim', tag = '0.1.3' },
-    { 'nvim-telescope/telescope-file-browser.nvim', dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' }, config = function() require('lua-tele-file-browser').setup() end,  },
-    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make', config = function() require('tele').setup() end, },
-    { 'nvim-treesitter/nvim-tree-docs' }, -- never got it working
-    { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate', config = function() require('treesitter').setup() end, }, -- setup syntax for treesitter
-
-    { 'lewis6991/tree-sitter-tcl', build = 'make' }, -- tcl syntax
-    { 'williamboman/mason.nvim' },
-    { 'williamboman/mason-lspconfig.nvim' },
-    { 'neovim/nvim-lspconfig' },
-    { 'rafamadriz/friendly-snippets' },
-
-    {
-      "mikavilpas/yazi.nvim",
-      event = "VeryLazy",
-      dependencies = {
-        -- check the installation instructions at
-        -- https://github.com/folke/snacks.nvim
-        "folke/snacks.nvim"
-      },
-      keys = {
-        -- { "<leader>za", mode = { "n", "v" }, "<cmd>Yazi<cr>", desc = "Open yazi at the current file", }, -- 👇 in this section, choose your own keymappings!
-        -- { "<leader>zc", "<cmd>Yazi cwd<cr>", desc = "Open the file manager in nvim's working directory", }, -- Open in the current working directory
-        -- { "<c-up>", "<cmd>Yazi toggle<cr>", desc = "Resume the last yazi session", },
-      },
-        -- @type YaziConfig | {}
-        -- if you want to open yazi instead of netrw, see below for more info
-      opts = {
-        open_for_directories = false,
-        keymaps = {
-          show_help = "<f1>",
-        },
-      },
-      -- 👇 if you use `open_for_directories=true`, this is recommended
-      init = function()
-        -- More details: https://github.com/mikavilpas/yazi.nvim/issues/802
-        -- vim.g.loaded_netrw = 1
-        vim.g.loaded_netrwPlugin = 1
-      end,
-    },
-
---    { 'christoomey/vim-tmux-navigator',
---      cmd = {
---        'TmuxNavigateLeft',
---        'TmuxNavigateDown',
---        'TmuxNavigateUp',
---        'TmuxNavigateRight',
-----        'TmuxNavigatePrevious',
---      },
---      keys = {
---        { '<c-h>', '<cmd><C-U>TmuxNavigateLeft<cr>' },
---        { '<c-j>', '<cmd><C-U>TmuxNavigateDown<cr>' },
---        { '<c-k>', '<cmd><C-U>TmuxNavigateUp<cr>' },
---        { '<c-l>', '<cmd><C-U>TmuxNavigateRight<cr>' },
-----        { '<c-\\>', '<cmd><C-U>TmuxNavigatePrevious<cr>' },
---      },
---    },
-
-    ----- CMP begin -----
-
-    { 'hrsh7th/cmp-nvim-lsp' },
-    { 'hrsh7th/cmp-buffer' },
-    { 'hrsh7th/cmp-path' },
-    { 'hrsh7th/cmp-cmdline' },
-    { 'hrsh7th/nvim-cmp' }, -- https://github.com/hrsh7th/nvim-cmp/wiki/List-of-sources
-
-    -- For luasnip users.
-    { 'L3MON4D3/LuaSnip', version = '2.*', build = 'make install_jsregexp' },
-    { 'saadparwaiz1/cmp_luasnip' },
-    { 'hrsh7th/cmp-nvim-lsp-signature-help' },
-
-    ---- For vsnip users.
-    -- { 'hrsh7th/cmp-vsnip' },
-    -- { 'hrsh7th/vim-vsnip' },
-    ---- For ultisnips users.
-    -- { 'SirVer/ultisnips' },
-    -- { 'quangnguyen30192/cmp-nvim-ultisnips' },
-    ---- For snippy users.
-    -- { 'dcampos/nvim-snippy' },
-    -- { 'dcampos/cmp-snippy' },
-
-    ----- CMP end -----
-
-    --{ 'prettier/vim-prettier', build =  'yarn install --frozen-lockfile --production', branch = 'release/0.x' }, -- don't think I'm using at all
-    { 'stevearc/oil.nvim', opts = {}, dependencies = { 'nvim-tree/nvim-web-devicons' }, config = function() require('lua-oil').setup() end, }, -- oil setup
-
-    -- THEMES
-
-    -- trying
-    -- { 'blueshirts/darcula' },
-    -- { 'catppuccin/nvim', name = 'catppuccin', priority = 1000 },
-    -- { 'challenger-deep-theme/vim' },                                                                               -- everything is too bright
-    -- { 'embark-theme/vim', as = 'embark' },                                                                         -- looks good but not functional
-    -- { 'ghifarit53/tokyonight-vim' },
-    -- { 'hardcoreplayers/oceanic-material', config = function() require('theme-oceanic-material').setup() end },           -- meh
-    -- { 'tjdevries/colorbuddy.vim' }, { 'tjdevries/gruvbuddy.nvim' },                                                -- don't really like
-    -- { 'xero/miasma.nvim', lazy = false, priority = 1000, config = function() vim.cmd('colorscheme miasma') end, }, -- way too gloomy
-    -- { 'morhetz/gruvbox', config = function() require('gruvbox').setup() end  },                                    -- it's morhetz fork but with support },
-    -- { 'GlennLeo/cobalt2', config = function() require('theme-cobalt2').setup() end },                              -- try it
-    -- { 'diegoulloao/neofusion.nvim', config = function() require('theme-neofusion').setup() end  }, -- too dark
-    -- { 'aliqyan-21/darkvoid.nvim', config = function() require('theme-darkvoid').setup() end, },
-    -- { 'joshdick/onedark.vim', config = function() require('theme-onedark').setup() end  }, -- it's morhetz fork but with support.  Best thing around
-
-    -- runner up
-    -- { 'sainnhe/everforest' }, -- similar to molokai
-    -- { 'mellow-theme/mellow.nvim' }, -- similar to molokai
-    -- { 'tamelion/neovim-molokai', priority = 1000 }, -- bland. I like it
-    -- { 'olimorris/onedarkpro.nvim', priority = 1000 }, -- too much red for config
-    -- { 'sainnhe/gruvbox-material', config = function() require('theme-material').setup() end },
-
-    -- best
-    { 'gruvbox-community/gruvbox', config = function() require('theme-gruvbox').setup() end }, -- it's morhetz fork but with support.  Best thing around
-
-    -- messes with current customization settings.  Will try again later. mini suite of modules that might be handy
-    -- { 'echasnovski/mini.nvim', version = false, config = function() require('mini').setup() end, },
-
-    -- not enabled but has potential
-    -- all in one lsp / prettier / diagnostics--{ 'nvimtools/none-ls.nvim', config = function() require('none-ls').setup() end, requires = { 'nvim-lua/plenary.nvim' } }, -- community supported null-ls.  Haven't really used it
-    --{ 'heavenshell/vim-jsdoc', build = 'make install', { 'for': ['javascript', 'javascript.jsx','typescript']  } }, -- for docs
-
-    -- useless but fun
-    --{ 'Eandrju/cellular-automaton.nvim' }, -- makes it look like sand droplets
+   ui = { border = 'rounded' },
+   dev = { path = vim.g.projects_dir },
+   install = {
+       -- Do not automatically install on startup.
+       missing = true,
+   },
+   -- Don't bother me when tweaking plugins.
+   change_detection = {
+     notify = false
+   },
+   -- None of my plugins use luarocks so disable this.
+   rocks = {
+       enabled = false,
+   },
+   performance = {
+       rtp = {
+           -- Stuff I don't use.
+           disabled_plugins = {
+              'block',
+              -- 'harpoon',
+           },
+       },
+   },
 
 })
 
@@ -510,3 +232,4 @@ require('keymap').setup()                           -- key mapping
 --require('theme-mellow').setup()                   -- needs to be last
 --require('theme-everforest').setup()                   -- needs to be last
 require('theme-gruvbox').setup()                  -- needs to be last
+

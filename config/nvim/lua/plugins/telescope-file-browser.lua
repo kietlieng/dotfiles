@@ -1,0 +1,35 @@
+-- local function waitForInput(n)
+--   os.execute("sleep " .. tonumber(n))
+-- end
+--
+-- local function setup()
+--
+--   -- telescope do nothing
+--   require("telescope").load_extension "file_browser"
+--
+-- end
+--
+-- local function browse()
+--
+--   targetFile = require('telescope.builtin').find_files { cwd = '/tmp' }
+-- --  print("print out target" .. targetFile)
+-- --  if targetFile ~= nil then
+-- --    vim.cmd.normal(':r ' .. targetFile)
+-- --  end
+--
+-- end
+
+return {
+  {
+
+    'nvim-telescope/telescope-file-browser.nvim',
+
+    dependencies = {
+      'nvim-telescope/telescope.nvim',
+      'nvim-lua/plenary.nvim'
+    },
+    config = function()
+      require("telescope").load_extension "file_browser"
+    end
+  }
+}
