@@ -17,10 +17,37 @@ return {
       },
       fzf_opts = {
 
+        ['--multi'] = '',
         ["--layout"] = false,
 
       },
-    }
-    )
+      actions = {
+        files = {
+          -- Default action when selecting multiple files
+          ['default'] = function(selected)
+            if not selected or #selected == 0 then return end
+
+            -- io.output(assert(io.open("output.txt", "w")))
+
+            local result = ''
+            local count = ''
+            -- Open each selected file in a new buffer
+            for _, filepath in pairs(selected) do
+              -- Open each file using :edit (replaces buffer)
+              -- Or use :tabedit/:split/:vsplit if preferred
+
+              -- remove icons from the front of the name 
+              result, count = filepath:gsub("^[^a-zA-Z0-9%.%-_]+", "")
+
+              -- io.write(result)
+              -- io.write("\n")
+
+              vim.cmd('args ' .. vim.fn.fnameescape(result))
+
+            end
+          end,
+        },
+      },
+    })
   end
 }

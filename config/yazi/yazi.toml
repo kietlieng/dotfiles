@@ -1,5 +1,27 @@
 [plugin]  
+
+prepend_preloaders = [  
+
+  # DB
+  { name = "*.csv", run = "duckdb", multi = false },  
+  { name = "*.tsv", run = "duckdb", multi = false },  
+  { name = "*.json", run = "duckdb", multi = false },  
+  { name = "*.parquet", run = "duckdb", multi = false },
+  { name = "*.txt", run = "duckdb", multi = false },  
+  { name = "*.xlsx", run = "duckdb", multi = false },
+
+  # # Office Documents
+  # { mime = "application/openxmlformats-officedocument.*", run = "libreoffice" },
+  # { mime = "application/oasis.opendocument.*", run = "libreoffice" },
+  # { mime = "application/ms-*", run = "libreoffice" },
+  # { mime = "application/msword", run = "libreoffice" },
+  # { name = "*.docx", run = "libreoffice" },
+
+]
+
 prepend_previewers = [  
+
+  # db
   { name = "*.csv", run = "duckdb" },  
   { name = "*.tsv", run = "duckdb" },  
   { name = "*.json", run = "duckdb" },  
@@ -7,14 +29,14 @@ prepend_previewers = [
   { name = "*.txt", run = "duckdb" },  
   { name = "*.xlsx", run = "duckdb" },  
   { name = "*.db", run = "duckdb" },
-  { name = "*.duckdb", run = "duckdb" }
+  { name = "*.duckdb", run = "duckdb" },
+
+  # # Office Documents
+  # { mime = "application/openxmlformats-officedocument.*", run = "libreoffice" },
+  # { mime = "application/oasis.opendocument.*", run = "libreoffice" },
+  # { mime = "application/ms-*", run = "libreoffice" },
+  # { mime = "application/msword", run = "libreoffice" },
+  # { name = "*.docx", run = "libreoffice" },
+
 ]
 
-prepend_preloaders = [  
-  { name = "*.csv", run = "duckdb", multi = false },  
-  { name = "*.tsv", run = "duckdb", multi = false },  
-  { name = "*.json", run = "duckdb", multi = false },  
-  { name = "*.parquet", run = "duckdb", multi = false },
-  { name = "*.txt", run = "duckdb", multi = false },  
-  { name = "*.xlsx", run = "duckdb", multi = false }
-]
