@@ -1,6 +1,13 @@
 local F = {}
 local fzf = require("fzf")
 
+function F.buffers()
+
+  require('fzf-lua').buffers({
+  })
+
+end
+
 function F.dirDepthJump(aDepth)
 
   local dirExpression = '%:p:h'
@@ -11,7 +18,7 @@ function F.dirDepthJump(aDepth)
 
   elseif aDepth == -1 then
 
-    -- find root directory of the file open.  Sometimes will open a file 
+    -- find root directory of the file open.  Sometimes will open a file
     -- from a separate location than your current one
     local currentRepo = vim.fn.expand('%:p:h')
     local io = require("io")
@@ -25,9 +32,9 @@ function F.dirDepthJump(aDepth)
 
     if aDepth == -99 then
 
-      -- find root directory of where vim ran. This doesn't account for 
+      -- find root directory of where vim ran. This doesn't account for
       -- the location of the directory the current file is open from. Just where
-      -- the vim program is running from 
+      -- the vim program is running from
       local fOutput = io.popen("callgitrootfolder")
       dirExpression = fOutput:read('*all')
       fOutput:close()

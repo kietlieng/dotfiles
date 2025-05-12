@@ -17,13 +17,32 @@ return {
       },
       fzf_opts = {
 
-        ['--multi'] = '',
-        ["--layout"] = false,
+        ['--multi']    = '',
+        ['--layout']   = false,
+        ["--highlight-line"] = true,
+        -- ['--with-nth'] = '2..',
+
+      },
+      buffers = {
+
+         file_icons    = false,
+         show_unloaded = false,
+         -- sort_lastused = false,
+
+      },
+      files = {
+
+         -- prompt     = 'Files >',
+         dir_opts   = [[]],
+         cwd_prompt = false,
+         git_icons  = false,
+         file_icons = false,
 
       },
       actions = {
         files = {
           -- Default action when selecting multiple files
+
           ['default'] = function(selected, opts)
 
             if not selected or #selected == 0 then return end
@@ -38,13 +57,14 @@ return {
               -- Open each file using :edit (replaces buffer)
               -- Or use :tabedit/:split/:vsplit if preferred
 
-              -- remove icons from the front of the name 
-              result, _ = filepath:gsub("^[^a-zA-Z0-9%.%-_]+", "")
+              -- remove icons from the front of the name
+              -- result, _ = filepath:gsub("^[^a-zA-Z0-9%.%-_]+", "")
+              result = filepath
 
               -- io.write(cwd .. "/" .. result)
               -- io.write("\n")
 
-              vim.cmd('args ' .. vim.fn.fnameescape(cwd .. "/" .. result))
+              vim.cmd('edit ' .. vim.fn.fnameescape(cwd .. "/" .. result))
 
             end
           end,

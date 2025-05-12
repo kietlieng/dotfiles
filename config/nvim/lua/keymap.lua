@@ -21,6 +21,7 @@ map("n", "<LEADER>0", "<cmd>lua require('custom/fzf').dirDepthJump(-99)<CR>", G_
 map("n", "<LEADER>1/", "<cmd>lua require('custom/fzf').dirDepthJump(1)<CR>", G_SILENT_NO_REMAP)     -- search from 1 up
 map("n", "<LEADER>2/", "<cmd>lua require('custom/fzf').dirDepthJump(2)<CR>", G_SILENT_NO_REMAP)     -- search from 2 up
 map("n", "<LEADER>4/", "<cmd>lua require('custom/fzf').dirDepthJump(-2)<CR>", G_SILENT_NO_REMAP)    -- search from cwd
+map("n", "<LEADER>B", "<cmd>lua require('custom/fzf').buffers()<CR>", G_SILENT_NO_REMAP)      -- search from current directory
 
 -- grep string in file
 --map( "n", "<LEADER>", ":Rg<CR>", G_NO_REMAP ) -- ripgrep current directory
