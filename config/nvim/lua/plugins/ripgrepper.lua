@@ -53,8 +53,8 @@ function F.grepLevel(fLevel)
 end
 
 
-return { 
-  'jremmen/vim-ripgrep', 
+return {
+  'jremmen/vim-ripgrep',
   config = F.setup(),
 }
 

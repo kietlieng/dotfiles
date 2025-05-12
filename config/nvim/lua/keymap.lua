@@ -19,12 +19,12 @@ function F.setup()
   map("n", "N", ":norm! Nzzzv<CR>", G_SILENT_NO_REMAP) -- Search but keep the view centered
 
   -- find files with telescope
-  map("n", "<LEADER>/", "<cmd>lua require('tele').dirDepthJump(0)<CR>", G_SILENT_NO_REMAP)      -- search from current directory
-  map("n", "<LEADER>-", "<cmd>lua require('tele').dirDepthJump(-1)<CR>", G_SILENT_NO_REMAP)     -- search from git root directory
-  map("n", "<LEADER>0", "<cmd>lua require('tele').dirDepthJump(-99)<CR>", G_SILENT_NO_REMAP)    -- search from current open file root directory
-  map("n", "<LEADER>1/", "<cmd>lua require('tele').dirDepthJump(1)<CR>", G_SILENT_NO_REMAP)     -- search from 1 up
-  map("n", "<LEADER>2/", "<cmd>lua require('tele').dirDepthJump(2)<CR>", G_SILENT_NO_REMAP)     -- search from 2 up
-  map("n", "<LEADER>4/", "<cmd>lua require('tele').dirDepthJump(-2)<CR>", G_SILENT_NO_REMAP)    -- search from cwd
+  map("n", "<LEADER>/", "<cmd>lua require('lua-fzf').dirDepthJump(0)<CR>", G_SILENT_NO_REMAP)      -- search from current directory
+  map("n", "<LEADER>-", "<cmd>lua require('lua-fzf').dirDepthJump(-1)<CR>", G_SILENT_NO_REMAP)     -- search from git root directory
+  map("n", "<LEADER>0", "<cmd>lua require('lua-fzf').dirDepthJump(-99)<CR>", G_SILENT_NO_REMAP)    -- search from current open file root directory
+  map("n", "<LEADER>1/", "<cmd>lua require('lua-fzf').dirDepthJump(1)<CR>", G_SILENT_NO_REMAP)     -- search from 1 up
+  map("n", "<LEADER>2/", "<cmd>lua require('lua-fzf').dirDepthJump(2)<CR>", G_SILENT_NO_REMAP)     -- search from 2 up
+  map("n", "<LEADER>4/", "<cmd>lua require('lua-fzf').dirDepthJump(-2)<CR>", G_SILENT_NO_REMAP)    -- search from cwd
 
   -- grep string in file
   --map( "n", "<LEADER>", ":Rg<CR>", G_NO_REMAP ) -- ripgrep current directory
@@ -66,12 +66,12 @@ function F.setup()
   map("n", "<LEADER>jw", "<cmd>lua require('lua-fzf').openWorkingJumpFile()<CR>", G_SILENT_NO_REMAP)     -- Jump script to vim :) 
 
   -- telescope to move around
-  map("n", "<LEADER>jbig", ":lua require('tele').dirJump('bigip')<CR>", G_SILENT_NO_REMAP)
-  map("n", "<LEADER>jcert", ":lua require('tele').dirJump('cert')<CR>", G_SILENT_NO_REMAP) -- forgot why it's important
-  map("n", "<LEADER>jlua", ":lua require('tele').dirJump('lua')<CR>", G_SILENT_NO_REMAP)
-  map("n", "<LEADER>jrule", ":lua require('tele').dirJump('irules')<CR>", G_SILENT_NO_REMAP)
-  map("n", "<LEADER>jscript", ":lua require('tele').dirJump('script')<CR>", G_SILENT_NO_REMAP)
-  map("n", "<LEADER>jtm", ":lua require('tele').dirJump('tmuxp')<CR>", G_SILENT_NO_REMAP)
+  map("n", "<LEADER>jbig", ":lua require('lua-fzf').dirJump('bigip')<CR>", G_SILENT_NO_REMAP)
+  map("n", "<LEADER>jcert", ":lua require('lua-fzf').dirJump('cert')<CR>", G_SILENT_NO_REMAP) -- forgot why it's important
+  map("n", "<LEADER>jlua", ":lua require('lua-fzf').dirJump('lua')<CR>", G_SILENT_NO_REMAP)
+  map("n", "<LEADER>jrule", ":lua require('lua-fzf').dirJump('irules')<CR>", G_SILENT_NO_REMAP)
+  map("n", "<LEADER>jscript", ":lua require('lua-fzf').dirJump('script')<CR>", G_SILENT_NO_REMAP)
+  map("n", "<LEADER>jtm", ":lua require('lua-fzf').dirJump('tmuxp')<CR>", G_SILENT_NO_REMAP)
 
   map("n", "<C-c>", "ciw", G_SILENT_NO_REMAP) -- change a word
   map("n", "<C-y>", "yygccp", G_SILENT_REMAP) -- duplicate line and commentout

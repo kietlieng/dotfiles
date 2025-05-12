@@ -1,6 +1,109 @@
 local F = {}
 local fzf = require("fzf")
 
+function F.dirDepthJump(aDepth)
+
+  -- vim.env.FZF_DEFAULT_OPTS = [[--preview 'bat --style=numbers --color=always --line-range :500 {}' --preview-window=right:60%]]
+  -- vim.cmd("call fzf#vim#files('', fzf#vim#with_preview(), 0)")
+
+  local dirExpression = '%:p:h'
+
+  if aDepth == -2 then
+
+    dirExpression = ''
+
+  elseif aDepth == -1 then
+
+    -- find root directory of the file open.  Sometimes will open a file 
+    -- from a separate location than your current one
+    local currentRepo = vim.fn.expand('%:p:h')
+    local io = require("io")
+    local fOutput = io.popen("callgitrootfolder " .. currentRepo)
+    dirExpression = fOutput:read('*all')
+    fOutput:close()
+
+    print(dirExpression)
+
+  else
+
+    if aDepth == -99 then
+
+      -- find root directory of where vim ran. This doesn't account for 
+      -- the location of the directory the current file is open from. Just where
+      -- the vim program is running from 
+      local fOutput = io.popen("callgitrootfolder")
+      dirExpression = fOutput:read('*all')
+      fOutput:close()
+
+--      print(dirExpression)
+
+    elseif aDepth > 0 then
+
+      while aDepth > 0 do
+
+        dirExpression = dirExpression .. ':h'
+        aDepth = aDepth - 1
+
+      end
+
+    end
+
+  end
+
+  --print("expression " .. dirExpression)
+
+  if dirExpression == "" then
+
+    require('fzf-lua').files({
+    })
+    -- value = require('telescope.builtin').find_files { }
+    -- print(value)
+
+  else
+
+    -- value = require('telescope.builtin').find_files { cwd = vim.fn.expand(dirExpression) }
+    require('fzf-lua').files({
+      cwd = vim.fn.expand(dirExpression),
+    })
+    -- print(value)
+
+  end
+
+end
+
+
+function F.dirJump(aTarget)
+
+  local dirTarget = ""
+  if aTarget == 'bigip' then
+    dirTarget = "~/lab/repos/bigipapi"
+  elseif aTarget == 'dns_dev' then
+    dirTarget = "~/lab/repos/edge/dns-internal-dev/zones"
+  elseif aTarget == 'nameserver' then
+    dirTarget = "~/lab/repos/nameserver/roles/nsupdate/templates/fwd"
+  elseif aTarget == 'dns_prod_internal' then
+    dirTarget = "~/lab/repos/edge/dns-internal-prod/zones"
+  elseif aTarget == 'lua' then
+    dirTarget = "~/.config/nvim"
+  elseif aTarget == 'dns_public' then
+    dirTarget = "~/lab/repos/edge/public-dns-repo/zones"
+  elseif aTarget == 'script' then
+    dirTarget = "~/lab/scripts"
+  elseif aTarget == 'tmuxp' then
+    dirTarget = "~/lab/scripts/tmuxp"
+  elseif aTarget == 'palo' then
+    dirTarget = "~/lab/repos/dev-paloalto"
+  elseif aTarget == 'cert' then
+    dirTarget = "~/lab/repos/cert-alert"
+  elseif aTarget == 'irules' then
+    dirTarget = "~/lab/repos/irules-engine/modules"
+  end
+
+  require('telescope.builtin').find_files { cwd = dirTarget }
+
+end
+
+
 function F.readFiles(argType)
 
   local argPath = ''
