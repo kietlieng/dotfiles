@@ -1,3 +1,4 @@
 return {
-  'mileszs/ack.vim'
+  'mileszs/ack.vim',
+  event = "VeryLazy",
 }

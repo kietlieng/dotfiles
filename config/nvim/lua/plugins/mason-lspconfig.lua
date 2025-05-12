@@ -1,7 +1,7 @@
 return { 
   'williamboman/mason-lspconfig.nvim',
+  -- event = "VeryLazy",
   config = function()
-
      require("mason").setup({
         ui = {
 

@@ -1,5 +1,6 @@
 -- never got it working
 
-return { 
-  'nvim-treesitter/nvim-tree-docs' 
+return {
+  'nvim-treesitter/nvim-tree-docs',
+  event = "VeryLazy",
 }

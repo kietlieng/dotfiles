@@ -3,9 +3,6 @@ local fzf = require("fzf")
 
 function F.dirDepthJump(aDepth)
 
-  -- vim.env.FZF_DEFAULT_OPTS = [[--preview 'bat --style=numbers --color=always --line-range :500 {}' --preview-window=right:60%]]
-  -- vim.cmd("call fzf#vim#files('', fzf#vim#with_preview(), 0)")
-
   local dirExpression = '%:p:h'
 
   if aDepth == -2 then
@@ -56,12 +53,10 @@ function F.dirDepthJump(aDepth)
 
     require('fzf-lua').files({
     })
-    -- value = require('telescope.builtin').find_files { }
-    -- print(value)
+    -- print(dirExpression)
 
   else
 
-    -- value = require('telescope.builtin').find_files { cwd = vim.fn.expand(dirExpression) }
     require('fzf-lua').files({
       cwd = vim.fn.expand(dirExpression),
     })
@@ -99,7 +94,10 @@ function F.dirJump(aTarget)
     dirTarget = "~/lab/repos/irules-engine/modules"
   end
 
-  require('telescope.builtin').find_files { cwd = dirTarget }
+  require('fzf-lua').files({
+    cwd = dirTarget,
+  })
+
 
 end
 
@@ -150,7 +148,10 @@ function F.openJumpFiles()
   coroutine.wrap(function()
     jumpResults = fzf.fzf("cat ~/.jumpscript | awk -F'^' '{print $2}'", "--ansi")
     if jumpResults then
-        require('telescope.builtin').find_files { cwd = vim.fn.expand(jumpResults[1]) }
+        require('fzf-lua').files({
+          cwd = vim.fn.expand(jumpResults[1]),
+        })
+
     end
   end)()
 
@@ -166,7 +167,9 @@ function F.openWorkingJumpFile()
   jumpResults = fOutput:read('*all')
   fOutput:close()
 
-  require('telescope.builtin').find_files { cwd = jumpResults }
+  require('fzf-lua').files({
+    cwd = jumpResults
+  })
 
 end
 

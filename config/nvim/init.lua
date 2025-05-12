@@ -1,5 +1,5 @@
 require('settings')
-require('keymap').setup()                           -- key mapping
+require('keymap')
 require('autocmd')
 
 local set = vim.opt
@@ -41,28 +41,30 @@ require('lazy').setup( {
        enabled = false,
    },
    performance = {
-       rtp = {
-           -- Stuff I don't use.
-           disabled_plugins = {
-              'theme-catppuccin',
-              'theme-challenger-deep',
-              'theme-cobalt2',
-              'theme-darcula',
-              'theme-darkvoid',
-              'theme-embark',
-              'theme-everforest',
-              'theme-material',
-              'theme-mellow',
-              'theme-neofusion',
-              'theme-oceanic-material',
-              'theme-onedark',
-              'theme-onedarkpro',
+     rtp = {
 
-           },
+       -- Stuff I don't use.
+       disabled_plugins = {
+
+         -- 'theme-catppuccin',
+         -- 'theme-challenger-deep',
+         -- 'theme-cobalt2',
+         -- 'theme-darcula',
+         -- 'theme-darkvoid',
+         -- 'theme-embark',
+         -- 'theme-everforest',
+         -- 'theme-material',
+         -- 'theme-mellow',
+         -- 'theme-neofusion',
+         -- 'theme-oceanic-material',
+         -- 'theme-onedark',
+         -- 'theme-onedarkpro',
+
        },
+     },
    },
-
-})
+  }
+)
 
 ----- LAZY END -----
 

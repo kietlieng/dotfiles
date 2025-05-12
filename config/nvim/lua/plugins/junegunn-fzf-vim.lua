@@ -1,3 +1,6 @@
 return {
-  'junegunn/fzf.vim'
+
+  'junegunn/fzf.vim',
+  event = "VeryLazy",
+
 }

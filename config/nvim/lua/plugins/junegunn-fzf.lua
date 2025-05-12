@@ -1,8 +1,9 @@
--- setup snippet engine 
+-- setup snippet engine
 
-return { 
+return {
   {
-    'junegunn/fzf', 
-    build = './install --bin', 
+    'junegunn/fzf',
+    event = "VeryLazy",
+    build = './install --bin',
   }
 }

@@ -1,4 +1,5 @@
   -- git operations in git
-return { 
-  'tpope/vim-fugitive' 
+return {
+  'tpope/vim-fugitive',
+  event = "VeryLazy",
 }

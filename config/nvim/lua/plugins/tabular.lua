@@ -1,4 +1,5 @@
 -- sort table values
-return { 
-  'godlygeek/tabular' 
+return {
+  'godlygeek/tabular',
+  event = "VeryLazy",
 }

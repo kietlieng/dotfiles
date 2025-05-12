@@ -57,11 +57,12 @@ function cpdot() {
     sourceScript=~/lab/scripts
     destinationDir=~/lab/repos/dotfiles
 
-    dConfigDir=${destinationDir}/config
-    dFileDir=${destinationDir}/dotfiles
+    dBatDir=${destinationDir}/bat
     dBrewDir=${destinationDir}/brew
-    dYaziDir=${destinationDir}/yazi
+    dConfigDir=${destinationDir}/config
     dDirenvDir=${destinationDir}/direnv
+    dFileDir=${destinationDir}/dotfiles
+    dYaziDir=${destinationDir}/yazi
 
     # lab
     dLabDir=${destinationDir}/lab
@@ -73,7 +74,7 @@ function cpdot() {
     rm -rf $destinationDir/*
 
     # create directories
-    mkdir -p $dConfigDir $dFileDir $dScriptDir $dBrewDir $dPure $dYaziDir $dDirenvDir
+    mkdir -p $dConfigDir $dFileDir $dScriptDir $dBrewDir $dPure $dYaziDir $dDirenvDir $dBatDir
   
     cd $dBrewDir
     brew bundle dump
@@ -90,6 +91,7 @@ function cpdot() {
     cp -rf ~/.config/skhd $dConfigDir/.
     cp -rf ~/.config/yazi $dConfigDir/.
     cp -rf ~/.config/direnv $dConfigDir/.
+    cp -rf ~/.config/bat $dConfigDir/.
 
     cp -rf ~/lab/scripts/calls $dScriptDir/.
     cp -rf ~/lab/scripts/tmuxp $dScriptDir/.

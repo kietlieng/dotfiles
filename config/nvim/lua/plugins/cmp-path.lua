@@ -1,3 +1,4 @@
-return { 
-  'hrsh7th/cmp-path' 
+return {
+  'hrsh7th/cmp-path',
+  event = "VeryLazy",
 }

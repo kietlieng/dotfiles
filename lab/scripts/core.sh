@@ -102,7 +102,7 @@ function fzfpreview() {
   local queryFile="/tmp/query-$hashDir"
   echo -n "" > $queryFile
 
-  local filesToEdit=$(rg --files $searchDirectory | fzf --multi --preview "bat --theme gruvbox-dark --style=numbers --color=always --line-range :500 {}" --bind "change:execute(echo {q} > $queryFile)" --bind "ctrl-r:execute(echo \"\" > $queryFile)" --query "$defaultQuery")
+  local filesToEdit=$(rg --files $searchDirectory | fzf --multi --preview "bat --style=numbers --color=always --line-range :500 {}" --bind "change:execute(echo {q} > $queryFile)" --bind "ctrl-r:execute(echo \"\" > $queryFile)" --query "$defaultQuery")
 
   if [[ ${#filesToEdit[@]} != 0 ]]; then
 
@@ -334,7 +334,7 @@ function er() {
       --bind "ctrl-o:execute:$OPENER" \
       --bind 'alt-a:select-all,alt-d:deselect-all,ctrl-/:toggle-preview' \
       --delimiter : \
-      --preview 'bat --theme gruvbox-dark --style=full --color=always --highlight-line {2} {1}' \
+      --preview 'bat --style=full --color=always --highlight-line {2} {1}' \
       --preview-window '~4,+{2}+4/3,<80(up)' \
       --query "$*"
 
@@ -765,7 +765,7 @@ function jot() {
     else
 
       echo "" > /tmp/fzf-query
-      filesToEdit=$(ls -1 /tmp/ | fzf --multi --preview 'bat --theme gruvbox-dark --style=numbers --color=always --line-range :500 /tmp/{}' --query "$jotQuery"  --bind 'change:execute(echo {q} > /tmp/fzf-query)' --bind 'ctrl-r:execute(echo "" > /tmp/fzf-query)')
+      filesToEdit=$(ls -1 /tmp/ | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 /tmp/{}' --query "$jotQuery"  --bind 'change:execute(echo {q} > /tmp/fzf-query)' --bind 'ctrl-r:execute(echo "" > /tmp/fzf-query)')
       
       editFiles=()
       for tempFile in $(echo "$filesToEdit"); do
@@ -948,7 +948,7 @@ function escript() {
     --bind "start:reload:$RG_PREFIX {q}" \
     --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
     --delimiter : \
-    --preview 'bat --theme gruvbox-dark --color=always {1} --highlight-line {2}')
+    --preview 'bat --color=always {1} --highlight-line {2}')
 #    --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
 #    --bind 'enter:become(vim {1} +{2})')
 #  echo ">>fileEdit: $filesToEdit"
@@ -1135,7 +1135,7 @@ function c() {
   if [[ -z $searchTerm ]]; then
 
     echo "" > "/tmp/script-query"
-    filesToEdit=$(rg --files $HOME/lab/scripts | fzf --multi --preview 'bat --theme gruvbox-dark --style=numbers --color=always --line-range :500 {}' --bind 'change:execute(echo {q} > /tmp/script-query)' --bind 'ctrl-r:execute(echo "" > /tmp/script-query)')
+    filesToEdit=$(rg --files $HOME/lab/scripts | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 {}' --bind 'change:execute(echo {q} > /tmp/script-query)' --bind 'ctrl-r:execute(echo "" > /tmp/script-query)')
     
     local editFiles=()
     for tempFile in $(echo "$filesToEdit"); do
@@ -1191,7 +1191,7 @@ function c() {
           --bind "ctrl-o:execute:$OPENER" \
           --bind 'alt-a:select-all,alt-d:deselect-all,ctrl-/:toggle-preview' \
           --delimiter : \
-          --preview 'bat --theme gruvbox-dark --style=full --color=always --highlight-line {2} {1}' \
+          --preview 'bat --style=full --color=always --highlight-line {2} {1}' \
           --preview-window '~4,+{2}+4/3,<80(up)' \
           --query "$*"
 

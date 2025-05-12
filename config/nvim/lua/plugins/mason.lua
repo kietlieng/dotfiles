@@ -1,3 +1,5 @@
-return { 
-  'williamboman/mason.nvim' 
+return {
+  'williamboman/mason.nvim',
+  event = "VeryLazy",
+
 }
