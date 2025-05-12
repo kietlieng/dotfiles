@@ -24,25 +24,27 @@ return {
       actions = {
         files = {
           -- Default action when selecting multiple files
-          ['default'] = function(selected)
+          ['default'] = function(selected, opts)
+
             if not selected or #selected == 0 then return end
 
             -- io.output(assert(io.open("output.txt", "w")))
 
             local result = ''
-            local count = ''
+            local cwd    = opts.cwd or vim.loop.cwd()
+
             -- Open each selected file in a new buffer
             for _, filepath in pairs(selected) do
               -- Open each file using :edit (replaces buffer)
               -- Or use :tabedit/:split/:vsplit if preferred
 
               -- remove icons from the front of the name 
-              result, count = filepath:gsub("^[^a-zA-Z0-9%.%-_]+", "")
+              result, _ = filepath:gsub("^[^a-zA-Z0-9%.%-_]+", "")
 
-              -- io.write(result)
+              -- io.write(cwd .. "/" .. result)
               -- io.write("\n")
 
-              vim.cmd('args ' .. vim.fn.fnameescape(result))
+              vim.cmd('args ' .. vim.fn.fnameescape(cwd .. "/" .. result))
 
             end
           end,

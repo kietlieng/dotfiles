@@ -1,6 +1,5 @@
 require('settings')
 require('keymap')
-require('autocmd')
 
 local set = vim.opt
 
@@ -66,11 +65,13 @@ require('lazy').setup( {
   }
 )
 
+require('autocmd') -- needs to be on the bottom
+
 ----- LAZY END -----
 
 --require('autosave-unnamed').setup()                  -- setup snippet engine
 require('custom/snippet-luasnip').setup()                  -- setup snippet engine
-require("luasnip.loaders.from_vscode").lazy_load()  -- lead friendly-snippets support into luasnip
+-- require("luasnip.loaders.from_vscode").lazy_load()  -- lead friendly-snippets support into luasnip
 -- require('mason-setup').setup()                      -- setup syntax for treesitter
 -- require('lsp-setup').setup()                        -- setup all lsp
 --require('fun').setup()                            -- useless but fun
