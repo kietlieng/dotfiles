@@ -28,11 +28,11 @@ function F.setup()
 
   -- grep string in file
   --map( "n", "<LEADER>", ":Rg<CR>", G_NO_REMAP ) -- ripgrep current directory
-  map("n", "<LEADER>gr", "<cmd>lua require('ripgrepper').grepLevel(0)<CR>", G_NO_REMAP)    -- grep from current directory
-  map("n", "<LEADER>gR", "<cmd>lua require('ripgrepper').grepLevel(-1)<CR>", G_NO_REMAP)   -- grep from git root
-  map("n", "<LEADER>1r", "<cmd>lua require('ripgrepper').grepLevel(1)<CR>", G_NO_REMAP)   -- grep from 1 parent up
-  map("n", "<LEADER>2r", "<cmd>lua require('ripgrepper').grepLevel(2)<CR>", G_NO_REMAP)   -- grep from 2 parent up
-  map("n", "<LEADER>4r", "<cmd>lua require('ripgrepper').grepLevel(-2)<CR>", G_NO_REMAP)  -- grep from cwd
+  map("n", "<LEADER>gr", "<cmd>lua require('custom/ripgrepper').grepLevel(0)<CR>", G_NO_REMAP)    -- grep from current directory
+  map("n", "<LEADER>gR", "<cmd>lua require('custom/ripgrepper').grepLevel(-1)<CR>", G_NO_REMAP)   -- grep from git root
+  map("n", "<LEADER>1r", "<cmd>lua require('custom/ripgrepper').grepLevel(1)<CR>", G_NO_REMAP)   -- grep from 1 parent up
+  map("n", "<LEADER>2r", "<cmd>lua require('custom/ripgrepper').grepLevel(2)<CR>", G_NO_REMAP)   -- grep from 2 parent up
+  map("n", "<LEADER>4r", "<cmd>lua require('custom/ripgrepper').grepLevel(-2)<CR>", G_NO_REMAP)  -- grep from cwd
 
   map("n", "<LEADER>V", 'viw"*y<ESC>', G_SILENT_NO_REMAP)  -- copy word
   map("n", "<LEADER>v", 'viW"*y<ESC>', G_SILENT_NO_REMAP)  -- copy WORD
@@ -115,10 +115,10 @@ function F.setup()
 
   map("n", "<C-t>", ":!callterminal '%:p:h' ", G_NO_REMAP)  -- terminal runs
 
---  map("v", "<LEADER>zget", ":'<,'>lua require('zookeeper').zkget()<CR>", G_SILENT_NO_REMAP) -- zk copy
+--  map("v", "<LEADER>zget", ":'<,'>lua require('custom/zookeeper').zkget()<CR>", G_SILENT_NO_REMAP) -- zk copy
 --  map("v", "<LEADER>zget", ':!callzkfetch <C-R>"<ENTER>', G_SILENT_NO_REMAP) -- zk copy
-  map("v", "<LEADER>zg", ":lua require('zookeeper').zkget()<CR>", G_SILENT_NO_REMAP) -- zk copy
-  map("n", "<LEADER>ze", ":lua require('zookeeper').zkenv('')<LEFT><LEFT>", G_SILENT_NO_REMAP) -- zk copy
+  map("v", "<LEADER>zg", ":lua require('custom/zookeeper').zkget()<CR>", G_SILENT_NO_REMAP) -- zk copy
+  map("n", "<LEADER>ze", ":lua require('custom/zookeeper').zkenv('')<LEFT><LEFT>", G_SILENT_NO_REMAP) -- zk copy
 
   map("n", "<C-s>", ":silent !callsearchprivate ''<LEFT>", G_NO_REMAP)  -- terminal runs
   map("n", "<LEADER>tr", ":silent !callsearch ''<LEFT>", G_NO_REMAP)  -- terminal runs

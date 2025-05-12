@@ -1,3 +1,3 @@
-return { 
-  'mileszs/ack.vim' 
+return {
+  'mileszs/ack.vim'
 }

@@ -10,6 +10,7 @@
   "cmp_luasnip": { "branch": "master", "commit": "98d9cb5c2c38532bd9bdb481067b20fea8f32e90" },
   "coc.nvim": { "branch": "release", "commit": "d4e9104473b17a0230555f029760c3717ba769de" },
   "flash.nvim": { "branch": "main", "commit": "3c942666f115e2811e959eabbdd361a025db8b63" },
+  "fzf": { "branch": "master", "commit": "4df842e78cb1b2788508cb1cc9ddd8a0f0ea58e2" },
   "fzf-lua": { "branch": "main", "commit": "b45881a2043d96506ba628f3bc65a4594b179c4e" },
   "fzf.vim": { "branch": "master", "commit": "3cb44a8ba588e1ada409af495bdc6a4d2d37d5da" },
   "gruvbox": { "branch": "master", "commit": "180ad85971343df68be3422a5630fa84e45a9ab2" },

@@ -6,6 +6,9 @@ return {
     opts = {
       options = {}
     },
+    config = function()
+      require("bufferline").setup{}
+    end
 
   },
 }

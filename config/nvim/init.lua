@@ -67,10 +67,10 @@ require('lazy').setup( {
 ----- LAZY END -----
 
 --require('autosave-unnamed').setup()                  -- setup snippet engine
-require('snippet-luasnip').setup()                  -- setup snippet engine
+require('custom/snippet-luasnip').setup()                  -- setup snippet engine
 require("luasnip.loaders.from_vscode").lazy_load()  -- lead friendly-snippets support into luasnip
-require('mason-setup').setup()                      -- setup syntax for treesitter
-require('lsp-setup').setup()                        -- setup all lsp
+-- require('mason-setup').setup()                      -- setup syntax for treesitter
+-- require('lsp-setup').setup()                        -- setup all lsp
 --require('fun').setup()                            -- useless but fun
 
 -- theme setup
