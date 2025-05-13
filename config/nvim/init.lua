@@ -78,8 +78,4 @@ require('custom/snippet-luasnip').setup()                  -- setup snippet engi
 
 -- theme setup
 
---require('theme-darkvoid').setup()                 -- needs to be last
---require('theme-onedarkpro').setup()               -- needs to be last
---require('theme-mellow').setup()                   -- needs to be last
---require('theme-everforest').setup()                   -- needs to be last
 require('theme-gruvbox').setup()                  -- needs to be last

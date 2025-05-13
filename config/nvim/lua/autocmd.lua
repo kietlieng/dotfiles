@@ -19,7 +19,7 @@ vim.api.nvim_create_autocmd( { 'BufWinEnter' }, -- disable yaml if buf path has 
        (string.find(bufferRepo, "public%-dns%-repo")) or
        (string.find(bufferRepo, "dns%-internal%-prod")) then
 
-      vim.cmd(':LspStop ' .. vim.fn.bufnr('%'))
+      -- vim.cmd(':LspStop ' .. vim.fn.bufnr('%'))
 
     end
   end,

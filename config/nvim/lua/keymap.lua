@@ -21,7 +21,7 @@ map("n", "<LEADER>0", "<cmd>lua require('custom/fzf').dirDepthJump(-99)<CR>", G_
 map("n", "<LEADER>1/", "<cmd>lua require('custom/fzf').dirDepthJump(1)<CR>", G_SILENT_NO_REMAP)     -- search from 1 up
 map("n", "<LEADER>2/", "<cmd>lua require('custom/fzf').dirDepthJump(2)<CR>", G_SILENT_NO_REMAP)     -- search from 2 up
 map("n", "<LEADER>4/", "<cmd>lua require('custom/fzf').dirDepthJump(-2)<CR>", G_SILENT_NO_REMAP)    -- search from cwd
-map("n", "<LEADER>B", "<cmd>lua require('custom/fzf').buffers()<CR>", G_SILENT_NO_REMAP)      -- search from current directory
+map("n", "<LEADER>bu", "<cmd>lua require('custom/fzf').buffers()<CR>", G_SILENT_NO_REMAP)      -- search from current directory
 
 -- grep string in file
 --map( "n", "<LEADER>", ":Rg<CR>", G_NO_REMAP ) -- ripgrep current directory
@@ -80,12 +80,12 @@ map("n", "<LEADER>wr", ":set wrap!<CR>", G_SILENT_NO_REMAP) -- zk copy
 map("n", "<LEADER>cc", "mcVgc<CR>`c", G_SILENT_REMAP)                                                                     -- comment out selected normal
 map("v", "<LEADER>cc", "mcgc<CR>k`c", G_SILENT_REMAP)                                                                     -- comment out selected visual
 map("n", "<LEADER>CC", "mcggVGgc<CR>`c", G_SILENT_REMAP)                                                                  -- global comment
-map("n", "<LEADER>CU", ":lua require('comments').comments(false, true, true, false, false)<CR>", G_SILENT_NO_REMAP)       -- glubal uncomment invert
-map("v", "<LEADER>CC", ":lua require('comments').comments(false, false, true, true, true)<CR>", G_SILENT_NO_REMAP)        -- global comment invert
+map("n", "<LEADER>CU", ":lua require('custom/comments').comments(false, true, true, false, false)<CR>", G_SILENT_NO_REMAP)       -- glubal uncomment invert
+map("v", "<LEADER>CC", ":lua require('custom/comments').comments(false, false, true, true, true)<CR>", G_SILENT_NO_REMAP)        -- global comment invert
 map("n", "<LEADER>bc", "mcvipgc<CR>`c", G_SILENT_REMAP)                                                                   -- block comment
-map("n", "<LEADER>bC", ":lua require('comments').comments(true, true, false, true, false, true)<CR>", G_SILENT_NO_REMAP)  -- select block, comment out invert of block
-map("n", "<LEADER>bU", ":lua require('comments').comments(true, true, false, false, false, true)<CR>", G_SILENT_NO_REMAP) -- select block, uncomment invert of block
-map("v", "<LEADER>bc", ":lua require('comments').comments(false, false, false, true, true)<CR>", G_SILENT_NO_REMAP)       -- block comment invert
+map("n", "<LEADER>bC", ":lua require('custom/comments').comments(true, true, false, true, false, true)<CR>", G_SILENT_NO_REMAP)  -- select block, comment out invert of block
+map("n", "<LEADER>bU", ":lua require('custom/comments').comments(true, true, false, false, false, true)<CR>", G_SILENT_NO_REMAP) -- select block, uncomment invert of block
+map("v", "<LEADER>bc", "gc<CR>", G_SILENT_NO_REMAP)       -- block comment invert
 
 map("n", "<LEADER>ba", "vip<C-v>$A", G_SILENT_NO_REMAP)             -- block insert end
 map("n", "<LEADER>bb", "vip<C-v>^o", G_SILENT_NO_REMAP)             -- block
@@ -258,7 +258,7 @@ map({"n", "v"}, "<leader>oz", "<cmd>Yazi<cr>", { desc = "Open yazi at the curren
 --map( "n", ']d', vim.diagnostic.goto_next )
 
 -- edits using :next instead of :e to open multiple files
-map("n", "<LEADER>vicomments", ":next ~/.config/nvim/lua/comments.lua <CR>", G_SILENT_NO_REMAP)  -- edit init file
+map("n", "<LEADER>vicomments", ":next ~/.config/nvim/lua/custom/comments.lua <CR>", G_SILENT_NO_REMAP)  -- edit init file
 map("n", "<LEADER>vidd", ":next ~/lab/repos/edge/dns-internal-dev/zones/*info.yaml <CR>", G_SILENT_NO_REMAP) -- dns dev
 map("n", "<LEADER>vidp", ":next ~/lab/repos/nameserver/roles/nsupdate/templates/fwd/db.oc2.evenue.net.j2.zone.fwd ~/lab/repos/edge/dns-internal-prod/zones/oc2.evenue.net.yaml <CR>", G_SILENT_NO_REMAP)                                                                                                               -- dns prod
 map("n", "<LEADER>vijob", ":next ~/lab/repos/sre-jobqueue/src/index.js <CR>", G_SILENT_NO_REMAP) -- dns dev

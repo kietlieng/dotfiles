@@ -1,6 +1,6 @@
 return {
   'neovim/nvim-lspconfig',
-  event = "VeryLazy",
+  -- event = "VeryLazy",
   config = function ()
       local lspconfig = require('lspconfig')
       local capabilities = require('cmp_nvim_lsp').default_capabilities()
@@ -68,7 +68,8 @@ return {
         capabilities = capabilities,
       }
 
-      -- --local currentRepo = vim.fn.expand('%:p:h')
+      --local currentRepo = vim.fn.expand('%:p:h')
+
       -- --if (string.find(currentRepo, "dns%-internal%-dev") == nil) and
       -- --   (string.find(currentRepo, "public%-dns%-repo") == nil) and
       -- --   (string.find(currentRepo, "dns%-internal%-%prod") == nil) then
