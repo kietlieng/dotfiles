@@ -29,7 +29,7 @@ require('lazy').setup( {
    dev = { path = vim.g.projects_dir },
    install = {
        -- Do not automatically install on startup.
-       missing = true,
+       missing = false,
    },
    -- Don't bother me when tweaking plugins.
    change_detection = {

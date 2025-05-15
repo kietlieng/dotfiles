@@ -515,10 +515,14 @@ function stripends() { # from the target ($1), strip out values from both ends (
 
 # grep recursive
 function gr() {
+
     local searchExpression='.*'
     local shouldList='false'
     local searchCICD='f'
     local targetFile="*"
+    local modeFound=''
+    local modeAfter='0'
+    local modeBefore='0'
 
     while [[ $# -gt 0 ]]
     do
@@ -534,6 +538,17 @@ function gr() {
             '-ci' )
                 searchCICD='t'
                 ;;
+            # check to see if number
+            +([0-9]) ) 
+
+              if [[ $modeFound ]]; then
+                modeBefore="$key"
+              else
+                modeFound='t'
+                modeAfter="$key"
+              fi
+            ;;
+
             * )
                 searchExpression="$searchExpression${key}.*"
                 ;;
@@ -553,9 +568,9 @@ function gr() {
         #echo "search term $searchExpression"
         if [[ $searchCICD == 't' ]]; then
             if [[ $shouldList = "true" ]]; then
-                find . -iname ".gitlab-ci.yml" -exec grep -il "$searchExpression" {} \;
+                find . -iname ".gitlab-ci.yml" -exec grep -il -A $modeAfter -B $modeBefore "$searchExpression" {} \;
             else
-                find . -iname ".gitlab-ci.yml" -exec grep -i "$searchExpression" {} \;
+                find . -iname ".gitlab-ci.yml" -exec grep -i  -A $modeAfter -B $modeBefore "$searchExpression" {} \;
             fi
         else
 
@@ -577,21 +592,21 @@ function gr() {
                 #echo "test1"
                 #pipe
                 if ! [[ -t 0 ]]; then
-                    ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -irl "$searchExpression" $targetFile
+                    ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -irl  -A $modeAfter -B $modeBefore "$searchExpression" $targetFile
                 else
                     # dumping to null cause this will error out on * due to the backtick evaluation
                     #ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -irl "$searchExpression" `$targetFile` 2> /dev/null
-                    ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -irl "$searchExpression" *
+                    ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -irl -A $modeAfter -B $modeBefore "$searchExpression" *
                 fi
             else
                 #echo "ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -ir \"$searchExpression\" $targetFile"
                 if ! [[ -t 0 ]]; then
-                    ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -ir "$searchExpression" $targetFile
+                    ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -ir -A $modeAfter -B $modeBefore "$searchExpression" $targetFile
                 else
                     # dumping to null cause this will error out on * due to the backtick evaluation
                     echo "search expression '$searchExpression'"
-                    #ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -ir "$searchExpression" `$targetFile` 2> /dev/null
-                    ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -ir "$searchExpression" *
+                    # echo "ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -ir -A $modeAfter -B $modeBefore \"$searchExpression\" *"
+                    ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -ir -A $modeAfter -B $modeBefore "$searchExpression" *
                 fi
             fi
         fi

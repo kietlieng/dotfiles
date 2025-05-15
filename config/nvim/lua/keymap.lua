@@ -80,12 +80,9 @@ map("n", "<LEADER>wr", ":set wrap!<CR>", G_SILENT_NO_REMAP) -- zk copy
 map("n", "<LEADER>cc", "mcVgc<CR>`c", G_SILENT_REMAP)                                                                     -- comment out selected normal
 map("v", "<LEADER>cc", "mcgc<CR>k`c", G_SILENT_REMAP)                                                                     -- comment out selected visual
 map("n", "<LEADER>CC", "mcggVGgc<CR>`c", G_SILENT_REMAP)                                                                  -- global comment
-map("n", "<LEADER>CU", ":lua require('custom/comments').comments(false, true, true, false, false)<CR>", G_SILENT_NO_REMAP)       -- glubal uncomment invert
 map("v", "<LEADER>CC", ":lua require('custom/comments').comments(false, false, true, true, true)<CR>", G_SILENT_NO_REMAP)        -- global comment invert
 map("n", "<LEADER>bc", "mcvipgc<CR>`c", G_SILENT_REMAP)                                                                   -- block comment
 map("n", "<LEADER>bC", ":lua require('custom/comments').comments(true, true, false, true, false, true)<CR>", G_SILENT_NO_REMAP)  -- select block, comment out invert of block
-map("n", "<LEADER>bU", ":lua require('custom/comments').comments(true, true, false, false, false, true)<CR>", G_SILENT_NO_REMAP) -- select block, uncomment invert of block
-map("v", "<LEADER>bc", "gc<CR>", G_SILENT_NO_REMAP)       -- block comment invert
 
 map("n", "<LEADER>ba", "vip<C-v>$A", G_SILENT_NO_REMAP)             -- block insert end
 map("n", "<LEADER>bb", "vip<C-v>^o", G_SILENT_NO_REMAP)             -- block
