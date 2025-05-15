@@ -2,7 +2,9 @@
 source ~/lab/scripts/calls/sourceall
 
 # go to the directory first
-cd "$1"
-shift
+if [[ $# ]]; then
+  cd "$1"
+  shift
+fi
 
 gitrootfolder

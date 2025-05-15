@@ -8,6 +8,65 @@ function F.buffers()
 
 end
 
+-- Grep Fuzzy / Live
+function F.grepLevel(fLevel, aFuzzy)
+
+  aFuzzy = aFuzzy or 1
+
+  vim.fn.setreg('r', vim.fn.getcwd()) -- rest register to current working directory
+
+  if fLevel == -2 then
+
+    vim.fn.setreg('r', vim.fn.getcwd()) -- rest register to current working directory
+
+  elseif fLevel == -1 then -- from get root
+
+    local currentRepo = vim.fn.expand('%:p:h')
+    local io = require("io")
+    local fOutput = io.popen("cd " .. currentRepo .. "; callgitrootfolder " .. currentRepo)
+    local gitRoot = fOutput:read('*all')
+
+    vim.fn.setreg('r', gitRoot) -- figure out the git root and set the r register to that
+
+  else
+
+    local dirExpression = '%:p:h'
+    local aDepth = fLevel
+
+    while aDepth > 0 do
+
+      dirExpression = dirExpression .. ':h'
+      aDepth = aDepth - 1
+
+    end
+
+    vim.fn.setreg('r', vim.fn.expand(dirExpression)) -- if not expand on `%:p:h' and set register to that
+
+  end
+
+  -- vim.cmd([[Rg]]) -- run the command to get the rip grepper using register
+
+  local pprompt = vim.fn.getreg('r')
+
+  if aFuzzy == 2 then
+
+    require('fzf-lua').live_grep({
+      prompt = "live ",
+      cwd = pprompt,
+    })
+
+  else
+
+    require('fzf-lua').grep_visual({
+      prompt = "fzf ",
+      cwd = pprompt,
+    })
+
+  end
+
+end
+
+-- File depth
 function F.dirDepthJump(aDepth)
 
   local dirExpression = '%:p:h'
@@ -73,7 +132,7 @@ function F.dirDepthJump(aDepth)
 
 end
 
-
+-- General file jump
 function F.dirJump(aTarget)
 
   local dirTarget = ""

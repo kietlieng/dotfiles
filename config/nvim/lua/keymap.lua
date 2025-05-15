@@ -24,12 +24,14 @@ map("n", "<LEADER>4/", "<cmd>lua require('custom/fzf').dirDepthJump(-2)<CR>", G_
 map("n", "<LEADER>bu", "<cmd>lua require('custom/fzf').buffers()<CR>", G_SILENT_NO_REMAP)      -- search from current directory
 
 -- grep string in file
---map( "n", "<LEADER>", ":Rg<CR>", G_NO_REMAP ) -- ripgrep current directory
-map("n", "<LEADER>gr", "<cmd>lua require('custom/ripgrepper').grepLevel(0)<CR>", G_NO_REMAP)    -- grep from current directory
-map("n", "<LEADER>gR", "<cmd>lua require('custom/ripgrepper').grepLevel(-1)<CR>", G_NO_REMAP)   -- grep from git root
-map("n", "<LEADER>1r", "<cmd>lua require('custom/ripgrepper').grepLevel(1)<CR>", G_NO_REMAP)   -- grep from 1 parent up
-map("n", "<LEADER>2r", "<cmd>lua require('custom/ripgrepper').grepLevel(2)<CR>", G_NO_REMAP)   -- grep from 2 parent up
-map("n", "<LEADER>4r", "<cmd>lua require('custom/ripgrepper').grepLevel(-2)<CR>", G_NO_REMAP)  -- grep from cwd
+--map( "n", "<LEADER>", ":Rg<CR>", G_NO_REMAP ) -- fzf current directory
+map("n", "<LEADER>gr", "<cmd>lua require('custom/fzf').grepLevel(0)<CR>", G_NO_REMAP)    -- grep from current directory
+map("n", "<LEADER>gR", "<cmd>lua require('custom/fzf').grepLevel(-1)<CR>", G_NO_REMAP)   -- grep from git root
+map("n", "<LEADER>1gr", "<cmd>lua require('custom/fzf').grepLevel(1)<CR>", G_NO_REMAP)   -- grep from 1 parent up
+map("n", "<LEADER>2gr", "<cmd>lua require('custom/fzf').grepLevel(2)<CR>", G_NO_REMAP)   -- grep from 2 parent up
+map("n", "<LEADER>4gr", "<cmd>lua require('custom/fzf').grepLevel(-2)<CR>", G_NO_REMAP)  -- grep from cwd
+map("n", "<LEADER>Gr", "<cmd>lua require('custom/fzf').grepLevel(0, 2)<CR>", G_NO_REMAP)   -- grep from git root
+map("n", "<LEADER>GR", "<cmd>lua require('custom/fzf').grepLevel(-1, 2)<CR>", G_NO_REMAP)   -- grep from git root
 
 map("n", "<LEADER>V", 'viw"*y<ESC>', G_SILENT_NO_REMAP)  -- copy word
 map("n", "<LEADER>v", 'viW"*y<ESC>', G_SILENT_NO_REMAP)  -- copy WORD
