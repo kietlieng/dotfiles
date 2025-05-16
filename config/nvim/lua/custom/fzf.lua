@@ -12,12 +12,13 @@ end
 function F.grepLevel(fLevel, aFuzzy)
 
   aFuzzy = aFuzzy or 1
+  fLevel = fLevel or 1
 
   vim.fn.setreg('r', vim.fn.getcwd()) -- rest register to current working directory
 
   if fLevel == -2 then
 
-    vim.fn.setreg('r', vim.fn.getcwd()) -- rest register to current working directory
+    vim.fn.setreg('r', vim.fn.getcwd()) -- set register to current working directory
 
   elseif fLevel == -1 then -- from get root
 

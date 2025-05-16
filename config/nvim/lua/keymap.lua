@@ -25,19 +25,22 @@ map("n", "<LEADER>bu", "<cmd>lua require('custom/fzf').buffers()<CR>", G_SILENT_
 
 -- grep string in file
 --map( "n", "<LEADER>", ":Rg<CR>", G_NO_REMAP ) -- fzf current directory
-map("n", "<LEADER>gr", "<cmd>lua require('custom/fzf').grepLevel(0)<CR>", G_NO_REMAP)    -- grep from current directory
-map("n", "<LEADER>gR", "<cmd>lua require('custom/fzf').grepLevel(-1)<CR>", G_NO_REMAP)   -- grep from git root
-map("n", "<LEADER>1gr", "<cmd>lua require('custom/fzf').grepLevel(1)<CR>", G_NO_REMAP)   -- grep from 1 parent up
-map("n", "<LEADER>2gr", "<cmd>lua require('custom/fzf').grepLevel(2)<CR>", G_NO_REMAP)   -- grep from 2 parent up
-map("n", "<LEADER>4gr", "<cmd>lua require('custom/fzf').grepLevel(-2)<CR>", G_NO_REMAP)  -- grep from cwd
-map("n", "<LEADER>Gr", "<cmd>lua require('custom/fzf').grepLevel(0, 2)<CR>", G_NO_REMAP)   -- grep from git root
-map("n", "<LEADER>GR", "<cmd>lua require('custom/fzf').grepLevel(-1, 2)<CR>", G_NO_REMAP)   -- grep from git root
 
-map("n", "<LEADER>V", 'viw"*y<ESC>', G_SILENT_NO_REMAP)  -- copy word
-map("n", "<LEADER>v", 'viW"*y<ESC>', G_SILENT_NO_REMAP)  -- copy WORD
+map("n", "<LEADER>gr", "<cmd>lua require('custom/fzf').grepLevel(0)<CR>", G_NO_REMAP)  -- fuzzy grep cwd
+map("n", "<LEADER>ggr", ":lua require('custom/fzf').grepLevel()<LEFT>", G_NO_REMAP)    -- fuzzy grep level up from cwd (default is 1)
+map("n", "<LEADER>gR", "<cmd>lua require('custom/fzf').grepLevel(-1)<CR>", G_NO_REMAP) -- fuzzy grep git root
+
+-- live grep means no fuzzy feature.  Most likely not use this
+map("n", "<LEADER>Gr", "<cmd>lua require('custom/fzf').grepLevel(0, 2)<CR>", G_NO_REMAP)                  -- live grep cwd
+map("n", "<LEADER>GGr", ":lua require('custom/fzf').grepLevel(1, 2)<LEFT><LEFT><LEFT><LEFT>", G_NO_REMAP) -- live grep level up from cwd (default is 1)
+map("n", "<LEADER>GR", "<cmd>lua require('custom/fzf').grepLevel(-1, 2)<CR>", G_NO_REMAP)                 -- live grep git root
+
+-- map("n", "<LEADER>V", 'viw"*y<ESC>', G_SILENT_NO_REMAP)  -- copy word
+-- map("n", "<LEADER>v", 'viW"*y<ESC>', G_SILENT_NO_REMAP)  -- copy WORD
 
 -- save and quit override
 --map( "n", "QQ", "<cmd>lua require('buffer').CloseBufferOrVim(0)<CR>", G_SILENT_NO_REMAP ) -- Quit without saving. Buffer aware. Will close 1 buffer at a time.
+
 map("n", "QQ", ":call CloseBufferOrVim(0)<CR>", G_SILENT_NO_REMAP)  -- Quit without saving. Buffer aware. Will close 1 buffer at a time.
 map("n", "ZZ", ":call CloseBufferOrVim(1)<CR>", G_SILENT_NO_REMAP)  -- Save and close
 map("n", "qQ", ":silent! :qall!<CR>", G_SILENT_NO_REMAP)                -- Quit regardless of buffers
