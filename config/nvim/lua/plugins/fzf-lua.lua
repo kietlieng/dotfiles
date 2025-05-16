@@ -66,17 +66,17 @@ return {
               --  find out buffer type to filter out listing 
               if actionType == 'buffers' then
 
-                -- io.write(cwd .. "/" .. result .. "\n")
-                -- io.write(vim.inspect(opts))
-                -- io.write("\n")
-                -- io.write(vim.inspect(opts["__INFO"]))
-                -- io.write("\n")
-                -- io.write(vim.inspect(opts["__CTX"]))
-                -- io.write("\n")
-                -- io.write(vim.inspect("action: " .. opts["__INFO"].cmd))
-                -- io.write("\n")
-                -- io.write(vim.inspect("buffer number " .. opts["__CTX"].alt_bufnr))
-                -- io.write("\n")
+                io.write(cwd .. "/" .. result .. "\n")
+                io.write(vim.inspect(opts))
+                io.write("\n")
+                io.write(vim.inspect(opts["__INFO"]))
+                io.write("\n")
+                io.write(vim.inspect(opts["__CTX"]))
+                io.write("\n")
+                io.write(vim.inspect("action: " .. opts["__INFO"].cmd))
+                io.write("\n")
+                io.write(vim.inspect("buffer number " .. opts["__CTX"].alt_bufnr))
+                io.write("\n")
 
                 vim.cmd('b ' .. bufferNumber)
 

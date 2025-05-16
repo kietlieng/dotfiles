@@ -4,7 +4,26 @@ local fzf = require("fzf")
 function F.buffers()
 
   require('fzf-lua').buffers({
+    actions = {
+      -- default action (on <Enter>)
+      ['default'] = function(selected, _)
+        print(vim.inspect(selected))
+        -- local bufnr = tonumber(selected[1]:match("^%s*(%d+)")) -- assuming the buffer number is first
+        -- if bufnr then
+        --   -- vim.api.nvim_set_current_buf(bufnr)
+        --   vim.cmd('b ' .. bufnr)
+        -- end
+      end
+    }
   })
+
+end
+
+
+function F.liveGrepLevel(fLevel)
+
+  fLevel = fLevel or 1
+  F.grepLevel(fLevel, 2)
 
 end
 

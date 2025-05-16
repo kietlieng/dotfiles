@@ -15,13 +15,14 @@ map("n", "n", ":norm! nzzzv<CR>", G_SILENT_NO_REMAP) -- Search but keep the view
 map("n", "N", ":norm! Nzzzv<CR>", G_SILENT_NO_REMAP) -- Search but keep the view centered
 
 -- find files with fzf
-map("n", "<LEADER>/", "<cmd>lua require('custom/fzf').dirDepthJump(0)<CR>", G_SILENT_NO_REMAP)      -- search from current directory
-map("n", "<LEADER>-", "<cmd>lua require('custom/fzf').dirDepthJump(-1)<CR>", G_SILENT_NO_REMAP)     -- search from git root directory
-map("n", "<LEADER>0", "<cmd>lua require('custom/fzf').dirDepthJump(-99)<CR>", G_SILENT_NO_REMAP)    -- search from current open file root directory
-map("n", "<LEADER>1/", "<cmd>lua require('custom/fzf').dirDepthJump(1)<CR>", G_SILENT_NO_REMAP)     -- search from 1 up
-map("n", "<LEADER>2/", "<cmd>lua require('custom/fzf').dirDepthJump(2)<CR>", G_SILENT_NO_REMAP)     -- search from 2 up
-map("n", "<LEADER>4/", "<cmd>lua require('custom/fzf').dirDepthJump(-2)<CR>", G_SILENT_NO_REMAP)    -- search from cwd
-map("n", "<LEADER>bu", "<cmd>lua require('custom/fzf').buffers()<CR>", G_SILENT_NO_REMAP)      -- search from current directory
+
+map("n", "<LEADER>/", "<cmd>lua require('custom/fzf').dirDepthJump(0)<CR>", G_SILENT_NO_REMAP)   -- search from current directory
+map("n", "<LEADER>-", "<cmd>lua require('custom/fzf').dirDepthJump(-1)<CR>", G_SILENT_NO_REMAP)  -- search from git root directory
+map("n", "<LEADER>0", "<cmd>lua require('custom/fzf').dirDepthJump(-99)<CR>", G_SILENT_NO_REMAP) -- search from current open file root directory
+map("n", "<LEADER>1/", "<cmd>lua require('custom/fzf').dirDepthJump(1)<CR>", G_SILENT_NO_REMAP)  -- search from 1 up
+map("n", "<LEADER>2/", "<cmd>lua require('custom/fzf').dirDepthJump(2)<CR>", G_SILENT_NO_REMAP)  -- search from 2 up
+map("n", "<LEADER>4/", "<cmd>lua require('custom/fzf').dirDepthJump(-2)<CR>", G_SILENT_NO_REMAP) -- search from cwd
+-- map("n", "<LEADER>uu", "<cmd>lua require('custom/fzf').buffers()<CR>", G_SILENT_NO_REMAP)        -- search from current directory
 
 -- grep string in file
 --map( "n", "<LEADER>", ":Rg<CR>", G_NO_REMAP ) -- fzf current directory
@@ -31,9 +32,9 @@ map("n", "<LEADER>ggr", ":lua require('custom/fzf').grepLevel()<LEFT>", G_NO_REM
 map("n", "<LEADER>gR", "<cmd>lua require('custom/fzf').grepLevel(-1)<CR>", G_NO_REMAP) -- fuzzy grep git root
 
 -- live grep means no fuzzy feature.  Most likely not use this
-map("n", "<LEADER>Gr", "<cmd>lua require('custom/fzf').grepLevel(0, 2)<CR>", G_NO_REMAP)                  -- live grep cwd
-map("n", "<LEADER>GGr", ":lua require('custom/fzf').grepLevel(1, 2)<LEFT><LEFT><LEFT><LEFT>", G_NO_REMAP) -- live grep level up from cwd (default is 1)
-map("n", "<LEADER>GR", "<cmd>lua require('custom/fzf').grepLevel(-1, 2)<CR>", G_NO_REMAP)                 -- live grep git root
+map("n", "<LEADER>Gr", "<cmd>lua require('custom/fzf').liveGrepLevel(0)<CR>", G_NO_REMAP)                  -- live grep cwd
+map("n", "<LEADER>GGr", ":lua require('custom/fzf').liveGrepLevel()<LEFT>", G_NO_REMAP) -- live grep level up from cwd (default is 1)
+map("n", "<LEADER>GR", "<cmd>lua require('custom/fzf').liveGrepLevel(-1)<CR>", G_NO_REMAP)                 -- live grep git root
 
 -- map("n", "<LEADER>V", 'viw"*y<ESC>', G_SILENT_NO_REMAP)  -- copy word
 -- map("n", "<LEADER>v", 'viW"*y<ESC>', G_SILENT_NO_REMAP)  -- copy WORD
