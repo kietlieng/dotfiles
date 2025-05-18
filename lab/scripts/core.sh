@@ -1316,9 +1316,18 @@ function wondertitle() {
 function o() {
 
   if [[ $# -gt 0 ]]; then
-    open $1
+
+    while [[ $# -gt 0 ]]; do
+
+      open $1
+      shift
+
+    done
+
     return
+
   fi
+
   open .
 
 }
