@@ -64,10 +64,10 @@ map("n", "<LEADER>,", 'mlv^"*y<CR>`l', G_SILENT_NO_REMAP)                       
 map("n", "<LEADER>rt", "<cmd>lua require('custom/fzf').readFiles('tmp')<CR>", G_SILENT_NO_REMAP)     -- search from git root
 map("n", "<LEADER>rr", "<cmd>lua require('custom/fzf').readFiles('')<CR>", G_SILENT_NO_REMAP)     -- search from git root
 map("n", "<LEADER>RR", "<cmd>lua require('custom/fzf').readFiles('currentFileDirectory')<CR>", G_SILENT_NO_REMAP)     -- search from git root
-map("n", "<LEADER>rj", "<cmd>lua require('custom/fzf').readJumpFiles()<CR>", G_SILENT_NO_REMAP)     -- search from git root
+map("n", "<LEADER>JJ", "<cmd>lua require('custom/fzf').readJumpFiles()<CR>", G_SILENT_NO_REMAP)     -- search from git root
 map("n", "<LEADER>jj", "<cmd>lua require('custom/fzf').openJumpFiles()<CR>", G_SILENT_NO_REMAP)     -- Jump script to vim :) 
 map("n", "<LEADER>jw", "<cmd>lua require('custom/fzf').openWorkingJumpFile()<CR>", G_SILENT_NO_REMAP)     -- Jump script to vim :) 
-map("n", "<LEADER>XX", "<cmd>lua require('custom/fzf').preview()<CR>", G_SILENT_NO_REMAP)     -- Jump script to vim :) 
+-- map("n", "<LEADER>XX", "<cmd>lua require('custom/fzf').preview()<CR>", G_SILENT_NO_REMAP)     -- doesn't do anything just testing preview on the same buffer
 
 -- fzf to move around
 map("n", "<LEADER>jbig", ":lua require('custom/fzf').dirJump('bigip')<CR>", G_SILENT_NO_REMAP)
