@@ -1,9 +1,10 @@
 local F = {}
 local fzf = require("fzf")
+local fzflua = require("fzf-lua")
 
 function F.buffers()
 
-  require('fzf-lua').buffers({
+  fzflua.buffers({
     actions = {
       -- default action (on <Enter>)
       ['default'] = function(selected, _)
@@ -19,6 +20,25 @@ function F.buffers()
 
 end
 
+function F.preview()
+
+  fzflua.blines {
+    winopts = {
+      height = 0.6,
+      width = 0.5,
+      preview = { vertical = 'up:70%' },
+      -- Disable Treesitter highlighting for the matches.
+      treesitter = {
+        enabled = false,
+        fzf_colors = { ['fg'] = { 'fg', 'CursorLine' }, ['bg'] = { 'bg', 'Normal' } },
+      },
+    },
+    fzf_opts = {
+      ['--layout'] = 'reverse',
+    },
+  }
+
+end
 
 function F.liveGrepLevel(fLevel)
 
@@ -70,14 +90,14 @@ function F.grepLevel(fLevel, aFuzzy)
 
   if aFuzzy == 2 then
 
-    require('fzf-lua').live_grep({
+    fzflua.live_grep({
       prompt = "live ",
       cwd = pprompt,
     })
 
   else
 
-    require('fzf-lua').grep_visual({
+    fzflua.grep_visual({
       prompt = "fzf ",
       cwd = pprompt,
     })
@@ -137,13 +157,12 @@ function F.dirDepthJump(aDepth)
 
   if dirExpression == "" then
 
-    require('fzf-lua').files({
-    })
+    fzflua.files({})
     -- print(dirExpression)
 
   else
 
-    require('fzf-lua').files({
+    fzflua.files({
       cwd = vim.fn.expand(dirExpression),
     })
     -- print(value)
@@ -180,7 +199,7 @@ function F.dirJump(aTarget)
     dirTarget = "~/lab/repos/irules-engine/modules"
   end
 
-  require('fzf-lua').files({
+  fzflua.files({
     cwd = dirTarget,
   })
 
@@ -209,24 +228,33 @@ end
 
 function F.readJumpFiles()
 
-  local jumpResults = ''
+  local jumpPath = ''
   local results = ''
   coroutine.wrap(function()
 
-    jumpResults = fzf.fzf("cat ~/.jumpscript | awk -F'^' '{print $2}'", "--ansi")
-    if jumpResults then
+    jumpPath = fzf.fzf("cat ~/.jumpscript | awk -F'^' '{print $2}'", "--ansi")
 
-        local results = fzf.fzf("rg --files " .. jumpResults[1], "--ansi")
+    if jumpPath then
 
-        if results then
-          vim.cmd(':r ' .. results[1])
-        end
+      fzflua.fzf_exec("eza --all --sort=modified -1 --icons --git  --only-files " .. jumpPath[1], {
+        prompt = "",
+        actions = {
+          ["default"] = function(selected)
+            local filename = selected[1]
+            local fullPath = jumpPath[1] .. "/" .. filename
+
+            -- vim.cmd(':r ' .. fullPath)
+            local lines = vim.fn.readfile(fullPath)
+            vim.api.nvim_put(lines, "l", true, true)  -- insert below cursor
+
+          end
+        }
+      })
 
     end
   end)()
 
 end
-
 
 function F.openJumpFiles()
 
@@ -234,7 +262,7 @@ function F.openJumpFiles()
   coroutine.wrap(function()
     jumpResults = fzf.fzf("cat ~/.jumpscript | awk -F'^' '{print $2}'", "--ansi")
     if jumpResults then
-        require('fzf-lua').files({
+        fzflua.files({
           cwd = vim.fn.expand(jumpResults[1]),
         })
 
@@ -253,7 +281,7 @@ function F.openWorkingJumpFile()
   jumpResults = fOutput:read('*all')
   fOutput:close()
 
-  require('fzf-lua').files({
+  fzflua.files({
     cwd = jumpResults
   })
 
