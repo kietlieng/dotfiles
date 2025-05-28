@@ -1,4 +1,9 @@
 [[manager.prepend_keymap]]
+on   = ["d", "d"]
+run  = "remove --force"
+desc = "force delete"
+
+[[manager.prepend_keymap]]
 on = "H"
 run = "plugin duckdb -1"
 desc = "Scroll one column to the left"

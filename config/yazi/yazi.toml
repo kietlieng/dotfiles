@@ -40,3 +40,17 @@ prepend_previewers = [
 
 ]
 
+[manager]
+ratio = [1, 2, 5]
+sort_by = "mtime"
+linemode = "size"
+show_hidden = true
+
+[input]
+cursor_blink = true
+
+[preview] # preview window
+# tab_size = 4
+image_quality = 90
+max_width = 2000
+max_height = 2000

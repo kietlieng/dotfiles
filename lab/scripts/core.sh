@@ -618,7 +618,8 @@ function gr() {
 function f() {
 
     searchexpression="*"
-    optionOpen='f'
+    modeOpen=''
+    modeRemove=''
 
 
     while [[ $# -gt 0 ]]; do
@@ -628,8 +629,14 @@ function f() {
         case $key in
 
             '-o' )
-                optionOpen='t'
+                modeOpen='t'
                 ;;
+
+            '-rm' )
+                modeRemove='t'
+                ;;
+
+            
 
             * )
                 searchexpression="$searchexpression${key}*"
@@ -641,7 +648,12 @@ function f() {
 
     if [[ $searchExpression != '*' ]]; then
 
-      if [[ $optionOpen == 't' ]]; then
+      if [[ $modeRemove == 't' ]]; then
+
+        echo "find . -iname \"$searchexpression\" -exec rm {} \\;"
+        find . -iname $searchexpression -exec rm {} \;
+
+      elif [[ $modeOpen == 't' ]]; then
         echo "find . -iname \"$searchexpression\" -exec open {} \\;"
         find . -iname $searchexpression -exec open {} \;
       else
@@ -1451,3 +1463,6 @@ function frename() {
 
 }
 
+function ccat() {
+  cat $1 | pbcopy
+}
