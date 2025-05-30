@@ -10,7 +10,7 @@ function w() {
   local modeHere=''
 
   local currentWallpaper=''
-  local currentDirectory=''
+  local currentDirectory="$WALLPAPER_ANIME_DIRECTORY"
 
   local key=''
 
@@ -103,7 +103,13 @@ function w() {
   # wn -off
   echo -n "$currentDirectory/$currentWallpaper" | pbcopy
   echo "wallpaper: $currentWallpaper"
-  kitty @ set-background-image --configured --layout configured "$currentDirectory/$currentWallpaper"
+
+  if [[ $currentWallpaper ]]; then
+    kitty @ set-background-image --configured --layout configured "$currentDirectory/$currentWallpaper"
+  else
+    echo "No wallpaper in directory $currentDirectory"
+    echo "\e]66;s=3;No more wallpaper \a\n\n\n\n($currentDirectory)\a\n\n\n"
+  fi
   # kitten @ set-background-opacity
 
 }
@@ -137,8 +143,7 @@ function wn() {
 
   done
 
-  echo "moving $wpLink >"
-  echo "$WALLPAPER_NOT_DIRECTORY"
+  echo "moving $wpLink > $WALLPAPER_NOT_DIRECTORY"
   mv "$wpLink" "$WALLPAPER_NOT_DIRECTORY/."
 
   wm
@@ -153,7 +158,7 @@ function wn() {
 function wy() {
 
   local wpLink=$(pbpaste)
-  echo "saving $wpLink into $WALLPAPER_SAVES_DIRECTORY"
+  echo "saving $wpLink > $WALLPAPER_SAVES_DIRECTORY"
   mv "$wpLink" "$WALLPAPER_SAVES_DIRECTORY/."
 
   w
