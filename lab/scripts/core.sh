@@ -45,16 +45,16 @@ function eignore() {
 
 # find docker file
 function ed() {
-    vfile "Dockerfile"
+    gfile "Dockerfile"
 }
 
 # edit ci yaml file without looking
 function ec() {
-    vfile ".gitlab-ci.yml"
+    gfile ".gitlab-ci.yml"
 }
 
 # go up to root folder and find a file
-function vfile() {
+function gfile() {
 
     local currentFolder=$(pwd)
     local rootFolder=$(gitrootfolder)
@@ -86,6 +86,7 @@ function vfile() {
     if [[ $modeNoFiles ]]; then
        becho "$searchExpression not found"
     fi
+
 }
 
 
@@ -482,10 +483,13 @@ function grab() {
 
 }
 
-function replaceall() { # from the target ($1), replace ($2) with value ($3)
+function srabc() { # from the target ($1), replace ($2) with value ($3)
 
   local searchTarget="$1"
-  searchTarget=$(echo "$searchTarget" | sed "s/$2/$3/g")
+  local searchFor="${2:= }"
+  local replaceFor="${3:=_}"
+
+  searchTarget=$(echo "$searchTarget" | sed "s/$searchFor/$replaceFor/g")
   echo "$searchTarget" 
 
 }
@@ -1283,7 +1287,7 @@ function termmask() {
 }
 
 # grep environment variable
-function xenv() {
+function envx() {
   env | fzf
 }
 
