@@ -40,7 +40,7 @@ prepend_previewers = [
 
 ]
 
-[manager]
+[mgr]
 ratio = [1, 2, 5]
 sort_by = "mtime"
 linemode = "size"
