@@ -655,7 +655,8 @@ generate_color() {
 KL_RANDOM=0
 
 kl_genrandom() {
-  KL_RANDOM=$(openssl rand 4 | od -DAn | xargs)
+  # KL_RANDOM=$(openssl rand 4 | od -DAn | xargs)
+  KL_RANDOM=$RANDOM
 }
 
 generate_emoji() {
