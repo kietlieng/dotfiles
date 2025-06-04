@@ -95,7 +95,7 @@ source $ZSH/oh-my-zsh.sh
 # used to do autocompletion but the startup time for those are about 4 milliseconds on startup time
 #fpath=(~/lab/scripts/autocompletion $fpath)
 #autoload -U compinit
-#compinit
+compinit
 
 # export MANPATH="/usr/local/man:$MANPATH"
 # You may need to manually set your language environment

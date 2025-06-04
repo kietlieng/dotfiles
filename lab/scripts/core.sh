@@ -543,6 +543,7 @@ function gr() {
                 searchCICD='t'
                 ;;
             # check to see if number
+            # context before and after
             +([0-9]) ) 
 
               if [[ $modeFound ]]; then
@@ -813,41 +814,6 @@ function jot() {
       fi
 
     fi
-
-}
-
-function eimage() {
-
-  local fzfDefaultCommandBackup=$FZF_DEFAULT_COMMAND
-#  unset FZF_DEFAULT_COMMAND
-
-  local currentDir=$(pwd)
-  local output=$(ls -1t | fzf --preview='kitten icat --clear --transfer-mode=memory --stdin=no --place=${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@65x10 {} > /dev/tty')
-#  ls -1t | fzf --preview='kitten icat --clear --transfer-mode=memory --stdin=no --place=${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@65x10 {} > /dev/tty'
-  ref -f $currentDir/$output 
-#  echo "output $output"
-
-#  export FZF_DEFAULT_COMMAND=$fzfDefaultCommandBackup
-
-}
-
-function eshot() {
-
-  local currentDir=$(pwd)
-
-  local fzfDefaultCommandBackup=$FZF_DEFAULT_COMMAND
-#  unset FZF_DEFAULT_COMMAND
-
-  cd $HOME/lab/screenshots
-  local screenDir=$(pwd)
-  local output=$(ls -1t | fzf --preview='kitten icat --clear --transfer-mode=memory --stdin=no --place=${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@65x10 {} > /dev/tty')
-#  ls -1t | fzf --preview='kitten icat --clear --transfer-mode=memory --stdin=no --place=${FZF_PREVIEW_COLUMNS}x${FZF_PREVIEW_LINES}@65x10 {} > /dev/tty'
-  ref -f $screenDir/$output 
-  echo "output $output"
-
-#  export FZF_DEFAULT_COMMAND=$fzfDefaultCommandBackup
-
-  cd $currentDir 
 
 }
 
