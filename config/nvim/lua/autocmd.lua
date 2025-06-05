@@ -1,35 +1,3 @@
------ LAZY END -----
-
--- AUTO COMMANDS BEGIN
-
--- vim.api.nvim_create_autocmd({'TextChanged', 'textChangedI'}, { pattern = '<buffer>', command = 'silent update' })  -- doesn't work all the time only on first buffer
-vim.api.nvim_create_autocmd( { 'BufNewFile', 'BufRead' }, { pattern = '*.md', command = 'call NotePreview()', })      -- run the watch command when detecting markup
-vim.api.nvim_create_autocmd( { 'VimEnter' }, { pattern = '*', command = ':normal zz' })
-
-vim.api.nvim_create_autocmd( { 'BufWinEnter' }, -- disable yaml if buf path has the following
-  { pattern = { '*.yaml', '*.yml' },
-  callback = function()
-
-    local bufferRepo = vim.fn.expand('%:p')
-
-    --vim.api.nvim_out_write(bufferRepo .. "\n") -- debug
-
-    -- if you find it shut it down
-    if (string.find(bufferRepo, "dns%-internal%-dev")) or
-       (string.find(bufferRepo, "public%-dns%-repo")) or
-       (string.find(bufferRepo, "dns%-internal%-prod")) then
-
-      -- vim.cmd(':LspStop ' .. vim.fn.bufnr('%'))
-
-    end
-  end,
-
-  }
-
-)
-
--- AUTO COMMANDS END
-
 -- COMMAND BEGIN
 
 vim.cmd([[
@@ -97,11 +65,11 @@ vim.cmd([[
               "" preview mind map
               let l:previewing=1
               :CocCommand markmap.watch
-              :AsyncRun callkittyfocus.sh
+              :AsyncRun callkittyfocus
           else " preview markdown
               let l:previewing=1
               :MarkdownPreview
-              :AsyncRun callkittyfocus.sh
+              :AsyncRun callkittyfocus
           endif
       endif
 
@@ -110,7 +78,7 @@ vim.cmd([[
       " :) I love this! Runs in the background with no hesitations whatsoever
       " requires asyncrun plugin
       if (l:previewing)
-          :AsyncRun callopenbook.sh '%:r'
+          :AsyncRun callopenbook '%:r'
       endif
 
   endfunction
@@ -164,4 +132,35 @@ vim.cmd([[
 
 ]])
 -- COMMAND END
+
+-- AUTO COMMANDS BEGIN
+
+-- vim.api.nvim_create_autocmd({'TextChanged', 'textChangedI'}, { pattern = '<buffer>', command = 'silent update' })  -- doesn't work all the time only on first buffer
+
+vim.api.nvim_create_autocmd( { 'BufNewFile', 'BufRead' }, { pattern = '*.md', command = 'call NotePreview()', })      -- run the watch command when detecting markup
+vim.api.nvim_create_autocmd( { 'VimEnter' }, { pattern = '*', command = ':normal zz' })
+
+vim.api.nvim_create_autocmd( { 'BufWinEnter' }, -- disable yaml if buf path has the following
+  { pattern = { '*.yaml', '*.yml' },
+  callback = function()
+
+    local bufferRepo = vim.fn.expand('%:p')
+
+    --vim.api.nvim_out_write(bufferRepo .. "\n") -- debug
+
+    -- if you find it shut it down
+    if (string.find(bufferRepo, "dns%-internal%-dev")) or
+       (string.find(bufferRepo, "public%-dns%-repo")) or
+       (string.find(bufferRepo, "dns%-internal%-prod")) then
+
+      -- vim.cmd(':LspStop ' .. vim.fn.bufnr('%'))
+
+    end
+  end,
+
+  }
+
+)
+
+-- AUTO COMMANDS END
 
