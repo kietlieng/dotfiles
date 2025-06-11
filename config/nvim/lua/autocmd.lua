@@ -137,7 +137,8 @@ vim.cmd([[
 
 -- vim.api.nvim_create_autocmd({'TextChanged', 'textChangedI'}, { pattern = '<buffer>', command = 'silent update' })  -- doesn't work all the time only on first buffer
 
-vim.api.nvim_create_autocmd( { 'BufNewFile', 'BufRead' }, { pattern = '*.md', command = 'call NotePreview()', })      -- run the watch command when detecting markup
+-- commenting out
+-- vim.api.nvim_create_autocmd( { 'BufNewFile', 'BufRead' }, { pattern = '*.md', command = 'call NotePreview()', })      -- run the watch command when detecting markup
 vim.api.nvim_create_autocmd( { 'VimEnter' }, { pattern = '*', command = ':normal zz' })
 
 vim.api.nvim_create_autocmd( { 'BufWinEnter' }, -- disable yaml if buf path has the following

@@ -80,6 +80,7 @@ map("n", "<LEADER>jtm", ":lua require('custom/fzf').dirJump('tmuxp')<CR>", G_SIL
 map("n", "<C-c>", "ciw", G_SILENT_NO_REMAP) -- change a word
 map("n", "<C-y>", "yygccp", G_SILENT_REMAP) -- duplicate line and commentout
 map("n", "<LEADER>wr", ":set wrap!<CR>", G_SILENT_NO_REMAP) -- zk copy
+map("n", "<LEADER>D", "mcDO<ESC>p`c", G_SILENT_NO_REMAP) -- zk copy
 
 ----- comment code
 -- tips to comment out code use gcc.  Dude this just deleted my comment lua script

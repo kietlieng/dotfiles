@@ -1,7 +1,6 @@
 alias gD='git -c diff.external=difft diff --staged'
 alias gHash="git rev-parse HEAD && git rev-parse HEAD | pbcopy"
 alias gP='gpush'
-alias ga='git add -f' # -f is for force add
 alias gbr='g -branch'
 alias gco='git checkout '
 alias gd='git -c diff.external=difft diff'
@@ -27,6 +26,30 @@ alias gtrack="git update-index --no-assume-unchanged "
 alias guadd='git restore --staged'
 alias guntrack="git update-index --assume-unchanged "
 alias guntracklist="git ls-files -v | grep \"^[[:lower:]]\""
+
+function ga() {
+
+  # if we have 
+  if [[ $# -gt 0 ]]; then
+
+    # -f is for force add  
+    git add -f $@
+
+  else
+
+    # filesToEdit=$(git status --porcelain | awk '{print $2}' | fzf --multi)
+    git status --porcelain | awk '{print $2}' | fzf --multi | while read fileSelected; do
+
+      echo "files selected $fileSelected"
+      git add -f $fileSelected
+
+    done
+
+  fi
+
+
+}
+
 
 # commit message inline or via editor
 function gacom() {
