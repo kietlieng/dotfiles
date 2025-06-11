@@ -321,6 +321,17 @@ function eroot() {
 }
 
 
+function edif() {
+
+  preview="git diff $@ --color=always -- {-1}"
+  # git status --porcelain | awk '{print $2}' | fzf --multi | while read fileSelected; do
+  git status --porcelain | awk '{print $2}' | git diff $@ --name-only | fzf -m --ansi --preview $preview | while read fileSelected; do
+
+  # git diff $@ --name-only | fzf -m --ansi --preview $preview
+  done
+
+}
+
 function er() {
 
   # ripgrep->fzf->vim [QUERY]

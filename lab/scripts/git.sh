@@ -2,7 +2,7 @@ alias gD='git -c diff.external=difft diff --staged'
 alias gHash="git rev-parse HEAD && git rev-parse HEAD | pbcopy"
 alias gP='gpush'
 alias gbr='g -branch'
-alias gco='git checkout '
+# alias gco='git checkout '
 alias gd='git -c diff.external=difft diff'
 alias gdstaged='git -c diff.external=difft diff --staged'
 alias gfetch="git fetch --all"
@@ -27,6 +27,23 @@ alias guadd='git restore --staged'
 alias guntrack="git update-index --assume-unchanged "
 alias guntracklist="git ls-files -v | grep \"^[[:lower:]]\""
 
+function gco() {
+
+  if [[ $# -gt 0 ]]; then
+
+    git checkout $@
+  
+  else
+
+    local preview="git diff $@ --color=always -- {-1}"
+    git status --porcelain | awk '{print $2}' | git diff $@ --name-only | fzf --multi --ansi --preview $preview | while read fileSelected; do
+      git checkout $fileSelected
+    done
+
+  fi
+
+}
+
 function ga() {
 
   # if we have 
@@ -37,10 +54,9 @@ function ga() {
 
   else
 
-    # filesToEdit=$(git status --porcelain | awk '{print $2}' | fzf --multi)
-    git status --porcelain | awk '{print $2}' | fzf --multi | while read fileSelected; do
+    local preview="git diff $@ --color=always -- {-1}"
+    git status --porcelain | awk '{print $2}' | git diff $@ --name-only | fzf --multi --ansi --preview $preview | while read fileSelected; do
 
-      echo "files selected $fileSelected"
       git add -f $fileSelected
 
     done
