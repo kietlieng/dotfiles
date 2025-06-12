@@ -125,6 +125,7 @@
 #"<(-''-)>" # kirby 
 #'𐤔ᜠᜰ_ᯓࡄ󰄰 ' '𐤔ᜠᜰ_ᯓࡄ ' '𐤔ᜠᜰ_ᯓࡄ  ' # sonic
 #'𐤔ᜠᜰ_ᯓࡄ ' # sonic
+#'𐤔ᜠᜰ_ᯓࡄ󰇩 ' # sonic
 #' ⦿๏ ᯓ㋨' # metroid morph ball
 #'⦿ ๏໐ᯓ㋨' # metroid morph ball
 
@@ -310,9 +311,9 @@ KL_STATUS_ICON_SYMBOL_ARRAY=('(⌐󱪶 Ⲻ󱪶 )' '🭋- -🭀' '(⌐〇_〇)
 
 # MISC
 KL_STATUS_ANIMALS_SYMBOL_ARRAY=('꧈⭜ 󰻃 𐠛 ' 'ࡄࡄࡄɅࡄ')
-KL_STATUS_GAME_SYMBOL_ARRAY=('ꟻ[S]F' '⦿ ๏໐ᯓ㋨' '  ' '[ ][ ][ ][忍]' '󱃏  ♥ ♡ ♡' '🮲🭰🭵🮳' '[+..••]' "<(-''-)>" '𐤔ᜠᜰ_ᯓࡄ󰄰 ' 'ଲଳ.󱆨󰗣󱆨.' '󰣎 󰣏 󰣐 󰣑 ' '𜰥𜰤𜰤𜰡𜰥𜰤𜰡𜰡𜰡𜰡𜰤𜰥𜰤 𜰥𜰥' '⭣⭨ ⭢ Ⓗ   ' '⮅ ⮇ ⭾ ⭾ Ⓑ Ⓐ ' '󰡗 󰡚 󰡛 󰡜 󰡘 󰡙' '󱙜 󰧵 ᯓ󰮯 ●ᯓ󱙝 ᯓ󰊠 ' 'ᯓ〛ⱃ⳻)' '𜹠𜹤𜹥 ᛩ ⛫ ' ' ⟭ᕲৡࡇ -𒊹𖣇' '██▇▄ 𝈠𝅈︺🯝 𝇇🯣' '🭊🬹🬿＿🭈🬽󱄟 ')
+KL_STATUS_GAMES_SYMBOL_ARRAY=('ꟻ[S]F' '⦿ ๏໐ᯓ㋨' '  ' '[ ][ ][ ][忍]' '󱃏  ♥ ♡ ♡' '🮲🭰🭵🮳' '[+..••]' "<(-''-)>" '𐤔ᜠᜰ_ᯓࡄ󰇩 ' 'ଲଳ.󱆨󰗣󱆨.' '󰣎 󰣏 󰣐 󰣑 ' '𜰥𜰤𜰤𜰡𜰥𜰤𜰡𜰡𜰡𜰡𜰤𜰥𜰤 𜰥𜰥' '⭣⭨ ⭢ Ⓗ   ' '⮅ ⮇ ⭾ ⭾ Ⓑ Ⓐ ' '󰡗 󰡚 󰡛 󰡜 󰡘 󰡙' '󱙜 󰧵 ᯓ󰮯 ●ᯓ󱙝 ᯓ󰊠 ' 'ᯓ〛ⱃ⳻)' '𜹠𜹤𜹥 ᛩ ⛫ ' ' ⟭ᕲৡࡇ -𒊹𖣇' '██▇▄ 𝈠𝅈︺🯝 𝇇🯣' '🭊🬹🬿＿🭈🬽󱄟 ')
 
-KL_STATUS_SYMBOL_ARRAY=($KL_STATUS_GAME_SYMBOL_ARRAY)
+KL_STATUS_SYMBOL_ARRAY=($KL_STATUS_GAMES_SYMBOL_ARRAY)
 # evil pack
  # KL_STATUS_SYMBOL_ARRAY=('🭇🬛' '⟍ 🭢🭗🭇🬼🭢🭗⟋ ' '   ' '󰇆 ')
 

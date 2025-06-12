@@ -1,0 +1,12 @@
+[user]
+	email = klieng@paciolan.com
+	name = klieng
+[alias]
+	up = "!git remote update -p; git merge --ff-only @{u}"
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+[credential]
+	helper = store

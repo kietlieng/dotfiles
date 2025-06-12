@@ -79,9 +79,10 @@ function cpdot() {
     cd $dBrewDir
     brew bundle dump
 
-#    cp ~/.tmux.conf ${dFileDir}/.
+    cp ~/.gitconfig ${dFileDir}/.
     cp ~/.yabairc ${dFileDir}/.
     cp ~/.zshrc ${dFileDir}/.
+#    cp ~/.tmux.conf ${dFileDir}/.
 
     # copy init
 
