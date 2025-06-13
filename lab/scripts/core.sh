@@ -21,6 +21,9 @@ alias eeeee="e 5"
 alias ex="e -g"
 alias fo="f -o"
 
+export BAT_PREVIEW1="git diff "
+export BAT_PREVIEW2="--color=always -- {-1}"
+
 # edit git file
 function egit() {
 

@@ -328,7 +328,7 @@ function tstates() {
 }
 
 
-function tunlock() {
+function tflock() {
   
   lockID=$(tapply 2>&1 | grep -A 100 -i "Lock Info:" | grep -io "ID:.*" | awk '{print $2}')
   echo "lockId $lockID"

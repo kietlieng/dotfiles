@@ -91,11 +91,13 @@ map("n", "<LEADER>CC", "mcggVGgc<CR>`c", G_SILENT_REMAP)                        
 map("v", "<LEADER>CC", ":lua require('custom/comments').comments(false, false, true, true, true)<CR>", G_SILENT_NO_REMAP)        -- global comment invert
 map("n", "<LEADER>bc", "mcvipgc<CR>`c", G_SILENT_REMAP)                                                                   -- block comment
 map("n", "<LEADER>bC", ":lua require('custom/comments').comments(true, true, false, true, false, true)<CR>", G_SILENT_NO_REMAP)  -- select block, comment out invert of block
+map("v", "<LEADER>bc", "gc<CR>", G_SILENT_REMAP)                                                                   -- block comment
 
 map("n", "<LEADER>ba", "vip<C-v>$A", G_SILENT_NO_REMAP)             -- block insert end
 map("n", "<LEADER>bb", "vip<C-v>^o", G_SILENT_NO_REMAP)             -- block
 map("n", "<LEADER>bi", "Vip<C-v>I", G_SILENT_NO_REMAP)              -- block insert beginning
 map("n", "<LEADER>bs", "mcvip:'<,'>sort<CR>`c", G_SILENT_NO_REMAP)  -- block sort
+map("v", "<LEADER>bs", ":'<,'>sort<CR>", G_SILENT_NO_REMAP)  -- block sort
 map("n", "<LEADER>bt", "mcvip:'<,'>Tabularize/=", G_NO_REMAP)       -- table
 map("n", "<LEADER>bT", "mcvip:'<,'>Tabularize/=<LEFT>", G_NO_REMAP) -- table. Position at the beginning
 map("v", "<LEADER>bt", ":Tabularize/=", G_NO_REMAP)                 -- table visual

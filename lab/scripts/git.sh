@@ -35,9 +35,10 @@ function gco() {
   
   else
 
-    local preview="git diff $@ --color=always -- {-1}"
-    git status --porcelain | awk '{print $2}' | git diff $@ --name-only | fzf --multi --ansi --preview $preview | while read fileSelected; do
+    git status --porcelain | awk '{print $2}' | git diff $@ --name-only | fzf --multi --ansi --preview "$BAT_PREVIEW1 $@ $BAT_PREVIEW2" | while read fileSelected; do
+
       git checkout $fileSelected
+
     done
 
   fi
@@ -54,8 +55,7 @@ function ga() {
 
   else
 
-    local preview="git diff $@ --color=always -- {-1}"
-    git status --porcelain | awk '{print $2}' | git diff $@ --name-only | fzf --multi --ansi --preview $preview | while read fileSelected; do
+    git status --porcelain | awk '{print $2}' | git diff $@ --name-only | fzf --multi --ansi --preview "$BAT_PREVIEW1 $@ $BAT_PREVIEW2" | while read fileSelected; do
 
       git add -f $fileSelected
 
@@ -102,9 +102,11 @@ function gcom() {
 }
 
 function gwarn() {
+
   git config pull.rebase false  # merge (the default strategy)
   git config pull.rebase true   # rebase
   git config pull.ff only       # fast-forward only
+
 }
 
 # hard reset
