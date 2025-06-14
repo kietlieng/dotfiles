@@ -20,9 +20,7 @@ alias e5="e 5"
 alias eeeee="e 5"
 alias ex="e -g"
 alias fo="f -o"
-
-export BAT_PREVIEW1="git diff "
-export BAT_PREVIEW2="--color=always -- {-1}"
+alias zcomp="rm ~/.zcompdump*"
 
 # edit git file
 function egit() {

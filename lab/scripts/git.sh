@@ -27,6 +27,9 @@ alias guadd='git restore --staged'
 alias guntrack="git update-index --assume-unchanged "
 alias guntracklist="git ls-files -v | grep \"^[[:lower:]]\""
 
+export BAT_PREVIEW1="git diff "
+export BAT_PREVIEW2="--color=always -- {-1}"
+
 function gco() {
 
   if [[ $# -gt 0 ]]; then
