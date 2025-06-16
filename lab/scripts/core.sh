@@ -20,7 +20,7 @@ alias e5="e 5"
 alias eeeee="e 5"
 alias ex="e -g"
 alias fo="f -o"
-alias zcomp="rm ~/.zcompdump*"
+alias zclear="yes | rm ~/.zcompdump*"
 
 # edit git file
 function egit() {
