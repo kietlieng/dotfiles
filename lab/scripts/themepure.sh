@@ -161,10 +161,10 @@
 #'󱠡   ' '󱠢   ' # rock paper scissors
 #'󱠢   ' # rock paper scissors
 
-#'󱃏 󰓥    ' # zelda
 #'󱃏 󰓥 ♥ ♥ ♡ ' # zelda
 #'󱃏  ♥ ♥ ♡ 󱡀 󱡁 ' # zelda
 #'󱃏 󰓥 ♥ ♥ ♡ 󱡀 󱡁 ' # zelda
+#'󱃏 󰓥 ♥ ♥ ♡' # zelda
 
 #'󱩁  ' # strider
 #'ᯓ〛ⱃ⳻)' # mario bullet
@@ -304,9 +304,10 @@ KL_STATUS_ICON_SYMBOL_ARRAY=('(⌐󱪶 Ⲻ󱪶 )' '🭋- -🭀' '(⌐〇_〇)
 
 # MISC
 KL_STATUS_ANIMALS_SYMBOL_ARRAY=('꧈⭜ 󰻃 𐠛 ' 'ࡄࡄࡄɅࡄ')
-KL_STATUS_GAMES_SYMBOL_ARRAY=('ꟻ[S]F' '⦿ ๏໐ᯓ㋨' '  ' '[ ][ ][ ][忍]' '󱃏  ♥ ♡ ♡' '🮲🭰🭵🮳' '[+..••]' "<(-''-)>" '𐤔ᜠᜰ_ᯓࡄ󰇩 ' 'ଲଳ.󱆨󰗣󱆨.' '󰣎 󰣏 󰣐 󰣑 ' '𜰥𜰤𜰤𜰡𜰥𜰤𜰡𜰡𜰡𜰡𜰤𜰥𜰤 𜰥𜰥' '⭣⭨ ⭢ Ⓗ   ' '⮅ ⮇ ⭾ ⭾ Ⓑ Ⓐ ' '󰡗 󰡚 󰡛 󰡜 󰡘 󰡙' '󱙜 󰧵 ᯓ󰮯 ●ᯓ󱙝 ᯓ󰊠 ' 'ᯓ〛ⱃ⳻)' '𜹠𜹤𜹥 ᛩ ⛫ ' ' ⟭ᕲৡࡇ -𒊹𖣇' '██▇▄ 𝈠𝅈︺🯝 𝇇🯣' '🭊🬹🬿＿🭈🬽󱄟 ')
+KL_STATUS_GAMES_SYMBOL_ARRAY=('ꟻ[S]F' '⦿ ๏໐ᯓ㋨' '  ' '[ ][ ][ ][忍]' '󱃏 󰓥 ♥ ♥ ♡' '🮲🭰🭵🮳' '[+..••]' "<(-''-)>" '𐤔ᜠᜰ_ᯓࡄ󰇩 ' 'ଲଳ.󱆨󰗣󱆨.' '󰣎 󰣏 󰣐 󰣑 ' '𜰥𜰤𜰤𜰡𜰥𜰤𜰡𜰡𜰡𜰡𜰤𜰥𜰤 𜰥𜰥' '⭣⭨ ⭢ Ⓗ   ' '⮅ ⮇ ⭾ ⭾ Ⓑ Ⓐ ' '󰡗 󰡚 󰡛 󰡜 󰡘 󰡙' '󱙜 󰧵 ᯓ󰮯 ●ᯓ󱙝 ᯓ󰊠 ' 'ᯓ〛ⱃ⳻)' '𜹠𜹤𜹥 ᛩ ⛫ ' ' ⟭ᕲৡࡇ -𒊹𖣇' '██▇▄ 𝈠𝅈︺🯝 𝇇🯣' '🭊🬹🬿＿🭈🬽󱄟 ')
 
 KL_STATUS_SYMBOL_ARRAY=($KL_STATUS_GAMES_SYMBOL_ARRAY)
+
 # evil pack
  # KL_STATUS_SYMBOL_ARRAY=('🭇🬛' '⟍ 🭢🭗🭇🬼🭢🭗⟋ ' '   ' '󰇆 ')
 
@@ -319,8 +320,13 @@ KL_STATUS_SYMBOL_ARRAY=($KL_STATUS_GAMES_SYMBOL_ARRAY)
 # boxes
 # 󰿦 󰿦   󰿠  󱂩 󰹫 󰛲 ⊑⊒ ⊏⊐⁅⁆  ◻ ◼ ⍞ ⍠ ▛▜ 匚匚匚凸凸凸 凹凹凹 凵凵凵 口口囗
 # 🭽🭿 🭼🭿 🭿🭽🭾🭼
-#
-# 🮂🮃🮄
+
+
+# 🮆🮄🮃🮂🮃🮄🮆
+
+# negative space
+# 🭜🭠🭒🭖🭧🭒🭓🭔🭕🭖🭗🭘🭙🭚🭛🭜🭝🭞🭟🭠🭡🭢🭣🭤🭥🭦🭧
+# ᚁᚂᚃᚄᚅ ᚆᚇᚈᚉᚊ ᚋᚌᚍᚎᚏ ෴ 灬 
 
 # animation
 # ㅏ ﹇ ﹈ 
@@ -414,7 +420,6 @@ KL_STATUS_SYMBOL_ARRAY=($KL_STATUS_GAMES_SYMBOL_ARRAY)
 # ⛠ ⛡  ⎖ ⟀ ◿  ◞◟◞◟ ⦜ ⦝ ꣺ ⴿ   ᆚ ᆜ
 #  ﹰ ﹲ ﹶ ﹼ𐹼
 
-
 # waves
 # ◠◡◠◡◡◠◠◡◠◡
 # ⑂⑃⑂⑃⑂⑃⑂⑃⑂⑃
@@ -432,7 +437,7 @@ KL_STATUS_SYMBOL_ARRAY=($KL_STATUS_GAMES_SYMBOL_ARRAY)
 # 🭊🬿 🭈🬽󱖸 
 # 🭊🬿 🭈🬽󰂣
 # 🭊🬹🬿＿＿🭈🮏🬽󱄟
-# 🭊🬹🬿＿＿🭈🬽󱄟
+# 🭊🬹🬿＿🭈🬽󱄟
 
 # heart
 # 󱃠 >
@@ -559,7 +564,7 @@ KL_STATUS_SYMBOL_ARRAY=($KL_STATUS_GAMES_SYMBOL_ARRAY)
 #󰕫 󰕬 󰕭 󰕮 󰕯 󰕰 󰕱 󰕲 󰕳 󰕴 󰕵
 # 󰕮 󰕮 󰕮 󰕮
 
-# trees
+# trees / plants
 #     𐅉     𓐨 𓐩 𓐪 𓐫 ɻ ɻ ༗ 󰔱 󰎏 󰎎 󰹦 
 # 󰹧 󰹩 󱁕 󱔐 󱢗    󰧰 󰧱 󰧲 
 # ෴ ⚘₊˚෴ 𖥧𖤣𖥧෴˚₊𖥧𓋼෴𖤣𓍊𖥧෴˚⋆.𓇗⋆˚෴‧₊˚𓆑

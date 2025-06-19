@@ -13,7 +13,8 @@ function mpx() {
     local fileNameFull=$fileName
     local targetDirectory="$MARKDOWN_MEETING_DIRECTORY"
     echo "screen directory $SCREENSHOT_DIRECTORY"
-    local screenValue=`lsd -tr1 --classic $SCREENSHOT_DIRECTORY | tail -n 1`
+    local screenValue=`eza --all --sort=modified --icons --git $SCREENSHOT_DIRECTORY | tail -n 1 | sed "s/'//g"`
+
     local modeDate='t'
     echo "screen value $screenValue"
 
