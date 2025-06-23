@@ -187,6 +187,13 @@
 #'██▇▄𛰙 𝈳 ︺🯝 🯣' Tron lightcycle
 #'██▇▄ 𝈷𝅈︺🯝 🯣' Tron lightcycle
 #'██▇▄ 𝈠𝅈︺🯝 𝇇🯣' Tron lightcycle
+#'██▇▄ 𝈠𝅈︺🯝 ⧭ 🯣' Tron lightcycle
+#'██▇▄ 𝈠𝅈︺🯝 ⬤  ' Tron lightcycle
+#'██▇▄ 𝈠𝅈︺🯝 ⯖ ' Tron lightcycle
+#'██▇▄ 𝈠𝅈︺🯝  ' Tron lightcycle
+#'██▇▄ 𝈠𝅈︺🯝 ' Tron lightcycle
+#'██▇▄ 𝈠𝅈︺🯝  ' Tron lightcycle
+#'██▇▄() 𝈠𝅈︺🯝  ' Tron lightcycle
 
 #'࿐󰇆 ' '╭╮󰇆 ' # predator
 
@@ -300,13 +307,13 @@
 # pre kreative font
 KL_STATUS_RANDOM_SYMBOL_ARRAY=('󿀭 󿀮 󿀯 ' '󰊠 _' '󱙝 _' '󱌆 󱆊' '󰭥 󱩁 ' '󱅼 🯁🯂🯃' '8[+]' '>(///)<' '(::[]::)' '⋢⋣')
 KL_STATUS_EVIL_SYMBOL_ARRAY=('   ' '🭇🬛' '⟍ 🭢🭗🭇🬼🭢🭗⟋ ' '󱁧 󰣘 󰣙 󰢱 ')
-KL_STATUS_ICON_SYMBOL_ARRAY=('(⌐󱪶 Ⲻ󱪶 )' '🭋- -🭀' '(⌐〇_〇)' '󰇆 ' ' ' '󰗕 󰓟 󰄋 ')
+KL_STATUS_ICON_SYMBOL_ARRAY=('(⌐󱪶 Ⲻ󱪶 )' '🭋- -🭀' '(⌐〇_〇)' '󰇆 ' ' ' '󰗕 󰓟 󰄋 ' '󱁧 󰣘 󰣙 󰢱 ')
 
 # MISC
 KL_STATUS_ANIMALS_SYMBOL_ARRAY=('꧈⭜ 󰻃 𐠛 ' 'ࡄࡄࡄɅࡄ')
 KL_STATUS_GAMES_SYMBOL_ARRAY=('ꟻ[S]F' '⦿ ๏໐ᯓ㋨' '  ' '[ ][ ][ ][忍]' '󱃏 󰓥 ♥ ♥ ♡' '🮲🭰🭵🮳' '[+..••]' "<(-''-)>" '𐤔ᜠᜰ_ᯓࡄ󰇩 ' 'ଲଳ.󱆨󰗣󱆨.' '󰣎 󰣏 󰣐 󰣑 ' '𜰥𜰤𜰤𜰡𜰥𜰤𜰡𜰡𜰡𜰡𜰤𜰥𜰤 𜰥𜰥' '⭣⭨ ⭢ Ⓗ   ' '⮅ ⮇ ⭾ ⭾ Ⓑ Ⓐ ' '󰡗 󰡚 󰡛 󰡜 󰡘 󰡙' '󱙜 󰧵 ᯓ󰮯 ●ᯓ󱙝 ᯓ󰊠 ' 'ᯓ〛ⱃ⳻)' '𜹠𜹤𜹥 ᛩ ⛫ ' ' ⟭ᕲৡࡇ -𒊹𖣇' '██▇▄ 𝈠𝅈︺🯝 𝇇🯣' '🭊🬹🬿＿🭈🬽󱄟 ')
 
-KL_STATUS_SYMBOL_ARRAY=($KL_STATUS_GAMES_SYMBOL_ARRAY)
+KL_STATUS_SYMBOL_ARRAY=($KL_STATUS_ICON_SYMBOL_ARRAY $KL_STATUS_GAMES_SYMBOL_ARRAY)
 
 # evil pack
  # KL_STATUS_SYMBOL_ARRAY=('🭇🬛' '⟍ 🭢🭗🭇🬼🭢🭗⟋ ' '   ' '󰇆 ')
@@ -474,6 +481,8 @@ KL_STATUS_SYMBOL_ARRAY=($KL_STATUS_GAMES_SYMBOL_ARRAY)
 #   
 
 # odd
+# ෫ โ ๆใ ๅไ  
+#      
 #               󰈷 
 #   ..  
 #     𜰸 𜰹 𜰺     𜲦 𜲧 𖭅 𞡽 𑪝𓏵 𝄖 𝄗 𝄘 𝄙 𝄚 𝄛 𛱳𛱴𛱵 𛱰𛱱𛱲
@@ -564,6 +573,9 @@ KL_STATUS_SYMBOL_ARRAY=($KL_STATUS_GAMES_SYMBOL_ARRAY)
 #󰕫 󰕬 󰕭 󰕮 󰕯 󰕰 󰕱 󰕲 󰕳 󰕴 󰕵
 # 󰕮 󰕮 󰕮 󰕮
 
+# clouds
+#  ි ී
+
 # trees / plants
 #     𐅉     𓐨 𓐩 𓐪 𓐫 ɻ ɻ ༗ 󰔱 󰎏 󰎎 󰹦 
 # 󰹧 󰹩 󱁕 󱔐 󱢗    󰧰 󰧱 󰧲 
@@ -634,7 +646,7 @@ KL_STATUS_SYMBOL_ARRAY=($KL_STATUS_GAMES_SYMBOL_ARRAY)
 #'ᑕ||ᑐ' # spam masubi?
 
 # wars
-# 󱁧 󰣘 󰣙 󰢱
+# '󱁧 󰣘 󰣙 󰢱 '
 
 # Flux capacitor
 # 
