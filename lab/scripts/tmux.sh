@@ -2,6 +2,8 @@ alias T='t -a'
 alias TE='t -a -t -embed'
 alias TM='t -a main'
 alias TT='t -a -t'
+alias TTT='t -a -tt'
+alias t2='tt && ttt'
 alias tA='ta -f'
 alias tbrew='t brew'
 alias tdisplayoptions='tmux display-message -a | fzf'
@@ -19,7 +21,25 @@ alias tmv2='tmux new-session \; split-window -h \; select-pane -L \; set-window-
 alias tmv3='tmux new-session \; split-window -h \; split-window -h \; select-pane -R \; set-window-option synchronize-panes on \; select-layout even-horizontal \; attach'
 alias tsource="tmux source ~/.tmux.conf"
 alias tt='t -t'
+alias ttt='t -tt'
+alias a='ta'
 
+function m() {
+
+  local hasMusic=$(tmux ls 2>&1 | grep -i music | awk -F':' '{print $1}')
+
+  # echo $hasMusic
+  if [[ $hasMusic ]]; then
+
+    tmux attach -t "$hasMusic"
+
+  else
+
+    T music
+
+  fi
+
+}
 
 # need watchexec service
 function watchstart() {
@@ -68,6 +88,7 @@ function t() {
   local modeTemplate=''
 
   local currentTemplate=$(cat ~/.tmuxdefault1 | xargs)
+  local secondTemplate=$(cat ~/.tmuxdefault2 | xargs)
 
   while [[ $# -gt 0 ]]; do
 
@@ -79,6 +100,10 @@ function t() {
         ;;
       '-a' ) 
         modeDetach=''
+        shift
+        ;;
+      '-tt' ) 
+        modeTemplate='tt'
         shift
         ;;
       '-t' ) 
@@ -112,6 +137,8 @@ function t() {
 
   if [[ $modeTemplate == 't' ]]; then
     loadTarget="*$currentTemplate*"
+  elif [[ $modeTemplate == 'tt' ]]; then
+    loadTarget="*$secondTemplate*"
   fi
 
 #  echo "|$loadTarget|"
@@ -156,7 +183,7 @@ function t() {
           becho "load template $yFile"
           if [[ $modeDetach == 't' ]]; then
 
-            pecho "tmuxp load -d \"$yFile\""
+            pecho "tmuxp load -d $yFile"
             # tmuxp load -d "$yFile" &!
             tmuxp load -d "$yFile" &
 

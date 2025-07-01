@@ -218,7 +218,7 @@ function e() {
 
   fi
 
-  echo "edit | $vimToEdit"
+  echo "edit $vimToEdit"
 
   if [[ $modeNoEdit != 't' ]]; then
     vim $vimToEdit
