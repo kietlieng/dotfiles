@@ -28,14 +28,13 @@ function m() {
 
   local hasMusic=$(tmux ls 2>&1 | grep -i music | awk -F':' '{print $1}')
 
-  # echo $hasMusic
   if [[ $hasMusic ]]; then
 
     tmux attach -t "$hasMusic"
 
   else
 
-    T music
+    t music
 
   fi
 
