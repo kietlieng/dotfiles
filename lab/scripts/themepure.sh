@@ -154,6 +154,7 @@
 # ' [S] '
 # 'ꟻ[S]F' # contra spread
 # 'ꟻ[S]Fꟻ[L]Fꟻ[M]Fꟻ[B]F' # contra spread
+# '⁅ ⁆ ⃫' # contra spread
 
 #'󰡗 󰡘 󰡙 󰡚 󰡛 󰡜' # chess
 #'󱙜 ᯓ󰮯 ● ᯓ󱙝 ' '󱙜 ᯓ󰮯 ● ᯓ󱙝 ᯓ ' '󱙜 ᯓ󰮯 ● ᯓ󱙝 ᯓ󰊠 ' '󱙜 ᯓ󰮯 ● ᯓ󱙝 ᯓ󰊠 ' '󱙜 󰧵 ᯓ󰮯 ●ᯓ󱙝 ᯓ󰊠 ' # pacman
@@ -208,6 +209,8 @@
 #'⟍ 🭢🭗🭇🬼🭢🭗⟋ ' 
 #'⟍ 🭢🭗🭇🬼🭢🭗⟋ ' 
 #'⟍🙽  🙼  🙽  🙼 ⟋' 
+#'  🙼  🙽  🙼 ⟋' 
+# 
 
 # terminator neural chip 
 #'𐄧𐄧|=' '⁝⁝⁝⁝⁝|=' '⁝|=' '  |=' '󰠵󰠵󰠵󰠵󰠵|=' '󰒋 󰒋 󰒋 󰒋 󰒋|=' '     ' ' '
@@ -234,6 +237,7 @@
 #'󱇄 ꠲󱇂 '
 #'󱇄 🬦🬦󱇂 '
 # 🬦🬦🬦 
+# ❪ⲽ ❫
 
 # '༼⚻༽'  Darth Vader
 # 'ᅔᚃᅕ'  Darth Vader
@@ -481,6 +485,8 @@ KL_STATUS_SYMBOL_ARRAY=($KL_STATUS_ICON_SYMBOL_ARRAY $KL_STATUS_GAMES_SYMBOL_ARR
 #   
 
 # odd
+# ⸽⸽⸾⸾⸾⸾⸽
+# ㇅㇅㇅
 # ෫ โ ๆใ ๅไ  
 #      
 #               󰈷 
