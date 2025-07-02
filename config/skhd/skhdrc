@@ -151,6 +151,17 @@ rctrl - 0 : ~/lab/scripts/calls/ffmax
 #lctrl - a : ~/lab/scripts/calls/scriptcall yswitchmonitor
 lctrl - g : ~/lab/scripts/calls/callyrot
 lctrl + shift - g : ~/lab/scripts/calls/scriptcall yshift -f
+
+# cmus pause
+lctrl - m : ~/lab/scripts/calls/scriptcall m
+# lctrl + shift - m : ~/lab/scripts/calls/scriptcall mk
+
+# # cmus next
+# lctrl - n : ~/lab/scripts/calls/scriptcall mn
+
+# # cmus previous
+# lctrl - p : ~/lab/scripts/calls/scriptcall mr
+
 f12 : ~/lab/scripts/calls/scriptcall ytincrease
 f11 : ~/lab/scripts/calls/scriptcall ytdecrease
 rctrl + shift - e : ~/lab/scripts/calls/scriptcall yf

@@ -1,8 +1,10 @@
-alias mm="cmus-remote -u" # pause
-alias mp="cmus-remote -p" # play
-alias mR="cmus-remote -R" # repeat
-alias mn="cmus-remote -n" # next
-alias mr="cmus-remote -r" # previous
-alias ms="cmus-remote -S" # shuffle
-alias mq="cmus-remote -q" # queue
-alias mraw="cmus-remote --raw" # queue
+# alias mp="cmus-remote -p" # play
+
+alias mm="cmus-remote -u"    # pause
+alias mr="cmus-remote -R"    # repeat
+alias mn="cmus-remote -n"    # next
+alias mp="cmus-remote -r"    # previous
+alias mpp="mp && mp"         # previous 2
+alias ms="cmus-remote -S"    # shuffle
+alias mq="cmus-remote -q"    # queue
+alias mR="cmus-remote --raw" # queue

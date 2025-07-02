@@ -23,14 +23,39 @@ alias tsource="tmux source ~/.tmux.conf"
 alias tt='t -t'
 alias ttt='t -tt'
 alias a='ta'
+alias mk='tk music'
+alias ma='m -a'
 
 function m() {
 
-  local hasMusic=$(tmux ls 2>&1 | grep -i music | awk -F':' '{print $1}')
 
+  local modeAttach=''
+  local key=''
+
+  while [[ $# -gt 0 ]]; do
+
+    key="$1"
+    shift
+
+    case "$key" in
+      '-a') modeAttach='t' ;;
+      *) ;;
+    esac
+
+  done
+
+  local hasMusic=$(tmux ls 2>&1 | grep -i music | awk -F':' '{print $1}')
   if [[ $hasMusic ]]; then
 
-    tmux attach -t "$hasMusic"
+    if [[ $modeAttach ]]; then
+
+      tmux attach -t "$hasMusic"
+
+    else
+
+      mm
+
+    fi
 
   else
 
