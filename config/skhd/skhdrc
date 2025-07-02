@@ -147,20 +147,25 @@ lctrl - 9 : ~/lab/scripts/calls/record
 lctrl - 0 : ~/lab/scripts/calls/ffmax
 rctrl - 0 : ~/lab/scripts/calls/ffmax
 
-# yabai window management
 #lctrl - a : ~/lab/scripts/calls/scriptcall yswitchmonitor
+
+# yabai window management
 lctrl - g : ~/lab/scripts/calls/callyrot
+# yabai flip window
 lctrl + shift - g : ~/lab/scripts/calls/scriptcall yshift -f
 
-# cmus pause
-lctrl - m : ~/lab/scripts/calls/scriptcall m
-# lctrl + shift - m : ~/lab/scripts/calls/scriptcall mk
+# cmus create or pause player
+lctrl - m : ~/lab/scripts/calls/scriptcall m -p 
 
-# # cmus next
-# lctrl - n : ~/lab/scripts/calls/scriptcall mn
+# cmus exit music player
+lctrl + shift - m : ~/lab/scripts/calls/scriptcall mk
 
-# # cmus previous
-# lctrl - p : ~/lab/scripts/calls/scriptcall mr
+# cmus next
+lctrl - b : ~/lab/scripts/calls/scriptcall mn
+
+# cmus previous
+lctrl + shift - b : ~/lab/scripts/calls/scriptcall mp
+
 
 f12 : ~/lab/scripts/calls/scriptcall ytincrease
 f11 : ~/lab/scripts/calls/scriptcall ytdecrease

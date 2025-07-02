@@ -30,6 +30,7 @@ function m() {
 
 
   local modeAttach=''
+  local modePlay=''
   local key=''
 
   while [[ $# -gt 0 ]]; do
@@ -39,6 +40,7 @@ function m() {
 
     case "$key" in
       '-a') modeAttach='t' ;;
+      '-p') modePlay='t' ;;
       *) ;;
     esac
 
@@ -53,7 +55,9 @@ function m() {
 
     else
 
-      mm
+      if [[ $modePlay ]]; then
+        mm
+      fi
 
     fi
 
