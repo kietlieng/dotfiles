@@ -166,6 +166,11 @@ lctrl - b : ~/lab/scripts/calls/scriptcall mn
 # cmus previous
 lctrl + shift - b : ~/lab/scripts/calls/scriptcall mp
 
+# cmus seek
+lctrl - x : ~/lab/scripts/calls/scriptcall ms
+
+# cmus seek backwards
+lctrl + shift - x : ~/lab/scripts/calls/scriptcall mP
 
 f12 : ~/lab/scripts/calls/scriptcall ytincrease
 f11 : ~/lab/scripts/calls/scriptcall ytdecrease
