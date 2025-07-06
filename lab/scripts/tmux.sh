@@ -57,7 +57,7 @@ function m() {
     else
 
       if [[ $modePlay ]]; then
-        mm
+        mpause
       fi
 
     fi

@@ -1,20 +1,20 @@
 # alias mp="cmus-remote -p" # play
 
-alias mm="cmus-remote -u"    # pause
-alias mr="cmus-remote -R"    # repeat
-alias mn="cmus-remote -n"    # next
-alias mp="cmus-remote -r"    # previous
-alias mpp="mp && mp"         # previous 2
-alias mS="cmus-remote -S"    # shuffle
-alias mq="cmus-remote -q"    # queue
-alias mR="cmus-remote --raw" # raw
-alias ms="cmus-remote --seek +60" # seek
-alias mP="cmus-remote --seek -60" # seek
-alias ml='mR clear && mR "add ~/lab/music"'
+alias mpause="cmus-remote -u"    # pause
+alias mrepeat="cmus-remote -R"    # repeat
+alias mnext="cmus-remote -n"    # next
+alias mprevious="cmus-remote -r"    # previous
+alias mprevious2="mprevious && mprevious"         # previous 2
+alias mshuffle="cmus-remote -S"    # shuffle
+alias mqueue="cmus-remote -q"    # queue
+alias mraw="cmus-remote --raw" # raw
+alias mseekf="cmus-remote --seek +60" # seek
+alias mseekb="cmus-remote --seek -60" # seek
+alias ml="mraw clear && mraw \"add $MUSIC_DIRECTORY\""
 
 function mpl() {
 
-  local results=$(ls ~/lab/music | grep -i "$@")
+  local results=$(ls $MUSIC_DIRECTORY | grep -i "$@")
   local result=$(echo $results | head -n 1)
   echo "results: $results"
   
