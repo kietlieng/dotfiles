@@ -25,6 +25,7 @@ alias ttt='t -tt'
 alias a='ta'
 alias mk='tk music'
 alias ma='m -a'
+alias tmupdate='t update'
 
 function m() {
 
@@ -315,7 +316,7 @@ function tk() {
   local allSessionSize=$(echo $allSessions | wc -l | xargs)
 
   local attachedSessions=$(echo $allSessions | grep -i "(attached)" | awk -F':' '{print $1}')
-  local attachedSize=$(echo $attacheSessions | wc -l | xargs)
+  local attachedSize=$(echo $attachedSessions | wc -l | xargs)
   local attachedSessions=$(echo $attachedSessions | tr '\n' ' ')
 
   # if in tmux 
@@ -503,6 +504,133 @@ function tmrunsinglecommand() {
 }
 
 function calltmuxcreatewindow() {
+  
+#  tmux display-message -p "#S"
+  tmgetsize
+  pecho "|$TMUX_PANE|$TMUX|"
+  local tmSize=$(cat ~/.tmuxsize)
+  
+  if [[ "$tmSize" -eq "0" ]]; then
+#    pecho "no size quitting"
+    return
+  fi
+
+  local key=''
+
+  # need xargs to trim spaces
+  local modeBackground=''
+  local modeEmbed=''
+  local modePopup=''
+
+  local inSession=$(tmux display-message -p '#{session_name}')
+  local inWindow=$(tmux display-message -p '#{window_name}')
+  local currentTemplate=$(cat ~/.tmuxdefault2 | xargs)
+  local attachedSessions=$(tmux ls 2>&1 | grep -i "(attached)" | awk -F':' '{print $1}')
+
+  while [[ $# -gt 0 ]]; do
+
+    key="$1"
+    shift
+
+    case "$key" in
+      '-background')
+        modeBackground='t'
+        ;;
+      '-embed')
+        modeEmbed='-embed'
+        ;;
+      '-popup')
+        modePopup='-popup'
+        ;;
+      *)
+        ;;
+    esac
+    
+  done
+  
+  if [[ $currentTemplate == '' ]]; then
+    currentTemplate="blank"
+  fi
+
+  if [[ $modeEmbed ]] && [[ $TMUX ]]; then
+
+    export TMUX_BACKUP=$TMUX
+#    unset TMUX
+
+#  else
+#  
+#    if [[ $TMUX_BACKUP ]]; then
+#
+#      export TMUX=$TMUX_BACKUP
+#      unset TMUX_BACKUP
+#
+#    fi
+#
+  fi
+
+  pecho "current template |$currentTemplate|"
+  
+  # if you have one that's currently attached
+  if [[ $attachedSessions ]]; then
+
+    if [[ $modeBackground ]]; then
+
+      pecho "attached background t:$currentTemplate s:$inSession w:$inWindow"
+
+#      tmux send-keys -t "$inSession:$inWindow" "t $modeEmbed $currentTemplate" Enter
+      if [[ $modePopup ]]; then
+        pecho "insession backgroundmode popup"
+        tmpopup "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
+      else
+        tmrunsinglecommand "$inSession:$inWindow" "t -a $modeEmbed $currentTemplate" "$modeEmbed"
+      fi
+
+      gecho "$currentTemplate"
+
+    else
+
+      pecho "attached nobackground t:$currentTemplate s:$inSession w:$inWindow"
+
+#      tmux send-keys -t "$inSession:$inWindow" "t $modeEmbed $currentTemplate" Enter
+      if [[ $modePopup ]]; then
+        pecho "insession popup"
+        tmpopup "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
+      else
+        tmrunsinglecommand "$inSession:$inWindow" "t -a $modeEmbed $currentTemplate" "$modeEmbed"
+      fi
+
+      wait # need to sleep and delay so tmux can create window to register
+#      sleep 1
+      tmsleep
+      local newIndex=$(tmux list-windows -t "$inSession" | tail -n 1 | awk -F':' '{ print $1 }')
+      pecho "new index is $newIndex $inSession:$newIndex"
+      tmux select-window -t "$inSession:$newIndex"
+      pecho "tmux select-window -t \"$inSession:$newIndex\""
+
+    fi
+
+  # else
+  #
+  #   if [[ $modeBackground ]]; then
+  #
+  #     pecho "unattached background"
+  #     T $currentTemplate
+  #
+  #   else
+  #
+  #     pecho "unattached nobackground"
+  #     t $currentTemplate
+  #     ta # attached to terminal
+  #
+  #   fi
+
+  fi
+
+}
+
+
+
+function calltmuxcreatewindowback() {
   
 #  tmux display-message -p "#S"
   tmgetsize

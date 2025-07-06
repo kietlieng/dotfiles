@@ -485,6 +485,8 @@ KL_STATUS_SYMBOL_ARRAY=($KL_STATUS_ICON_SYMBOL_ARRAY $KL_STATUS_GAMES_SYMBOL_ARR
 #   
 
 # odd
+#     
+#      
 # ⸽⸽⸾⸾⸾⸾⸽
 # ㇅㇅㇅
 # ෫ โ ๆใ ๅไ  
