@@ -1,10 +1,12 @@
-alias refassemble='crfile -f "/tmp/assemble-dependencies.csv"'
-alias rreact='crfile -react'
+alias refassemble='frfile -f "/tmp/assemble-dependencies.csv"'
+alias rreact='frfile -react'
 alias cfiles="cat /tmp/swiftprep.txt"
-alias crc="cr -c"
-alias creset="crtime -d 60 -s 10"
 
-function crtime() {
+# copy reference windown
+alias frc="frtime 1 0"
+alias creset="frtime -s 10 -d 60"
+
+function frtime() {
   
   local downloadTime=$(cat $DOWNLOAD_TIME_FILE)
   local screenshotTime=$(cat $SCREENSHOT_TIME_FILE)
@@ -57,7 +59,7 @@ function runosa() {
   osascript -e "$1"
 }
 
-function crinspect() {
+function frinspect() {
   osascript -e 'the clipboard as record'
 }
 
@@ -75,7 +77,7 @@ function rreact() {
 }
 
 # reference a file
-function crfile() {
+function frfile() {
 
   local currentLocation=$(pwd)
   # Define the file path you want to copy
@@ -114,7 +116,7 @@ function crfile() {
 
 }
 
-function crprepfiles() {
+function frprepfiles() {
 
   # Define the file path you want to copy
 
@@ -206,7 +208,7 @@ function crprepfiles() {
 
 
 # swift can take a time limit to reference multiple files
-function crprepswift() {
+function frprepswift() {
 
   # Define the file path you want to copy
 
@@ -248,7 +250,7 @@ function crprepswift() {
 }
 
 # swift can take a time limit to reference multiple files
-function crswift() {
+function frswift() {
 
   # Define the file path you want to copy
 
@@ -326,40 +328,40 @@ function crswift() {
 
 }
 
-function crdownloads() {
+function frdownloads() {
 
   local sOutput=$(/bin/ls -1tr $DOWNLOAD_DIRECTORY | tail -n 1)
 
   if [[ $sOutput ]]; then
 
     # ref -f "$DOWNLOAD_DIRECTORY/$sOutput"
-    crswift -d $DOWNLOAD_DIRECTORY -t 60
+    frswift -d $DOWNLOAD_DIRECTORY -t 60
 
-    pecho "crfile -f \"$DOWNLOAD_DIRECTORY/$sOutput\""
+    pecho "frfile -f \"$DOWNLOAD_DIRECTORY/$sOutput\""
 
   fi
 
 }
 
 # if there is a new file reference
-function crscreenshots() {
+function frscreenshots() {
 
   rm -rf $SCREENSHOT_DIRECTORY/.DS_Store
   local sOutput=$(/bin/ls -1tr $SCREENSHOT_DIRECTORY | tail -n 1)
 
   if [[ $sOutput ]]; then
 
-    crswift -d $SCREENSHOT_DIRECTORY 
+    frswift -d $SCREENSHOT_DIRECTORY 
 
-    # crfile -f "$SCREENSHOT_DIRECTORY/$sOutput"
+    # frfile -f "$SCREENSHOT_DIRECTORY/$sOutput"
 
-    pecho "crfile -f \"$SCREENSHOT_DIRECTORY/$sOutput\""
+    pecho "frfile -f \"$SCREENSHOT_DIRECTORY/$sOutput\""
 
   fi
 
 }
 
-function crprep() {
+function frprep() {
 
   local optionDir="$SCREENSHOT_DIRECTORY"
   local optionResults="$REF_RESULTS"
@@ -410,7 +412,8 @@ function crprep() {
 
 }
 
-function cr() {
+# copy reference
+function fr() {
 
   local optionResults="$REF_RESULTS"
   local optionResultsTmp="$REF_RESULTS_TMP"
@@ -430,9 +433,9 @@ function cr() {
 
     case "$key" in
 
-      '-c') # clear
+      '-c') # clear time reference
         timeDownload='0'
-        timeScreenshot='0'
+        timeScreenshot='1'
         refsetClear='t'
         ;;
 
@@ -444,7 +447,7 @@ function cr() {
 
   done
 
-  crprep -c && crprep -d $DOWNLOAD_DIRECTORY -t 7
+  frprep -c && frprep -d $DOWNLOAD_DIRECTORY -t 7
   cat $optionResultsTmp | sort > $optionResults
 
   cat $optionResults | fzf --multi | while read currentFile; do 
@@ -486,6 +489,6 @@ function cr() {
   fi
 
   echo "screenshots: $timeScreenshot download: $timeDownload"
-  crtime -d $timeDownload -s $timeScreenshot
+  frtime -d $timeDownload -s $timeScreenshot
 
 }

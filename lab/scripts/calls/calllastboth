@@ -2,6 +2,6 @@
 
 source ~/lab/scripts/calls/sourceall
 
-crprepfiles -d $SCREENSHOT_DIRECTORY -t "$(cat $SCREENSHOT_TIME_FILE)" -l -c && \
-crprepfiles -d $DOWNLOAD_DIRECTORY -t "$(cat $DOWNLOAD_TIME_FILE)" && \
-crprepswift
+frprepfiles -d $SCREENSHOT_DIRECTORY -t "$(cat $SCREENSHOT_TIME_FILE)" -l -c && \
+frprepfiles -d $DOWNLOAD_DIRECTORY -t "$(cat $DOWNLOAD_TIME_FILE)" && \
+frprepswift

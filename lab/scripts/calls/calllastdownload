@@ -2,5 +2,5 @@
 
 source ~/lab/scripts/calls/sourceall
 
-crprepfiles -d $DOWNLOAD_DIRECTORY -t "$(cat $DOWNLOAD_TIME_FILE)" -c -l && \
-crprepswift
+frprepfiles -d $DOWNLOAD_DIRECTORY -t "$(cat $DOWNLOAD_TIME_FILE)" -c -l && \
+frprepswift
