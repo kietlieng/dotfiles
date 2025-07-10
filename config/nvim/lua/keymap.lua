@@ -115,6 +115,8 @@ map("n", "<LEADER>sr", ":%s///g<LEFT><LEFT>", G_NO_REMAP)        -- search and r
 map("v", "<LEADER>sR", ":s///gc<LEFT><LEFT><LEFT>", G_NO_REMAP)  -- tab visual
 map("v", "<LEADER>sr", ":s///g<LEFT><LEFT>", G_NO_REMAP)         -- tab visual
 
+map("n", "<LEADER>SR", ":/\\([a-zA-Z0-9\\-\\[\\]\\(\\)_]\\) \\([a-zA-Z0-9\\-\\[\\]\\(\\)_]\\)", G_NO_REMAP) -- search for spaces in filenames
+
 map("n", "<LEADER>su", ":!callterminal '%:p:h'  slackuserscopy l=", G_NO_REMAP)          -- tab visual
 
 map("n", "<C-t>", ":!callterminal '%:p:h' ", G_NO_REMAP)  -- terminal runs

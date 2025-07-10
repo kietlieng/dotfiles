@@ -10,17 +10,10 @@ alias mqueue="cmus-remote -q"    # queue
 alias mraw="cmus-remote --raw" # raw
 alias mseekf="cmus-remote --seek +60" # seek
 alias mseekb="cmus-remote --seek -60" # seek
-alias ml="mraw clear && mraw \"add $MUSIC_DIRECTORY\""
 
-function mpl() {
+function ml() {
 
-  local results=$(ls $MUSIC_DIRECTORY | grep -i "$@")
-  local result=$(echo $results | head -n 1)
-  echo "results: $results"
-  
-  if [[ $results ]]; then
-    echo "playing $result"
-    cmus-remote -f "$result"
-  fi
+  mraw "view 3" && mraw clear && mraw "add $MUSIC_DIRECTORY"
+  mraw "view 2" && mraw clear && mraw "add $MUSIC_DIRECTORY"
 
 }

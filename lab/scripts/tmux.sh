@@ -31,6 +31,7 @@ function m() {
 
 
   local modeAttach=''
+  local modeSearch=''
   local modePlay=''
   local key=''
 
@@ -42,7 +43,9 @@ function m() {
     case "$key" in
       '-a') modeAttach='t' ;;
       '-p') modePlay='t' ;;
-      *) ;;
+      *) 
+        modeSearch="$modeSearch.*$key.*"
+        ;;
     esac
 
   done
@@ -58,6 +61,26 @@ function m() {
 
       if [[ $modePlay ]]; then
         mpause
+      else
+
+        if [[ $modeSearch ]]; then
+
+          # echo "searching $modeSearch"
+          local results=$(ls $MUSIC_DIRECTORY | grep -i "$modeSearch")
+          local result=$(echo $results | head -n 1)
+          echo "results:\n$results"
+          
+          if [[ $results ]]; then
+            echo "\nplaying $result"
+            cmus-remote -f "$MUSIC_DIRECTORY/$result"
+          fi
+
+        else
+
+          basename $(cmus-remote -Q | grep -i file | awk '{ print $2 }')
+
+        fi
+
       fi
 
     fi
