@@ -41,7 +41,8 @@ prepend_previewers = [
 ]
 
 [mgr]
-ratio = [1, 2, 5]
+
+ratio = [1, 2, 5] # ratio has to equal 8  from the 3 elements that you can have [parent dir, current dir, priview]
 sort_by = "mtime"
 sort_reverse = true
 linemode = "size"
