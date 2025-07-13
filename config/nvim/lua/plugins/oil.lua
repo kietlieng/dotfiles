@@ -5,7 +5,9 @@ return {
     opts = {},
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function ()
-      require("oil").setup()
+      require("oil").setup({
+        columns = {}
+      })
     end
   }
 }
