@@ -438,7 +438,11 @@ KL_STATUS_SYMBOL_ARRAY=($KL_STATUS_ICON_SYMBOL_ARRAY $KL_STATUS_GAMES_SYMBOL_ARR
 # ╱╳╲
 
 # ground
-# ـــــ ＿＿＿
+# ـــــ 𝈷＿＿＿
+
+# ssh
+# ＿
+# 󱙴
 
 # excite bike
 # 🭊🬹🬿 󱂜 🭈🬭🬽
