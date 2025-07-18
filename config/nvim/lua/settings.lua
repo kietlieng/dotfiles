@@ -14,6 +14,7 @@ set.wrap   = false
 --set.ft   = 'tmux'
 --set.tw   = 0
 --set.wrap = false
+-- set.remap = true -- don't think I need it 
 
 -- undo
 set.undodir  = vim.env.HOME .. '/.nvim/undodir'
