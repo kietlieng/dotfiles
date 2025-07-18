@@ -778,10 +778,10 @@ function strr() {
 
 # jot down on napkin 
 # jot will create file in /tmp
-function jot() {
+function nap() {
 
-    local fileScratch="nap"
-    local jotQuery="nap-"
+    local fileScratch="kin"
+    local jotQuery="kin-"
 
     while [[ $# -gt 0 ]]; do
 
@@ -803,7 +803,7 @@ function jot() {
     done
 
     # no filename
-    if [[ $fileScratch != "nap" ]]; then
+    if [[ $fileScratch != "kin" ]]; then
 
       vim "/tmp/${fileScratch}"
 
@@ -816,7 +816,7 @@ function jot() {
       for tempFile in $(echo "$filesToEdit"); do
         editFiles+=("/tmp/$tempFile")
       done
-#      editFiles=($(echo "$filesToEdit" | sed -r 's/nap/\/tmp\/nap/g'))
+#      editFiles=($(echo "$filesToEdit" | sed -r 's/kin/\/tmp\/kin/g'))
 
       local fzfQuery=$(cat /tmp/fzf-query | sed 's/ /-/g')
       if [[ "$editFiles" ]]; then

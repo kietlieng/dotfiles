@@ -42,7 +42,7 @@ case $choice in
     exit
     ;;
   "jot")
-    jotNotes=$(ls -1 /tmp/nap-* | fzf --height 40% --reverse --border)
+    jotNotes=$(ls -1 /tmp/kin-* | fzf --height 40% --reverse --border)
     create_tmux_callback "nvim $jotNotes"
     ;;
   "note")
