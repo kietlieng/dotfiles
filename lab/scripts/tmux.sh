@@ -4,7 +4,7 @@ alias TM='t -a main'
 alias TT='t -a -t'
 alias TTT='t -a -tt'
 alias t2='tt && ttt'
-alias tA='ta -f'
+alias tA='a -f'
 alias tbrew='t brew'
 alias tdisplayoptions='tmux display-message -a | fzf'
 alias te='t -t -embed'
@@ -22,7 +22,6 @@ alias tmv3='tmux new-session \; split-window -h \; split-window -h \; select-pan
 alias tsource="tmux source ~/.tmux.conf"
 alias tt='t -t'
 alias ttt='t -tt'
-alias a='ta'
 alias mk='tk music'
 alias ma='m -a'
 alias tmupdate='t update'
@@ -425,7 +424,7 @@ function tk() {
 }
 
 # attach to last session
-function ta() {
+function a() {
 
   local tmuxDefaultValue='.*'
   local tmuxTarget="$tmuxDefaultValue"

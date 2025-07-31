@@ -157,20 +157,23 @@ lctrl + shift - g : ~/lab/scripts/calls/scriptcall yshift -f
 # cmus create or pause player
 lctrl - m : ~/lab/scripts/calls/scriptcall m -p 
 
-# cmus exit music player
-lctrl + shift - m : ~/lab/scripts/calls/scriptcall mk
-
 # cmus next
-lctrl - b : ~/lab/scripts/calls/scriptcall mnext
+lctrl + shift - m : ~/lab/scripts/calls/scriptcall mnext
 
 # cmus previous
-lctrl + shift - b : ~/lab/scripts/calls/scriptcall mprevious
+# rctrl + shift - m : ~/lab/scripts/calls/scriptcall mprevious
 
-# cmus seek 
-rctrl - m : ~/lab/scripts/calls/scriptcall mseekf
+# cmus seek forward
+lctrl - b : ~/lab/scripts/calls/scriptcall mseekf
 
 # cmus seek backwards
-rctrl + shift - m : ~/lab/scripts/calls/scriptcall mseekb
+lctrl + shift - b : ~/lab/scripts/calls/scriptcall mseekb
+
+# cmus next
+rctrl - m : ~/lab/scripts/calls/scriptcall mnext
+
+# cmus exit
+rctrl + shift - m : ~/lab/scripts/calls/scriptcall mk
 
 f12 : ~/lab/scripts/calls/scriptcall ytincrease
 f11 : ~/lab/scripts/calls/scriptcall ytdecrease

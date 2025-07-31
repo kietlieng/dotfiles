@@ -4,6 +4,8 @@ local swnumber = 2
 vim.cmd([[set runtimepath+=~/.nvim]]) --set.runtimepath:append { set.runtimepath .. "/.nvim" }
 vim.cmd([[set runtimepath+=~/.local/share/nvim/lazy/gitlab.vim]])
 vim.cmd([[set runtimepath+=~/opt/homebrew/opt/fzf]])
+
+
 --vim.cmd([[set runtimepath+=~/.luarocks/lib/luarocks/rocks-5.1]])
 
 -- wrap
@@ -74,7 +76,27 @@ vim.cmd([[
   "let &t_SR.="\e[4 q" 
   "let &t_EI.="\e[1 q" 
 
-]]) -- solves redraw issue with using gruvbox
+  if $TERM == "xterm-kitty"
+      set mouse=a
+      try
+          " undercurl support
+          let &t_Cs = "\e[4:3m"
+          let &t_Ce = "\e[4:0m"
+      catch
+      endtry
+      " Change the cursor in different modes
+      let &t_SI = "\e[5 q"
+      let &t_SR = "\e[3 q"
+      let &t_EI = "\e[1 q"
+      " vim hardcodes background color erase even if the terminfo file does
+      " not contain bce. This causes incorrect background rendering when
+      " using a color theme with a background color.
+      let &t_ut=''
+      let &t_ti = &t_ti . "\e[1 q"
+  endif
+
+]])
+
 
 --set.completeopt = 'menu,menuone' -- duo
 

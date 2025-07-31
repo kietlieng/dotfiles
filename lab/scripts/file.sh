@@ -2,8 +2,9 @@ alias refassemble='frfile -f "/tmp/assemble-dependencies.csv"'
 alias rreact='frfile -react'
 alias cfiles="cat /tmp/swiftprep.txt"
 
-# copy reference windown
+# wipe out referenc and only get screenshots less that 1 minute
 alias frc="frtime 1 0"
+
 alias creset="frtime -s 10 -d 60"
 
 function frtime() {
