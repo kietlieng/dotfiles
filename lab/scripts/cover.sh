@@ -1,4 +1,4 @@
-function encrypt() {
+function cover() {
   if [ "$1" ]
   then
     #/usr/bin/openssl des3 -in $1 -out "$1.enc"
@@ -8,7 +8,7 @@ function encrypt() {
   fi
 }
 
-function decrypt() {
+function uncover() {
   if [[ "$1" ]]; then
     #/usr/bin/openssl des3 -d -in $1
     #openssl des3 -d -in $1

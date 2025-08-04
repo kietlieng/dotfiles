@@ -6,7 +6,7 @@
 
 function zhookcall() {
 
-  awstokensfix
+  # awstokensfix
   # dreminder
   hbackup
   # marktmuxsession
