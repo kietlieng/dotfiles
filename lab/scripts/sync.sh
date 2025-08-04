@@ -63,6 +63,7 @@ function cpdot() {
     dDirenvDir=${destinationDir}/direnv
     dFileDir=${destinationDir}/dotfiles
     dYaziDir=${destinationDir}/yazi
+    dYaziDir=${destinationDir}/znosource
 
     # lab
     dLabDir=${destinationDir}/lab
@@ -102,6 +103,7 @@ function cpdot() {
     cp -rf ~/lab/scripts/zlast $dScriptDir/.
     cp -rf ~/lab/scripts/ruby $dScriptDir/.
     cp -rf ~/lab/scripts/swift $dScriptDir/.
+    cp -rf ~/lab/scripts/znosource $dScriptDir/.
 #    cp -rf ~/lab/scripts/deprecated $dScriptDir/.
 
     cp ~/.oh-my-zsh/themes/pure/pure.zsh $dPure/.
