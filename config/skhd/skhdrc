@@ -155,10 +155,10 @@ lctrl - g : ~/lab/scripts/calls/callyrot
 lctrl + shift - g : ~/lab/scripts/calls/scriptcall yshift -f
 
 # cmus create or pause player
-lctrl - m : ~/lab/scripts/calls/scriptcall m -p 
+lctrl - m : ~/lab/scripts/calls/scriptcall mnext
 
 # cmus next
-lctrl + shift - m : ~/lab/scripts/calls/scriptcall mnext
+lctrl + shift - m : ~/lab/scripts/calls/scriptcall mprevious
 
 # cmus previous
 # rctrl + shift - m : ~/lab/scripts/calls/scriptcall mprevious
@@ -170,7 +170,7 @@ lctrl - b : ~/lab/scripts/calls/scriptcall mseekf
 lctrl + shift - b : ~/lab/scripts/calls/scriptcall mseekb
 
 # cmus next
-rctrl - m : ~/lab/scripts/calls/scriptcall mnext
+rctrl - m : ~/lab/scripts/calls/scriptcall m -p
 
 # cmus exit
 rctrl + shift - m : ~/lab/scripts/calls/scriptcall mk
