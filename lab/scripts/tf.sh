@@ -70,52 +70,69 @@ function tdelete() {
 
 }
 
+function tftimelimit() {
+
+  nowEpoch=$(date +%s)
+
+  # Calculate time difference in minutes
+  diffMinutes=$(( (AWS_EPOCH - nowEpoch) / 60 ))
+
+  echo "Expire time: $AWS_CREDENTIAL_EXPIRATION (in $diffMinutes minutes)"
+  if [[ $diffMinutes -lt 30 ]]; then
+    echo "NO TIME LEFT TO RUN APPLY!!!"
+  fi
+
+}
+
 # will take the directory path and create a hash value out of it. 
 # this hash value will be the output in the tmp directory
 # avoids overwriting tf outputs
 function tplan() {
 
-    impenv
-    tfpar
+  tftimelimit
+  impenv
+  tfpar
 
-    local destroyMode="f"
-    local hashDir=$(hashdir)
-    local outfile="tfout-${hashDir}"
-    echo "hash $hashDir"
+  local destroyMode="f"
+  local hashDir=$(hashdir)
+  local outfile="tfout-${hashDir}"
+  echo "hash $hashDir"
 
-    while [[ $# -gt 0 ]];
-    do
+  while [[ $# -gt 0 ]]; do
 
-        key="$1"
-        case $key in
-            '-d' )
-                destroyMode="t"
-                shift
-                ;;
-            * )
-                outfile="${outfile}_$key"
-                shift
-                ;;
-        esac
+    key="$1"
+    case $key in
+      '-d' )
+        destroyMode="t"
+        shift
+        ;;
+      * )
+        outfile="${outfile}_$key"
+        shift
+        ;;
+    esac
 
-    done
-    outfile="${outfile//_/}"
+  done
+  outfile="${outfile//_/}"
 
+  if [[ $destroyMode = 't' ]]; then
 
-    if [[ $destroyMode = 't' ]]; then
+    terraform plan -destroy
 
-        terraform plan -destroy
+  else
+
+    # output to plan 
+    if [[ $outfile ]]; then
+
+      terraform plan -out="/tmp/$outfile"
 
     else
 
-      # output to plan 
-      if [[ $outfile ]]; then
-        terraform plan -out="/tmp/$outfile"
-      else
-        terraform plan
-      fi
+      terraform plan
 
     fi
+
+  fi
 
 }
 
@@ -328,7 +345,7 @@ function tstates() {
 }
 
 
-function tflock() {
+function tfunlock() {
   
   lockID=$(tapply 2>&1 | grep -A 100 -i "Lock Info:" | grep -io "ID:.*" | awk '{print $2}')
   echo "lockId $lockID"
