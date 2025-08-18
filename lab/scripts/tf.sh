@@ -13,6 +13,7 @@ alias tfinit="terraform init --upgrade"
 alias tfmigrate="terraform init -migrate-state"
 alias tfreconfigure="terraform init -reconfigure"
 alias tp="tplan"
+alias tptrace="tplan -t"
 alias tpa="tplan && tapply"
 alias tplangraph="terraform graph -type=plan"
 alias tplangraphpic="terraform graph -type=plan | dot -Tpng > graph.png"
@@ -72,6 +73,14 @@ function tdelete() {
 
 function tftimelimit() {
 
+  unset AWS_CREDENTIAL_EXPIRATION
+  source $FILE_AWS_TEMP
+
+  if [[ -z $AWS_CREDENTIAL_EXPIRATION ]]; then
+    echo "No expiration present"
+    return
+  fi
+
   nowEpoch=$(date +%s)
 
   # Calculate time difference in minutes
@@ -93,7 +102,9 @@ function tplan() {
   impenv
   tfpar
 
-  local destroyMode="f"
+  local modeTrace=''
+  local modeDebug=''
+  local modeDestroy="f"
   local hashDir=$(hashdir)
   local outfile="tfout-${hashDir}"
   echo "hash $hashDir"
@@ -103,9 +114,19 @@ function tplan() {
     key="$1"
     case $key in
       '-d' )
-        destroyMode="t"
+        modeDestroy="t"
         shift
         ;;
+      '-t' )
+        modeTrace="t"
+        shift
+        ;;
+
+      '-debug' )
+        modeDebug="t"
+        shift
+        ;;
+
       * )
         outfile="${outfile}_$key"
         shift
@@ -115,7 +136,15 @@ function tplan() {
   done
   outfile="${outfile//_/}"
 
-  if [[ $destroyMode = 't' ]]; then
+  unset TF_LOG
+  if [[ -n $modeTrace ]]; then
+    export TF_LOG=TRACE
+  fi
+  if [[ -n $modeDebug ]]; then
+    export TF_LOG=DEBUG
+  fi
+
+  if [[ $modeDestroy = 't' ]]; then
 
     terraform plan -destroy
 
@@ -140,8 +169,7 @@ function tplan() {
 function tapply() {
 
   tfpar
-  local destroyMode="f"
-  local destroyMode="f"
+  local modeDestroy="f"
   local autoApply="f"
   local hashDir=$(md5 -q -s $(pwd))
   local outfile="tfout-${hashDir}"
@@ -156,7 +184,7 @@ function tapply() {
 
       case $key in
           '-d' )
-              destroyMode="t"
+              modeDestroy="t"
               ;;
           '-a' )
               autoApply="t"
@@ -170,7 +198,7 @@ function tapply() {
 
   outfile="${outfile//_/}"
 
-  if [[ $destroyMode == 't' ]]; then
+  if [[ $modeDestroy == 't' ]]; then
 
       #terraform apply -destroy
       terraform apply 

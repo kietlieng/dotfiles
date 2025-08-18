@@ -40,160 +40,183 @@ function vsubset() {
 }
 
 function vbub() {
-#    radius=2000
-    radius=1000
-    plotRange=$((radius * 1/2))
-    radiusRange=$((radius * 3/7))
-    same=""
-    minimumRadius=200
-    isBigger="T"
-    biggerTerm=""
-    smallerTerm=""
-    points=""
-    debug="0"
-    output=""
-    centerText="_"
-    subText="_"
+  #    radius=2000
+  radius=1000
+  plotRange=$((radius * 1/2))
+  radiusRange=$((radius * 3/7))
+  minimumRadius=200
+  isBigger="T"
+  biggerTerm=""
+  smallerTerm=""
+  points=""
+  debug="0"
+  output=""
+  centerText="_"
+  subText="_"
 
-    while [[ $# -gt 0 ]]
-    do
-        key="$1"
-        case $key in
-            '-r' )
-                radius=$2
-                plotRange=$((radius * 1/2))
-                radiusRange=$((radius * 1/7))
-                shift
-                shift
-                ;;
-            '-last' )
-                output="last"
-                shift
-                ;;
-            '-d' )
-                output="x"
-                debug="-1"
-                shift
-                ;;
-            '-d2' )
-                output="x"
-                debug="$2"
-                shift
-                shift
-                ;;
-            '-v' )
-                output="x"
-                debug="$2"
-                shift
-                shift
-                ;;
-            '-o' )
-                output="x"
-                shift
-                ;;
-            '-c' )
-                centerText="$2"
-                shift
-                shift
-                ;;
-            '-fake' )
-                #points="161 763 543\n-294 -49 596\n-775 -620 558\n-228 -961 604"
-                points="161 763 543\n-294 -49 596"
-                shift
-                ;;
-            '-s' )
-                isBigger="F"
-                shift
-                ;;
-            * )
-                if [[ "$subText" != "_" ]]; then
-                  subText="$subText $key"
-                else
-                  currentTerm=$(echo "$key" | sed "s/ /_/g")
+  while [[ $# -gt 0 ]]; do
+    key="$1"
+    case $key in
+      '-r' )
+        radius=$2
+        plotRange=$((radius * 1/2))
+        radiusRange=$((radius * 1/7))
+        shift
+        shift
+        ;;
+      '-last' )
+        output="last"
+        shift
+        ;;
+      '-d' )
+        output="x"
+        debug="-1"
+        shift
+        ;;
+      '-d2' )
+        output="x"
+        debug="$2"
+        shift
+        shift
+        ;;
+      '-v' )
+        output="x"
+        debug="$2"
+        shift
+        shift
+        ;;
+      '-o' )
+        output="x"
+        shift
+        ;;
+      '-c' )
+        centerText="$2"
+        shift
+        shift
+        ;;
+      '-fake' )
+        #points="161 763 543\n-294 -49 596\n-775 -620 558\n-228 -961 604"
+        points="161 763 543\n-294 -49 596"
+        shift
+        ;;
+      '-s' )
+        isBigger="F"
+        shift
+        ;;
+      * )
+        if [[ "$subText" != "_" ]]; then
+          subText="$subText $key"
+        else
+          currentTerm=$(echo "$key" | sed "s/ /_/g")
 
-                  if [[ "$isBigger" == "T" ]]; then
-                      biggerTerm="$biggerTerm $currentTerm"
-                  else
-                      smallerTerm="$smallerTerm $currentTerm"
-                  fi
+          if [[ "$isBigger" == "T" ]]; then
+            biggerTerm="$biggerTerm $currentTerm"
+          else
+            smallerTerm="$smallerTerm $currentTerm"
+          fi
 
-                  combineIt=$(/opt/homebrew/opt/python@3.11/libexec/bin/python -c "import random; print(str(random.randint(-${plotRange},${plotRange})) + ' ' + str(random.randint(-${plotRange},${plotRange})) + ' ' + str(random.randint(${minimumRadius},${radiusRange})))")
-                  points="$points ${combineIt}\n"
-                fi
-                shift
-                ;;
-        esac
-    done
+          combineIt=$(/opt/homebrew/opt/python@3.11/libexec/bin/python -c "import random; print(str(random.randint(-${plotRange},${plotRange})) + ' ' + str(random.randint(-${plotRange},${plotRange})) + ' ' + str(random.randint(${minimumRadius},${radiusRange})))")
+          points="$points ${combineIt}\n"
+        fi
+        shift
+        ;;
+    esac
+  done
 
-    totalOutput="${debug}\n${radius}\n${biggerTerm}\n${smallerTerm}\n${points}"
-    if [[ "$output" != "last" ]]; then
-        echo "$totalOutput"
-    fi
+  totalOutput="${debug}\n${radius}\n${biggerTerm}\n${smallerTerm}\n${points}"
+  if [[ "$output" != "last" ]]; then
+    echo "$totalOutput"
+  fi
 
-    if [[ "$output" == "x" ]]; then
-        #echo $totalOutput | bubble.awk
-        echo $totalOutput > /tmp/bub.txt
-        ~/lab/scripts/plot/bubble.py
-    elif [[ "$output" == "last" ]]; then
-        #echo $totalOutput | bubble.awk
-        cat /tmp/bubble1.svg | isvg
-        cat /tmp/bubble2.svg | isvg
+  if [[ "$output" == "x" ]]; then
+    #echo $totalOutput | bubble.awk
+    echo $totalOutput > /tmp/bub.txt
+    ~/lab/scripts/plot/bubble.py
+  elif [[ "$output" == "last" ]]; then
+    #echo $totalOutput | bubble.awk
+    cat /tmp/bubble1.svg | isvg
+    cat /tmp/bubble2.svg | isvg
+  else
+    #echo $totalOutput | bubble.awk | isvg
+    echo $totalOutput > /tmp/bub.txt
+    ~/lab/scripts/plot/bubble.py
+    cat /tmp/bubble1.svg | isvg
+    cat /tmp/bubble2.svg | isvg
+  fi
+
+}
+
+function vgraph() {
+
+  local key=''
+  local modeGraphFile=/tmp/charts.svg
+  local modeX=''
+  local modeY=''
+  
+  cat $VCHART_TEMPLATE > $modeGraphFile
+
+  while [[ $# -gt 0 ]]; do
+
+    key="$1"
+    shift
+    
+    if [[ -z $modeX ]]; then
+      modeX=$key
     else
-        #echo $totalOutput | bubble.awk | isvg
-        echo $totalOutput > /tmp/bub.txt
-        ~/lab/scripts/plot/bubble.py
-        cat /tmp/bubble1.svg | isvg
-        cat /tmp/bubble2.svg | isvg
+      modeY=$key
     fi
+
+  done
+
+  echo "  <text class=\"label\" x=\"65\" y=\"310\">$modeX</text>\"" >> $modeGraphFile
+  echo " <text class=\"label\" x=\"5\" y=\"150\" transform=\"translate(-125, 265) rotate(-90)\" text-anchor=\"middle\">$modeY</text>" >> $modeGraphFile
+  echo "</svg> " >> $modeGraphFile
+  
+  cat $modeGraphFile | isvg
 
 }
 
 function vvenn() {
-    #radius=1300
-    radius=500
-    searchTerm=""
-    output=""
-    centerText="_"
-    subText="_"
 
-    while [[ $# -gt 0 ]]
-    do
-        key="$1"
-        case $key in
-            '-r' )
-                radius=$2
-                shift
-                shift
-                ;;
-            '-o' )
-                output="x"
-                shift
-                ;;
-            '-c' )
-                centerText="$2"
-                shift
-                shift
-                ;;
-            '-s' )
-                subText=$(echo "$2" | sed "s/ /_/g")
-                shift
-                shift
-                ;;
-            * )
-                if [[ "$subText" != "_" ]]; then
-                  subText="$subText $key"
-                else
-                  currentTerm=$(echo "$key" | sed "s/ /_/g")
-                  searchTerm="$searchTerm $currentTerm"
-                fi
-                shift
-                ;;
-        esac
-    done
+  #radius=1300
+  radius=500
+  searchTerm=""
+  output=""
+  centerText="_"
+  subText="_"
 
-    echo "${radius}\n${searchTerm}\n${centerText}\n${subText}"
-    
-    vennFile=/tmp/ven-output
-    echo "${radius}\n${searchTerm}\n${centerText}\n${subText}" | venn.awk > $vennFile
-    cat $vennFile | isvg
+  while [[ $# -gt 0 ]]
+  do
+    key="$1"
+    shift
+    case $key in
+      '-r' )
+        radius=$1
+        shift
+        ;;
+      '-o' ) output="x" ;;
+      '-c' )
+        centerText="$1"
+        shift
+        ;;
+      '-s' )
+        subText=$(echo "$1" | sed "s/ /_/g")
+        shift
+        ;;
+      * )
+        if [[ "$subText" != "_" ]]; then
+          subText="$subText $key"
+        else
+          currentTerm=$(echo "$key" | sed "s/ /_/g")
+          searchTerm="$searchTerm $currentTerm"
+        fi
+        ;;
+    esac
+  done
+
+  echo "${radius}\n${searchTerm}\n${centerText}\n${subText}"
+  
+  vennFile=/tmp/ven-output
+  echo "${radius}\n${searchTerm}\n${centerText}\n${subText}" | venn.awk > $vennFile
+  cat $vennFile | isvg
 }

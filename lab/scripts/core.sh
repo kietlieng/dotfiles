@@ -46,7 +46,7 @@ function eignore() {
 }
 
 # find docker file
-function ed() {
+function edoc() {
     gfile "Dockerfile"
 }
 
