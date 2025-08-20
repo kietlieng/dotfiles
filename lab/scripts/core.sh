@@ -473,6 +473,7 @@ function grcd() {
 # match all from file a to file b in order
 # Meaning: file a: go line by line.  Match to file b.  Output 
 function grab() {
+
   local fileA="$1"
   local fileB="$2"
   local results=""
@@ -480,16 +481,18 @@ function grab() {
 
   while read line; do
 
+    # echo "line: $line"
     currentResults=$(grep -i "$line" $fileB)
     if [[ $currentResults ]]; then
       echo "$currentResults"
       results="$results\n$currentResults"
     else
-      echo "$line: missing"
+      echo "!! Missing $line"
       results="$results\n$line: miss"
     fi
 
   done <$fileA
+  # echo "blah"
 
   echo "$results" | pbcopy
   echo "$results" > /tmp/ab.txt
@@ -1324,92 +1327,6 @@ function o() {
   fi
 
   open .
-
-}
-
-function grab() {
-
-  local fileGrepSource=''
-  local fileGrepTarget=''
-
-  local modeOutputFile=''
-  local modeOutput='t'
-  local modeCopy=''
-  local targetX='.*'
-  local key=''
-
-  while [[ $# -gt 0 ]]; do
-
-    key="$1"
-    shift
-
-    case "$key" in
-
-      '-s' ) modeOutput='' ;;
-      '-c' ) modeCopy='t' ;;
-
-      '-o' ) 
-
-        modeOutputFile="$1"
-        shift
-
-        ;;
-
-      *) 
-
-        if [[ $fileGrepSource == '' ]]; then
-
-          fileGrepSource="$key" 
-      
-        else
-
-          fileGrepTarget="$key"
-
-        fi
-
-        ;;
-
-    esac
-
-  done
-
-  if [[ $fileGrepSource && $fileGrepTarget ]]; then
-
-    local grepOutput=''
-
-    if [[ $modeOutputFile ]]; then
-      
-      echo -n "" > $modeOutputFile
-
-    fi
-
-    cat $fileGrepSource | while read currentGrep; do
-      
-      if [[ $currentGrep != '' ]]; then
-        # echo "current grep $currentGrep"
-        
-        grepOutput=$(grep -ir "$currentGrep" $fileGrepTarget | tail -n 1)
-
-        if [[ $modeOutputFile ]]; then
-          echo "$grepOutput" >> $modeOutputFile
-        fi
-
-
-        if [[ $modeOutput != '' ]]; then
-          echo "$grepOutput"
-        fi
-
-      fi
-
-    done
-
-  fi
-
-  if [[ $modeOutputFile && $modeCopy ]]; then
-
-    cat $modeOutputFile | pbcopy
-
-  fi
 
 }
 
