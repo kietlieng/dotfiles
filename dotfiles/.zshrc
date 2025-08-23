@@ -162,6 +162,7 @@ done
 # override kitty terminal term variable.  This does not play well when ssh into servers
 # since most don't support kitty terminal
 TERM=xterm-256color
+# TERM=xterm-kitty
 #export PATH="$(brew --prefix)/opt/python@3.11/libexec/bin:$PATH"
 
 # bun is a javascript runtime / bundler / test runner.  Haven't tried it

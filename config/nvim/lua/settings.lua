@@ -97,7 +97,6 @@ vim.cmd([[
 
 ]])
 
-
 --set.completeopt = 'menu,menuone' -- duo
 
 
