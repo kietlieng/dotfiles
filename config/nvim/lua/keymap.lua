@@ -78,10 +78,13 @@ map("n", "<LEADER>jrule", ":lua require('custom/fzf').dirJump('irules')<CR>", G_
 map("n", "<LEADER>jscript", ":lua require('custom/fzf').dirJump('script')<CR>", G_SILENT_NO_REMAP)
 map("n", "<LEADER>jtm", ":lua require('custom/fzf').dirJump('tmuxp')<CR>", G_SILENT_NO_REMAP)
 
+-- kl custom 
 map("n", "<C-c>", "ciw", G_SILENT_NO_REMAP) -- change a word
 map("n", "<C-y>", "yygccp", G_SILENT_REMAP) -- duplicate line and commentout
 map("n", "<LEADER>wr", ":set wrap!<CR>", G_SILENT_NO_REMAP) -- zk copy
 map("n", "<LEADER>D", "mcDO<ESC>p`c", G_SILENT_NO_REMAP) -- zk copy
+map("n", '<LEADER>"', 'mlvi""*y`l', G_SILENT_NO_REMAP) -- copy within single quotes
+map("n", "<LEADER>'", "mlvi'\"*y`l", G_SILENT_NO_REMAP) -- copy within double quotes
 
 ----- comment code
 -- tips to comment out code use gcc.  Dude this just deleted my comment lua script
@@ -100,7 +103,7 @@ map("n", "<LEADER>bi", "Vip<C-v>I", G_SILENT_NO_REMAP)              -- block ins
 map("n", "<LEADER>bs", "mcvip:'<,'>sort<CR>`c", G_SILENT_NO_REMAP)  -- block sort
 map("v", "<LEADER>bs", ":'<,'>sort<CR>", G_SILENT_NO_REMAP)  -- block sort
 map("n", "<LEADER>bt", "mcvip:'<,'>Tabularize/=", G_NO_REMAP)       -- table
-map("n", "<LEADER>bT", "mcvip:'<,'>Tabularize/=<LEFT>", G_NO_REMAP) -- table. Position at the beginning
+map("n", "<LEADER>bT", "mcvip:'<,'>Tabularize/= <LEFT><LEFT>", G_NO_REMAP) -- table. Position at the beginning
 map("v", "<LEADER>bt", ":Tabularize/=", G_NO_REMAP)                 -- table visual
 map("v", "<LEADER>bT", ":Tabularize/=<LEFT>", G_NO_REMAP)           -- table visual. Position at beginning
 

@@ -1,10 +1,10 @@
 # figure out when certs expire
-function sslgetcertexpire() {
+function sslcertexpire() {
   openssl s_client -servername "$1" -connect "$1:$2" | openssl x509 -noout -dates
 }
 
 # grabbing certs from websites via sslgetcert google.com:433
-function sslgetcert() {
+function sslcert() {
 	/usr/bin/openssl s_client -connect "$1"
 }
 
