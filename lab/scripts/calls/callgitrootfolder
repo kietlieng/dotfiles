@@ -7,4 +7,5 @@ if [[ $# ]]; then
   shift
 fi
 
-gitrootfolder
+# pass back the levels
+gitrootfolder $1

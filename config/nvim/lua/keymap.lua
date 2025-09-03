@@ -18,6 +18,7 @@ map("n", "N", ":norm! Nzzzv<CR>", G_SILENT_NO_REMAP) -- Search but keep the view
 
 map("n", "<LEADER>/", "<cmd>lua require('custom/fzf').dirDepthJump(0)<CR>", G_SILENT_NO_REMAP)   -- search from current directory
 map("n", "<LEADER>-", "<cmd>lua require('custom/fzf').dirDepthJump(-1)<CR>", G_SILENT_NO_REMAP)  -- search from git root directory
+map("n", "<LEADER>1-", "<cmd>lua require('custom/fzf').dirDepthJump(-1, 1)<CR>", G_SILENT_NO_REMAP)  -- search 1 level above git root directory
 map("n", "<LEADER>0", "<cmd>lua require('custom/fzf').dirDepthJump(-99)<CR>", G_SILENT_NO_REMAP) -- search from current open file root directory
 map("n", "<LEADER>1/", "<cmd>lua require('custom/fzf').dirDepthJump(1)<CR>", G_SILENT_NO_REMAP)  -- search from 1 up
 map("n", "<LEADER>2/", "<cmd>lua require('custom/fzf').dirDepthJump(2)<CR>", G_SILENT_NO_REMAP)  -- search from 2 up

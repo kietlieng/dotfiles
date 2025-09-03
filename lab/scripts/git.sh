@@ -611,8 +611,7 @@ function gitrootfolder() {
   gitDirectory=$currentDirectory
   gitStatus=$(isRepo)
   #echo "gitStatus $gitStatus"
-  while [[ $gitStatus = "t" ]];
-  do
+  while [[ $gitStatus = "t" ]]; do
     # save current path prior to
     gitDirectory=$(pwd)
     cd ..
@@ -620,8 +619,26 @@ function gitrootfolder() {
     gitStatus=$(isRepo)
   done
   #echo "current git repo root is $gitDirectory"
+
+  # if you still have an arg.  It's probably how much bepth to go above it
+  if [[ $# -gt 0 ]]; then
+    local levelCount=$1
+    shift
+
+    while [[ $levelCount -gt 0 ]]; do
+
+      ((levelCount=levelCount-1))
+      cd ..
+      gitDirectory=$(pwd)
+
+    done
+
+  fi
+
   echo -n "$gitDirectory"
+
   cd $currentDirectory
+
 }
 
 # change origin

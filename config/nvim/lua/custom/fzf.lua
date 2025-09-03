@@ -107,9 +107,10 @@ function F.grepLevel(fLevel, aFuzzy)
 end
 
 -- File depth
-function F.dirDepthJump(aDepth)
+function F.dirDepthJump(aDepth, rootLevel)
 
   local dirExpression = '%:p:h'
+  rootLevel = rootLevel or 0
 
   if aDepth == -2 then
 
@@ -121,7 +122,7 @@ function F.dirDepthJump(aDepth)
     -- from a separate location than your current one
     local currentRepo = vim.fn.expand('%:p:h')
     local io = require("io")
-    local fOutput = io.popen("callgitrootfolder " .. currentRepo)
+    local fOutput = io.popen("callgitrootfolder " .. currentRepo .. " " .. rootLevel)
     dirExpression = fOutput:read('*all')
     fOutput:close()
 

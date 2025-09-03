@@ -22,7 +22,7 @@ alias tplangraphpic="terraform graph -type=plan | dot -Tpng > graph.png"
 function tfpar() {
 
   local currentLocation=$(pwd)
-  local parallelSetting="$TFE_PLAN_PARALLELISM"
+  local parallelSetting="$TFE_PLAN_PARALLELISM_DEFAULT"
 
   if [[ $currentLocation == *"imperva"* ]]; then
     parallelSetting="$TFE_PLAN_PARALLELISM_IMPERVA"
