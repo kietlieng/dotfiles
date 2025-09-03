@@ -9,3 +9,6 @@ alias ls='eza'
 alias uu='eza -a; date'
 alias u='eza --all --sort=modified --long --icons --git; date'
 alias UU='eza --all --sort=modified -1 --icons --git; date'
+
+export COP_FROM_FILE=~/lab/scripts/0zero
+export COP_TO_FILE=/tmp

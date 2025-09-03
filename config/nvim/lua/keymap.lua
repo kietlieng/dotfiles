@@ -81,10 +81,14 @@ map("n", "<LEADER>jtm", ":lua require('custom/fzf').dirJump('tmuxp')<CR>", G_SIL
 -- kl custom 
 map("n", "<C-c>", "ciw", G_SILENT_NO_REMAP) -- change a word
 map("n", "<C-y>", "yygccp", G_SILENT_REMAP) -- duplicate line and commentout
-map("n", "<LEADER>wr", ":set wrap!<CR>", G_SILENT_NO_REMAP) -- zk copy
-map("n", "<LEADER>D", "mcDO<ESC>p`c", G_SILENT_NO_REMAP) -- zk copy
+map("n", "<LEADER>wr", ":set wrap!<CR>", G_SILENT_NO_REMAP) -- set word wrap
+map("n", "<LEADER>D", "mcDO<ESC>p`c", G_SILENT_NO_REMAP) -- delete from current to beginning
 map("n", '<LEADER>"', 'mlvi""*y`l', G_SILENT_NO_REMAP) -- copy within single quotes
 map("n", "<LEADER>'", "mlvi'\"*y`l", G_SILENT_NO_REMAP) -- copy within double quotes
+map("n", "<LEADER>(", 'mlvi("*y`l', G_SILENT_NO_REMAP) -- copy within parenthesis
+map("n", "<LEADER>[", 'mlvi["*y`l', G_SILENT_NO_REMAP) -- copy within parenthesis
+map("n", "<LEADER>B", 'mlviB"*y`l', G_SILENT_NO_REMAP) -- copy whole function call
+map("n", "<LEADER>p", 'mlvip"*y`l', G_SILENT_NO_REMAP) -- copy whole block
 
 ----- comment code
 -- tips to comment out code use gcc.  Dude this just deleted my comment lua script

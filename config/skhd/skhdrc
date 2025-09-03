@@ -142,10 +142,10 @@ lctrl - 4 : ~/lab/scripts/calls/calllastboth
 
 # copy 
 f10 : ~/lab/scripts/calls/copg
-lctrl - 9 : ~/lab/scripts/calls/record
+# lctrl - 9 : ~/lab/scripts/calls/record
 # lctrl - 0 : ~/lab/scripts/calls/ffmax
-lctrl - 0 : ~/lab/scripts/calls/ffmax
-rctrl - 0 : ~/lab/scripts/calls/ffmax
+lctrl - 8 : ~/lab/scripts/calls/ffmax
+rctrl - 8 : ~/lab/scripts/calls/ffmax
 
 #lctrl - a : ~/lab/scripts/calls/scriptcall yswitchmonitor
 
@@ -175,8 +175,8 @@ rctrl - m : ~/lab/scripts/calls/scriptcall m -p
 # cmus exit
 rctrl + shift - m : ~/lab/scripts/calls/scriptcall mk
 
-f12 : ~/lab/scripts/calls/scriptcall ytincrease
-f11 : ~/lab/scripts/calls/scriptcall ytdecrease
+lctrl - 0 : ~/lab/scripts/calls/scriptcall ytincrease
+lctrl - 9 : ~/lab/scripts/calls/scriptcall ytdecrease
 rctrl + shift - e : ~/lab/scripts/calls/scriptcall yf
 rctrl - x : ~/lab/scripts/calls/scriptcall ytogpadding
 rctrl - a : ~/lab/scripts/calls/scriptcall ytoganchor

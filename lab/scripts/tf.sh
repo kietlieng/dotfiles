@@ -327,6 +327,9 @@ function timport() {
 
 }
 
+# remove state from terraform local file
+#terraform state rm 'module.incapsula_sidearms["gameday.cottonbowl.com"].incapsula_cache_rule.all["2"]'
+
 function tstates() {
 
     editMode="f"

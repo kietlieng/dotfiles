@@ -160,16 +160,16 @@ function vgraph() {
     key="$1"
     shift
     
-    if [[ -z $modeX ]]; then
-      modeX=$key
-    else
+    if [[ -z $modeY ]]; then
       modeY=$key
+    else
+      modeX=$key
     fi
 
   done
 
-  echo "  <text class=\"label\" x=\"65\" y=\"310\">$modeX</text>\"" >> $modeGraphFile
-  echo " <text class=\"label\" x=\"5\" y=\"150\" transform=\"translate(-125, 265) rotate(-90)\" text-anchor=\"middle\">$modeY</text>" >> $modeGraphFile
+  echo " <text class=\"label\" x=\"35\" y=\"310\">$modeX</text>\"" >> $modeGraphFile
+  echo " <text class=\"label\" x=\"5\" y=\"150\" transform=\"translate(-130, 280) rotate(-90)\" text-anchor=\"left\">$modeY</text>" >> $modeGraphFile
   echo "</svg> " >> $modeGraphFile
   
   cat $modeGraphFile | isvg

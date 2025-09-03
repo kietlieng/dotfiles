@@ -654,6 +654,9 @@ KL_STATUS_SYMBOL_ARRAY=($KL_STATUS_ICON_SYMBOL_ARRAY $KL_STATUS_GAMES_SYMBOL_ARR
 # wars
 # '󱁧 󰣘 󰣙 󰢱 '
 
+# planes trains and automobiles
+# `󰗕 󰓟 󰄋 `
+
 # Flux capacitor
 # 
 

@@ -143,9 +143,9 @@ export GOPATH=$HOME/go
 
 ## User configuration
 #echo "" > /tmp/sourcetime
+
 #echo "load"
-for f in $(find ~/lab/scripts -type f -iname "*.sh" | sort);
-do
+for f in $(find ~/lab/scripts -type f -iname "*.sh" | sort); do
 
 #    timer=$(($(gdate +%s%N)/1000000))
 
@@ -156,6 +156,17 @@ do
 #    echo $elapsed":" $f
 
 done
+
+# # source configurations
+# for f in $(uncoverTokens -f); do
+#
+#   # echo "sourcing $f"
+#   if [[ -f $f ]]; then
+#     echo "sourcing $f"
+#     source $f
+#   fi
+#
+# done
 
 #echo "runtime $runtime"
 
