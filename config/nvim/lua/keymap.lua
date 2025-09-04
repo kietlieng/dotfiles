@@ -91,6 +91,7 @@ map("n", "<LEADER>(", 'mlvi("*y`l', G_SILENT_NO_REMAP) -- copy within parenthesi
 map("n", "<LEADER>[", 'mlvi["*y`l', G_SILENT_NO_REMAP) -- copy within parenthesis
 map("n", "<LEADER>B", 'mlviB"*y`l', G_SILENT_NO_REMAP) -- copy whole function call
 map("n", "<LEADER>p", 'mlvip"*y`l', G_SILENT_NO_REMAP) -- copy whole block
+map("n", "<LEADER>W", 'mlviW"*y`l', G_SILENT_NO_REMAP) -- copy WORD
 
 ----- comment code
 -- tips to comment out code use gcc.  Dude this just deleted my comment lua script
