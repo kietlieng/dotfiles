@@ -185,8 +185,8 @@ rctrl - a : ~/lab/scripts/calls/scriptcall ytoganchor
 rctrl + shift - a : ~/lab/scripts/calls/scriptcall rot
 
 # search command 
-rctrl - 8 : ~/lab/scripts/calls/scriptcall impgrepcname
-rctrl - 9 : ~/lab/scripts/calls/scriptcall impgrepredirects
+# rctrl - 8 : ~/lab/scripts/calls/scriptcall impgrepcname
+# rctrl - 9 : ~/lab/scripts/calls/scriptcall impgrepredirects
 
 #lctrl - shift [
 #    "kitty"       : echo "hello kitty"
