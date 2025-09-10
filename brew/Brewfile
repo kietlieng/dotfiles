@@ -34,7 +34,7 @@ brew "carapace"
 brew "cargo-binstall"
 brew "cargo-bundle"
 brew "catdoc"
-brew "cffi", link: false
+brew "cffi"
 brew "circumflex"
 brew "cmake"
 brew "gnutls"

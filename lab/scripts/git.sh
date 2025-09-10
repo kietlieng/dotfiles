@@ -262,8 +262,7 @@ function useBasename() {
   local key=''
   local trimPaths=''
 
-  while [[ $# -gt 0 ]];
-  do
+  while [[ $# -gt 0 ]]; do
 
     key="$1"
     shift
@@ -277,7 +276,14 @@ function useBasename() {
       * )
 
         if [[ $trimPaths ]]; then
-          baseValue=$(basename $key)
+
+          # check to see if there is a slash or it's a url then get base
+          if [[ $key = "https://"* ]] || [[ $key = "/"* ]]; then
+            baseValue=$(basename $key)
+          else
+            baseValue=$key
+          fi
+
         else
           baseValue=$key
         fi
@@ -314,6 +320,7 @@ function gblast() {
 # -dd delete local and remote branch
 # -fdd use the full value of the branch name for delete on local and remote
 # -prune remove all local merged branches
+
 function g() {
 
   # quit if not a repo
