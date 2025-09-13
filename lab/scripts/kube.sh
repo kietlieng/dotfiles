@@ -105,6 +105,8 @@ function kgetdefaults() {
 
 }
 
+# set default environments to look after
+# do not set default namespace when using this 
 function kdefaults() {
 
   local key=''
@@ -116,8 +118,7 @@ function kdefaults() {
 
     case "$key" in
       '-reset')
-        echo "$1" > ~/.kube/.kubedefaults
-        shift
+        echo "" > ~/.kube/.kubedefaults
         ;;
       '-d') 
         sed  -i "" "/$1/d" ~/.kube/.kubedefaults
@@ -134,11 +135,38 @@ function kdefaults() {
 
 }
 
-function kenv() {
+function kgetenvs() {
+
+  local defaultEnvs=''
+
+  for iDefault in $(cat ~/.pacenv); do
+
+    if [[ $defaultEnvs ]]; then
+      defaultEnvs="$defaultEnvs\\\\|$iDefault"
+    else
+      defaultEnvs="$iDefault"
+    fi
+
+  done
+
+  echo -n "$defaultEnvs"
+
+}
+
+function kenvs() {
 
   while [[ $# -gt 0 ]]; do
-    echo "$1" > ~/.pacenv
+
+    key="$1"
     shift
+
+    case "$key" in
+
+      '-reset' ) echo "" > ~/.pacenv ;;
+      *) echo "$key" >> ~/.pacenv ;;
+
+    esac
+
   done
 
   local env=$(cat ~/.pacenv)
@@ -289,12 +317,10 @@ function kssh() {
     done
 }
 
-
 function kl() {
 
   local modeCopy=''
-  local modeEnv=''
-  modeEnv=$(kenv)
+  local modeEnv=$(kgetenvs)
   local modeConfig=''
   local modeFileoutput=''
   local modeDefault='t'
@@ -311,48 +337,53 @@ function kl() {
 
     case "$key" in
 
-     '-a') 
-       modeDefault=''
-       modeEnv=''
-       ;;
-     '-c') modeCopy='t' ;;
-     '-kconf') 
-       modeConfig="$1"
-       shift
-       ;;
-     '-f') modeFileoutput='t' ;;
-     '-d') modeDefault='' ;;
-     '-s') 
-       modeSingle='t' 
-       modeMulti=''
-       ;;
-     '-env')
-       kenv "$1"
-       shift
-       ;;
-     '-e')
-       modeEnv=''
-       ;;
-     '-info' )
+      '-help') 
+        echo -n "function kl works in conjuction with kenvs and kdefaults"
+        echo "kenvs: tells you when environment you are looking at prod / dev / staging.  You can only select 1."
+        echo "kdefaults: tells you what namespaces to filter you want auth / mysql / ... etc.  It can take many"
+        return
+        ;;
+      '-a') 
+        modeDefault=''
+        modeEnv=''
+        ;;
+      '-c') modeCopy='t' ;;
+      '-kconf') 
+        modeConfig="$1"
+        shift
+        ;;
+      '-f') modeFileoutput='t' ;;
+      '-d') modeDefault='' ;;
+      '-s') 
+        modeSingle='t' 
+        modeMulti=''
+        ;;
+      '-env')
+        kenvs "$1"
+        shift
+        ;;
+      '-e')
+        modeEnv=''
+        ;;
+      '-info' )
 
-       kcon
+        kcon
 
-       echo -n "\nenv:"
-       kenv
-       echo "\n\ndefaults:"
-       kdefaults
+        echo -n "\nenv:"
+        kgetenvs
+        echo "\n\ndefaults:"
+        kdefaults
 
-       return
+        return
 
-       ;;
-    
-     '-g' )
-       
-       modeGrep="$1"
-       shift
-       ;;
+        ;;
+      '-g' )
+        
+        modeGrep="$1"
+        shift
+        ;;
 
-      *) ;;
+       *) ;;
 
     esac
 
@@ -400,7 +431,15 @@ function kl() {
   fi
 
   kpSelectAll="all\n$kpSelect"
-  selectValues=$(echo "$kpSelectAll" | fzf --multi --prompt="Podname: ");
+
+  local searchPrompt=$(kgetenvs)
+  searchPrompt="Env:$searchPrompt"
+  searchPrompt="$searchPrompt Namespace:$(kgetdefaults)"
+  # kgetenvs
+  # echo "\n\ndefaults:"
+  # kdefaults
+
+  selectValues=$(echo "$kpSelectAll" | fzf --multi --prompt="$searchPrompt: ");
 
   if [ $? -eq 0 ]; then # pressed enter so do everything 
     if [[ "all" ==  "$selectValues" ]]; then # see if select all is enabled

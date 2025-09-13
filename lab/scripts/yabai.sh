@@ -1103,11 +1103,15 @@ function ytoganchor() {
 
       # hugging left side
       if [[ $currentAnchor == 'l' ]]; then
-#        yoR
+
         yor
+        yabai -m config window_placement second_child
+
       else
-#        yoL
+
         yol
+        yabai -m config window_placement first_child
+
       fi
 
     # it's about 2 / 3 split
@@ -1115,11 +1119,15 @@ function ytoganchor() {
 
       # hugging left side
       if [[ $currentAnchor == 'l' ]]; then
-#        yor
+
         yoR
+        # yabai -m config window_placement second_child
+
       else
-#        yol
+
         yoL
+        # yabai -m config window_placement first_child
+
       fi
 
     fi
