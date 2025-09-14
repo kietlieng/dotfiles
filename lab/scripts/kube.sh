@@ -13,6 +13,7 @@ export K_MAX_LOG_REQUEST="--tail 0 --max-log-requests=10000"
 export K_TEMPLATE="--template \"\x1b[32m{{.PodName}}\x1b[0m \x1b[36m{{.ContainerName}}\x1b[0m \x1b[31m{{.Message}}\x1b[0m {{\\\"\n\\\"}}\""
 export K_TEMPLATE=""
 export K_EXCLUDE=""
+export K_FILTERCONFIG=~/.kube/.kubefilter
 
 alias k="kubectl --insecure-skip-tls-verify"
 alias kap="k apply -f "
@@ -24,6 +25,7 @@ alias kda="k get deployment --all-namespaces"
 alias kdo="k get -o yaml deployment"
 alias kdp="k describe pod"
 alias ke="k get events"
+alias kf="kfilter"
 alias kg="k get"
 alias kgo="k get -o yaml"
 alias ki="k get ing"
@@ -44,40 +46,22 @@ alias ksecrets="k get secrets"
 alias kserv="k get svc"
 alias kso="k get -o yaml svc"
 alias kv="k get pv,pvc"
-alias vikdefaults="vim ~/.kube/.kubedefaults"
-alias vikub="nvim ~/.kube/config"
-
-
-# disable environment
-alias kle="kl -e"
-alias klse="kl -s -e"
-
-# disable default
-alias kld="kl -d"
-alias klsd="kl -s -d"
 
 # getting info
 alias klinfo="kl -info"
 
 # disable both environment / defaults
-alias kled="kl -e -d"
-alias klall="kled"
-alias klsed="kl -s -e -d"
-alias kla="kl -a"
-alias klsa="kl -s -a"
+alias klall="kl -nofilter"
 
 # misc
 alias klc="kl -c"
 alias klf="kl -f"
 alias klfc="kl -f -c"
 
-# enable environment / defaults 
-alias kls="kl -s"
-
 # misc
-alias klsc="kl -s -c"
-alias klsf="kl -s -f"
-alias klsfc="kl -s -f -c"
+alias klsc="kl -c"
+alias klsf="kl -f"
+alias klsfc="kl -f -c"
 
 
 # kps --show-labels --selector app=redis
@@ -88,10 +72,45 @@ alias klsfc="kl -s -f -c"
 #alias ksa="k get serviceaccounts --all-namespaces"
 
 
-function kgetdefaults() {
+function kgetfilter() {
   local defaults=''
+  
+  # env / pod / all
+  local modeTarget=''
+  local key=''
 
-  for iDefault in $(cat ~/.kube/.kubedefaults); do
+  while [[ $# -gt 0 ]]; do
+
+    key="$1"
+    shift
+
+    case "$key" in
+
+      '-m') 
+        modeTarget="$1" 
+        shift
+        ;;
+
+    esac
+
+  done
+
+  for iDefault in $(cat $K_FILTERCONFIG ); do
+
+
+    if [[ $modeTarget = *'env'* ]]; then
+
+      if echo "$iDefault" | grep -iqv "dev\|prod\|qfn\|auto"; then
+        continue
+      fi
+
+    elif [[ $modeTarget = *'pod'* ]]; then
+
+      if echo "$iDefault" | grep -iq "dev\|prod\|qfn\|auto"; then
+        continue
+      fi
+
+    fi
 
     if [[ $defaults ]]; then
       defaults="$defaults\\\\|$iDefault"
@@ -107,7 +126,7 @@ function kgetdefaults() {
 
 # set default environments to look after
 # do not set default namespace when using this 
-function kdefaults() {
+function kfilter() {
 
   local key=''
 
@@ -117,60 +136,32 @@ function kdefaults() {
     shift
 
     case "$key" in
-      '-reset')
-        echo "" > ~/.kube/.kubedefaults
+
+      '-r') # empty file
+        echo -n "" > $K_FILTERCONFIG
         ;;
-      '-d') 
-        sed  -i "" "/$1/d" ~/.kube/.kubedefaults
+
+      '-d') # delete a setting
+        sed  -i "" "/$1/d" $K_FILTERCONFIG
         shift
         ;;
       *) 
-        echo "$key" >> ~/.kube/.kubedefaults
+        
+        # if it's an environment
+        if echo "$key" | grep -iq "dev\|prod\|qfn\|auto"; then
+          echo "$key" >> $K_FILTERCONFIG
+        else
+          echo "$key" | cat - $K_FILTERCONFIG > /tmp/kube
+          cp /tmp/kube $K_FILTERCONFIG
+        fi
+
         ;;
-    esac
-
-  done
-
-  cat ~/.kube/.kubedefaults
-
-}
-
-function kgetenvs() {
-
-  local defaultEnvs=''
-
-  for iDefault in $(cat ~/.pacenv); do
-
-    if [[ $defaultEnvs ]]; then
-      defaultEnvs="$defaultEnvs\\\\|$iDefault"
-    else
-      defaultEnvs="$iDefault"
-    fi
-
-  done
-
-  echo -n "$defaultEnvs"
-
-}
-
-function kenvs() {
-
-  while [[ $# -gt 0 ]]; do
-
-    key="$1"
-    shift
-
-    case "$key" in
-
-      '-reset' ) echo "" > ~/.pacenv ;;
-      *) echo "$key" >> ~/.pacenv ;;
 
     esac
 
   done
 
-  local env=$(cat ~/.pacenv)
-  echo -n "$env"
+  cat $K_FILTERCONFIG
 
 }
 
@@ -205,7 +196,7 @@ function kcon() {
 #    for kConfig in $(ls -l $KUBE_DIRECTORY/config* | awk '{print $NF}'); do
     for targetConf in $(ls ~/.kube/config.*); do
       if cmp -s "$targetConf" ~/.kube/config; then
-        echo "  $targetConf  "
+        echo "🯁🯂🯃 $targetConf"
       else
         echo "$targetConf"
       fi
@@ -320,13 +311,10 @@ function kssh() {
 function kl() {
 
   local modeCopy=''
-  local modeEnv=$(kgetenvs)
   local modeConfig=''
   local modeFileoutput=''
   local modeDefault='t'
   local modeGrep=''
-  local modeMulti='t'
-  local modeSingle=''
 
   local key=''
 
@@ -338,14 +326,12 @@ function kl() {
     case "$key" in
 
       '-help') 
-        echo -n "function kl works in conjuction with kenvs and kdefaults"
-        echo "kenvs: tells you when environment you are looking at prod / dev / staging.  You can only select 1."
-        echo "kdefaults: tells you what namespaces to filter you want auth / mysql / ... etc.  It can take many"
+        echo "Function kl works in conjuction with kfilter"
+        echo "kfilter: tells you what namespaces to filter you want auth / mysql / ... etc.  It can take many"
         return
         ;;
       '-a') 
         modeDefault=''
-        modeEnv=''
         ;;
       '-c') modeCopy='t' ;;
       '-kconf') 
@@ -353,27 +339,12 @@ function kl() {
         shift
         ;;
       '-f') modeFileoutput='t' ;;
-      '-d') modeDefault='' ;;
-      '-s') 
-        modeSingle='t' 
-        modeMulti=''
-        ;;
-      '-env')
-        kenvs "$1"
-        shift
-        ;;
-      '-e')
-        modeEnv=''
-        ;;
+      '-nofilter') modeDefault='' ;;
       '-info' )
 
         kcon
-
-        echo -n "\nenv:"
-        kgetenvs
-        echo "\n\ndefaults:"
-        kdefaults
-
+        echo "filters:"
+        kfilter
         return
 
         ;;
@@ -394,30 +365,26 @@ function kl() {
   local kpSelect=''
   local kpSelectAll=''
 
-  if [[ $modeSingle ]]; then
-    kpSelect=$(kpo)
-  elif [[ $modeMulti ]]; then
-    kpSelect=$(kpoa)
-  fi
+  # kpSelect=$(kpo)
+  kpSelect=$(kpoa)
 
 #  echo "$kpSelect"
 
-  local kDefaults=''
-  kDefaults=$(kgetdefaults)
+  local kFilter=''
+  kFilter=$(kgetfilter)
 
-#  becho "defaults: $kDefaults"
+#  becho "defaults: $kFilter"
 
   # filter out by defaults
   if [[ $modeDefault ]]; then
-    local kDefaults=$(kgetdefaults)
-    kpSelect=$(echo "$kpSelect" | grep -i "$kDefaults")
-  fi
+    echo "in default"
+    # return
+    kFilter=$(kgetfilter -m 'env')
+    kpSelect=$(echo "$kpSelect" | grep -i "$kFilter")
+    
+    kFilter=$(kgetfilter -m 'pod')
+    kpSelect=$(echo "$kpSelect" | grep -i "$kFilter")
 
-  becho "\n$kpSelect"
-  becho "\n$kDefaults"
-  # filter out by environments
-  if [[ $modeEnv ]]; then
-    kpSelect=$(echo "$kpSelect" | grep -i "$modeEnv")
   fi
 
 #  becho "\n$kpSelect"
@@ -428,18 +395,15 @@ function kl() {
       becho "Rejecting and reverting"
       sleep 1
     fi 
+
   fi
 
   kpSelectAll="all\n$kpSelect"
 
-  local searchPrompt=$(kgetenvs)
-  searchPrompt="Env:$searchPrompt"
-  searchPrompt="$searchPrompt Namespace:$(kgetdefaults)"
-  # kgetenvs
-  # echo "\n\ndefaults:"
-  # kdefaults
+  local searchPrompt=$(kgetfilter)
+  searchPrompt="Filter:($searchPrompt)"
 
-  selectValues=$(echo "$kpSelectAll" | fzf --multi --prompt="$searchPrompt: ");
+  selectValues=$(echo "$kpSelectAll" | fzf --multi --prompt="$searchPrompt>");
 
   if [ $? -eq 0 ]; then # pressed enter so do everything 
     if [[ "all" ==  "$selectValues" ]]; then # see if select all is enabled
