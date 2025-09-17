@@ -18,6 +18,7 @@ alias gpull="git pull --all"
 alias gR='groot' # taken over by grep
 alias gabort='git rebase --abort'
 alias grebasedelete='rm -fr ".git/rebase-merge"'
+alias grebaseskip='git rebase --skip'
 alias gslist="git stash list"
 alias gspop="git stash pop"
 alias gspush="git stash push"

@@ -558,17 +558,17 @@ function gr() {
             '-ci' )
                 searchCICD='t'
                 ;;
-            # check to see if number
-            # context before and after
-            +([0-9]) ) 
-
-              if [[ $modeFound ]]; then
-                modeBefore="$key"
-              else
-                modeFound='t'
-                modeAfter="$key"
-              fi
-            ;;
+            # # check to see if number
+            # # context before and after
+            # +([0-9]) ) 
+            #
+            #   if [[ $modeFound ]]; then
+            #     modeBefore="$key"
+            #   else
+            #     modeFound='t'
+            #     modeAfter="$key"
+            #   fi
+            # ;;
 
             * )
                 searchExpression="$searchExpression${key}.*"

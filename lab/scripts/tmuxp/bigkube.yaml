@@ -1,0 +1,10 @@
+session_name: 2p-$RANDOM_TITLE1
+windows:
+  - window_name: 2p-$RANDOM_TITLE1
+    layout: even-horizontal
+    focus: true
+    panes:
+      - shell_command:
+        - ssbig 2
+      - shell_command:
+        - kl

@@ -141,13 +141,11 @@ rctrl - e: ~/lab/scripts/calls/calltmuxcreatewindow -popup
 lctrl - 4 : ~/lab/scripts/calls/calllastboth
 
 # copy 
-f10 : ~/lab/scripts/calls/copg
-# lctrl - 9 : ~/lab/scripts/calls/record
-# lctrl - 0 : ~/lab/scripts/calls/ffmax
-lctrl - 8 : ~/lab/scripts/calls/ffmax
-rctrl - 8 : ~/lab/scripts/calls/ffmax
+rctrl - 0: ~/lab/scripts/calls/scriptcall cop g
+rctrl - 9 : ~/lab/scripts/calls/scriptcall getcode
 
-#lctrl - a : ~/lab/scripts/calls/scriptcall yswitchmonitor
+# maximize ff
+lctrl - 8 : ~/lab/scripts/calls/ffmax
 
 # yabai window management
 lctrl - g : ~/lab/scripts/calls/callyrot
