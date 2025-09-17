@@ -142,7 +142,7 @@ lctrl - 4 : ~/lab/scripts/calls/calllastboth
 
 # copy 
 rctrl - 0: ~/lab/scripts/calls/scriptcall cop g
-rctrl - 9 : ~/lab/scripts/calls/scriptcall getcode
+rctrl - 9 : ~/lab/scripts/calls/scriptcall mcode
 
 # maximize ff
 lctrl - 8 : ~/lab/scripts/calls/ffmax
