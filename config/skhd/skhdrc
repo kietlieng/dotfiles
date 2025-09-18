@@ -123,15 +123,6 @@
 
 #### yabai settings ####
 
-# shuffle and focus
-#lctrl - g : ~/lab/scripts/calls/scriptcall yshift -f
-
-# shuffle but keep in background
-#lctrl + shift - g : ~/lab/scripts/calls/scriptcall yshift
-
-# kitty window
-# lctrl - return : /Applications/kitty.app/Contents/MacOS/kitty -1
-
 # tmux 
 lctrl - w : ~/lab/scripts/calls/calltmuxcreatewindow
 lctrl - z : ~/lab/scripts/calls/calltmuxcreatewindow -background
@@ -140,45 +131,44 @@ rctrl - e: ~/lab/scripts/calls/calltmuxcreatewindow -popup
 # screenshots
 lctrl - 4 : ~/lab/scripts/calls/calllastboth
 
-# copy 
+########### copy ###########
 rctrl - 0: ~/lab/scripts/calls/scriptcall cop g
 rctrl - 9 : ~/lab/scripts/calls/scriptcall mcode
 
 # maximize ff
 lctrl - 8 : ~/lab/scripts/calls/ffmax
 
-# yabai window management
+########### yabai ###########
+# rotate windows clockwise
 lctrl - g : ~/lab/scripts/calls/callyrot
 # yabai flip window
 lctrl + shift - g : ~/lab/scripts/calls/scriptcall yshift -f
+# increase / decrease window sizes
+lctrl - 0 : ~/lab/scripts/calls/scriptcall ytincrease
+lctrl - 9 : ~/lab/scripts/calls/scriptcall ytdecrease
+
+# change profile
+rctrl - x : ~/lab/scripts/calls/scriptcall ytogpadding 
+# swap anchor point.  Left or right
+rctrl - a : ~/lab/scripts/calls/scriptcall ytoganchor
+
+
+########### music ###########
 
 # cmus create or pause player
 lctrl - m : ~/lab/scripts/calls/scriptcall mnext
-
 # cmus next
 lctrl + shift - m : ~/lab/scripts/calls/scriptcall mprevious
-
 # cmus previous
 # rctrl + shift - m : ~/lab/scripts/calls/scriptcall mprevious
-
 # cmus seek forward
 lctrl - b : ~/lab/scripts/calls/scriptcall mseekf
-
 # cmus seek backwards
 lctrl + shift - b : ~/lab/scripts/calls/scriptcall mseekb
-
 # cmus next
 rctrl - m : ~/lab/scripts/calls/scriptcall m -p
-
 # cmus exit
 rctrl + shift - m : ~/lab/scripts/calls/scriptcall mk
-
-lctrl - 0 : ~/lab/scripts/calls/scriptcall ytincrease
-lctrl - 9 : ~/lab/scripts/calls/scriptcall ytdecrease
-rctrl + shift - e : ~/lab/scripts/calls/scriptcall yf
-rctrl - x : ~/lab/scripts/calls/scriptcall ytogpadding
-rctrl - a : ~/lab/scripts/calls/scriptcall ytoganchor
-
 # y move window to differrent screen
 rctrl + shift - a : ~/lab/scripts/calls/scriptcall rot
 
