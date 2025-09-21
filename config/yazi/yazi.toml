@@ -9,6 +9,8 @@ prepend_preloaders = [
   { name = "*.parquet", run = "duckdb", multi = false },
   { name = "*.txt", run = "duckdb", multi = false },  
   { name = "*.xlsx", run = "duckdb", multi = false },
+  { mime = "audio/*",   run = "exifaudio"},
+  # { mime = "audio/*", run = "audio-preview" },
 
   # # Office Documents
   # { mime = "application/openxmlformats-officedocument.*", run = "libreoffice" },
@@ -30,6 +32,8 @@ prepend_previewers = [
   { name = "*.xlsx", run = "duckdb" },  
   { name = "*.db", run = "duckdb" },
   { name = "*.duckdb", run = "duckdb" },
+  { mime = "audio/*",   run = "exifaudio"},
+  # { mime = "audio/*", run = "audio-preview" },
 
   # # Office Documents
   # { mime = "application/openxmlformats-officedocument.*", run = "libreoffice" },

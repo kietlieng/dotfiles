@@ -80,7 +80,8 @@ function F.comments(aRegular, aNormalMode, aAll, aCommentOut, aInvert, aBuffer)
 
     commentCharacter = "\\/\\/"
 
-  elseif fileExtension == 'lua' then
+  elseif fileExtension == 'lua' or
+    fileExtension == 'tidal' then
 
     commentCharacter = "--"
 

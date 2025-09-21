@@ -170,6 +170,10 @@ done
 
 #echo "runtime $runtime"
 
+
+# haskell env
+source ${HOME}/.ghcup/env
+
 # override kitty terminal term variable.  This does not play well when ssh into servers
 # since most don't support kitty terminal
 TERM=xterm-256color
