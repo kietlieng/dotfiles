@@ -1,5 +1,6 @@
 alias ccore="c core"
 alias ctokens="c tokens"
+alias ccop="c cop"
 alias cdo="c todo"
 alias ce="c edit"
 alias cl="c -"
@@ -1179,37 +1180,59 @@ function c() {
   sFilename=$(echo $searchTerm | sed "s/*//g")
   #echo "filename $sFilename"
 
-  if [[ "$sFilename" == "sh" ]] ; then
+  case "$sFilename" in
+
+
+    "sh" )
       sFilename="jumpssh"
       searchTerm="jumpssh"
-  elif [[ "$sFilename" == "jump" ]] ; then
+      ;;
+
+    "jump" )
       sFilename="jumpscript"
       searchTerm="jumpscript"
-  elif [[ "$sFilename" == "s" ]] ; then
+      ;;
+
+    "s" )
       sFilename="settings"
       searchTerm="settings"
-  elif [[ "$sFilename" == "c" ]] ; then
+      ;;
+
+    "c" )
       sFilename="confluent"
       searchTerm="confluent"
-  elif [[ "$sFilename" == "y" ]] ; then
+      ;;
+
+    "y" )
       sFilename="yabai"
       searchTerm="yabai"
-  elif [[ "$sFilename" == "todo" ]] ; then
+      ;;
+    "todo" )
       sFilename="todo"
       searchTerm="todo"
-  elif [[ "$sFilename" == "tokens" ]]; then
+      ;;
+    "tokens" )
       sFilename=$(uncoverfile "tokens" -f)
       vim $sFilename 
       return
-  elif [[ "$sFilename" == "-" ]] ; then
-
+      ;;
+    "cop" )
+      sFilename=$(uncoverfile "cop" -f)
+      vim $sFilename 
+      return
+      ;;
+    "-" )
       echo "\n----- $scriptDir -----\n"
       ls $scriptDir
       echo "\n----- $yamlDir -----\n"
       ls $yamlDir
       return
+      ;;
 
-  fi
+    * )
+      ;;
+
+  esac
 
   local scriptQuery=$searchTerm
 
