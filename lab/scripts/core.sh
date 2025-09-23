@@ -22,6 +22,67 @@ alias ex="e -g"
 alias fo="f -o"
 alias zclear="yes | rm ~/.zcompdump*"
 
+export COP_FROM_FILE=~/lab/scripts/0zero
+export COP_TO_FILE=/tmp
+
+function cover() {
+
+  if [ "$1" ]; then
+
+    openssl enc -aes-256-cbc -md sha512 -pbkdf2 -iter 1000000 -salt -in $1 -out "$1.enc"
+    /bin/mv "$1.enc" $1
+
+  fi
+}
+
+function uncover() {
+
+  if [[ "$1" ]]; then
+
+    openssl enc -aes-256-cbc -md sha512 -pbkdf2 -iter 1000000 -salt -in $1 -d 
+
+  fi
+
+}
+
+
+
+# Echo family! 
+# printing functions 
+function becho() { # broadcast echo.  Put in file and also output to screen
+
+  local fname="${funcstack[2]}: $@"
+  echo "$fname" >> /tmp/log-gecho
+  echo "$fname"
+
+}
+
+function pecho() { # put echo into file
+
+  local fname="${funcstack[2]}: $@"
+  echo "$fname" >> /tmp/log-gecho
+
+}
+
+function gecho() { # get echo from file
+  
+  cat /tmp/log-gecho
+
+}
+
+function cecho() { # get echo from file.  Then empty
+  
+  cat /tmp/log-gecho
+  echo "" > /tmp/log-gecho
+
+}
+
+function techo() { # get echo from file.  Then empty
+  
+  tail -f  /tmp/log-gecho
+
+}
+
 # edit git file
 function egit() {
 
@@ -729,6 +790,7 @@ function fgr() {
 
 # will script out extension
 function nameonly() {
+
     results=$(strr -c -s " " -r "_" $@)
     results=$(strr -c -s ".\/" "$results")
     results=$(strr -c -s ".epub" "$results")
@@ -737,6 +799,7 @@ function nameonly() {
     results=$(strr -c -s ".azw3" "$results")
     results=$(strr -c -s ".mobi" "$results")
     results=$(strr -c -s ".pdf" "$results")
+
 }
 
 # no idea  what this does
@@ -1365,4 +1428,129 @@ function frename() {
 
 function ccat() {
   cat $1 | pbcopy
+}
+
+function cep() {
+    cop $@ -c -x
+}
+
+function cap() {
+    cop $@ -c
+}
+
+function cop() {
+
+    #echo "cop $1"
+    local copyPass=""
+    local copCopy="f"
+    local copExit="f"
+    local copUser=""
+    local copWithoutN="f"
+    local fromFile="$COP_FROM_FILE/cop-text"
+    local copHash=$(md5 -q $fromFile)
+    local toFile="$COP_TO_FILE/$copHash"
+
+    # echo "toFile $toFile"
+    if [[ ! -f $toFile ]]; then
+
+      becho "󰯈 ";
+      copyPass="Expired ... "
+      copWithoutN='t'
+      copCopy='t'
+      uncover $fromFile > $toFile
+
+      if [[ $? -eq 0 ]]; then
+        becho "success!"
+        source $toFile
+      else
+        becho "deleting"
+        rm $toFile
+      fi
+
+    else
+
+      source $toFile
+
+    fi
+
+    export SSHPASS="$copyPass"
+    if [[ "$copUser" ]]; then
+        echo $copUser
+    fi
+    if [[ "$copCopy" = 't' ]]; then
+        if [[ "$copWithoutN" = 't' ]]; then
+          echo "$copyPass" | pbcopy
+        else
+          echo -n $copyPass | pbcopy
+        fi
+    fi
+
+    if [[ "$copExit" = 't' ]]; then
+        exit
+    fi
+
+}
+
+function uncoverfile() {
+
+  local tokenFile="$1"
+  shift
+  local fromTokens="$COP_FROM_FILE/$tokenFile"
+  local hashTokens=$(md5 -q $fromTokens)
+  local toTokens="$COP_TO_FILE/$hashTokens"
+
+  local modeFilename=''
+  local key=''
+
+  while [[ $# -gt 0 ]]; do
+
+    key="$1"
+    shift
+
+    case "$key" in
+      '-f') modeFilename='t' ;;
+      *) ;;
+    esac
+
+  done
+
+  # # echo "$hashToken $hashTokens"
+  # if [[ ! -f $toTokens ]]; then
+  #
+  # fi
+
+  # echo "to token $toTokens"
+  if [[ $modeFilename ]]; then
+
+    echo "$toTokens"
+    return
+
+  else
+
+    becho "󰯈 ";
+    copyPass="Expired ... "
+    uncover $fromTokens > $toTokens
+
+    if [[ $? -eq 0 ]]; then
+
+      becho "success!"
+      source $toTokens
+
+    else
+
+      becho "deleting"
+      rm $toTokens
+
+    fi
+
+  fi
+    
+}
+
+function uncoverTokens() {
+  
+  local filename=$(uncoverfile "tokens" -f)
+  echo "$filename"
+  # uncoverFile "tokens-text" "tokens" $@
+
 }

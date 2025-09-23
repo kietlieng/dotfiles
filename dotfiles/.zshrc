@@ -144,6 +144,22 @@ export GOPATH=$HOME/go
 ## User configuration
 #echo "" > /tmp/sourcetime
 
+source ~/lab/scripts/core.sh
+tokenFile=$(uncoverTokens)
+# echo "tokenFile $tokenFile"
+
+if [[ -f $tokenFile ]]; then
+  # echo "sourcing file $tokenFile"
+  source $tokenFile
+fi
+
+# for f in $(find ~/lab/scripts/cop -type f -iname "*.sh" | sort); do
+#
+#     source $f
+#
+# done
+
+
 #echo "load"
 for f in $(find ~/lab/scripts -type f -iname "*.sh" | sort); do
 
