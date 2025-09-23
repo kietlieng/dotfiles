@@ -1,4 +1,5 @@
 alias ccore="c core"
+alias ctokens="c tokens"
 alias cdo="c todo"
 alias ce="c edit"
 alias cl="c -"
@@ -1196,6 +1197,10 @@ function c() {
   elif [[ "$sFilename" == "todo" ]] ; then
       sFilename="todo"
       searchTerm="todo"
+  elif [[ "$sFilename" == "tokens" ]]; then
+      sFilename=$(uncoverfile "tokens" -f)
+      vim $sFilename 
+      return
   elif [[ "$sFilename" == "-" ]] ; then
 
       echo "\n----- $scriptDir -----\n"
@@ -1203,6 +1208,7 @@ function c() {
       echo "\n----- $yamlDir -----\n"
       ls $yamlDir
       return
+
   fi
 
   local scriptQuery=$searchTerm
@@ -1446,7 +1452,7 @@ function cop() {
     local copExit="f"
     local copUser=""
     local copWithoutN="f"
-    local fromFile="$COP_FROM_FILE/cop-text"
+    local fromFile="$COP_FROM_FILE/cop"
     local copHash=$(md5 -q $fromFile)
     local toFile="$COP_TO_FILE/$copHash"
 

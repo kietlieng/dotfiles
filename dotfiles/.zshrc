@@ -144,6 +144,7 @@ export GOPATH=$HOME/go
 ## User configuration
 #echo "" > /tmp/sourcetime
 
+# load core
 source ~/lab/scripts/core.sh
 tokenFile=$(uncoverTokens)
 # echo "tokenFile $tokenFile"
