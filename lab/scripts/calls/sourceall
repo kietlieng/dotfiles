@@ -3,6 +3,15 @@
 # https://unix.stackexchange.com/questions/1496/why-doesnt-my-bash-script-recognize-aliases
 #shopt -s expand_aliases # need this to expand alias otherwise it won't be recognized
 
+source ~/lab/scripts/core.sh
+tokenFile=$(uncoverTokens)
+# echo "tokenFile $tokenFile"
+
+if [[ -f $tokenFile ]]; then
+  # echo "sourcing file $tokenFile"
+  source $tokenFile
+fi
+
 for f in $(find ~/lab/scripts -type f -iname "*.sh" | sort);
 do
     #if [[ "$f" != *"jump"* && "$f" != *"gruvbox_256palette_osx.sh"* && "$f" != *"edit"* && "$f" != *"centos.sh"* ]]

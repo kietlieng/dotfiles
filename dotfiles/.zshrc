@@ -166,6 +166,7 @@ for f in $(find ~/lab/scripts -type f -iname "*.sh" | sort); do
 
 #    timer=$(($(gdate +%s%N)/1000000))
 
+    # echo "source $f"
     source $f
 
 #    now=$(($(gdate +%s%N)/1000000))
