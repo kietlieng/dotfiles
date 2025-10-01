@@ -1523,6 +1523,21 @@ function cop() {
 
 }
 
+function coverfile() {
+
+  local tokenFile="$1"
+  shift
+  local fromTokens="$COP_FROM_FILE/$tokenFile"
+  local hashTokens=$(md5 -q $fromTokens)
+  local toTokens="$COP_TO_FILE/$hashTokens"
+
+  # copy file over
+  yes | cp $fromTokens ${fromTokens}.bak
+  yes | cp $toTokens $fromTokens
+  cover $fromTokens
+
+}
+
 function uncoverfile() {
 
   local tokenFile="$1"
@@ -1540,8 +1555,10 @@ function uncoverfile() {
     shift
 
     case "$key" in
+
       '-f') modeFilename='t' ;;
       *) ;;
+
     esac
 
   done
