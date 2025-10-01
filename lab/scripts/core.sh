@@ -1532,9 +1532,17 @@ function coverfile() {
   local toTokens="$COP_TO_FILE/$hashTokens"
 
   # copy file over
-  yes | cp $fromTokens ${fromTokens}.bak
-  yes | cp $toTokens $fromTokens
-  cover $fromTokens
+  if [[ -f $toTokens ]]; then
+
+    yes | cp $fromTokens ${fromTokens}.bak
+    yes | cp $toTokens $fromTokens
+    cover $fromTokens
+
+  else
+
+    echo "File does not exists $toTokens"
+
+  fi
 
 }
 
