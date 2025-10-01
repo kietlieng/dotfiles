@@ -550,7 +550,7 @@ function grab() {
       echo "$currentResults"
       results="$results\n$currentResults"
     else
-      echo "!! Missing $line"
+      # echo "!! Missing $line"
       results="$results\n$line: miss"
     fi
 
@@ -597,6 +597,7 @@ function stripends() { # from the target ($1), strip out values from both ends (
 }
 
 # grep recursive
+# use silver searcher instead
 function gr() {
 
     local searchExpression='.*'
@@ -676,21 +677,23 @@ function gr() {
                 #echo "test1"
                 #pipe
                 if ! [[ -t 0 ]]; then
-                    ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -irl  -A $modeAfter -B $modeBefore "$searchExpression" $targetFile
+                    # ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -irl  -A $modeAfter -B $modeBefore "$searchExpression" $targetFile
+                    ag -l -A $modeAfter -B $modeBefore  "$searchExpression" $targetFile
                 else
                     # dumping to null cause this will error out on * due to the backtick evaluation
-                    #ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -irl "$searchExpression" `$targetFile` 2> /dev/null
-                    ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -irl -A $modeAfter -B $modeBefore "$searchExpression" *
+                    # ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -irl -A $modeAfter -B $modeBefore "$searchExpression" *
+                    ag -l -A $modeAfter -B $modeBefore "$searchExpression" *
                 fi
             else
                 #echo "ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -ir \"$searchExpression\" $targetFile"
                 if ! [[ -t 0 ]]; then
-                    ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -ir -A $modeAfter -B $modeBefore "$searchExpression" $targetFile
+                    # ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -ir -A $modeAfter -B $modeBefore "$searchExpression" $targetFile
+                    ag -ir --nonumbers -A $modeAfter -B $modeBefore "$searchExpression" $targetFile
                 else
                     # dumping to null cause this will error out on * due to the backtick evaluation
                     echo "search expression '$searchExpression'"
                     # echo "ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -ir -A $modeAfter -B $modeBefore \"$searchExpression\" *"
-                    ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -ir -A $modeAfter -B $modeBefore "$searchExpression" *
+                    ag -ir --nonumbers -A $modeAfter -B $modeBefore "$searchExpression" *
                 fi
             fi
         fi
@@ -1580,6 +1583,5 @@ function uncoverTokens() {
   
   local filename=$(uncoverfile "tokens" -f)
   echo "$filename"
-  # uncoverFile "tokens-text" "tokens" $@
 
 }

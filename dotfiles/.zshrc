@@ -86,7 +86,8 @@ export DISABLE_AUTO_TITLE="true"
 #plugins=( zsh-lazyload )
 
 # marked directory position
-cd `cat ~/.jumplast`
+lastJump=$(cat ~/.jumplast)
+cd "$lastJump"
 
 ## kl will disable handle_completion_insecurities this causes slowdown
 #export ZSH_DISABLE_COMPFIX=true
