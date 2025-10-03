@@ -416,3 +416,9 @@ function tspace() {
 function tfrm() {
   terraform state rm $1
 }
+
+function tfremove() {
+
+  echo "terraform state rm 'module.incapsula_sidearms[\"gameday.cottonbowl.com\"].incapsula_cache_rule.all[\"2\"]'"
+
+}

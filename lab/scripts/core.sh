@@ -741,11 +741,15 @@ function f() {
         find . -iname $searchexpression -exec rm {} \;
 
       elif [[ $modeOpen == 't' ]]; then
+
         echo "find . -iname \"$searchexpression\" -exec open {} \\;"
         find . -iname $searchexpression -exec open {} \;
+
       else
+
         echo "find . -iname \"$searchexpression\""
         find . -iname $searchexpression
+
       fi
 
     else 
