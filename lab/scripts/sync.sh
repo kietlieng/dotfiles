@@ -1,15 +1,15 @@
 function syncmovies() {
 
-  local targetX='*'
-  local key=''
+  local set targetX '*'
+  local set key ''
 
   while [[ $# -gt 0 ]]; do
 
-    key="$1"
+    set key "$1"
     shift
 
     case "$key" in
-      *) targetX="${targetX}$key*" ;;
+      *) set targetX "${targetX}$key*" ;;
     esac
 
   done
@@ -20,7 +20,7 @@ function syncmovies() {
   else
     pwd
 #    which rsync
-    modeCommand="rsync -av $targetX ~/lab/movies/." 
+    set modeCommand "rsync -av $targetX ~/lab/movies/." 
     echo "$modeCommand" | pbcopy
     echo "rsync -av $targetX ~/lab/movies/." | pbcopy
     rsync -av $targetX ~/lab/movies/.
@@ -31,7 +31,7 @@ function syncmovies() {
 
 function synctolast() {
     echo "parameters $# pwd"
-    targetpath=$(pwd)
+    set targetpath $(pwd)
     if [[ $# -gt 1 ]];
     then
         echo "param $1"
@@ -45,7 +45,7 @@ function synctolast() {
 
 function syncfromlast() {
     echo "parameters $# pwd"
-    targetpath=$(pwd)
+    set targetpath $(pwd)
     echo "rsync -avp lastcomp:$(pwd) ${targetpath%/*}"
     rsync -avp lastcomp:$(pwd) ${targetpath%/*}
 }
@@ -54,16 +54,16 @@ function cpdot() {
 
     setopt localoptions rmstarsilent
 
-    sourceScript=~/lab/scripts
-    destinationDir=~/lab/repos/dotfiles
+    set sourceScript ~/lab/scripts
+    set destinationDir ~/lab/repos/dotfiles
 
-    dBatDir=${destinationDir}/bat
-    dBrewDir=${destinationDir}/brew
-    dConfigDir=${destinationDir}/config
-    dDirenvDir=${destinationDir}/direnv
-    dFileDir=${destinationDir}/dotfiles
-    dYaziDir=${destinationDir}/yazi
-    dYaziDir=${destinationDir}/znosource
+    set dBatDir ${destinationDir}/bat
+    set dBrewDir ${destinationDir}/brew
+    set dConfigDir ${destinationDir}/config
+    set dDirenvDir ${destinationDir}/direnv
+    set dFileDir ${destinationDir}/dotfiles
+    set dYaziDir ${destinationDir}/yazi
+    set dYaziDir ${destinationDir}/znosource
 
     # lab
     dLabDir=${destinationDir}/lab

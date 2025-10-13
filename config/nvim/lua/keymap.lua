@@ -129,7 +129,7 @@ map("n", "<LEADER>SR", ":/\\([a-zA-Z0-9\\-\\[\\]\\(\\)_]\\) \\([a-zA-Z0-9\\-\\[\
 
 map("n", "<LEADER>su", ":!callterminal '%:p:h'  slackuserscopy l=", G_NO_REMAP)          -- tab visual
 
--- map("n", "<C-t>", ":!callterminal '%:p:h' ", G_NO_REMAP)  -- terminal runs
+map("n", "<C-t>", ":!callterminal '%:p:h' ", G_NO_REMAP)  -- terminal runs
 
 --  map("v", "<LEADER>zget", ":'<,'>lua require('custom/zookeeper').zkget()<CR>", G_SILENT_NO_REMAP) -- zk copy
 --  map("v", "<LEADER>zget", ':!callzkfetch <C-R>"<ENTER>', G_SILENT_NO_REMAP) -- zk copy
@@ -283,7 +283,7 @@ map("n", "<LEADER>nre", ":set rnu!<CR>", G_SILENT_NO_REMAP) -- math
 map("n", "<LEADER>ma", ":MdMath enable<CR>", G_SILENT_NO_REMAP) -- math
 
 map("n", "<LEADER>tt", ":TidalSend<CR>", G_SILENT_NO_REMAP) -- math
-map("n", "<C-t>", "mlvip:'<,'>TidalSend<CR>`l", G_SILENT_NO_REMAP) -- math
+map("n", "<LEADER>TT", "mlvip:'<,'>TidalSend<CR>`l", G_SILENT_NO_REMAP) -- math
 map("v", "<LEADER>tt", ":'<,'>TidalSend<CR>", G_SILENT_NO_REMAP) -- math
 map("n", "<LEADER>td", ":TidalSilence ", G_SILENT_NO_REMAP) -- math
 map("n", "<LEADER>th", ":TidalHush<CR>", G_SILENT_NO_REMAP) -- math
