@@ -31,9 +31,10 @@ end
 
 function kreplacelauncher
 
-  set fileNameDate $(date +"%y%m%d%H%M")
+  set fileNameDate (date +"%y%m%d%H%M")
 #  sudo cp -rf /Applications/kitty.app /Applications/kitty.app.${fileNameDateend
-  sudo mv -f /Applications/kitty.app/Applications/kitty.app.$fileNameDateend
+  # echo "sudo mv -f /Applications/kitty.app /Applications/kitty.app.$fileNameDate"
+  # sudo mv -f /Applications/kitty.app /Applications/kitty.app.$fileNameDateend
   sudo cp -rf ~/lab/repos/kitty/kitty/launcher/kitty.app /Applications/.
   echo "done!"
 
