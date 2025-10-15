@@ -3,12 +3,12 @@
 source ~/lab/scripts/calls/sourceall
 
 # go to the directory first
-cd "$1"
-shift
+cd "$argv[1]"
+set argv $argv[2..-1]
 
 # call g for status
-if [[ $# == 0 ]]; then
+if test (count $argv) -gt 0
   g 
 else
-  eval "$@" | less
-fi
+  eval "$argv" | less
+end

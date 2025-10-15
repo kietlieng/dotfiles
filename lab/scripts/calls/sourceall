@@ -3,26 +3,21 @@
 # https://unix.stackexchange.com/questions/1496/why-doesnt-my-bash-script-recognize-aliases
 #shopt -s expand_aliases # need this to expand alias otherwise it won't be recognized
 
-source ~/lab/scripts/core.sh
-tokenFile=$(uncoverTokens)
+source ~/lab/scripts/core.fish
+set tokenFile (uncoverTokens)
 # echo "tokenFile $tokenFile"
 
-if [[ -f $tokenFile ]]; then
+if [ -f $tokenFile ]
   # echo "sourcing file $tokenFile"
   source $tokenFile
-fi
+end
 
-for f in $(find ~/lab/scripts -type f -iname "*.sh" | sort);
-do
-    #if [[ "$f" != *"jump"* && "$f" != *"gruvbox_256palette_osx.sh"* && "$f" != *"edit"* && "$f" != *"centos.sh"* ]]
-    if [[ "$f" != *"jump"* && "$f" != *"gruvbox_256palette_osx.sh"* && "$f" != *"centos.sh"* && "$f" != *"znosource"* ]]
-    then
-
-        source $f
-
-#    else
-#
-#        echo "skipping $f"
-#
-    fi
-done
+for f in $(find ~/lab/scripts -type f -iname "*.fish" | sort)
+  #if [[ "$f" != *"jump"* && "$f" != *"gruvbox_256palette_osx.sh"* && "$f" != *"edit"* && "$f" != *"centos.sh"* ]]
+  if string match -vq "*jump*" $f
+    and string match -vq "gruvbox_256palette_osx.fish*" $f
+    and string match -vq "*centos.fish*" $f
+    and string match -vq "*znosource*" $f
+      source $f
+  end
+end

@@ -124,54 +124,54 @@
 #### yabai settings ####
 
 # tmux 
-lctrl - w : ~/lab/scripts/calls/calltmuxcreatewindow
-lctrl - z : ~/lab/scripts/calls/calltmuxcreatewindow -background
-rctrl - e: ~/lab/scripts/calls/calltmuxcreatewindow -popup
+lctrl - w : fish ~/lab/scripts/calls/calltmuxcreatewindow
+lctrl - z : fish ~/lab/scripts/calls/calltmuxcreatewindow -background
+rctrl - e: fish ~/lab/scripts/calls/calltmuxcreatewindow -popup
 
 # screenshots
-lctrl - 4 : ~/lab/scripts/calls/calllastboth
+lctrl - 4 : fish ~/lab/scripts/calls/calllastboth
 
 ########### copy ###########
-rctrl - 0: ~/lab/scripts/calls/scriptcall cop g
-rctrl - 9 : ~/lab/scripts/calls/scriptcall mcode
+rctrl - 0: fish ~/lab/scripts/calls/scriptcall cop g
+rctrl - 9 : fish ~/lab/scripts/calls/scriptcall mcode
 
 # maximize ff
-lctrl - 8 : ~/lab/scripts/calls/ffmax
-rctrl - 8: ~/lab/scripts/calls/scriptcall cop wazuh
+lctrl - 8 : fish ~/lab/scripts/calls/ffmax
+rctrl - 8: fish ~/lab/scripts/calls/scriptcall cop wazuh
 
 ########### yabai ###########
 # rotate windows clockwise
-lctrl - g : ~/lab/scripts/calls/callyrot
+lctrl - g : fish ~/lab/scripts/calls/callyrot
 # yabai flip window
-lctrl + shift - g : ~/lab/scripts/calls/scriptcall yshift -f
+lctrl + shift - g : fish ~/lab/scripts/calls/scriptcall yshift -f
 # increase / decrease window sizes
-lctrl - 0 : ~/lab/scripts/calls/scriptcall ytincrease
-lctrl - 9 : ~/lab/scripts/calls/scriptcall ytdecrease
+lctrl - 0 : fish ~/lab/scripts/calls/scriptcall ytincrease
+lctrl - 9 : fish ~/lab/scripts/calls/scriptcall ytdecrease
 
 # change profile
-rctrl - x : ~/lab/scripts/calls/scriptcall ytogpadding 
+rctrl - x : fish ~/lab/scripts/calls/scriptcall ytogpadding 
 # swap anchor point.  Left or right
-rctrl - a : ~/lab/scripts/calls/scriptcall ytoganchor
+rctrl - a : fish ~/lab/scripts/calls/scriptcall ytoganchor
 
 
 ########### music ###########
 
 # cmus create or pause player
-lctrl - m : ~/lab/scripts/calls/scriptcall mnext
+lctrl - m : fish ~/lab/scripts/calls/scriptcall mnext
 # cmus next
-lctrl + shift - m : ~/lab/scripts/calls/scriptcall mprevious
+lctrl + shift - m : fish ~/lab/scripts/calls/scriptcall mprevious
 # cmus previous
 # rctrl + shift - m : ~/lab/scripts/calls/scriptcall mprevious
 # cmus seek forward
-lctrl - b : ~/lab/scripts/calls/scriptcall mseekf
+lctrl - b : fish ~/lab/scripts/calls/scriptcall mseekf
 # cmus seek backwards
-lctrl + shift - b : ~/lab/scripts/calls/scriptcall mseekb
+lctrl + shift - b : fish ~/lab/scripts/calls/scriptcall mseekb
 # cmus next
-rctrl - m : ~/lab/scripts/calls/scriptcall m -p
+rctrl - m : fish ~/lab/scripts/calls/scriptcall m -p
 # cmus exit
-rctrl + shift - m : ~/lab/scripts/calls/scriptcall mk
+rctrl + shift - m : fish ~/lab/scripts/calls/scriptcall mk
 # y move window to differrent screen
-rctrl + shift - a : ~/lab/scripts/calls/scriptcall rot
+rctrl + shift - a : fish ~/lab/scripts/calls/scriptcall rot
 
 # search command 
 # rctrl - 8 : ~/lab/scripts/calls/scriptcall impgrepcname

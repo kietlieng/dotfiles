@@ -2,75 +2,73 @@
 
 source ~/lab/scripts/calls/sourceall
 
-parentSessionName="$1"
-parentPaneName="$2"
+parentSessionName="$argv[1]"
+parentPaneName="$argv[2]"
 
 #echo "$parentSessionName:$parentPaneName"
 
 # Function to create a temporary pane
-function create_temp_pane() {
+function create_temp_pane
 
-  pane_id=$(tmux split-window -v -l 30 -d "$1")
+  set pane_id (tmux split-window -v -l 30 -d "$1")
   echo $pane_id
 
-}
+end
 
 
-function create_tmux_callback() {
+function create_tmux_callback
 
 #  local tempPaneOutput="tmux -T \"$parentSessionName:$parentPaneName\" split-window -v -l 30 -d \"$1\"\; select-pane -D \;"
-  local tempPaneOutput="tmux -T \"$parentSessionName:$parentPaneName\" split-window -v -d \"$1\"\; select-pane -D \;"
+  set tempPaneOutput "tmux -T \"$parentSessionName:$parentPaneName\" split-window -v -d \"$1\"\; select-pane -D \;"
   pecho "$tempPaneOutput"
   echo "$tempPaneOutput" > /tmp/tmuxcallback
 
-}
+end
 
 # Function to close a temporary pane
-function close_temp_pane() {
-    tmux killpane -t $1
-}
+function close_temp_pane
+    tmux killpane -t $argv[1]
+end
 
 # Interactive Menu
-choice=$(echo -e "tdefault\njot\nnote\ndo\nhtop\nsession" | fzf --height 40% --reverse --border)
+set choice (echo -e "tdefault\njot\nnote\ndo\nhtop\nsession" | fzf --height 40% --reverse --border)
 
-case $choice in
-  "tdefault")
-    tmuxdefault=$(ls -1 ~/lab/scripts/tmuxp/ | fzf --height 40% --reverse --border)
-    tmuxdefault=$(echo "$tmuxdefault" | sed 's/.yaml//')
+switch $choice 
+
+  case 'tdefault'
+    set tmuxdefault (ls -1 ~/lab/scripts/tmuxp/ | fzf --height 40% --reverse --border)
+    set tmuxdefault (echo "$tmuxdefault" | sed 's/.yaml//')
     echo "$tmuxdefault" > ~/.tmuxdefault
 #    close_temp_pane $pane_id
     exit
-    ;;
-  "jot")
-    jotNotes=$(ls -1 /tmp/kin-* | fzf --height 40% --reverse --border)
+
+  case 'jot'
+    set jotNotes (ls -1 /tmp/kin-* | fzf --height 40% --reverse --border)
     create_tmux_callback "nvim $jotNotes"
-    ;;
-  "note")
-    fullpathFilename=$(mnote -createonly "$parentPaneName")
+
+  case 'note'
+    set fullpathFilename $(mnote -createonly "$parentPaneName")
     pecho "popup $parentSessionName $parentPaneName $fullpathFilename"
     create_tmux_callback "nvim $fullpathFilename"
 #    choice=$(echo -e "$fullpathFilename" | fzf --height 40% --reverse --border)
-    ;;
-  "do")
+  case 'do'
     create_tmux_callback "nvim ~/.todo"
-    ;;
-  "htop")
-    pane_id=$(create_temp_pane "htop")
-    ;;
-  "session")
-    sessions=$(tmux list-sessions -F "#{session_name}")
-    selected_session=$(echo "$sessions" | fzf --height=50 --reverse --border --prompt="Select tmux session: ")
+  case 'htop'
+    pane_id $(create_temp_pane "htop")
+  case "session"
+
+    set sessions (tmux list-sessions -F "#{session_name}")
+    set selected_session (echo "$sessions" | fzf --height=50 --reverse --border --prompt="Select tmux session: ")
     #    pane_id=$(create_temp_pane "htop")
     # If a session was selected, attach to it
-    if [ -n "$selected_session" ]; then
+    if [ -n $selected_session ]
       create_tmux_callback "tmux switch -t $selected_session"
-    fi
-    ;;
-esac
+    end
+end
 
-if [[ $pane_id ]]; then
+if [ $pane_id ]
   close_temp_pane $pane_id
-fi
+end
 
 # no way to exit after session so just leaving and using command escape to close
 #zsh
