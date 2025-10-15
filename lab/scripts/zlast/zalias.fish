@@ -1,7 +1,5 @@
 # load last
 
-# alias D='eza -d */; date'
-# alias U='eza --grid --all --long --icons --git; date'
 alias U='eza --all --long --icons --git; date'
 alias UU='eza --all --sort=modified -1 --icons --git; date'
 alias oo='nvim .'
