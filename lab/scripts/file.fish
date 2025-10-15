@@ -146,7 +146,7 @@ function frprepfiles
         set argv $argv[2..-1]
 
       case '-c' # clear directory
-        echo -n "" > $swiftPrepFile
+        echo -e -n "" > $swiftPrepFile
 
       case '-l' # get at least 1
         set optionGrabLastIfNone 't'
@@ -172,7 +172,7 @@ function frprepfiles
   find $optionDir -type f -mmin "-$optionTime" | while read currentFile
     echo "$optionTime referencing $currentFile"
     if string match -ivq "*.DS_Store*" $currentFile
-      echo "$optionTime $currentFile"
+      echo -e "$optionTime $currentFile"
       set swiftContent "$swiftContent\n \"$currentFile\","
       set hasAny 't'
     end
@@ -197,7 +197,7 @@ function frprepfiles
   end
 
   if [ $swiftContent ]
-    echo -n "$swiftContent" >> $swiftPrepFile
+    echo -e -n "$swiftContent" >> $swiftPrepFile
   end
 
 end
@@ -226,18 +226,19 @@ function frprepswift
   echo -n "" > $swiftRef
 
   set swiftContent "import AppKit;"
-  set swiftContent "$swiftContent\nlet files = ["
+  set swiftContent "$swiftContent\nlet files = [\n"
 
-  echo -n "$swiftContent" > $swiftRef
+  echo -e -n "$swiftContent" > $swiftRef
   cat $swiftPrepFile >> $swiftRef
 
+  #kl here
   set swiftContent "\n];"
   set swiftContent "$swiftContent\nlet urls = files.compactMap { URL(fileURLWithPath: \$0) };"
   set swiftContent "$swiftContent\nlet pasteboard = NSPasteboard.general;"
   set swiftContent "$swiftContent\npasteboard.clearContents();"
   set swiftContent "$swiftContent\npasteboard.writeObjects(urls as [NSPasteboardWriting]);"
 
-  echo -n "$swiftContent" >> $swiftRef
+  echo -e -n "$swiftContent" >> $swiftRef
 
   # Use swift to copy the file reference with metadata to the clipboard
   # swift "$swiftRef"
@@ -314,8 +315,8 @@ function frswift
 
   set swiftRef "/tmp/swiftref.swift"
 
-  echo "swift -e '$swiftContent'"
-  echo "$swiftContent" > $swiftRef
+  echo -e "swift -e '$swiftContent'"
+  echo -e "$swiftContent" > $swiftRef
 
   # Use swift to copy the file reference with metadata to the clipboard
   # swift "$swiftRef"
