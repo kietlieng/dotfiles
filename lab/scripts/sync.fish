@@ -62,6 +62,9 @@ function cpdot
     set dFileDir $destinationDir/dotfiles
     set dYaziDir $destinationDir/yazi
     set dYaziDir $destinationDir/znosource
+    set fishOMFDir $destinationDir/.local/share/omf 
+    set fishConfigDir $destinationDir/.config/fish
+    set fishConfigFunctionDir $destinationDir/.config/fish/functions
 
     # lab
     set dLabDir $destinationDir/lab
@@ -73,7 +76,7 @@ function cpdot
     rm -rf $destinationDir/*
 
     # create directories
-    mkdir -p $dConfigDir $dFileDir $dScriptDir $dBrewDir $dPure $dYaziDir $dDirenvDir $dBatDir
+    mkdir -p $dConfigDir $dFileDir $dScriptDir $dBrewDir $dPure $dYaziDir $dDirenvDir $dBatDir $fishOMFDir $fishConfigFunctionDir
   
     cd $dBrewDir
     brew bundle dump
@@ -105,6 +108,10 @@ function cpdot
 #    cp -rf ~/lab/scripts/deprecated $dScriptDir/.
 
     cp ~/.oh-my-zsh/themes/pure/pure.zsh $dPure/.
+
+    cp ~/.local/share/omf/init.fish $fishOMFDir/. 
+    cp ~/.config/fish/config.fish $fishConfigDir/. 
+    cp ~/.config/fish/functions/fish_prompt.fish $fishConfigFunctionDir/.
 
 
     # rm $dConfigDir/nvim/init.lua.*

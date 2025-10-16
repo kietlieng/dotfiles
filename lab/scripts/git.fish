@@ -159,12 +159,12 @@ end
 # sleeps after a certain amount of git count
 function gwait
 
-  set gitCount $(ps aux | grep -i git | wc -l)
+  set gitCount (ps aux | grep -i git | wc -l)
   set maxConnections 50
   set sleepTime 2
 
   # 100 seems to be the limit
-  while $gitCount -gt $maxConnections
+  while test $gitCount -gt $maxConnections
 
     set gitCount $(ps aux | grep -i git | wc -l)
     sleep $sleepTime
