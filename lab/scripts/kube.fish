@@ -142,9 +142,17 @@ function kfilter
 
     switch "$key" 
 
+      case '-help' '--help' '-h'
+        echo "kfilter: tells you what namespaces to filter you want auth / mysql / ... etc.  It can take many"
+        echo "kfilter [option] [filtervalue]"
+        echo "to list the filters type kfilter"
+        echo "to add filters type kfilter [some filter either environment (dev / qfnq / prod) or pod name (auth / bog / acct)]"
+        echo "to clear current values: kfilter -r"
+        echo "to delete a specific value : kfilter -d [value]"
+        return
+
       case '-r' # empty file
         echo -n "" > $K_FILTERCONFIG
-        
 
       case '-d' # delete a setting
         sed  -i "" "/$argv[1]/d" $K_FILTERCONFIG
@@ -322,7 +330,7 @@ function kl
 
     switch  "$key" 
 
-      case '-help' 
+      case '-help' '--help' '-h'
         echo "Function kl works in conjuction with kfilter"
         echo "kfilter: tells you what namespaces to filter you want auth / mysql / ... etc.  It can take many"
         return
@@ -402,14 +410,12 @@ function kl
   set searchPrompt "Filter:($searchPrompt)"
 
 
-  echo "working?"
   echo -e "$kpSelectAll"
   set selectValues (echo -e "$kpSelectAll" | fzf --multi --prompt="$searchPrompt>" | string collect)
-  echo "working?"
 
   if test $status -eq 0 # pressed enter so do everything
 
-    if [ "all" =  "$selectValues" ] # see if select all is enabled
+    if [ "all" = "$selectValues" ] # see if select all is enabled
       set selectValues $kpSelect
     end
   end
@@ -417,9 +423,7 @@ function kl
   echo -e "selectValues |$selectValues|"
   for iPod in (echo -e "$selectValues")
 
-    echo "setting pod |$iPod|"
     set iPod $(echo "$iPod" | awk -F'>' '{print $2}')
-    # echo "setting pod "
 
     if [ $optionPods ]
       set optionPods "$optionPods|$iPod"
@@ -434,7 +438,7 @@ function kl
   if [ $optionPods ]
 
 #    set --local logCommand "kail $optionPods"
-    set --local logCommand "stern "
+    set --local logCommand "stern"
     if [ $modeConfig ]
 
       if [ ! -f ~/.kube/config.$modeConfig ]
