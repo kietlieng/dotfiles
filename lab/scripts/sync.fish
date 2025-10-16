@@ -74,6 +74,8 @@ function cpdot
     set dPure $destinationDir/.oh-my-zsh/themes/pure/
 
     rm -rf $destinationDir/*
+    rm -rf $destinationDir/.config
+    rm -rf $destinationDir/.local
 
     # create directories
     mkdir -p $dConfigDir $dFileDir $dScriptDir $dBrewDir $dPure $dYaziDir $dDirenvDir $dBatDir $fishOMFDir $fishConfigFunctionDir

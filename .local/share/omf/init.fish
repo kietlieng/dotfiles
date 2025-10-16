@@ -1,5 +1,7 @@
 # set fish_add_path "/opt/homebrew/bin"
 
+
+
 # setup for pure
 # set pure_symbol_prompt ""
 

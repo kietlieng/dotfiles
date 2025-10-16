@@ -1,3 +1,8 @@
+# USAGE: this is kube filter using the filter command
+# Function kl works in conjuction with kfilter"
+# kfilter (kf): tells you what namespaces to filter you want auth / mysql / ... etc.  It can take many"
+#
+
 #alias kdel="k delete"
 #alias kdeld="k delete deployment"
 #alias kdeli="k delete ing"
@@ -72,6 +77,7 @@ alias klsfc="kl -f -c"
 
 
 function kgetfilter
+
   set --local defaults ''
   
   # env / pod / all
@@ -97,13 +103,13 @@ function kgetfilter
   for iDefault in $(cat $K_FILTERCONFIG )
 
 
-    if string match -iqr "*env*" $modeTarget
+    if string match -iq "*env*" $modeTarget
 
       if echo "$iDefault" | grep -iqv "dev\|prod\|qfn\|auto"
         continue
       end
 
-    else if string match -iqr "*pod*" $modeTarget
+    else if string match -iq "*pod*" $modeTarget
 
       if echo "$iDefault" | grep -iq "dev\|prod\|qfn\|auto"
         continue
@@ -112,7 +118,7 @@ function kgetfilter
     end
 
     if [ $defaults ]
-      set defaults "$defaults\\\\|$iDefault"
+      set defaults "$defaults|$iDefault"
     else
       set defaults "$iDefault"
     end
@@ -326,12 +332,14 @@ function kl
         
       case '-c'
         set modeCopy 't' 
+
       case '-kconf' 
         set modeConfig "$argv[1]"
         set argv $argv[2..-1]
         
       case '-f' 
         set modeFileoutput 't' 
+
       case '-nofilter'
         set modeDefault '' 
       case '-info'
@@ -356,7 +364,7 @@ function kl
   set --local kpSelectAll ''
 
   # set kpSelect $(kpo)
-  set kpSelect $(kpoa)
+  set kpSelect (kpoa | string collect)
 
 #  echo "$kpSelect"
 
@@ -369,11 +377,11 @@ function kl
   if [ $modeDefault ]
     echo "in default"
     # return
-    set kFilter $(kgetfilter -m 'env')
-    set kpSelect $(echo "$kpSelect" | grep -i "$kFilter")
+    set kFilter (kgetfilter -m 'env')
+    set kpSelect (echo -e "$kpSelect" | grep -i "$kFilter" | string collect)
     
-    set kFilter $(kgetfilter -m 'pod')
-    set kpSelect $(echo "$kpSelect" | grep -i "$kFilter")
+    set kFilter (kgetfilter -m 'pod')
+    set kpSelect (echo -e "$kpSelect" | grep -i "$kFilter" | string collect)
 
   end
 
@@ -388,22 +396,30 @@ function kl
 
   end
 
-  set kpSelectAll "all\n$kpSelect"
+  set kpSelectAll (echo -e "all\n$kpSelect" | string collect) 
 
-  set --local searchPrompt $(kgetfilter)
+  set --local searchPrompt (kgetfilter)
   set searchPrompt "Filter:($searchPrompt)"
 
-  set selectValues $(echo "$kpSelectAll" | fzf --multi --prompt="$searchPrompt>");
+
+  echo "working?"
+  echo -e "$kpSelectAll"
+  set selectValues (echo -e "$kpSelectAll" | fzf --multi --prompt="$searchPrompt>" | string collect)
+  echo "working?"
 
   if test $status -eq 0 # pressed enter so do everything
+
     if [ "all" =  "$selectValues" ] # see if select all is enabled
       set selectValues $kpSelect
     end
   end
 
-  for iPod in $(echo "$selectValues")
+  echo -e "selectValues |$selectValues|"
+  for iPod in (echo -e "$selectValues")
 
-    set iPod $(echo "$iPod" | awk -F'>' '{print $argv[2]}')
+    echo "setting pod |$iPod|"
+    set iPod $(echo "$iPod" | awk -F'>' '{print $2}')
+    # echo "setting pod "
 
     if [ $optionPods ]
       set optionPods "$optionPods|$iPod"
