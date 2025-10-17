@@ -1,9 +1,10 @@
-#!/opt/homebrew/bin/zsh
+#!/usr/bin/env fish
 
 # https://unix.stackexchange.com/questions/1496/why-doesnt-my-bash-script-recognize-aliases
 #shopt -s expand_aliases # need this to expand alias otherwise it won't be recognized
 
 source ~/lab/scripts/core.fish
+
 set tokenFile (uncoverTokens)
 # echo "tokenFile $tokenFile"
 

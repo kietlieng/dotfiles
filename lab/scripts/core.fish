@@ -25,7 +25,7 @@ alias fo="f -o"
 alias zclear="yes | rm ~/.zcompdump*"
 
 set -gx COP_FROM_FILE ~/lab/scripts/0zero
-set -gx COP_TO_FILE /tmp
+set -gx COP_TO_FILE "/tmp"
 
 function cover
 
@@ -297,17 +297,14 @@ function e
       set targetFile $currentValue
       echo "currentValue $currentValue searchString $searchString"
       if echo "$targetFile" | grep -iq "$searchString"
-
-        echo "breaking"
         break
-
       end
 
       set fileCount (math "$fileCount + 1")
 
     end < $searchOutput
 
-    echo "total $totalCount fileCount $fileCount"
+    # echo "total $totalCount fileCount $fileCount"
     set fileFinal (math "$totalCount - $fileCount")
     tail -n $fileFinal $searchOutput >  $searchResults
 
@@ -316,7 +313,6 @@ function e
 
   end
 
-  echo "edit me $vimToEdit"
   echo "edit $vimToEdit"
 
   if [ $modeNoEdit != 't' ]
@@ -942,32 +938,13 @@ function nap
 
     echo "" > /tmp/fzf-query
 
-    set filesToEdit $(/bin/ls -1 /tmp/ | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 /tmp/{}' --query "$jotQuery" --print-query)
+    set filesToEdit $(/bin/ls -1 /tmp/ | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 /tmp/{}' --query "$jotQuery" --print-query | string collect)
     # set query (fzf --print-query)
 
-
-    # echo "query is |$query[1]| $filesToEdit"
-
-    set allNapkinFiles 't'
-
-    for element in (string split ' '  $filesToEdit)
-
-      if not string match -iqr "^kin-.*" $element
-        # echo "$element not part of a name"
-        set allNapkinFiles ''
-        break
-      end
-
-    end
-
-    if [ "$allNapkinFiles" = "" ]
-      set filesToEdit $(echo "$filesToEdit"  | sed 's/ /-/g')
-    end
-
     set filesToEditSanitized '' 
-    for element in (string split ' '  $filesToEdit)
+    for element in (echo -e "$filesToEdit")
 
-      set filesToEditSanitized "/tmp/$element"
+      set filesToEditSanitized $filesToEditSanitized  "/tmp/$element"
 
     end
     if [ "$filesToEditSanitized" != "" ]
@@ -1382,8 +1359,8 @@ function c
   if [ $scriptQuery ]
     #echo "$scriptDir/$sFilename.fish"
 
-    # read -qr "ANSWER?Create $targetDir/$sFilename$searchExt?"
-    read -P "ANSWER?Create $targetDir/$sFilename$searchExt?"
+    read -P "Create $targetDir/$sFilename$searchExt?" ANSWER
+    echo "answer is $ANSWER"
 
     switch $ANSWER
       case 'y' 'Y'

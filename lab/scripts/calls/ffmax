@@ -1,3 +1,5 @@
+!/usr/bin/env fish
+
 source ~/lab/scripts/calls/sourceall
 
 swift ~/lab/scripts/swift/firefoxmaximize.swift

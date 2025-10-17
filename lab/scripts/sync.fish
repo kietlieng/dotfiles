@@ -117,8 +117,9 @@ function cpdot
 
 
     # rm $dConfigDir/nvim/init.lua.*
-    rm $dConfigDir/kitty/kitty.conf.*
-    rm $dConfigDir/kitty/kitty.*.conf
+
+    find $dConfigDir/kitty -iname "kitty.conf.*" -exec rm {} \;
+    find $dConfigDir/kitty -iname "kitty.*.conf" -exec rm {} \;
 
     find $sourceScript -maxdepth 1 -type f  -iname "*.sh" -exec cp {} $dScriptDir/. \;
     find $sourceScript -maxdepth 1 -type f  -iname "*.fish" -exec cp {} $dScriptDir/. \;

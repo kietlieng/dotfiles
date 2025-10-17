@@ -65,12 +65,12 @@ function m
         if [ $modeSearch ]
 
           # echo "searching $modeSearch"
-          set results (ls $MUSIC_DIRECTORY | grep -i "$modeSearch")
+          set results (ls $MUSIC_DIRECTORY | grep -i "$modeSearch" | string collect)
           set result (echo $results | head -n 1)
-          echo "results:\n$results"
+          echo -e "results:\n$results"
           
-          if [ $results ]
-            echo "\nplaying $result"
+          if [ "$results" ]
+            echo -e "\nplaying $result"
             cmus-remote -f "$MUSIC_DIRECTORY/$result"
           end
 

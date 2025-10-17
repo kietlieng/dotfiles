@@ -265,12 +265,10 @@ function frswift
       case '-t' # time in minutes
         set optionTime "$argv[1]"
         set argv $argv[2..-1]
-        
 
       case '-d' # directory
         set optionDir "$argv[1]"
         set argv $argv[2..-1]
-        
 
       case '*'
         pecho "set current value"
@@ -302,8 +300,10 @@ function frswift
 
   # if you can't find any values set to empty and return
   if [ "$isFound" = "0" ]
+
     echo -n "" | pbcopy
     return
+
   end
 
   set swiftContent "$swiftContent\n];"
@@ -311,7 +311,6 @@ function frswift
   set swiftContent "$swiftContent\nlet pasteboard = NSPasteboard.general;"
   set swiftContent "$swiftContent\npasteboard.clearContents();"
   set swiftContent "$swiftContent\npasteboard.writeObjects(urls as [NSPasteboardWriting]);"
-
 
   set swiftRef "/tmp/swiftref.swift"
 

@@ -95,6 +95,8 @@ map("n", "<LEADER>W", 'mlviW"*y`l', G_SILENT_NO_REMAP) -- copy WORD
 ----- comment code
 -- tips to comment out code use gcc.  Dude this just deleted my comment lua script
 
+map("n", "<LEADER>ba", "mcvip<c-V>$A", G_SILENT_REMAP)                                                                   -- block edit at the end 
+map("n", "<LEADER>bA", "mcvip<c-V>I", G_SILENT_REMAP)                                                                   -- block edit at the end 
 map("n", "<LEADER>cc", "mcVgc<CR>`c", G_SILENT_REMAP)                                                                     -- comment out selected normal
 map("v", "<LEADER>cc", "mcgc<CR>k`c", G_SILENT_REMAP)                                                                     -- comment out selected visual
 map("n", "<LEADER>CC", "mcggVGgc<CR>`c", G_SILENT_REMAP)                                                                  -- global comment

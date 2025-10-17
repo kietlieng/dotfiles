@@ -1,4 +1,4 @@
-#!/opt/homebrew/bin/zsh
+#!/usr/bin/env fish
 
 source ~/lab/scripts/calls/sourceall
 
