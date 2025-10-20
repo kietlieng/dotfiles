@@ -110,3 +110,4 @@ require('custom/snippet-luasnip').setup()                  -- setup snippet engi
 -- theme setup
 
 require('theme-gruvbox').setup()                  -- needs to be last
+-- require('theme-alabaster').setup()                  -- needs to be last

@@ -4,6 +4,7 @@ windows:
     layout: even-vertical
     panes:
       - shell_command:
-          - brew update; brew upgrade; omz update;
+          # - brew update; brew upgrade; omz update;
+          - brew update; brew upgrade;
       # - shell_command:
       #     - kbuild

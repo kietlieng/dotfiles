@@ -548,7 +548,7 @@ function pc
   # if [ "$PWD" = *$HOME* ]
   if string match -iqr "$HOME" -- $PWD
 
-    set relativePath (string replace "^$HOME" "" -- $PWD )
+    set relativePath (string replace "$HOME" "" $PWD )
     set relativePath "~$relativePath"
 
   end
@@ -676,21 +676,24 @@ function gr
       case '-ci'
         set searchCICD 't'
 
-        # # check to see if number
-        # # context before and after
-        # +([0-9]) )
-        #
-        #   if [[ $modeFound ]]
-        #     modeBefore="$key"
-        #   else
-        #     modeFound='t'
-        #     modeAfter="$key"
-        #   fi
-        # 
-
       case '*' 
-        # echo "testing expression $key"
-        set searchExpression "$searchExpression$key.*"
+
+        # if this is a number
+        if string match -qr '^[0-9]+$' $key
+
+          if [ "$modeFound" = '' ]
+            set modeBefore "$key"
+          else
+            set modeFound 't'
+            set modeAfter "$key"
+          end
+
+        else
+
+          # echo "testing expression $key"
+          set searchExpression "$searchExpression$key.*"
+
+        end
 
     end
 
@@ -701,6 +704,8 @@ function gr
     echo "No expression"
   else
 
+    set searchExpression (string trim -c '.*' $searchExpression)
+    
     ## kl don't know what this does
     # searchExpression=${searchExpression##\.\*}
     # searchExpression=${searchExpression%%\.\*}
@@ -735,22 +740,22 @@ function gr
         #pipe
         if ! [ -t 0 ]
           # ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -irl  -A $modeAfter -B $modeBefore "$searchExpression" $targetFile
-          ag -l -A $modeAfter -B $modeBefore  "$searchExpression" $targetFile
+          rg -l -A $modeAfter -B $modeBefore  "$searchExpression" $targetFile
         else
           # dumping to null cause this will error out on * due to the backtick evaluation
           # ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -irl -A $modeAfter -B $modeBefore "$searchExpression" *
-          ag -l -A $modeAfter -B $modeBefore "$searchExpression" *
+          rg -l -A $modeAfter -B $modeBefore "$searchExpression" 
         end
       else
         #echo "ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -ir \"$searchExpression\" $targetFile"
         if ! [ -t 0 ]
           # ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -ir -A $modeAfter -B $modeBefore "$searchExpression" $targetFile
-          ag -ir --nonumbers -A $modeAfter -B $modeBefore "$searchExpression" $targetFile
+          rg -i -A $modeAfter -B $modeBefore "$searchExpression" $targetFile
         else
           # dumping to null cause this will error out on * due to the backtick evaluation
           echo "search expression '$searchExpression'"
           # echo "ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -ir -A $modeAfter -B $modeBefore \"$searchExpression\" *"
-          ag -ir --nonumbers -A $modeAfter -B $modeBefore "$searchExpression" *
+          rg -i -A $modeAfter -B $modeBefore "$searchExpression"
         end
       end
     end
@@ -941,12 +946,18 @@ function nap
     set filesToEdit $(/bin/ls -1 /tmp/ | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 /tmp/{}' --query "$jotQuery" --print-query | string collect)
     # set query (fzf --print-query)
 
-    set filesToEditSanitized '' 
+    # set filesToEditSanitized '' 
     for element in (echo -e "$filesToEdit")
 
       set filesToEditSanitized $filesToEditSanitized  "/tmp/$element"
 
     end
+
+    set filesToEditSanitized (string trim -c ' ' $filesToEditSanitized)
+
+    set fCount (count $filesToEditSanitized)
+
+    echo "count $fCount"
     if [ "$filesToEditSanitized" != "" ]
       vim $filesToEditSanitized
       echo "edit |$filesToEditSanitized|"
