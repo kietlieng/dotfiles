@@ -23,7 +23,7 @@ alias gslist="git stash list"
 alias gspop="git stash pop"
 alias gspush="git stash push"
 alias gsstack="git log --name-status --oneline"
-alias gtrack="git update-index --no-assume-unchanged "
+# alias gtrack="git update-index --no-assume-unchanged "
 alias guadd='git restore --staged'
 alias guntrack="git update-index --assume-unchanged "
 alias guntracklist="git ls-files -v | grep \"^[[:lower:]]\""
@@ -347,7 +347,7 @@ function g
   set currentBranch $(git rev-parse --abbrev-ref HEAD)
   set descOfTicket ""
   set otherSwitches "f"
-  set trackingBranch $(glbranchdefault)
+  set trackingBranch (glbranchdefault)
   set trimPaths '-t'
   set modeSaveBranchname ''
   set key ''
@@ -613,6 +613,7 @@ function gpush
 end
 
 function gtrack
+
   set gitBranch $(git rev-parse --abbrev-ref HEAD)
   git branch --set-upstream-to=origin/$gitBranch $gitBranch
 

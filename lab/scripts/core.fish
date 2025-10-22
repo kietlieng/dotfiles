@@ -204,7 +204,6 @@ function fzfpreview
 
   end
 
-
 end
 
 # search /tmp directory
@@ -326,8 +325,7 @@ function E
 
   set goToDirectory 'f'
   set rootDirectory ''
-  set currentDirectory $(pwd)
-  echo "current Dir $currentDirectory"
+  set currentDirectory $PWD
   set lastOnly 'f'
   set searchString ''
 
@@ -387,7 +385,7 @@ function E
 
        # filesToEdit=$(ls -1t modified -sold | fzf --multi --query "$searchString")
       set filesToEdit $(/bin/ls -1 . | fzf --multi --query "$searchString")
-      echo "|$searchString|$filesToEdit"
+      # echo "|$searchString|$filesToEdit"
       # fzf --multi --query "$searchString"
 
     end
@@ -408,7 +406,7 @@ function E
       end
 
     end
-    echo "current Dir $currentDirectory"
+    # echo "current Dir $currentDirectory"
     cd $currentDirectory
 
   end

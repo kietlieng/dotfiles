@@ -57,8 +57,8 @@ map("n", "<LEADER>y", "mlviWy:lua require('word').word()<CR>`l", G_SILENT_NO_REM
 map("n", "<LEADER>l", 'ml0vg_"*y<CR>`l', G_SILENT_NO_REMAP)                           -- copy current line to clipboard without newline
 map("n", "<LEADER>L", 'mlV"*y<CR>`l', G_SILENT_NO_REMAP)                              -- copy current line to clipboard
 map("v", "<LEADER>y", '"*y', G_SILENT_NO_REMAP)                                       -- copy everything in visual
-map("n", "<LEADER>d", 'V"*y<CR>dd', G_SILENT_NO_REMAP)                                -- cut to clipboard
-map("v", "<LEADER>d", '"*ygvd', G_SILENT_NO_REMAP)                                    -- cut to clipboard
+-- map("n", "<LEADER>d", 'V"*y<CR>dd', G_SILENT_NO_REMAP)                                -- cut to clipboard
+-- map("v", "<LEADER>d", '"*ygvd', G_SILENT_NO_REMAP)                                    -- cut to clipboard
 
 map("n", "<LEADER>.", 'mlvg_"*y<CR>`l', G_SILENT_NO_REMAP)                            -- copy current position to end of line to clipboard
 map("n", "<LEADER>,", 'mlv^"*y<CR>`l', G_SILENT_NO_REMAP)                             -- copy current position to beginning of line to clipboard
@@ -306,6 +306,4 @@ map("n", "<C-h>", ":wincmd h<CR>", G_SILENT_NO_REMAP) -- left
 
 --map("n", "<LEADER>gf", vim.lsp.buf.format, {})                                                                  -- have no idea what this does right now
 
--- gitlab duo
----- Toggle Code Suggestions on/off with CTRL-g in normal mode:
---  map('n', '<LEADER>du', '<Plug>(GitLabToggleCodeSuggestions)')
+map("n", "<LEADER>d", ":lua require('custom/select').def()<CR>", G_SILENT_NO_REMAP)  -- select block, comment out invert of block

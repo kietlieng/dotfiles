@@ -50,7 +50,8 @@ function m
 
   set hasMusic $(tmux ls 2>&1 | grep -i music | awk -F':' '{print $1}')
 
-  if [ $hasMusic ]
+  # echo "hasMusic $hasMusic"
+  if [ "$hasMusic" ]
 
     if [ $modeAttach ]
 
@@ -393,11 +394,11 @@ function tk
       if [ "$confirmTermination" = 't' ]
         
         if [ "$inSession" != "$iTmuxSession" ]
-          pecho "2Terminating session ... $iTmuxSession"
-          echo "2Terminating session ... $iTmuxSession"
+          pecho "Terminating session ... $iTmuxSession"
+          # echo "Terminating session ... $iTmuxSession"
           tmux kill-session -t "$iTmuxSession"
         else
-          pecho "2Found session $iTmuxSession"
+          pecho "Found session $iTmuxSession"
           set foundSession 't'
         end
 

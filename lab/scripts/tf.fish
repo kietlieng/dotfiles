@@ -78,7 +78,7 @@ function tftimelimit
   set nowEpoch $(date +%s)
 
   # Calculate time difference in minutes
-  set diffMinutes $(math "($AWS_EPOCH - $nowEpoch) / 60")
+  set diffMinutes (math ceil (math $AWS_EPOCH - $nowEpoch) / 60)
 
   echo "Expire time: $AWS_CREDENTIAL_EXPIRATION (in $diffMinutes minutes)"
   if [ $diffMinutes -lt 30 ]
