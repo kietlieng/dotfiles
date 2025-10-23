@@ -131,9 +131,12 @@ function F.bracket()
 
     -- print("beginLine", beginLine, beginStack, "endLine", endLine, endStack)
     if beginLine and endLine then
-      vim.api.nvim_win_set_cursor(0, {beginLine, 0})
-      vim.cmd("normal! V")
+
+      -- list from bottom to top 
       vim.api.nvim_win_set_cursor(0, {endLine, 0})
+      vim.cmd("normal! V")
+      vim.api.nvim_win_set_cursor(0, {beginLine, 0})
+
     else
       print("no matches")
     end
@@ -160,9 +163,9 @@ function F.definition()
 
     if beginLine and endLine then
       -- print("beginLine", beginLine, beginStack, "endLine", endLine, endStack)
-      vim.api.nvim_win_set_cursor(0, {beginLine, 0})
-      vim.cmd("normal! V")
       vim.api.nvim_win_set_cursor(0, {endLine, 0})
+      vim.cmd("normal! V")
+      vim.api.nvim_win_set_cursor(0, {beginLine, 0})
     end
 
   else

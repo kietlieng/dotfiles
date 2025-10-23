@@ -139,7 +139,7 @@ map("v", "<LEADER>zg", ":lua require('custom/zookeeper').zkget()<CR>", G_SILENT_
 map("n", "<LEADER>ze", ":lua require('custom/zookeeper').zkenv('')<LEFT><LEFT>", G_SILENT_NO_REMAP) -- zk copy
 
 map("n", "<C-s>", ":silent !callsearchprivate ''<LEFT>", G_NO_REMAP)  -- terminal runs
-map("n", "<LEADER>tr", ":silent !callsearch ''<LEFT>", G_NO_REMAP)  -- terminal runs
+-- map("n", "<LEADER>tr", ":silent !callsearch ''<LEFT>", G_NO_REMAP)  -- terminal runs
 -- map("n", "<LEADER>ts", ":silent !callsearchthesaurus ''<LEFT>", G_NO_REMAP)  -- terminal runs thesaurus
 
 -- G KEYS: git commands
@@ -282,7 +282,6 @@ map("n", "<LEADER>vir", ":next ~/.config/nvim/lua/keymap.lua ~/.config/nvim/init
 map("n", "<LEADER>virule", ":next ~/lab/repos/irules-engine/modules/download_irule.py <CR>", G_SILENT_NO_REMAP) -- dns dev
 map("n", "<LEADER>visre", ":next ~/lab/repos/srebot/src/index.js <CR>", G_SILENT_NO_REMAP) -- dns dev
 
-map("n", "<LEADER>nre", ":set rnu!<CR>", G_SILENT_NO_REMAP) -- math
 map("n", "<LEADER>ma", ":MdMath enable<CR>", G_SILENT_NO_REMAP) -- math
 
 map("n", "<LEADER>tt", ":TidalSend<CR>", G_SILENT_NO_REMAP) -- math
