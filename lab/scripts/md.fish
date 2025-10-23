@@ -50,16 +50,17 @@ function mpx
         set dummyName (lastBreadcrumb "$key" "\/" " ")
         # echo "fullname |$fileName|"
         # echo "dummyName |$dummyName|"
-        # echo "fullnamefull |$fileNameFull|"
+        echo "fullnamefull |$fileNameFull|"
         set fileName "$fileName$dummyName-"
         set fileNameFull "$fileNameFull$dummyName-"
+        echo "fullnamefull |$fileNameFull|"
 
     end
   end
 
-  set fileName (string trim -r '-' $fileName)
+  set fileName (string trim -r -c '-' $fileName)
 
-  # echo "2fileName |$fileName|"
+  echo "2fileName |$fileName|"
   # echo "2fileNameFull |$fileNameFull|"
 
   set fileNameFull (string trim -c '-' $fileNameFull)
@@ -75,8 +76,8 @@ function mpx
   # echo "full filename $fileNameFull"
   pecho "$SCREENSHOT_DIRECTORY/$screenValue => $targetDirectory/$fileNameFull"
   echo "$SCREENSHOT_DIRECTORY/$screenValue => $targetDirectory/$fileNameFull"
-  cp "$SCREENSHOT_DIRECTORY/$screenValue" "$targetDirectory/$fileNameFull"
-  #echo "![$fileName]($targetDirectory/$fileNameFull)" | pbcopy
+  # cp "$SCREENSHOT_DIRECTORY/$screenValue" "$targetDirectory/$fileNameFull"
+  echo "![$fileName]($targetDirectory/$fileNameFull)" | pbcopy
   echo -n "![$fileName](./$fileNameFull)" | pbcopy
 
 end
@@ -112,13 +113,13 @@ function mnote
     end
   end
 
-  set fileName (string trim -r '-' $fileName)
+  set fileName (string trim -r -c '-' $fileName)
 
   pecho "$fileName"
 #  echo "$fileName"
 
   # add date if needed
-  if [[ $modeDate ]]; then
+  if [ $modeDate ]
       set fileName "$fileNameDate-$fileName"
   end
   set fileName "$fileName.md"
@@ -126,7 +127,7 @@ function mnote
   set full_file_path "$targetDirectory/$fileName"
   pecho "$full_file_path"
 
-  if [[ $modeCreateOnly ]]; then # only echo it out without creating a file
+  if [ $modeCreateOnly ] # only echo it out without creating a file
     echo "$full_file_path"
   else
     nvim "$full_file_path" # only edit do not create ahead of time
@@ -172,7 +173,7 @@ function msearch
   end
 
 
-    if [ "$oGrepExact" == 'true' ]
+    if [ "$oGrepExact" = 'true' ]
       set fFileSearch $fFileSearch[2..-1]
     else
       set fFileSearch "$fFileSearch*"
@@ -181,14 +182,14 @@ function msearch
 
 
     if [ "$oOpenOption" = 'false' ] 
-      or [ "$oOpenOption" == 'true' ] and [ "$oOpenFile" == 'true' ]
+      or [ "$oOpenOption" = 'true' ] and [ "$oOpenFile" = 'true' ]
         echo "GREP_SEARCH $fGrepSearch FILE_SEARCH $fFileSearch"
         echo "FILES with expression $fFileSearch"
         echo "----------------------------------"
         find $fPath -type f -iname "$fFileSearch"
         echo "----------------------------------\n\n"
         set file_results $(find $fPath -type f -iname "$fFileSearch")
-        if [[ "$oOpenFile" = 'true' ]] ; then
+        if [ "$oOpenFile" = 'true' ]
           find $fPath -type f -iname "$fFileSearch" | while read single_file; do
             echo "single file \"$single_file\""
             #/usr/bin/open $single_file
@@ -200,11 +201,10 @@ function msearch
     end
 
 
-    #if [[ "$oOpenOption" == 'false' ]] || [[ "$oOpenOption" == 'true' && "$oOpenFile" == 'true' ]] ; then
-    if [ "$oGrepVerbose" == 'true' ]
+    if [ "$oGrepVerbose" = 'true' ]
       echo "GREP with expression"
       echo "----------------------------------"
-      #        if [ "$oGrepVerbose" == 'true' ]
+      #        if [ "$oGrepVerbose" = 'true' ]
       /usr/bin/grep -ir "$fGrepSearch" $fPath
       #        else
       #            /usr/bin/grep -irl "$fGrepSearch" $fPath
@@ -212,7 +212,7 @@ function msearch
       echo "----------------------------------"
 
       if [ "$oOpenFile" = 'true' ]
-        /usr/bin/grep -irl "$fGrepSearch" $fPath | while read single_file; do
+        /usr/bin/grep -irl "$fGrepSearch" $fPath | while read single_file
         echo "single files nvim $single_file"
         #/usr/bin/open $single_file
         which nvim

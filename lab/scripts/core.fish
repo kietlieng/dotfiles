@@ -366,7 +366,7 @@ function E
 
       echo "file $isFile"
 
-      if [[ -f $isFile ]
+      if [ -f $isFile ]
 
         vim $isFile
         break
@@ -439,7 +439,7 @@ end
 #
 #   # ripgrep->fzf->vim [QUERY]
 #   set RELOAD "reload:rg --column --color=always --smart-case {q} || :"
-#   set OPENER 'if [[ $FZF_SELECT_COUNT -eq 0 ]]; then
+#   set OPENER 'if [ $FZF_SELECT_COUNT -eq 0 ]
 #             nvim {1} +{2}     # No selection. Open the current line in Vim.
 #           else
 #             nvim +cw -q {+f}  # Build quickfix list for the selected items.
@@ -465,7 +465,7 @@ end
 #
 #   gitType="M"
 #
-#   while [[ $# -gt 0 ]]
+#   while [ $# -gt 0 ]
 #
 #     key="$1"
 #     shift
@@ -489,11 +489,11 @@ end
 #   filesToEdit=""
 #
 #   # modified and new
-#   if [[ $gitType == 'M?' ]]
+#   if [ $gitType == 'M?' ]
 #
 #     filesToEdit=$(git status --porcelain | awk '{ if ($1 == "M" || $1 == "??" )  print $2}')
 #
-#     if [[ $filesToEdit != '' ]]
+#     if [ $filesToEdit != '' ]
 #       vim $(git status --porcelain | awk '{ if ($1 == "M" || $1 == "??" )  print $2}')
 #       echo "files to edit $filesToEdit"
 #     fi
@@ -503,7 +503,7 @@ end
 #     # only modified
 #     filesToEdit=$(git status --porcelain | awk '{ if ($1 == "M") print $2}')
 #
-#     if [[ $filesToEdit != '' ]]
+#     if [ $filesToEdit != '' ]
 #       vim $(git status --porcelain | awk '{ if ($1 == "M") print $2}')
 #       echo "files to edit $filesToEdit"
 #     fi
@@ -992,11 +992,11 @@ end
 #
 #   set defaultQuery ''
 #
-#   if [[ -f $queryFile ]]
+#   if [ -f $queryFile ]
 #     defaultQuery=$(cat $queryFile)
 #   fi
 #
-#   if [[ $# -gt 0 ]]
+#   if [ $# -gt 0 ]
 #     defaultQuery=$1
 #     shift
 #   fi
@@ -1004,7 +1004,7 @@ end
 #   pid=$(ps -ef | sed 1d | grep -v "$hashDir" | fzf -m --ansi --color fg:-1,bg:-1,hl:46,fg+:40,bg+:233,hl+:46 --color prompt:166,border:46 --height 75%  --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ " --bind "change:execute(echo {q} > $queryFile)" --query "$defaultQuery" | awk '{print $2}')
 #
 #   # check to see if set at all
-#   if [[ -n $pid ]]
+#   if [ -n $pid ]
 #     echo "has pid $pid"
 #     # iterate through loop for multiple pids
 #     for pIndex in $(echo $pid)
@@ -1106,7 +1106,7 @@ end
 #
 #     currentDate=$(date +"%y%m%d%H%M")
 #
-#     while [[ $# -gt 0 ]]
+#     while [ $# -gt 0 ]
 #     do
 #
 #         echo "move \"$1\" to \"/tmp/$1.$currentDate\""
@@ -1122,7 +1122,7 @@ end
 #
 #     currentDate=$(date +"%y%m%d%H%M")
 #
-#     while [[ $# -gt 0 ]]
+#     while [ $# -gt 0 ]
 #     do
 #
 #         echo "copy \"$1\" to \"/tmp/$1.$currentDate\""
@@ -1139,7 +1139,7 @@ end
 #
 #     currentDate=$(date +"%y%m%d%H%M")
 #
-#     while [[ $# -gt 0 ]]
+#     while [ $# -gt 0 ]
 #     do
 #
 #         echo "move \"$1\" to \"$1.$currentDate\""
@@ -1155,7 +1155,7 @@ end
 #
 #   currentDate=$(date +"%y%m%d%H%M")
 #   re='^[0-9]+$'
-#   while [[ $# -gt 0 ]]
+#   while [ $# -gt 0 ]
 #   do
 #
 #     orgFilename="$1"
@@ -1166,12 +1166,12 @@ end
 #     extension="${orgFilename##*.}"
 #     newFilename="$filename.$currentDate"
 #
-#     if [[ $filename != "$orgFilename" ]]
+#     if [ $filename != "$orgFilename" ]
 #
 #       # check to see if extension is just a number
 #       # if not a number, assume it's a date and discard the old extension
 #       # otherwise add current date to extension
-#       if ! [[ $extension =~ $re ]]
+#       if ! [ $extension =~ $re ]
 #
 #         newFilename="$filename.$currentDate.$extension"
 #
@@ -1466,7 +1466,7 @@ function o
 
   if [ $argv ]
 
-    while [[ $argv ]]
+    while [ $argv ]
 
       open $argv[1]
       set argv $argv[2..-1]

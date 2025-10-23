@@ -7,294 +7,168 @@ local F = {}
 --invert
 --buffer
 
-function F.findBot()
+
+function F.headsOrTails( argTag, argCurrentBuffer, argHeadWord, argTailWord, argTailCommentChar)
+
+  for k, v in pairs(argCurrentBuffer) do
+
+    for firstWord in string.gmatch( v, "%S+") do
+
+      -- print(argTag, firstWord)
+      -- print(string.sub(firstWord, 1, 1))
+
+      local firstChar = string.sub(firstWord, 1, 1)
+
+      if argTailCommentChar ~= firstChar then
+        local headStart, headFinish = string.find(argHeadWord, firstWord)
+        local tailStart, tailFinish = string.find(argTailWord, firstWord)
+
+        if headStart then
+          -- print("line is head 1")
+          return 1
+        else
+
+          if tailStart then
+            -- print("line is tail -1")
+            return -1
+          end
+          -- print("neutral")
+          return 0
+
+        end
+      end
+      break
+
+    end
+
+  end
+
+  -- print("return 0")
+  return 0
+
 end
 
-function F.def()
+function F.findBegining(argHeadWord, argTailWord, argTailCommentChar)
 
-  local fileExtension          = vim.fn.expand('%:e')
-  local currentBuffer          = vim.api.nvim_get_current_buf()
-  local currentRow, currentCol = unpack(vim.api.nvim_win_get_cursor(0))
-  local tempRow                = currentRow
-  local lines                  = vim.api.nvim_buf_get_lines(currentBuffer, 0, -1, true)
-  local numberOfLines          = #lines
+
+  local currentBuffer       = vim.api.nvim_get_current_buf()
+  local tempRow, currentCol = unpack(vim.api.nvim_win_get_cursor(0))
+  local lines               = vim.api.nvim_buf_get_lines(currentBuffer, 0, -1, true)
 
   local stack = 0
+  local first = true
+
+  while 0 < tempRow do
+
+    lines = vim.api.nvim_buf_get_lines(currentBuffer, tempRow - 1, tempRow, false)
+    stack = stack + F.headsOrTails("begin", lines, argHeadWord, argTailWord, argTailCommentChar)
+    -- print("stack", stack, tempRow)
+
+    -- safeguard stack to reset on first try
+    if first and (stack < 0) then
+      stack = 0
+    end
+
+    first = false
+    if stack > 0 then
+      return stack, (tempRow + 1)
+    end
+    tempRow = tempRow - 1
+
+  end
+
+end
+
+function F.findEnding(argTempRow, argHeadWord, argTailWord, argTailCommentChar)
+
+  local currentBuffer = vim.api.nvim_get_current_buf()
+  -- print("argTempRow", argTempRow)
+  argTempRow          = argTempRow - 1
+  local lines         = vim.api.nvim_buf_get_lines(currentBuffer, 0, -1, true)
+  local numberOfLines = #lines
+
+  local stack = 0
+  local first = true
+
+  while argTempRow < (numberOfLines + 1) do
+
+    lines = vim.api.nvim_buf_get_lines(currentBuffer, argTempRow, argTempRow + 1, false)
+    stack = stack + F.headsOrTails("end", lines, argHeadWord, argTailWord, argTailCommentChar)
+
+    -- safeguard stack to reset on first try
+    if first and (stack > 0) then
+      stack = 0
+    end
+
+    first = false
+
+    -- print("stack", stack, argTempRow, numberOfLines)
+    if stack < 0 then
+      return stack, argTempRow
+    end
+    argTempRow = argTempRow + 1
+
+  end
+  print("end of the line")
+  return stack, argTempRow
+
+end
+
+function F.bracket()
+
+  local fileExtension = vim.fn.expand('%:e')
+  local placeholderRow, currentCol = unpack(vim.api.nvim_win_get_cursor(0))
+
+  local beginLine  = 0
+  local beginStack = 0
+  local endLine    = 0
+  local endStack   = 0
 
   if fileExtension == 'fish' then
 
-    -- find less
-    while tempRow <= numberOfLines do
+    beginStack, beginLine = F.findBegining("function,if,while,switch", "end","#")
+    endStack, endLine = F.findEnding(placeholderRow, "function,if,while,switch", "end", "#")
 
-      vim.cmd(":echo " .. tempRow)
-      lines = vim.api.nvim_buf_get_lines(currentBuffer, tempRow, tempRow, false)
-      tempRow = tempRow + 1
+    -- print("beginLine", beginLine, beginStack, "endLine", endLine, endStack)
+    if beginLine and endLine then
+      vim.api.nvim_win_set_cursor(0, {beginLine, 0})
+      vim.cmd("normal! V")
+      vim.api.nvim_win_set_cursor(0, {endLine, 0})
+    else
+      print("no matches")
+    end
 
+  else
+    vim.cmd.normal("vi{")
+  end
+
+end
+
+function F.definition()
+
+  local fileExtension = vim.fn.expand('%:e')
+  local beginLine  = 0
+  local beginStack = 0
+  local endLine    = 0
+  local endStack   = 0
+
+  if fileExtension == 'fish' then
+
+    beginStack, beginLine = F.findBegining("function", "","#")
+    -- print("beginLine", beginLine)
+    endStack, endLine = F.findEnding(beginLine, "function,if,while,switch", "end", "#")
+
+    if beginLine and endLine then
+      -- print("beginLine", beginLine, beginStack, "endLine", endLine, endStack)
+      vim.api.nvim_win_set_cursor(0, {beginLine, 0})
+      vim.cmd("normal! V")
+      vim.api.nvim_win_set_cursor(0, {endLine, 0})
     end
 
   else
 
-    vim.cmd(":echo 'blah'")
     vim.cmd.normal("vi{")
 
-  end
-
-  -- local curLine = vim.api.nvim_buf_get_lines(curLine, row - 1, row + 5, false)
-  -- vim.cmd(":echo 'testing'")
-  -- vim.cmd(":echo " .. numberOfLines)
-
-end
-
-function F.comments(aRegular, aNormalMode, aAll, aCommentOut, aInvert, aBuffer)
-
-  local commentCharacter  = "\\/\\/"
-  local lastSearchPattern = vim.fn.getreg("/")
-  local currentLine       = vim.fn.line('.')
-  local fileExtension     = vim.fn.expand('%:e')
-  local filename          = vim.fn.expand('%:t')
-  local markerOffsetStart = "-1"
-  local markerOffsetEnd   = "+1"
-  local markerStart       = vim.fn.line("'<")
-  local markerEnd         = vim.fn.line("'>")
-  local linesTotal        = vim.fn.line('$')
-  local enableEndMark     = true
-  local cmdMode           = ":silent "
-  local emptyLinePrevious = vim.fn.search('^\\s*$', 'bn', 0, currentLine - 1)
-  local emptyLineNext     = vim.fn.search('^\\s*$', 'n', linesTotal)
-
-  if emptyLinePrevious < currentLine then
-    if emptyLinePrevious <= 0 then
-      emptyLinePrevious = 0
-    else
-      emptyLinePrevious = emptyLinePrevious + 1
-    end
-  else
-    emptyLinePrevious = 0
-  end
-
-  --vim.notify("current next " .. emptyLineNext .. " current " .. currentLine)
-  if (currentLine < emptyLineNext) and (emptyLineNext < linesTotal) then
-    if emptyLineNext <= 0 then
-      emptyLineNext = linesTotal
-    else
-      emptyLineNext = emptyLineNext - 1
-    end
-  else
-    emptyLineNext = linesTotal
-  end
-
-  vim.cmd.normal("ml") -- set mark
-
-  if filename      == '.gitlab-ci.yml' or
-     filename      == '.tmux.conf' or
-     filename      == '.yabairc' or
-     filename      == '.zshrc' or
-     filename      == 'config' or -- might be ssh config
-     filename      == 'interactive' or
-     filename      == 'skhdrc' or -- hotkeys
-     filename      == 'tmux.conf' or
-     filename      == 'kitty.conf' or
-     filename      == 'Dockerfile' or
-     filename      == 'config.conf' or
-     filename      == 'config' or
-     filename      == 'vim-ansi' or
-     fileExtension == 'cnf' or
-     fileExtension == 'fwd' or
-     fileExtension == 'py' or
-     fileExtension == 'rb' or
-     fileExtension == 'sh' or
-     fileExtension == 'tcl' or
-     fileExtension == 'tf' or
-     fileExtension == 'toml' or
-     fileExtension == 'yaml' or
-     fileExtension == 'yml' or
-     fileExtension == 'zsh' then
-
-    commentCharacter = "#"
-
-  elseif fileExtension == 'ts' or
-    fileExtension == 'javascript' or
-    fileExtension == 'js' then
-
-    commentCharacter = "\\/\\/"
-
-  elseif fileExtension == 'lua' or
-    fileExtension == 'tidal' then
-
-    commentCharacter = "--"
-
-  end
-
-  local commentedOutPrevious = vim.fn.search('^' .. commentCharacter, 'bn', 0, currentLine - 1)
-  local commentedOutNext     = vim.fn.search('^' .. commentCharacter, 'n', linesTotal)
-
-  if aRegular then
-
-    if aBuffer then
-
-      if aCommentOut then
-
-        --vim.notify("comment out")
-
-        if (0 < emptyLinePrevious) and (emptyLinePrevious < currentLine) then
-
-          --vim.notify("start commentout 0," .. emptyLinePrevious)
-          vim.cmd(cmdMode .. "0," .. emptyLinePrevious .. "-1s/^/" .. commentCharacter .. "/")
-
-        end
-
-        if (currentLine < linesTotal) and (currentLine < emptyLineNext) and (emptyLineNext < linesTotal) then -- no range if end of line
-
-          --vim.notify("markerEnd " .. markerEnd .. " total " .. linesTotal )
-          --vim.notify("end commentout " .. " markerEnd " .. markerEnd .. " emptyLineNext " .. emptyLineNext)
-          vim.cmd(cmdMode .. emptyLineNext .. "+1," .. linesTotal  .. "s/^/" .. commentCharacter .. "/")
-
-        end
-
-
-      else
-
-        --vim.notify("uncomment")
-        if (1 < commentedOutPrevious) and (commentedOutPrevious < currentLine) then
-
-          --vim.notify("start uncomment 0," .. commentedOutPrevious)
-          vim.cmd(cmdMode .. "0," .. commentedOutPrevious .. "s/^" .. commentCharacter .. "//")
-
-        end
-
-        if (currentLine < linesTotal) and (currentLine < commentedOutNext) and (commentedOutNext < linesTotal) then -- no range if end of line
-
-          --vim.notify("markerEnd " .. markerEnd .. " total " .. linesTotal )
-          --vim.notify("end uncomment " .. " markerEnd " .. markerEnd .. " commentedOutNext " .. commentedOutNext)
-          vim.cmd(cmdMode .. commentedOutNext .. "," .. linesTotal  .. "s/^" .. commentCharacter .. "//")
-
-        end
-      end
-
-    else
-
-      if aCommentOut then
-
-        if aNormalMode then
-          vim.cmd(cmdMode .. "s/^/" .. commentCharacter .. "/")
-        else
-          vim.cmd(cmdMode .. "'<,'>s/^/" .. commentCharacter .. "/")
-        end
-
-      else -- uncomment
-
-        if aNormalMode then
-          vim.cmd(cmdMode .. "s/^" .. commentCharacter .. "//")
-        else
-          vim.cmd(cmdMode .. "'<,'>s/^" .. commentCharacter .. "//")
-        end
-
-      end
-
-    end
-
-  else
-
-    if aAll then -- global comment
-
-      if aInvert then -- invert
-
-        --vim.notify("markOffsetEnd " .. tostring(markerOffsetEnd), "info", { title = "debug" })
-
-        if markerStart == 0 then
-          markerOffsetStart = ""
-        end
-
-        if markerEnd == linesTotal then
-          markerOffsetEnd = ""
-          enableEndMark   = false
-        end
-
-        --vim.notify("markOffsetEnd " .. tostring(markerOffsetEnd), "info", { title = "debug" })
-
-        if aCommentOut then -- comment out
-
-          vim.cmd(cmdMode .. "0,'<" .. markerOffsetStart .. "s/^/" .. commentCharacter .. "/")
-
-          if enableEndMark then
-
-            --vim.notify("do marker 1")
-            vim.cmd(cmdMode .. "'>" .. markerOffsetEnd .. ",$s/^/" .. commentCharacter .. "/")
-
-          end
-
-        else -- uncomment
-
-          vim.cmd(cmdMode .. "0,'<" .. markerOffsetStart .. "s/^" .. commentCharacter .. "//")
-
-          if enableEndMark then
-
-            --vim.notify("do marker 2")
-            vim.cmd(cmdMode .. "'>" .. markerOffsetEnd .. ",$s/^" .. commentCharacter .. "//")
-
-          end
-
-        end
-
-      else -- regular
-
-        if aCommentOut then
-          vim.cmd(cmdMode .. "%s/^/" .. commentCharacter .. "/")
-        else
-          vim.cmd(cmdMode .. "%s/^" .. commentCharacter .. "//")
-        end
-
-      end
-
-    else -- block comment
-
-      if aInvert then -- invert
-
-        --vim.notify("do nothing")
-
-        if markerStart > 0 then -- no range if beginning of file
-
-          vim.cmd(cmdMode .. emptyLinePrevious .. "," .. markerStart  .. "-1s/^/" .. commentCharacter .. "/")
-
-        end
-
-        if markerEnd < linesTotal then -- no range if end of line
-
-          --vim.notify("markerEnd " .. markerEnd .. " total " .. linesTotal )
-          vim.cmd(cmdMode .. markerEnd .. "+1," .. emptyLineNext  .. "s/^/" .. commentCharacter .. "/")
-
-        end
-
-      else
-
-        if aCommentOut then
-          --vim.api.nvim_feedkeys('vip', 'n', true)
-          vim.cmd(cmdMode .. emptyLinePrevious .. "," .. emptyLineNext  .. "s/^/" .. commentCharacter .. "/")
-          --vim.notify("previous " .. emptyLinePrevious .. " next " .. emptyLineNext)
-        else
-          --vim.api.nvim_feedkeys('vip', 'n', true)
-          vim.cmd(cmdMode .. emptyLinePrevious .. "," .. emptyLineNext .. "s/^" .. commentCharacter .. "//")
-        end
-
-      end
-    end
-  end
-
-  vim.cmd(":silent! /" .. lastSearchPattern)
-  vim.cmd("noh")       -- turn off highlight
-  vim.cmd.normal("`l") -- go back to mark
-
-end
-
-function F.next()
-
-  local linesTotal    = vim.fn.line('$')
-  local emptyLineNext = vim.fn.search('^\\s*$', 'n', linesTotal)
-
-  if emptyLineNext > 0 then
-    vim.notify("Nearest next empty line found at line:", emptyLineNext)
-  else
-    vim.notify("No empty line found.")
   end
 
 end

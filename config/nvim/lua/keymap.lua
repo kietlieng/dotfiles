@@ -306,4 +306,5 @@ map("n", "<C-h>", ":wincmd h<CR>", G_SILENT_NO_REMAP) -- left
 
 --map("n", "<LEADER>gf", vim.lsp.buf.format, {})                                                                  -- have no idea what this does right now
 
-map("n", "<LEADER>d", ":lua require('custom/select').def()<CR>", G_SILENT_NO_REMAP)  -- select block, comment out invert of block
+map("n", "<LEADER>d", ":lua require('custom/select').bracket()<CR>", G_SILENT_NO_REMAP)  -- select block, comment out invert of block
+map("n", "<LEADER>D", ":lua require('custom/select').definition()<CR>", G_SILENT_NO_REMAP)  -- select block, comment out invert of block

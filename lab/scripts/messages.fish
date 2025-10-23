@@ -12,7 +12,7 @@ function mlast
 
   if test (count $argv) -gt 0
   
-    set modeNumber "$1"
+    set modeNumber "$argv"
     set argv $argv[2..-1]
 
   end
@@ -22,8 +22,7 @@ function mlast
 end
 
 function msql
-
+     
   sqlite3 ~/Library/Messages/chat.db
 
 end
-
