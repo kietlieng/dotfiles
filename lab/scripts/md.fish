@@ -47,7 +47,7 @@ function mpx
         # if you're editing from a different directory
         # but the references should always been relative.
         # echo "key |$key|"
-        set dummyName (lastBreadcrumb "$key" "\/" " ")
+        set dummyName (basename "$key")
         # echo "fullname |$fileName|"
         # echo "dummyName |$dummyName|"
         echo "fullnamefull |$fileNameFull|"
@@ -63,7 +63,7 @@ function mpx
   echo "2fileName |$fileName|"
   # echo "2fileNameFull |$fileNameFull|"
 
-  set fileNameFull (string trim -c '-' $fileNameFull)
+  set fileNameFull (string trim -c '-' -- $fileNameFull)
 
   # echo "3fullNameFull |$fileNameFull|"
 
@@ -76,8 +76,9 @@ function mpx
   # echo "full filename $fileNameFull"
   pecho "$SCREENSHOT_DIRECTORY/$screenValue => $targetDirectory/$fileNameFull"
   echo "$SCREENSHOT_DIRECTORY/$screenValue => $targetDirectory/$fileNameFull"
-  # cp "$SCREENSHOT_DIRECTORY/$screenValue" "$targetDirectory/$fileNameFull"
-  echo "![$fileName]($targetDirectory/$fileNameFull)" | pbcopy
+  cp "$SCREENSHOT_DIRECTORY/$screenValue" "$targetDirectory/$fileNameFull"
+  # echo "![$fileName](targetDirectory/$fileNameFull)" | pbcopy
+  echo "![$fileName](./$fileNameFull)" 
   echo -n "![$fileName](./$fileNameFull)" | pbcopy
 
 end

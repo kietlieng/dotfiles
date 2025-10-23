@@ -1022,28 +1022,6 @@ end
 #     echo "rndc querylog" | pbcopy
 # }
 
-# usage find last section of a path string.  Example: arn:aws:elasticloadbalancing:us-west-1:046314659632:loadbalancer/app/Tableau/799361ae3e1ff416
-# we want 799... etc (the last section).
-# lastBreadcrumb "[PATH STRING]" "[SEARCH]" "[REPLACE]"
-# So replace the forslashes with space and echo out the last segment
-# lastBreadcrumb "arn:aws:elasticloadbalancing:us-west-1:046314659632:loadbalancer/app/Tableau/799361ae3e1ff416" "\/" " "
-function lastBreadcrumb
-
-  set haystack "$argv[1]"
-  set needleSearch "$argv[2]"
-  set needleReplace "$argv[3]"
-
-  set product $(echo "$haystack" | sed "s/$needleSearch/$needleReplace/g")
-  #echo "output |$product|"
-  set lastterm ""
-
-  for term in $(echo $product)
-    set lastTerm "$term"
-  end
-  echo "$lastTerm"
-
-end
-
 # rm all files unneeded
 function deletemisc
 

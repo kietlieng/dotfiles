@@ -247,6 +247,7 @@ map("n", "<LEADER>ml", ":marks<CR>", G_SILENT_NO_REMAP)      -- list marks
 map("n", "<LEADER>md", ":MarkdownPreviewToggle<CR>", G_SILENT_NO_REMAP)                      -- regular preview
 map("n", "<LEADER>mm", ":CocCommand markmap.watch<CR>", G_SILENT_NO_REMAP)                   -- mind map
 map("n", "<LEADER>mp", ":silent !callterminal '%:p:h' mpx -v '%:p:h' '%:r' ", G_NO_REMAP)  -- get screenshot
+-- map("n", "<LEADER>mp", ":!callterminal '%:p:h' mpx -v '%:p:h' '%:r' ", G_NO_REMAP)  -- get screenshot
 
 --map( "n", "j", "gj", G_SILENT_NO_REMAP ) -- wrapped text movement. Be careful the regular j needs to be expressed elsewhere
 --map( "n", "k", "gk", G_SILENT_NO_REMAP ) -- wrapped text movement. Be careful the regular k needs to be expressed elsewhere
