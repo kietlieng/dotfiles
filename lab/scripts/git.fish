@@ -183,35 +183,51 @@ end
 
 # git pull all repos from current
 function gp
+
   # need absolute path
   #which git
   set currentDirectory $(pwd)
   cd $currentDirectory
-  set rootFolder $(gitrootfolder)
+  set rootFolder (gitrootfolder)
 
   #echo "folder $rootFolder"
   # this means you deep within a repo
   if [ "$currentDirectory" != "$rootFolder" ]
-    #echo "rootfolder $rootFolder"
+    # echo "$currentDirectory != $rootFolder"
     cd "$rootFolder"
     set currentBranch $(git rev-parse --abbrev-ref HEAD)
     set originInfo $(ggetorg $rootFolder $currentBranch)
-    #echo "origin is 1 $currentBranch $originInfo"
-    if [ $originInfo != 'master' ]
-      #currentFolder=$(pwd)
-      #echo "currentFolder $currentFolder: $currentBranch"
-      #echo "git pull rebase --rebase origin $originInfo"
-      #git pull --rebase origin "$originInfo" &
-      git rebase
-    else
-      #git pull &
-      #git pull --rebase origin "$originInfo" &
-      git rebase
-    end
+    # echo "origin is 1 $currentBranch $originInfo"
+
+    # if [ "$originInfo" != 'master' ]
+    #   #currentFolder=$(pwd)
+    #   #echo "currentFolder $currentFolder: $currentBranch"
+    #   #echo "git pull rebase --rebase origin $originInfo"
+    #   #git pull --rebase origin "$originInfo" &
+    #   # rebosed on origin
+    #   echo "git pull --rebase origin \"$originInfo\""
+    #
+    #   # git rebase
+    #   git fetch -p
+    #
+    # else
+    #   #git pull &
+    #   #git pull --rebase origin "$originInfo" &
+    #   # git rebase
+    #   echo "git else"
+    #   git fetch -p
+    #
+    # end
+
+    git fetch -p
+    git rebase
     gwait
+    return
+
   end
 
   cd $currentDirectory
+
   for gitFolder in $(find . -name ".git" -type d -exec realpath {} \;)
 
     #echo "update $gitFolder"
@@ -223,22 +239,28 @@ function gp
     #echo "origin is 2 $originInfo from branch $currentBranch"
     #pwd
     echo "⇣ $gitFolderDirectory"
-    git rebase
+    # git rebase
 
-#    if [[ $originInfo != 'master' ]] then
-#      #currentFolder=$(pwd)
-#      #echo "rebase to $originInfo"
-#      #git pull --rebase origin "$originInfo" &
-#      git rebase
-#    else
-#      #echo "pull from master"
-#      #git pull &
-#      #git pull --rebase origin "$originInfo" &
-#      git rebase
-#    fi
+   # if [ "$originInfo" != 'master' ] 
+   #   #currentFolder=$(pwd)
+   #   # echo "rebase to $originInfo"
+   #   #git pull --rebase origin "$originInfo" &
+   #   git fetch -p
+   #   git rebase
+   #
+   # else
+   #   # echo "pull from master"
+   #   #git pull &
+   #   #git pull --rebase origin "$originInfo" &
+   #   git fetch -p 
+   #   git rebase
+   #
+   # end
 
     #gwarn
     # sleep if it's over a certain amount
+    git fetch -p 
+    git rebase
     gwait
   end
 

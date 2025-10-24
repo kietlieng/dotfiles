@@ -155,7 +155,7 @@ function gfile
     set editFiles $(echo "$filesToEdit" | sed -r 's/\n/ /g')
 
     # becho "editFiles: |$editFiles| $fileCount"
-    if [ $editFiles == '' ]
+    if [ $editFiles = '' ]
 
       set modeNoFiles 't'
 
@@ -258,7 +258,7 @@ function e
 
         set searchString "$searchString.*$key"
 
-        if [ $grepString == '' ]
+        if [ "$grepString" = '' ]
 
           set grepString "$key"
 
@@ -294,7 +294,7 @@ function e
     while read currentValue
 
       set targetFile $currentValue
-      echo "currentValue $currentValue searchString $searchString"
+      # echo "currentValue $currentValue searchString $searchString"
       if echo "$targetFile" | grep -iq "$searchString"
         break
       end
@@ -489,7 +489,7 @@ end
 #   filesToEdit=""
 #
 #   # modified and new
-#   if [ $gitType == 'M?' ]
+#   if [ $gitType = 'M?' ]
 #
 #     filesToEdit=$(git status --porcelain | awk '{ if ($1 == "M" || $1 == "??" )  print $2}')
 #
@@ -841,7 +841,7 @@ function fgr
     end
   end
 
-  if [ $listOption == 't' ]
+  if [ $listOption = 't' ]
       find . -iname "*$fileExpression*" -exec grep -il "$searchExpression" {} \;
   else
       find . -iname "*$fileExpression*" -exec grep -i "$searchExpression" {} \;
@@ -955,10 +955,15 @@ function nap
 
     set fCount (count $filesToEditSanitized)
 
-    echo "count $fCount"
+    # echo "count $fCount"
     if [ "$filesToEditSanitized" != "" ]
-      vim $filesToEditSanitized
-      echo "edit |$filesToEditSanitized|"
+      if [ "$filesToEditSanitized" != '/tmp/' ] 
+        vim $filesToEditSanitized
+        echo "edit |$filesToEditSanitized|"
+      else
+
+        echo "skipping $filesToEditSanitized"
+      end
     end
 
   end
