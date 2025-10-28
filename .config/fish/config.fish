@@ -24,3 +24,5 @@ for f in $(find ~/lab/scripts -type f -iname "*.fish" | sort);
 end
 
 source ~/.config/fish/functions/theme-pure/conf.d/pure.fish
+# set pure_color_current_directory brcyan 
+set pure_color_current_directory brcyan 

@@ -1250,7 +1250,7 @@ function c
       set sFilename "todo"
       set searchTerm "todo"
 
-    case 'tokens'
+    case 'tokens' 'token'
 
       set sFilename $(uncoverfile "tokens" -f)
       vim $sFilename
