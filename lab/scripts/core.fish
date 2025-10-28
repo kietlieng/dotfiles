@@ -1662,9 +1662,14 @@ function uncoverfile
 
 end
 
-function uncoverTokens
+function refreshfile
 
-  set filename $(uncoverfile "tokens" -f)
-  echo "$filename"
+  if test (count $argv) -gt 0
+    echo "arg? $argv[1]"
+    coverfile $argv[1]
+    uncoverfile $argv[1]
+  else
+    echo "no args were provided"
+  end
 
 end

@@ -2,15 +2,12 @@
 set fish_function_path ~/.config/fish/functions/theme-pure/functions/ $fish_function_path
 set fish_add_path "/opt/homebrew/bin"
 
-# setup for pure
-set pure_symbol_prompt ""
-
 # marked directory position
-set lastJump $(cat ~/.jumplast)
+set lastJump (cat ~/.jumplast)
 cd "$lastJump"
 
 source ~/lab/scripts/core.fish
-set tokenFile $(uncoverTokens)
+set tokenFile (uncoverfile "tokens" -f)
 
 # echo "tokenFile $tokenFile"
 
@@ -24,5 +21,8 @@ for f in $(find ~/lab/scripts -type f -iname "*.fish" | sort);
 end
 
 source ~/.config/fish/functions/theme-pure/conf.d/pure.fish
+# setup for pure
+set pure_symbol_prompt ""
+
 # set pure_color_current_directory brcyan 
 set pure_color_current_directory brcyan 
