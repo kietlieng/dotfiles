@@ -786,7 +786,7 @@ function gclone
     # remove everything after tree
     set mungedURL (string replace --regex 'tree*' '' $mungedURL)
     set mungedURL (string replace --regex '/blob*' '' $mungedURL)
-    set mungedURL $(echo "$mungedURL" | sed "s/https:\/\/gitlabdev/git@gitlabdev/g")
+    set mungedURL (echo "$mungedURL" | sed "s/https:\/\/gitlabdev/git@gitlabdev/g")
 
   end
   set mungedURL $(echo "$mungedURL" | sed "s/info\//info:/g")
@@ -807,10 +807,10 @@ end
 
 function gurl
 
-  set gitOrigin `git config --list | grep -i remote.origin.url`
-  set gitOrigin $(echo "$gitOrigin" | sed "s/:/\//g")
-  set gitOrigin $(echo "$gitOrigin" | sed "s/\.git//g")
-  set gitOrigin $(echo "$gitOrigin" | sed "s/remote\.origin\.url=git@/https\:\/\//g")
+  set gitOrigin (git config --list | grep -i remote.origin.url)
+  set gitOrigin (string replace ":" "/" $gitOrigin)
+  set gitOrigin (string replace ".git" "" $gitOrigin)
+  set gitOrigin (string replace "remote.origin.url=git@" "http://" $gitOrigin)
   echo "$gitOrigin"
 
 end
@@ -837,8 +837,9 @@ end
 
 function gpr
 
-  set gitOrigin $(gurl)
+  set gitOrigin (gurl)
   set gitPR "/-/merge_requests"
+  echo "name is $gitOrigin/$gitPR"
 
   if string match -iq "*github.com*" $gitOrigin
 
