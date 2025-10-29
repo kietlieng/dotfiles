@@ -66,7 +66,7 @@ end
 
 function rreact
 
-  set filePath $(/bin/ls -1 $DIR_REACTION/$argv[1]* | head -n 1)
+  set filePath $(/bin/ls -1 $REACTION_DIRECTORY/$argv[1]* | head -n 1)
 
   # Use osascript to copy the file reference with metadata to the clipboard
   osascript -e "
@@ -97,7 +97,7 @@ function frfile
         set argv $argv[2..-1]
         
       case '-react'
-        set filePath $(/bin/ls -1 $DIR_REACTION/$argv[1]* | head -n 1)
+        set filePath $(/bin/ls -1 $REACTION_DIRECTORY/$argv[1]* | head -n 1)
         set argv $argv[2..-1]
         
       case '*'

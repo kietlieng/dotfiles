@@ -1665,7 +1665,6 @@ end
 function refreshfile
 
   if test (count $argv) -gt 0
-    echo "arg? $argv[1]"
     coverfile $argv[1]
     uncoverfile $argv[1]
   else
