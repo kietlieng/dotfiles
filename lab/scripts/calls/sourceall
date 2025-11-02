@@ -5,7 +5,7 @@
 
 source ~/lab/scripts/core.fish
 
-set tokenFile (uncoverTokens)
+set tokenFile (uncoverfile "tokens" -f)
 # echo "tokenFile $tokenFile"
 
 if [ -f $tokenFile ]

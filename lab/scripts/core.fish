@@ -188,12 +188,12 @@ function fzfpreview
   set searchDirectory $argv[1]
   set defaultQuery $argv[2]
   set hashDir $(md5 -q -s $searchDirectory)
-  set queryFile="/tmp/query-$hashDir"
+  set queryFile "/tmp/query-$hashDir"
   echo -n "" > $queryFile
 
-  set filesToEdit $(rg --files $searchDirectory | fzf --multi --preview "bat --style=numbers --color=always --line-range :500 {}" --bind "change:execute(echo {q} > $queryFile)" --bind "ctrl-r:execute(echo \"\" > $queryFile)" --query "$defaultQuery")
+  set filesToEdit $(rg --files $searchDirectory | fzf --multi --preview "bat --style=numbers --color=always --line-range :500 {}" --print-query --query "$defaultQuery")
 
-  if [ $(count filesToEdit) != 0 ]
+  if [ (count filesToEdit) -ne 0 ]
 
     set editFiles $(echo "$filesToEdit" | sed -r 's/\n/ /g')
     echo "$filesToEdit"
@@ -209,19 +209,27 @@ end
 # search /tmp directory
 function etmp
 
-  set tempResults $(fzfpreview /tmp)
-  set editFiles ()
+  # set tempResults (fzfpreview /tmp)
+  set filesToEdit $(/bin/ls -1 /tmp/ | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 /tmp/{}' --print-query | string collect)
 
-  for element in $(echo $tempResults | tr '\n' ' ')
-    
-    set editFiles $editFile "$element"
+  # set filesToEditSanitized '' 
+  for element in (echo -e "$filesToEdit")
+
+    set filesToEditSanitized $filesToEditSanitized  "/tmp/$element"
 
   end
+  set filesToEditSanitized (string trim -c ' ' $filesToEditSanitized)
 
-  if [ $(count $editFiles) > 0 ]
-    vim -f $editFiles
+  echo "files $filesToEditSanitized"
+
+  if [ "$filesToEditSanitized" != "" ]
+    if [ "$filesToEditSanitized" != '/tmp/' ] 
+      vim $filesToEditSanitized
+      echo "edit |$filesToEditSanitized|"
+    else
+      echo "skipping $filesToEditSanitized"
+    end
   end
-
 
 end
 
@@ -932,6 +940,7 @@ function nap
 
   end
 
+  echo "fileScratch |$fileScratch|"
   # no filename
   if [ $fileScratch != "kin" ]
 
@@ -1604,7 +1613,7 @@ function uncoverfile
   set argv $argv[2..-1]
 
   set fromTokens "$COP_FROM_FILE/$tokenFile"
-  set hashTokens $(md5 -q $fromTokens)
+  set hashTokens (md5 -q $fromTokens)
   set toTokens "$COP_TO_FILE/$hashTokens"
 
   set modeFilename ''

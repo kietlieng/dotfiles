@@ -132,6 +132,7 @@ map("n", "<LEADER>SR", ":/\\([a-zA-Z0-9\\-\\[\\]\\(\\)_]\\) \\([a-zA-Z0-9\\-\\[\
 map("n", "<LEADER>su", ":!callterminal '%:p:h'  slackuserscopy l=", G_NO_REMAP)          -- tab visual
 
 map("n", "<C-t>", ":!callterminal '%:p:h' ", G_NO_REMAP)  -- terminal runs
+map("n", "<C-q>", ":!callterminal '%:p:h' qc ", G_NO_REMAP)  -- terminal runs
 
 --  map("v", "<LEADER>zget", ":'<,'>lua require('custom/zookeeper').zkget()<CR>", G_SILENT_NO_REMAP) -- zk copy
 --  map("v", "<LEADER>zget", ':!callzkfetch <C-R>"<ENTER>', G_SILENT_NO_REMAP) -- zk copy

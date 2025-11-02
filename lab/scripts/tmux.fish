@@ -93,7 +93,7 @@ function m
 
 end
 
-# need watchexec service
+# need watchexec service: watches files from executing
 function watchstart
   set countIt (ps aux | grep -i "watchexec.*calltmuxcallback" | wc -l | xargs)
 
@@ -118,7 +118,7 @@ function tmsleep # sleep time before windows are created
   if test (count $argv) -gt 0
 
     set newRate "$argv[1]"
-    set sleepRate (math sleepRate * newRate)
+    set sleepRate (math "$sleepRate * $newRate")
 
   end
 
