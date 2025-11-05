@@ -63,8 +63,9 @@ end
 
 function pecho # put echo into file
 
-  set fname (status stack-trace) "$argv"
-  echo "$fname" >> /tmp/log-gecho
+  # set fname (status stack-trace) "$argv"
+  # echo "$fname" >> /tmp/log-gecho
+  echo $argv >> /tmp/log-gecho
 
 end
 
@@ -215,7 +216,9 @@ function etmp
   # set filesToEditSanitized '' 
   for element in (echo -e "$filesToEdit")
 
-    set filesToEditSanitized $filesToEditSanitized  "/tmp/$element"
+    if [ "$element" ]
+      set filesToEditSanitized $filesToEditSanitized  "/tmp/$element"
+    end
 
   end
   set filesToEditSanitized (string trim -c ' ' $filesToEditSanitized)
@@ -941,6 +944,7 @@ function nap
   end
 
   echo "fileScratch |$fileScratch|"
+
   # no filename
   if [ $fileScratch != "kin" ]
 
@@ -956,7 +960,10 @@ function nap
     # set filesToEditSanitized '' 
     for element in (echo -e "$filesToEdit")
 
-      set filesToEditSanitized $filesToEditSanitized  "/tmp/$element"
+      # echo "element |$element|"
+      if [ "$element" != 'kin-' ]
+        set filesToEditSanitized $filesToEditSanitized  "/tmp/$element"
+      end
 
     end
 

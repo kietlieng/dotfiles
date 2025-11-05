@@ -26,73 +26,6 @@ alias mk='tk music'
 alias ma='m -a'
 alias tmupdate='t update'
 
-function m
-
-
-  set modeAttach ''
-  set modeSearch ''
-  set modePlay ''
-  set key ''
-
-  while test (count $argv) -gt 0
-
-    set key "$argv[1]"
-    set argv $argv[2..-1]
-
-    switch $key
-      case '-a'; set modeAttach 't'
-      case '-p'; set modePlay 't'
-      case '*'
-        set modeSearch "$modeSearch.*$key.*"
-    end
-
-  end
-
-  set hasMusic $(tmux ls 2>&1 | grep -i music | awk -F':' '{print $1}')
-
-  # echo "hasMusic $hasMusic"
-  if [ "$hasMusic" ]
-
-    if [ $modeAttach ]
-
-      tmux attach -t "$hasMusic"
-
-    else
-
-      if [ $modePlay ]
-        mpause
-      else
-
-        if [ $modeSearch ]
-
-          # echo "searching $modeSearch"
-          set results (ls $MUSIC_DIRECTORY | grep -i "$modeSearch" | string collect)
-          set result (echo $results | head -n 1)
-          echo -e "results:\n$results"
-          
-          if [ "$results" ]
-            echo -e "\nplaying $result"
-            cmus-remote -f "$MUSIC_DIRECTORY/$result"
-          end
-
-        else
-
-          basename $(cmus-remote -Q | grep -i file | awk '{ print $2 }')
-
-        end
-
-      end
-
-    end
-
-  else
-
-    t music
-
-  end
-
-end
-
 # need watchexec service: watches files from executing
 function watchstart
   set countIt (ps aux | grep -i "watchexec.*calltmuxcallback" | wc -l | xargs)
@@ -122,8 +55,9 @@ function tmsleep # sleep time before windows are created
 
   end
 
-  pecho "$sleepRate"
+  pecho "sleep rate $sleepRate"
   sleep $sleepRate
+
 end
 
 function t
@@ -180,7 +114,7 @@ function t
 
   if [ $loadTarget ]
 
-    set results $(find $loadDir -maxdepth 1 -iname "$loadTarget.yaml")
+    set results (find $loadDir -maxdepth 1 -iname "$loadTarget.yaml")
     #set targetFiles ($results) # turn into array
     # remove returns and a list with spaces so we can turn into an array
     set targetFiles (echo "$results" | sed -r 's/\n/ /g')
@@ -205,7 +139,6 @@ function t
       for yFile in $targetFiles
 
 #        pecho "RANDOM_TITLE $RANDOM_TITLE1"
-
         if [ $listMatches ]
           
             echo "$yFile"
@@ -225,8 +158,8 @@ function t
 
             # if not in a tmux session, size is greater than 1, and not set to embed.  Refrain from attaching and create all the sessions first
             if [ "$TMUX" = '' ] 
-              and test $fileSize -gt 1 
               and [ "$modeEmbed" = '' ]
+              and test $fileSize -gt 1 
 
               pecho "detaching |$TMUX| $fileSize"
               # tmuxp load -d "$yFile" &!
@@ -234,10 +167,11 @@ function t
 
             else
 
-              pecho "attaching |$TMUX| $fileSize"
+              pecho "attaching embeded |$modeEmbed|tmux: $TMUX|filesize: $fileSize |file:$yFile"
               tmuxp load -a "$yFile" 
 
-              if [ $modeEmbed ]
+              if [ "$modeEmbed" ]
+                echo "embed"
                 break
               end
 
@@ -247,30 +181,36 @@ function t
 
         end
 
+        pecho "blah"
         if [ $titleUsed ]
+          pecho "blah1.5"
           tmsleep
           if [ "$sessionName" = '' ]
+            pecho "blah1.5"
             set sessionName $(tmux display-message -p '#{session_name}')
             set paneName $(tmux display-message -p '#{window_name}')
           end
+          pecho "blah1.5"
           wondertitle
           set titleUsed ''
+          pecho "blah1.5"
         end
+        pecho "blah2"
 
       end
 
+      pecho "blah2"
       # attach to the first session
       if [ "$modeDetach" = '' ]
         and [ "$TMUX" = '' ] 
         test $fileSize -gt 1
 
         pecho "sessionName |$sessionName|"
-
         if [ $sessionName ]
 
           pecho "end attaching to $sessionName:$paneName"
 
-          if [ $modeEmbed ]
+          if [ "$modeEmbed" ]
 
 #            tmux send-keys -t "$sessionName:$paneName" "unset TMUX" Enter
             tmrunsinglecommand "$sessionName:$paneName" "unset TMUX" "$modeEmbed"
@@ -281,9 +221,7 @@ function t
           tmux attach -t "$sessionName:$paneName"
 
         end
-
       end
-
     end
 
   else
@@ -507,7 +445,7 @@ function tmrunsinglecommand
 
   end
 
-  if [ ! $modeEmbed ]
+  if [ "$modeEmbed" = '' ]
     becho "tmux split-window -h -t \"$argSessionWindow\""
     tmux split-window -h -t "$argSessionWindow"
   end
@@ -516,7 +454,7 @@ function tmrunsinglecommand
   tmsleep 
   tmux send-keys -t "$argSessionWindow" "$argCommand" Enter
 
-  if [ ! $modeEmbed ]
+  if [ "$modeEmbed" = '' ]
     tmsleep 2
     tmux kill-pane -t "$argSessionWindow"
   end
@@ -566,7 +504,7 @@ function calltmuxcreatewindow
     set currentTemplate "blank"
   end
 
-  if [ $modeEmbed ] 
+  if [ "$modeEmbed" ] 
     and [ $TMUX ]
 
     export set TMUX_BACKUP $TMUX
@@ -588,26 +526,26 @@ function calltmuxcreatewindow
   # if you have one that's currently attached
   if [ $attachedSessions ]
 
-    if [ $modeBackground ]
+    if [ "$modeBackground" = 't' ]
 
       pecho "attached background t:$currentTemplate s:$inSession w:$inWindow"
 
 #      tmux send-keys -t "$inSession:$inWindow" "t $modeEmbed $currentTemplate" Enter
-      if [ $modePopup ]
+      if [ "$modePopup" != '' ]
         pecho "insession backgroundmode popup"
         tmpopup "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
       else
         tmrunsinglecommand "$inSession:$inWindow" "t -a $modeEmbed $currentTemplate" "$modeEmbed"
       end
 
-      gecho "$currentTemplate"
+      pecho "$currentTemplate"
 
     else
 
       pecho "attached nobackground t:$currentTemplate s:$inSession w:$inWindow"
 
 #      tmux send-keys -t "$inSession:$inWindow" "t $modeEmbed $currentTemplate" Enter
-      if [ $modePopup ]
+      if [ "$modePopup" != '' ]
         pecho "insession popup"
         tmpopup "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
       else
@@ -623,21 +561,6 @@ function calltmuxcreatewindow
       pecho "tmux select-window -t \"$inSession:$newIndex\""
 
     end
-
-  # else
-  #
-  #   if [ $modeBackground ]
-  #
-  #     pecho "unattached background"
-  #     T $currentTemplate
-  #
-  #   else
-  #
-  #     pecho "unattached nobackground"
-  #     t $currentTemplate
-  #     ta # attached to terminal
-  #
-  #   end
 
   end
 
@@ -687,7 +610,7 @@ function calltmuxcreatewindowback
     set currentTemplate "blank"
   end
 
-  if [ $modeEmbed ]
+  if [ "$modeEmbed" ]
     and [ $TMUX ]
 
     export set TMUX_BACKUP $TMUX
@@ -709,26 +632,26 @@ function calltmuxcreatewindowback
   # if you have one that's currently attached
   if [ $inSession ]
 
-    if [ $modeBackground ]
+    if [ "$modeBackground" = 't' ]
 
       pecho "attached background t:$currentTemplate s:$inSession w:$inWindow"
 
 #      tmux send-keys -t "$inSession:$inWindow" "t $modeEmbed $currentTemplate" Enter
-      if [ $modePopup ]
+      if [ "$modePopup" != '' ]
         pecho "insession backgroundmode popup"
         tmpopup "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
       else
         tmrunsinglecommand "$inSession:$inWindow" "t -a $modeEmbed $currentTemplate" "$modeEmbed"
       end
 
-      gecho "$currentTemplate"
+      pecho "$currentTemplate"
 
     else
 
       pecho "attached nobackground t:$currentTemplate s:$inSession w:$inWindow"
 
 #      tmux send-keys -t "$inSession:$inWindow" "t $modeEmbed $currentTemplate" Enter
-      if [ $modePopup ]
+      if [ "$modePopup" != '' ]
         pecho "insession popup"
         tmpopup "$inSession:$inWindow" "t $modeEmbed $currentTemplate" "$modeEmbed"
       else
@@ -747,7 +670,7 @@ function calltmuxcreatewindowback
 
   else
 
-    if [ $modeBackground ]
+    if [ "$modeBackground" = 't' ]
 
       pecho "unattached background"
       T $currentTemplate

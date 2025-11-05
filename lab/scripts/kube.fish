@@ -151,7 +151,7 @@ function kfilter
         echo "to delete a specific value : kfilter -d [value]"
         return
 
-      case '-r' # empty file
+      case '-c' # clear
         echo -n "" > $K_FILTERCONFIG
 
       case '-d' # delete a setting

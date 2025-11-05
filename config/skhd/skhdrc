@@ -137,7 +137,7 @@ rctrl - 9 : fish ~/lab/scripts/calls/scriptcall mcode
 
 # maximize ff
 lctrl - 8 : fish ~/lab/scripts/calls/ffmax
-rctrl - 8: fish ~/lab/scripts/calls/scriptcall cop wazuh
+# rctrl - 8: fish ~/lab/scripts/calls/scriptcall cop wazuh
 
 ########### yabai ###########
 # rotate windows clockwise
