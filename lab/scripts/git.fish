@@ -222,6 +222,7 @@ function gp
     git fetch -p
     git rebase
     gwait
+    cd $currentDirectory
     return
 
   end
@@ -261,7 +262,9 @@ function gp
     # sleep if it's over a certain amount
     git fetch -p 
     git rebase
+    cd $currentDirectory
     gwait
+
   end
 
   cd $currentDirectory
@@ -702,9 +705,9 @@ function ggetorg
   set targetBranch "$argv[2]"
 
   #grep -A 2 -i "branch \"$targetBranch\"" .git/config | tail -n 1
-  set currentRef $(grep -A 2 -i "branch \"$targetBranch\"" "$gitDirectory/.git/config" | tail -n 1 | awk '{print $(NF)}')
+  set currentRef (grep -A 2 -i "branch \"$targetBranch\"" "$gitDirectory/.git/config" | tail -n 1 | awk '{print $(NF)}')
 
-  if [ ! -z $currentRef ]
+  if [ "$currentRef" ]
 
     set currentRef $(basename $currentRef)
     echo "$currentRef"

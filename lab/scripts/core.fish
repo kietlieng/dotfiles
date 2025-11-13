@@ -1463,9 +1463,9 @@ end
 
 function o
 
-  if [ $argv ]
+  if [ "$argv" ]
 
-    while [ $argv ]
+    while [ "$argv" ]
 
       open $argv[1]
       set argv $argv[2..-1]
