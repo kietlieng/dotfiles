@@ -1,15 +1,15 @@
 # alias mp="cmus-remote -p" # play
 
-alias mpause="cmus-remote -u"    # pause
-alias mrepeat="cmus-remote -R"    # repeat
-alias mnext="cmus-remote -n"    # next
-alias mprevious="cmus-remote -r"    # previous
-alias mprevious2="mprevious && mprevious"         # previous 2
-alias mshuffle="cmus-remote -S"    # shuffle
-alias mqueue="cmus-remote -q"    # queue
-alias mraw="cmus-remote --raw" # raw
-alias mseekf="cmus-remote --seek +60" # seek
-alias mseekb="cmus-remote --seek -60" # seek
+alias mpause "cmus-remote -u"    # pause
+alias mrepeat "cmus-remote -R"    # repeat
+# alias mnext "cmus-remote -n"    # next
+alias mprevious "cmus-remote -r"    # previous
+alias mprevious2 "mprevious && mprevious"         # previous 2
+alias mshuffle "cmus-remote -S"    # shuffle
+alias mqueue "cmus-remote -q"    # queue
+alias mraw "cmus-remote --raw" # raw
+alias mseekf "cmus-remote --seek +60" # seek
+alias mseekb "cmus-remote --seek -60" # seek
 
 function ml
 
@@ -19,7 +19,6 @@ function ml
 end
 
 function m
-
 
   set modeAttach ''
   set modeSearch ''
@@ -91,3 +90,14 @@ function m
 
 end
 
+function mnext 
+
+  set qStatus (cmus-remote -Q | grep -i status | grep -io "stopped")
+
+  if [ "$qStatus" != 'stopped' ]
+    cmus-remote -n
+  else
+    mpause
+  end
+
+end

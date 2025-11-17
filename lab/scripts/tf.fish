@@ -33,14 +33,15 @@ function tfpar
     set argv $argv[2..-1]
   end
 
-  set -gx  TF_CLI_ARGS_plan "-parallelism=$parallelSetting"
+  set -gx TF_CLI_ARGS_plan "-parallelism=$parallelSetting"
   pecho "$TF_CLI_ARGS_plan"
+  # echo "$TF_CLI_ARGS_plan"
 
 end
 
 # auto approve td
 function tdestroy
-    terraform destroy -auto-approve
+  terraform destroy -auto-approve
 end
 
 # deletes local tf
