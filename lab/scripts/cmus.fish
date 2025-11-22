@@ -93,11 +93,21 @@ end
 function mnext 
 
   set qStatus (cmus-remote -Q | grep -i status | grep -io "stopped")
+  set isRunning (ps aux | grep -i "cmus" | grep -v ".fish\|grep" | wc -l)
+
+  echo "$isRunning"
+  if test $isRunning -eq 0
+    echo "cmus not running"
+    m
+    return
+  end
 
   if [ "$qStatus" != 'stopped' ]
     cmus-remote -n
-  else
-    mpause
+    return
   end
+
+  mpause
+  return
 
 end

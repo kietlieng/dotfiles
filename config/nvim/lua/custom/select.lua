@@ -50,7 +50,6 @@ end
 
 function F.findBegining(argHeadWord, argTailWord, argTailCommentChar)
 
-
   local currentBuffer       = vim.api.nvim_get_current_buf()
   local tempRow, currentCol = unpack(vim.api.nvim_win_get_cursor(0))
   local lines               = vim.api.nvim_buf_get_lines(currentBuffer, 0, -1, true)
@@ -173,6 +172,14 @@ function F.definition()
     vim.cmd.normal("vi{")
 
   end
+
+end
+
+function F.openLink()
+
+  local wordUnderCursor = vim.fn.expand("<cWORD>")
+  local location = vim.fn.expand("%:p:h")
+  require("io").popen("callterminal " .. location .. " s -l \"" .. wordUnderCursor .. "\"")
 
 end
 

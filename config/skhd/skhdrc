@@ -130,6 +130,7 @@ rctrl - e: fish ~/lab/scripts/calls/calltmuxcreatewindow -popup
 
 # screenshots
 lctrl - 4 : fish ~/lab/scripts/calls/calllastboth
+# lctrl - 4 : fish ~/lab/scripts/calls/calllastscreen
 
 ########### copy ###########
 rctrl - 0: fish ~/lab/scripts/calls/scriptcall cop g

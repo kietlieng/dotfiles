@@ -44,10 +44,10 @@ map("n", "<LEADER>GR", "<cmd>lua require('custom/fzf').liveGrepLevel(-1)<CR>", G
 -- save and quit override
 --map( "n", "QQ", "<cmd>lua require('buffer').CloseBufferOrVim(0)<CR>", G_SILENT_NO_REMAP ) -- Quit without saving. Buffer aware. Will close 1 buffer at a time.
 
-map("n", "QQ", ":call CloseBufferOrVim(0)<CR>", G_SILENT_NO_REMAP)  -- Quit without saving. Buffer aware. Will close 1 buffer at a time.
-map("n", "ZZ", ":call CloseBufferOrVim(1)<CR>", G_SILENT_NO_REMAP)  -- Save and close
-map("n", "qQ", ":silent! :qall!<CR>", G_SILENT_NO_REMAP)                -- Quit regardless of buffers
-map("n", "zZ", ":wqall!<CR>", G_SILENT_NO_REMAP)                       -- save and quit
+map("n", "QQ", ":call CloseBufferOrVim(0)<CR>", G_SILENT_NO_REMAP) -- Quit without saving. Buffer aware. Will close 1 buffer at a time.
+map("n", "ZZ", ":call CloseBufferOrVim(1)<CR>", G_SILENT_NO_REMAP) -- Save and close
+map("n", "qQ", ":silent! :qall!<CR>", G_SILENT_NO_REMAP)           -- Quit regardless of buffers
+map("n", "zZ", ":wqall!<CR>", G_SILENT_NO_REMAP)                   -- save and quit
 
 -- clipboard copy
 
@@ -55,7 +55,7 @@ map("n", "<LEADER>**", ":lua require('reg').toClipboard('/')<CR>", G_SILENT_NO_R
 map("n", "<LEADER>Y", 'mcggVG"*y<CR>`c', G_SILENT_NO_REMAP)                           -- copy everything
 map("n", "<LEADER>y", "mlviWy:lua require('word').word()<CR>`l", G_SILENT_NO_REMAP)   -- copy WORD strip set characters from both ends
 map("n", "<LEADER>l", 'ml0vg_"*y<CR>`l', G_SILENT_NO_REMAP)                           -- copy current line to clipboard without newline
-map("n", "<LEADER>L", 'mlV"*y<CR>`l', G_SILENT_NO_REMAP)                              -- copy current line to clipboard
+map("n", "<LEADER>L", ":lua require('custom/select').openLink()<CR>", G_NO_REMAP)     -- open url link under cursor
 map("v", "<LEADER>y", '"*y', G_SILENT_NO_REMAP)                                       -- copy everything in visual
 -- map("n", "<LEADER>d", 'V"*y<CR>dd', G_SILENT_NO_REMAP)                                -- cut to clipboard
 -- map("v", "<LEADER>d", '"*ygvd', G_SILENT_NO_REMAP)                                    -- cut to clipboard
@@ -64,56 +64,62 @@ map("n", "<LEADER>.", 'mlvg_"*y<CR>`l', G_SILENT_NO_REMAP)                      
 map("n", "<LEADER>,", 'mlv^"*y<CR>`l', G_SILENT_NO_REMAP)                             -- copy current position to beginning of line to clipboard
 
 -- read in values from file
-map("n", "<LEADER>rt", "<cmd>lua require('custom/fzf').readFiles('tmp')<CR>", G_SILENT_NO_REMAP)     -- search from git root
-map("n", "<LEADER>rr", "<cmd>lua require('custom/fzf').readFiles('')<CR>", G_SILENT_NO_REMAP)     -- search from git root
-map("n", "<LEADER>RR", "<cmd>lua require('custom/fzf').readFiles('currentFileDirectory')<CR>", G_SILENT_NO_REMAP)     -- search from git root
-map("n", "<LEADER>jj", "<cmd>lua require('custom/fzf').openJumpFiles()<CR>", G_SILENT_NO_REMAP)     -- Jump script to vim :) 
-map("n", "<LEADER>jw", "<cmd>lua require('custom/fzf').openWorkingJumpFile()<CR>", G_SILENT_NO_REMAP)     -- Jump script to vim :) 
+
+map("n", "<LEADER>rt", "<cmd>lua require('custom/fzf').readFiles('tmp')<CR>", G_SILENT_NO_REMAP)                  -- search from git root
+map("n", "<LEADER>rr", "<cmd>lua require('custom/fzf').readFiles('')<CR>", G_SILENT_NO_REMAP)                     -- search from git root
+map("n", "<LEADER>RR", "<cmd>lua require('custom/fzf').readFiles('currentFileDirectory')<CR>", G_SILENT_NO_REMAP) -- search from git root
+map("n", "<LEADER>jj", "<cmd>lua require('custom/fzf').openJumpFiles()<CR>", G_SILENT_NO_REMAP)                   -- Jump script to vim :)
+map("n", "<LEADER>jw", "<cmd>lua require('custom/fzf').openWorkingJumpFile()<CR>", G_SILENT_NO_REMAP)             -- Jump script to vim :)
+
 -- map("n", "<LEADER>XX", "<cmd>lua require('custom/fzf').preview()<CR>", G_SILENT_NO_REMAP)     -- doesn't do anything just testing preview on the same buffer
 
 -- fzf to move around
+
 map("n", "<LEADER>jbig", ":lua require('custom/fzf').dirJump('bigip')<CR>", G_SILENT_NO_REMAP)
-map("n", "<LEADER>jcert", ":lua require('custom/fzf').dirJump('cert')<CR>", G_SILENT_NO_REMAP) -- forgot why it's important
+map("n", "<LEADER>jcert", ":lua require('custom/fzf').dirJump('cert')<CR>", G_SILENT_NO_REMAP)     -- forgot why it's important
 map("n", "<LEADER>jlua", ":lua require('custom/fzf').dirJump('lua')<CR>", G_SILENT_NO_REMAP)
 map("n", "<LEADER>jrule", ":lua require('custom/fzf').dirJump('irules')<CR>", G_SILENT_NO_REMAP)
 map("n", "<LEADER>jscript", ":lua require('custom/fzf').dirJump('script')<CR>", G_SILENT_NO_REMAP)
 map("n", "<LEADER>jtm", ":lua require('custom/fzf').dirJump('tmuxp')<CR>", G_SILENT_NO_REMAP)
 
--- kl custom 
-map("n", "<C-c>", "ciw", G_SILENT_NO_REMAP) -- change a word
-map("n", "<C-y>", "yygccp", G_SILENT_REMAP) -- duplicate line and commentout
+                                                            -- kl custom
+                                                            --
+map("n", "<C-c>", "ciw", G_SILENT_NO_REMAP)                 -- change a word
+map("n", "<C-y>", "yygccp", G_SILENT_REMAP)                 -- duplicate line and commentout
 map("n", "<LEADER>wr", ":set wrap!<CR>", G_SILENT_NO_REMAP) -- set word wrap
-map("n", "<LEADER>D", "mcDO<ESC>p`c", G_SILENT_NO_REMAP) -- delete from current to beginning
-map("n", '<LEADER>"', 'mlvi""*y`l', G_SILENT_NO_REMAP) -- copy within single quotes
-map("n", "<LEADER>'", "mlvi'\"*y`l", G_SILENT_NO_REMAP) -- copy within double quotes
-map("n", "<LEADER>(", 'mlvi("*y`l', G_SILENT_NO_REMAP) -- copy within parenthesis
-map("n", "<LEADER>[", 'mlvi["*y`l', G_SILENT_NO_REMAP) -- copy within parenthesis
-map("n", "<LEADER>B", 'mlviB"*y`l', G_SILENT_NO_REMAP) -- copy whole function call
-map("n", "<LEADER>p", 'mlvip"*y`l', G_SILENT_NO_REMAP) -- copy whole block
-map("n", "<LEADER>W", 'mlviW"*y`l', G_SILENT_NO_REMAP) -- copy WORD
+map("n", "<LEADER>D", "mcDO<ESC>p`c", G_SILENT_NO_REMAP)    -- delete from current to beginning
+map("n", '<LEADER>"', 'mlvi""*y`l', G_SILENT_NO_REMAP)      -- copy within single quotes
+map("n", "<LEADER>'", "mlvi'\"*y`l", G_SILENT_NO_REMAP)     -- copy within double quotes
+map("n", "<LEADER>(", 'mlvi("*y`l', G_SILENT_NO_REMAP)      -- copy within parenthesis
+map("n", "<LEADER>[", 'mlvi["*y`l', G_SILENT_NO_REMAP)      -- copy within parenthesis
+map("n", "<LEADER>B", 'mlviB"*y`l', G_SILENT_NO_REMAP)      -- copy whole function call
+map("n", "<LEADER>p", 'mlvip"*y`l', G_SILENT_NO_REMAP)      -- copy whole block
+map("n", "<LEADER>W", 'mlviW"*y`l', G_SILENT_NO_REMAP)      -- copy WORD
 
 ----- comment code
 -- tips to comment out code use gcc.  Dude this just deleted my comment lua script
 
-map("n", "<LEADER>ba", "mcvip<c-V>$A", G_SILENT_REMAP)                                                                   -- block edit at the end 
-map("n", "<LEADER>bA", "mcvip<c-V>I", G_SILENT_REMAP)                                                                   -- block edit at the end 
-map("n", "<LEADER>cc", "mcVgc<CR>`c", G_SILENT_REMAP)                                                                     -- comment out selected normal
-map("v", "<LEADER>cc", "mcgc<CR>k`c", G_SILENT_REMAP)                                                                     -- comment out selected visual
-map("n", "<LEADER>CC", "mcggVGgc<CR>`c", G_SILENT_REMAP)                                                                  -- global comment
-map("v", "<LEADER>CC", ":lua require('custom/comments').comments(false, false, true, true, true)<CR>", G_SILENT_NO_REMAP)        -- global comment invert
-map("n", "<LEADER>bc", "mcvipgc<CR>`c", G_SILENT_REMAP)                                                                   -- block comment
-map("n", "<LEADER>bC", ":lua require('custom/comments').comments(true, true, false, true, false, true)<CR>", G_SILENT_NO_REMAP)  -- select block, comment out invert of block
-map("v", "<LEADER>bc", "gc<CR>", G_SILENT_REMAP)                                                                   -- block comment
+map("n", "<LEADER>ba", "mcvip<c-V>$A", G_SILENT_REMAP)                                                                          -- block edit at the end
+map("n", "<LEADER>bA", "mcvip<c-V>I", G_SILENT_REMAP)                                                                           -- block edit at the end
+map("n", "<LEADER>cc", "mcVgc<CR>`c", G_SILENT_REMAP)                                                                           -- comment out selected normal
+map("v", "<LEADER>cc", "mcgc<CR>k`c", G_SILENT_REMAP)                                                                           -- comment out selected visual
+map("n", "<LEADER>CC", "mcggVGgc<CR>`c", G_SILENT_REMAP)                                                                        -- global comment
+map("v", "<LEADER>CC", ":lua require('custom/comments').comments(false, false, true, true, true)<CR>", G_SILENT_NO_REMAP)       -- global comment invert
+map("n", "<LEADER>bc", "mcvipgc<CR>`c", G_SILENT_REMAP)                                                                         -- block comment
+map("n", "<LEADER>bC", ":lua require('custom/comments').comments(true, true, false, true, false, true)<CR>", G_SILENT_NO_REMAP) -- select block, comment out invert of block
+map("v", "<LEADER>bc", "gc<CR>", G_SILENT_REMAP)                                                                                -- block comment
 
-map("n", "<LEADER>ba", "vip<C-v>$A", G_SILENT_NO_REMAP)             -- block insert end
-map("n", "<LEADER>bb", "vip<C-v>^o", G_SILENT_NO_REMAP)             -- block
-map("n", "<LEADER>bi", "Vip<C-v>I", G_SILENT_NO_REMAP)              -- block insert beginning
-map("n", "<LEADER>bs", "mcvip:'<,'>sort<CR>`c", G_SILENT_NO_REMAP)  -- block sort
-map("v", "<LEADER>bs", ":'<,'>sort<CR>", G_SILENT_NO_REMAP)  -- block sort
-map("n", "<LEADER>bt", "mcvip:'<,'>Tabularize/=", G_NO_REMAP)       -- table
+map("n", "<LEADER>ba", "vip<C-v>$A", G_SILENT_NO_REMAP)                    -- block insert end
+map("n", "<LEADER>bb", "vip<C-v>^o", G_SILENT_NO_REMAP)                    -- block
+map("n", "<LEADER>bi", "Vip<C-v>I", G_SILENT_NO_REMAP)                     -- block insert beginning
+map("n", "<LEADER>bs", "mcvip:'<,'>sort<CR>`c", G_SILENT_NO_REMAP)         -- block sort
+map("v", "<LEADER>bs", ":'<,'>sort<CR>", G_SILENT_NO_REMAP)                -- block sort
+map("n", "<LEADER>bt", "mcvip:'<,'>Tabularize/=", G_NO_REMAP)              -- table
 map("n", "<LEADER>bT", "mcvip:'<,'>Tabularize/= <LEFT><LEFT>", G_NO_REMAP) -- table. Position at the beginning
-map("v", "<LEADER>bt", ":Tabularize/=", G_NO_REMAP)                 -- table visual
-map("v", "<LEADER>bT", ":Tabularize/=<LEFT>", G_NO_REMAP)           -- table visual. Position at beginning
+map("v", "<LEADER>Bt", ":Tabularize/|", G_NO_REMAP)                        -- table visual |
+map("v", "<LEADER>BT", ":Tabularize/|<LEFT>", G_NO_REMAP)                  -- table visual |. Position at beginning
+map("v", "<LEADER>bt", ":Tabularize/=", G_NO_REMAP)                        -- table visual =
+map("v", "<LEADER>bT", ":Tabularize/=<LEFT>", G_NO_REMAP)                  -- table visual =. Position at beginning
 
 -- search and replace
 --map( "n", "<LEADER>bd", ":bufdo %s//<C-r>./gc<CR>", G_NO_REMAP ) -- repeat replace
@@ -159,7 +165,7 @@ map("n", "<C-s>", ":silent !callsearchprivate ''<LEFT>", G_NO_REMAP)  -- termina
 map("n", "<LEADER>gn", ":GitGutterNextHunk<CR>", G_NO_REMAP)                                               -- next githunk
 map("n", "<LEADER>Gp", ":GitGutterPreviousHunk<CR>", G_NO_REMAP)                                           -- next githunk
 map("n", "<LEADER>gB", ":!callterminal '%:p:h' g ", G_NO_REMAP)                                            -- create branch
-                                                                                                           -- map("n", "<LEADER>gl", ":!callterminalless '%:p:h' glog<CR>", G_NO_REMAP)   -- git log but it's not working out for me
+-- map("n", "<LEADER>gl", ":!callterminalless '%:p:h' glog<CR>", G_NO_REMAP)   -- git log but it's not working out for me
 map("n", "<LEADER>gl", ":silent !callterminal '%:p:h' glink<CR>", G_NO_REMAP)                              -- link
 map("n", "<LEADER>gpull", ":!callterminal '%:p:h' gp<CR>", G_NO_REMAP)                                     -- pull
 map("n", "<LEADER>ga", ":Git add %<CR>", G_NO_REMAP)                                                       -- add current file

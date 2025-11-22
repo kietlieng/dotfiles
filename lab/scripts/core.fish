@@ -1484,15 +1484,35 @@ end
 function s
 
   set searchString ''
+  set optionLink ''
 
-  while [ $argv ]
+  while test (count $argv) -gt 0
 
-    set searchString "$searchString+$argv[1]"
+    set key $argv[1]
     set argv $argv[2..-1]
+
+    switch $key 
+
+      case '-l' 
+        set optionLink $argv[1]
+        set argv $argv[2..-1]
+
+      case '*'
+        set searchString "$searchString+$key"
+
+    end
 
   end
 
-  if [ $searchString ]
+  if [ "$optionLink" ]
+
+    # echo "optionLink |$optionLink|"
+    open -na "Firefox" --args --private-window "$optionLink"
+    return
+
+  end
+
+  if [ "$searchString" ]
     open -na "Firefox" --args --private-window "https://duckduckgo.com/?q=$searchString"
     yfocuswin Firefox -title Private
   end
