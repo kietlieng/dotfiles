@@ -183,4 +183,11 @@ function F.openLink()
 
 end
 
+function F.word()
+
+  local wordUnderCursor = vim.fn.expand("<cWORD>")
+  vim.fn.setreg('*', wordUnderCursor) -- copy to reg
+
+end
+
 return F
