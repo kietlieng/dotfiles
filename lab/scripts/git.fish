@@ -1,32 +1,32 @@
-alias gD='git -c diff.external=difft diff --staged'
-alias gHash="git rev-parse HEAD && git rev-parse HEAD | pbcopy"
-alias gP='gpush'
-alias gbr='g -branch'
-# alias gco='git checkout '
-alias gd='git -c diff.external=difft diff'
-alias gdstaged='git -c diff.external=difft diff --staged'
-alias gfetch="git fetch --all"
-alias gfiles="git log --name-only --oneline"
-alias ghash="git rev-parse HEAD && git rev-parse HEAD | cut -c -8 | pbcopy"
-alias gl="git -c diff.external=difft log -p --ext-diff"
-alias gL="git diff --cached"
-alias glines="git log -p --unified=0"
-alias glogfiles="git log --name-only"
-alias gm="git merge"
-alias gprune="g -prune"
-alias gpull="git pull --all"
-alias gR='groot' # taken over by grep
-alias gabort='git rebase --abort'
-alias grebasedelete='rm -fr ".git/rebase-merge"'
-alias grebaseskip='git rebase --skip'
-alias gslist="git stash list"
-alias gspop="git stash pop"
-alias gspush="git stash push"
-alias gsstack="git log --name-status --oneline"
-# alias gtrack="git update-index --no-assume-unchanged "
-alias guadd='git restore --staged'
-alias guntrack="git update-index --assume-unchanged "
-alias guntracklist="git ls-files -v | grep \"^[[:lower:]]\""
+alias gD 'git -c diff.external=difft diff --staged'
+alias gHash "git rev-parse HEAD && git rev-parse HEAD | pbcopy"
+alias gP 'gpush'
+alias gbr 'g -branch'
+# alias gco 'git checkout '
+alias gd 'git -c diff.external=difft diff'
+alias gdstaged 'git -c diff.external=difft diff --staged'
+alias gfetch "git fetch --all"
+alias gfiles "git log --name-only --oneline"
+alias ghash "git rev-parse HEAD && git rev-parse HEAD | cut -c -8 | pbcopy"
+alias gl "git -c diff.external=difft log -p --ext-diff"
+alias gL "git diff --cached"
+alias glines "git log -p --unified=0"
+alias glogfiles "git log --name-only"
+alias gm "git merge"
+alias gprune "g -prune"
+alias gpull "git pull --all"
+alias gR 'groot' # taken over by grep
+alias gabort 'git rebase --abort'
+alias grebasedelete 'rm -fr ".git/rebase-merge"'
+alias grebaseskip 'git rebase --skip'
+alias gslist "git stash list"
+alias gspop "git stash pop"
+alias gspush "git stash push"
+alias gsstack "git log --name-status --oneline"
+# alias gtrack "git update-index --no-assume-unchanged "
+alias guadd 'git restore --staged'
+alias guntrack "git update-index --assume-unchanged "
+alias guntracklist "git ls-files -v | grep \"^[[:lower:]]\""
 
 set -gx BAT_PREVIEW1 "git diff "
 set -gx BAT_PREVIEW2 "--color=always -- {-1}"

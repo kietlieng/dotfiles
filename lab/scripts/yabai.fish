@@ -1000,7 +1000,7 @@ function ytoganchor
     if test $currentPadding -gt $yWHalf3 
 
       # hugging left side
-      if [ $currentAnchor == 'l' ]
+      if [ $currentAnchor = 'l' ]
 
         yor
         yabai -m config window_placement second_child

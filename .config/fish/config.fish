@@ -25,4 +25,13 @@ source ~/.config/fish/functions/theme-pure/conf.d/pure.fish
 set pure_symbol_prompt ""
 
 # set pure_color_current_directory brcyan 
-set pure_color_current_directory brcyan 
+# set pure_color_current_directory 95ffa4 # green third
+# set pure_color_current_directory A1F205 # green second
+# set pure_color_current_directory 2AFF00 # green
+# set pure_color_current_directory FFFB00 # yellow
+# set pure_color_current_directory FA6102 # yellow2
+# set pure_color_current_directory FA0272 # pink
+# set pure_color_current_directory 02EEFA # blue
+# set pure_color_current_directory 3093FD # blue2
+# set pure_color_current_directory FA5102 # red
+set pure_color_current_directory FF930F # orange

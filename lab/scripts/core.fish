@@ -213,25 +213,23 @@ function etmp
   # set tempResults (fzfpreview /tmp)
   set filesToEdit $(/bin/ls -1 /tmp/ | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 /tmp/{}' --print-query | string collect)
 
-  # set filesToEditSanitized '' 
   for element in (echo -e "$filesToEdit")
 
     if [ "$element" ]
+      and test -e "/tmp/$element"
       set filesToEditSanitized $filesToEditSanitized  "/tmp/$element"
     end
 
   end
+
   set filesToEditSanitized (string trim -c ' ' $filesToEditSanitized)
 
   echo "files $filesToEditSanitized"
 
-  if [ "$filesToEditSanitized" != "" ]
-    if [ "$filesToEditSanitized" != '/tmp/' ] 
-      vim $filesToEditSanitized
-      echo "edit |$filesToEditSanitized|"
-    else
-      echo "skipping $filesToEditSanitized"
-    end
+  # check to see if you have elements
+  if test (count $filesToEditSanitized) -gt 0
+    echo "edit |$filesToEditSanitized|"
+    vim $filesToEditSanitized
   end
 
 end
@@ -1698,7 +1696,7 @@ function uncoverfile
 
 end
 
-function refreshfile
+function reloadfile
 
   if test (count $argv) -gt 0
     coverfile $argv[1]
