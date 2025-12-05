@@ -68,9 +68,9 @@ function m
 
         else
 
-          set qStatus (cmus-remote -Q | grep -i status | grep -io "stopped")
+          set qStatus (cmus-remote -Q | grep -i status | awk '{print $2}')
 
-          if [ "$qStatus" != 'stopped' ]
+          if [ "$qStatus" != 'paused' ]
             basename (cmus-remote -Q | grep -i file | awk '{ print $2 }')
           else
             mpause
@@ -92,22 +92,25 @@ end
 
 function mnext 
 
-  set qStatus (cmus-remote -Q | grep -i status | grep -io "stopped")
+  set qStatus (cmus-remote -Q | grep -i status | awk '{print $2}')
   set isRunning (ps aux | grep -i "cmus" | grep -v ".fish\|grep" | wc -l)
 
   echo "$isRunning"
   if test $isRunning -eq 0
-    echo "cmus not running"
+    echo "cmus does not exists"
     m
     return
   end
 
-  if [ "$qStatus" != 'stopped' ]
+  echo "status |$qStatus|"
+  if [ "$qStatus" = 'paused' ]
+    echo "paused"
+    mpause
+  else 
+    echo "it's running next"
     cmus-remote -n
     return
   end
 
-  mpause
-  return
 
 end
