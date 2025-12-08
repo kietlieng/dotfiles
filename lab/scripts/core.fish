@@ -919,8 +919,9 @@ end
 
 # jot down on napkin
 # jot will create file in /tmp
-function nap
 
+function nap
+  
   set fileScratch "kin"
   set jotQuery "kin-"
 
@@ -941,7 +942,7 @@ function nap
 
   end
 
-  echo "fileScratch |$fileScratch|"
+  # echo "fileScratch |$fileScratch|"
 
   # no filename
   if [ $fileScratch != "kin" ]
@@ -951,19 +952,38 @@ function nap
   else
 
     echo "" > /tmp/fzf-query
+    set hashDir (md5 -q -s $(pwd))
+    set queryFile "/tmp/query-$hashDir"
 
-    set filesToEdit $(/bin/ls -1 /tmp/ | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 /tmp/{}' --query "$jotQuery" --print-query | string collect)
+    # set filesToEdit (/bin/ls -1 /tmp/ | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 /tmp/{}' --query "$jotQuery" --print-query | string collect)
+    # fzf -m --ansi --color fg:-1,bg:-1,hl:46,fg+:40,bg+:233,hl+:46 --color prompt:166,border:46 --height 75%  --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ " --bind "change:execute(echo {q} > $queryFile)" --query "$defaultQuery"
+    set filesToEdit (/bin/ls -1 /tmp/ | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 /tmp/{}' --query "$jotQuery" --bind "enter:execute(echo {q} > $queryFile)+accept" | string collect)
+
     # set query (fzf --print-query)
 
-    # set filesToEditSanitized '' 
+    # echo "files to edit |$filesToEdit|"
+    set elementFound ''
+
     for element in (echo -e "$filesToEdit")
 
       # echo "element |$element|"
-      if [ "$element" != 'kin-' ]
+
+      # test if not empty 
+      if test -n "$element" 
+        and [ "$element" != 'kin-' ]
         set filesToEditSanitized $filesToEditSanitized  "/tmp/$element"
       end
+      set elementFound 't'
 
     end
+
+    # consider the query from query file
+    set queryValue (cat $queryFile)
+    if [ "$queryValue" != 'kin-' ]
+      # echo "setting queryValue |/tmp/$queryValue| |$filesToEditSanitized|"
+      set filesToEditSanitized $filesToEditSanitized  "/tmp/$queryValue"
+    end
+
 
     set filesToEditSanitized (string trim -c ' ' $filesToEditSanitized)
 
@@ -973,16 +993,15 @@ function nap
     if [ "$filesToEditSanitized" != "" ]
       if [ "$filesToEditSanitized" != '/tmp/' ] 
         vim $filesToEditSanitized
-        echo "edit |$filesToEditSanitized|"
+        echo "edit $filesToEditSanitized"
       else
-
         echo "skipping $filesToEditSanitized"
       end
     end
-
   end
 
 end
+
 
 function etail
 
