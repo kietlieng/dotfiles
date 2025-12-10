@@ -713,10 +713,6 @@ function gr
 
     set searchExpression (string trim -c '.*' $searchExpression)
     
-    ## kl don't know what this does
-    # searchExpression=${searchExpression##\.\*}
-    # searchExpression=${searchExpression%%\.\*}
-
     #echo "search term $searchExpression"
     if [ $searchCICD = 't' ]
       if [ $shouldList = "true" ]
@@ -727,44 +723,32 @@ function gr
 
     else
 
-      ## kl don't know what this does
-      ## implement pipe input stream
-      # if ! [ -t 0 ]
-      #   #echo "implement piping"
-      #   set targetFile /tmp/inputstream
-      #
-      #   > $targetFile
-      #   while read inputResults
-      #     echo $nputResults >> $targetFile
-      #   end
-      #   #cat $targetFile
-      #
-      # end
-
       #echo "target file $targetFile"
       if [ $shouldList = "true" ]
+
         # echo "test1"
-        #pipe
-        if ! [ -t 0 ]
-          # ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -irl  -A $modeAfter -B $modeBefore "$searchExpression" $targetFile
-          rg -l -A $modeAfter -B $modeBefore  "$searchExpression" $targetFile
+
+        # if the function returns false
+        if [ -t 0 ]
+          echo "function is good 1"
+          rg -il -A $modeAfter -B $modeBefore "$searchExpression" 
         else
-          # dumping to null cause this will error out on * due to the backtick evaluation
-          # ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -irl -A $modeAfter -B $modeBefore "$searchExpression" *
-          rg -l -A $modeAfter -B $modeBefore "$searchExpression" 
+          echo "last function errored out"
+          rg -il -A $modeAfter -B $modeBefore  "$searchExpression" $targetFile
         end
+
       else
-        #echo "ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -ir \"$searchExpression\" $targetFile"
-        if ! [ -t 0 ]
-          # ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -ir -A $modeAfter -B $modeBefore "$searchExpression" $targetFile
-          rg -i -A $modeAfter -B $modeBefore "$searchExpression" $targetFile
-        else
-          # dumping to null cause this will error out on * due to the backtick evaluation
+
+        if [ -t 0 ]
+          echo "function is good 2"
           echo "search expression '$searchExpression'"
-          # echo "ggrep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn,.idea,.tox} -ir -A $modeAfter -B $modeBefore \"$searchExpression\" *"
           rg -i -A $modeAfter -B $modeBefore "$searchExpression"
+        else
+          echo "last function errored out"
+          rg -i -A $modeAfter -B $modeBefore "$searchExpression" $targetFile
         end
       end
+
     end
   end
 
@@ -1022,43 +1006,45 @@ function etail
 
 end
 
-# # grep processs command and kill
-# function p() {
-#
-#   set hashDir $(md5 -q -s $(pwd))
-#   set queryFile "/tmp/query-$hashDir"
-#
-#   set defaultQuery ''
-#
-#   if [ -f $queryFile ]
-#     defaultQuery=$(cat $queryFile)
-#   fi
-#
-#   if [ $# -gt 0 ]
-#     defaultQuery=$1
-#     shift
-#   fi
-#
-#   pid=$(ps -ef | sed 1d | grep -v "$hashDir" | fzf -m --ansi --color fg:-1,bg:-1,hl:46,fg+:40,bg+:233,hl+:46 --color prompt:166,border:46 --height 75%  --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ " --bind "change:execute(echo {q} > $queryFile)" --query "$defaultQuery" | awk '{print $2}')
-#
-#   # check to see if set at all
-#   if [ -n $pid ]
-#     echo "has pid $pid"
-#     # iterate through loop for multiple pids
-#     for pIndex in $(echo $pid)
-# #      sudo kill $pIndex
-#       kill $pIndex
-#       echo "x $pIndex"
-#     done
-# #      kill -${1:-9} $pid
-#   fi
-# #    ps aux | grep -i "$@"
-# }
-#
-# # this is useless
-# function bindlogs() {
-#     echo "rndc querylog" | pbcopy
-# }
+# grep processs command and kill
+function p
+
+  set hashDir (md5 -q -s (pwd))
+  set queryFile "/tmp/query-$hashDir"
+
+  set defaultQuery ''
+
+  if [ -f $queryFile ]
+    set defaultQueryi (cat $queryFile)
+  end
+
+  if test (count $argv) -gt 0
+
+    set defaultQuery $argv[1]
+    set argv $argv[2..-1]
+
+  end
+
+  set pid (ps -ef | sed 1d | grep -v "$hashDir" | fzf -m --ansi --color fg:-1,bg:-1,hl:46,fg+:40,bg+:233,hl+:46 --color prompt:166,border:46 --height 75%  --border=sharp --prompt="➤  " --pointer="➤ " --marker="➤ " --bind "enter:execute(echo {q} > $queryFile)+accept" --query "$defaultQuery" | awk '{print $2}')
+
+  # check to see if set at all
+  if [ -n $pid ]
+    echo "has pid $pid"
+    # iterate through loop for multiple pids
+    for pIndex in $(echo $pid)
+#      sudo kill $pIndex
+      kill $pIndex
+      echo "x $pIndex"
+    end
+#      kill -${1:-9} $pid
+  end
+#    ps aux | grep -i "$@"
+end
+
+# this is useless
+function bindlogs
+  echo "rndc querylog" | pbcopy
+end
 
 # rm all files unneeded
 function deletemisc

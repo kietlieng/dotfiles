@@ -70,7 +70,7 @@ function m
 
           set qStatus (cmus-remote -Q | grep -i status | awk '{print $2}')
 
-          if [ "$qStatus" != 'paused' ]
+          if [ "$qStatus" != 'stopped' ]
             basename (cmus-remote -Q | grep -i file | awk '{ print $2 }')
           else
             mpause
@@ -103,8 +103,8 @@ function mnext
   end
 
   echo "status |$qStatus|"
-  if [ "$qStatus" = 'paused' ]
-    echo "paused"
+  if [ "$qStatus" = 'stopped' ]
+    echo "stopped"
     mpause
   else 
     echo "it's running next"
