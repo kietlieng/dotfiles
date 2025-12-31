@@ -27,6 +27,21 @@ alias zclear="yes | rm ~/.zcompdump*"
 set -gx COP_FROM_FILE ~/lab/scripts/0zero
 set -gx COP_TO_FILE "/tmp"
 
+# test if tokens is good 
+function tok? 
+
+  if test -z $SCREENSHOT_TIME_FILE
+
+    echo "empty"
+
+  else
+
+    echo "good"
+
+  end
+
+end
+
 function cover
 
   if [ "$argv[1]" ]
@@ -139,21 +154,22 @@ end
 # go up to root folder and find a file
 function gfile
 
-  set currentFolder $(pwd)
-  set rootFolder $(gitrootfolder)
+  set currentFolder (pwd)
+  set rootFolder (gitrootfolder)
+  echo "rootFolder $rootFolder"
   set searchExpression "$argv[1]"
 
-  set filesToEdit $(find $rootFolder -iname "$searchExpression")
+  set filesToEdit (find $rootFolder -iname "$searchExpression" | string collect)
 
   pecho "find $rootFolder -iname \"$searchExpression\""
   pecho "$filesToEdit"
 
-  set fileCount $(echo "$filesToEdit" | wc -l)
+  set fileCount (echo "$filesToEdit" | wc -l)
   set editFiles ''
   set modeNoFiles ''
 
   if [ $fileCount -gt 0 ]
-    set editFiles $(echo "$filesToEdit" | sed -r 's/\n/ /g')
+    set editFiles (echo "$filesToEdit" | head -n 1 | sed -r 's/\n/ /g')
 
     # becho "editFiles: |$editFiles| $fileCount"
     if [ $editFiles = '' ]
@@ -162,6 +178,7 @@ function gfile
 
     else
 
+      # echo "vim $editFiles"
       vim $editFiles
 
     end
@@ -208,7 +225,7 @@ function fzfpreview
 end
 
 # search /tmp directory
-function etmp
+function et
 
   # set tempResults (fzfpreview /tmp)
   set filesToEdit $(/bin/ls -1 /tmp/ | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 /tmp/{}' --print-query | string collect)
@@ -287,7 +304,7 @@ function e
   if [ $modeGrep ]
 
     echo "search | $searchString"
-    set vimToEdit $(eza --all --sort=modified -1 -f --only-files | grep -i $searchString | tail -n $modeTail | sed -r 's/\n/ /g')
+    set vimToEdit (eza --all --sort=modified -1 -f --only-files | grep -i $searchString | tail -n $modeTail | sed -r 's/\n/ /g')
 
   else
 
@@ -296,7 +313,7 @@ function e
     # echo "tail $grepString"
     eza --all --sort=modified --reverse -1 -f --only-files > $searchOutput
 
-    set totalCount $(cat $searchOutput | wc -l)
+    set totalCount (cat $searchOutput | wc -l)
     set fileCount 0
     set fileFinal 0
 
@@ -317,7 +334,7 @@ function e
     tail -n $fileFinal $searchOutput >  $searchResults
 
     # echo "|$targetFile| $grepString"
-    set vimToEdit $(cat $searchResults | head -n $modeTail | sed -r 's/\n/ /g')
+    set vimToEdit (cat $searchResults | head -n $modeTail | sed -r 's/\n/ /g')
 
   end
 
@@ -730,7 +747,7 @@ function gr
 
         # if the function returns false
         if [ -t 0 ]
-          echo "function is good 1"
+          # echo "function is good 1"
           rg -il -A $modeAfter -B $modeBefore "$searchExpression" 
         else
           echo "last function errored out"
@@ -740,7 +757,7 @@ function gr
       else
 
         if [ -t 0 ]
-          echo "function is good 2"
+          # echo "function is good 2"
           echo "search expression '$searchExpression'"
           rg -i -A $modeAfter -B $modeBefore "$searchExpression"
         else
@@ -956,16 +973,19 @@ function nap
       if test -n "$element" 
         and [ "$element" != 'kin-' ]
         set filesToEditSanitized $filesToEditSanitized  "/tmp/$element"
+        set elementFound 't'
       end
-      set elementFound 't'
 
     end
 
-    # consider the query from query file
-    set queryValue (cat $queryFile)
-    if [ "$queryValue" != 'kin-' ]
-      # echo "setting queryValue |/tmp/$queryValue| |$filesToEditSanitized|"
-      set filesToEditSanitized $filesToEditSanitized  "/tmp/$queryValue"
+    # if empty and not set
+    if [ -z $elementFound ]
+      # consider the query from query file
+      set queryValue (cat $queryFile)
+      if [ "$queryValue" != 'kin-' ]
+        # echo "setting queryValue |/tmp/$queryValue| |$filesToEditSanitized|"
+        set filesToEditSanitized $filesToEditSanitized  "/tmp/$queryValue"
+      end
     end
 
 

@@ -166,7 +166,7 @@ function gwait
   # 100 seems to be the limit
   while test $gitCount -gt $maxConnections
 
-    set gitCount $(ps aux | grep -i git | wc -l)
+    set gitCount (ps aux | grep -i git | wc -l)
     sleep $sleepTime
 
   end
@@ -175,7 +175,7 @@ end
 # go to root folder
 function groot
 
-  set rootFolder $(gitrootfolder)
+  set rootFolder (gitrootfolder)
   cd $rootFolder
   becho "󰌍 $rootFolder"
 
@@ -186,7 +186,7 @@ function gp
 
   # need absolute path
   #which git
-  set currentDirectory $(pwd)
+  set currentDirectory (pwd)
   cd $currentDirectory
   set rootFolder (gitrootfolder)
 
@@ -195,12 +195,12 @@ function gp
   if [ "$currentDirectory" != "$rootFolder" ]
     # echo "$currentDirectory != $rootFolder"
     cd "$rootFolder"
-    set currentBranch $(git rev-parse --abbrev-ref HEAD)
-    set originInfo $(ggetorg $rootFolder $currentBranch)
+    set currentBranch (git rev-parse --abbrev-ref HEAD)
+    set originInfo (ggetorg $rootFolder $currentBranch)
     # echo "origin is 1 $currentBranch $originInfo"
 
     # if [ "$originInfo" != 'master' ]
-    #   #currentFolder=$(pwd)
+    #   #currentFolder=(pwd)
     #   #echo "currentFolder $currentFolder: $currentBranch"
     #   #echo "git pull rebase --rebase origin $originInfo"
     #   #git pull --rebase origin "$originInfo" &
@@ -229,21 +229,21 @@ function gp
 
   cd $currentDirectory
 
-  for gitFolder in $(find . -name ".git" -type d -exec realpath {} \;)
+  for gitFolder in (find . -name ".git" -type d -exec realpath {} \;)
 
     #echo "update $gitFolder"
     cd $gitFolder/..
     # do not set to master
-    set gitFolderDirectory $(pwd)
-    set currentBranch $(git rev-parse --abbrev-ref HEAD)
-    set originInfo $(ggetorg $gitFolderDirectory $currentBranch)
+    set gitFolderDirectory (pwd)
+    set currentBranch (git rev-parse --abbrev-ref HEAD)
+    set originInfo (ggetorg $gitFolderDirectory $currentBranch)
     #echo "origin is 2 $originInfo from branch $currentBranch"
     #pwd
     echo "⇣ $gitFolderDirectory"
     # git rebase
 
    # if [ "$originInfo" != 'master' ] 
-   #   #currentFolder=$(pwd)
+   #   #currentFolder=(pwd)
    #   # echo "rebase to $originInfo"
    #   #git pull --rebase origin "$originInfo" &
    #   git fetch -p
@@ -313,7 +313,7 @@ function useBasename
           # check to see if there is a slash or it's a url then get base
           if string match -iq "https://*" $key or string match -iq "/*" $key
 
-            set baseValue $(basename $key)
+            set baseValue (basename $key)
           else
             set baseValue $key
           end
@@ -342,7 +342,7 @@ end
 # you want to use the last branch name
 function gblast
 
-  set lastBranch $(cat ~/.gitBranchName)
+  set lastBranch (cat ~/.gitBranchName)
   g "$lastBranch"
 
 end
@@ -362,14 +362,14 @@ end
 function g
 
   # quit if not a repo
-  if [ $(isRepo) = "f" ]
+  if [ (isRepo) = "f" ]
     echo "Not a repo"
     return
   end
 
-  set currentDirectory $(pwd)
+  set currentDirectory (pwd)
   set branchFilename ~/.gitBranchName
-  set currentBranch $(git rev-parse --abbrev-ref HEAD)
+  set currentBranch (git rev-parse --abbrev-ref HEAD)
   set descOfTicket ""
   set otherSwitches "f"
   set trackingBranch (glbranchdefault)
@@ -398,12 +398,12 @@ function g
 
       case '-branch' # last branch
 
-        set descOfTicket $(cat $branchFilename)
+        set descOfTicket (cat $branchFilename)
 
       case '-prune'
 
         # delete all merged local branchs
-        set mergedBranches $(git branch --merged origin/$trackingBranch | grep -iv "master\|develop\|$currentBranch\|$trackingBranch")
+        set mergedBranches (git branch --merged origin/$trackingBranch | grep -iv "master\|develop\|$currentBranch\|$trackingBranch")
         if [ "$mergedBranches" ]
           echo $mergedBranches | xargs git branch -d
         else
@@ -422,7 +422,7 @@ function g
       case '-fdd' # delete both remote and local
 
         set trimPaths '-t'
-        set branchName $(useBasename $trimPaths $argv[1])
+        set branchName (useBasename $trimPaths $argv[1])
         # local branch
         git branch -D "$branchName"
         # remote branch
@@ -432,7 +432,7 @@ function g
 
       case '-dd' # delete both remote and local
 
-        set branchName $(useBasename $trimPaths $argv[1])
+        set branchName (useBasename $trimPaths $argv[1])
         # local branch
         git branch -D "$branchName"
         # remote branch
@@ -443,7 +443,7 @@ function g
 
       case '-D' # delete remote
 
-        set branchName $(useBasename $trimPaths $argv[1])
+        set branchName (useBasename $trimPaths $argv[1])
         git push origin :$branchName
         set otherSwitches "t"
         set argv $argv[2..-1]
@@ -451,7 +451,7 @@ function g
 
       case '-d' # delete local
 
-        set branchName $(useBasename $trimPaths $argv[1])
+        set branchName (useBasename $trimPaths $argv[1])
         git branch -D "$branchName"
         set otherSwitches "t"
         set argv $argv[2..-1]
@@ -487,7 +487,7 @@ function g
     # trim out underscores from the begining
     #echo -n "searching ${descOfTicket}: "
     # check for matching branches at all
-    set branchFound $(git branch -a | grep -i "$descOfTicket" | head -n 1)
+    set branchFound (git branch -a | grep -i "$descOfTicket" | head -n 1)
 
     if [ "$branchFound" ]
       #echo "Found!"
@@ -513,7 +513,7 @@ function g
     set branchAll (git branch -a | string collect)
     #echo "$branchAll\n\n---\n"
 
-    set gitFolderDirectory $(gitrootfolder)
+    set gitFolderDirectory (gitrootfolder)
     echo "> $gitFolderDirectory"
 
     #echo $branchAll | grep -i "remotes/origin" | awk '{print $1}'
@@ -529,7 +529,7 @@ function g
 
       if not string match -iq "*" $branchIndex
 
-        set originInfo $(ggetorg $gitFolderDirectory $branchIndex)
+        set originInfo (ggetorg $gitFolderDirectory $branchIndex)
 
         if [ ! -z $originInfo ]
           echo "$branchIndicator$branchIndex => $originInfo"
@@ -542,7 +542,7 @@ function g
     echo -e "---\nUNTRACKED "
 
     # command only works on relative path.  Need to go to gitroot
-    cd $(gitrootfolder)
+    cd (gitrootfolder)
     git ls-files --others --exclude-standard | sed 's/^/>>      /g'
 
     echo -e "---\nSTATUS "
@@ -552,7 +552,7 @@ function g
 
   end
 
-  if [ $(glreachable) = "n" ]
+  if [ (glreachable) = "n" ]
     echo ">>>>> repo: unreachable!!!"
   end
 
@@ -581,7 +581,7 @@ end
 function gpush
 
   set openLink 't'       # always want to open link
-  set currentPath $(pwd) # fall back point
+  set currentPath (pwd) # fall back point
   set repoPath ""        # to catch if you want to push from a different directory
   set quite 'f'          # stay quite first
 
@@ -610,9 +610,9 @@ function gpush
 
   end
 
-  set gitBranch $(git rev-parse --abbrev-ref HEAD)
-  set gBranchOutput $(git push -f origin "$gitBranch"  2>&1)
-  set pullRequestLink $(echo $gBranchOutput | grep -io "https://.*merge_requests[^ ]\+")
+  set gitBranch (git rev-parse --abbrev-ref HEAD)
+  set gBranchOutput (git push -f origin "$gitBranch"  2>&1 | string collect)
+  set pullRequestLink (echo $gBranchOutput | grep -io "https://.*merge_requests[^ ]\+" | string collect)
 
   if [ "$quite" != "t" ]
 
@@ -639,7 +639,7 @@ end
 
 function gtrack
 
-  set gitBranch $(git rev-parse --abbrev-ref HEAD)
+  set gitBranch (git rev-parse --abbrev-ref HEAD)
   git branch --set-upstream-to=origin/$gitBranch $gitBranch
 
 end
@@ -647,7 +647,7 @@ end
 # see if you're in a repo by looking for prompt error
 function isRepo
 
-  set gitStatus $(git status 2>&1)
+  set gitStatus (git status 2>&1)
 
   #echo "|$gitStatus|"
   if [ "$gitStatus" = "fatal: not a git repository (or any of the parent directories): .git" ]
@@ -661,17 +661,17 @@ end
 # find root git folder
 function gitrootfolder
 
-  set currentDirectory $(pwd)
+  set currentDirectory (pwd)
   set gitDirectory $currentDirectory
-  set gitStatus $(isRepo)
+  set gitStatus (isRepo)
 
   #echo "gitStatus $gitStatus"
   while [ "$gitStatus" = "t" ]
     # save current path prior to
-    set gitDirectory $(pwd)
+    set gitDirectory (pwd)
     cd ..
     # find out if you get a prompt
-    set gitStatus $(isRepo)
+    set gitStatus (isRepo)
   end
 
   #echo "current git repo root is $gitDirectory"
@@ -686,7 +686,7 @@ function gitrootfolder
 
       set levelCount (math "$levelCount - 1")
       cd ..
-      set gitDirectory $(pwd)
+      set gitDirectory (pwd)
 
     end
 
@@ -709,7 +709,7 @@ function ggetorg
 
   if [ "$currentRef" ]
 
-    set currentRef $(basename $currentRef)
+    set currentRef (basename $currentRef)
     echo "$currentRef"
 
   else
@@ -736,9 +736,9 @@ end
 # only for ansible server
 function gchanges
 
-  set changeFile $(git diff --name-only HEAD HEAD~90 ~/lab/repos/nameserver | grep -E "fwd|rev" | awk -F/ '{printf "%s,", $4"/"$5}')
+  set changeFile (git diff --name-only HEAD HEAD~90 ~/lab/repos/nameserver | grep -E "fwd|rev" | awk -F/ '{printf "%s,", $4"/"$5}')
   #echo $changeFile
-  set formattedFiles $(echo "\"changed_files\":$changeFile" | sed 's/,$//g')
+  set formattedFiles (echo "\"changed_files\":$changeFile" | sed 's/,$//g')
   #echo "$formattedFiles"
   echo "ansible-playbook -i inv/pus nameserver.yml -l primary --extra-vars \"$formattedFiles\" --tag \"nsupdate\""
 
@@ -779,7 +779,7 @@ function gclone
   if string match -iq "*github.com*" $mungedURL
 
     set mungedURL (string replace --regex '/-.*' '' $mungedURL)
-    set mungedURL $(echo "$mungedURL" | sed "s/https:\/\/github.com\//git@github.com:/g")
+    set mungedURL (echo "$mungedURL" | sed "s/https:\/\/github.com\//git@github.com:/g")
     echo "2 mungedURL $mungedURL"
 
   else
@@ -792,7 +792,7 @@ function gclone
     set mungedURL (echo "$mungedURL" | sed "s/https:\/\/gitlabdev/git@gitlabdev/g")
 
   end
-  set mungedURL $(echo "$mungedURL" | sed "s/info\//info:/g")
+  set mungedURL (echo "$mungedURL" | sed "s/info\//info:/g")
   echo "$mungedURL"
 
     #return;
@@ -820,7 +820,7 @@ end
 
 function gline
 
-  set gitOrigin $(gurl)
+  set gitOrigin (gurl)
   set gitPipe "/-/pipelines"
 
   echo "$gitOrigin$gitPipe"
@@ -830,7 +830,7 @@ end
 
 function gbranch
 
-  set gitOrigin $(gurl)
+  set gitOrigin (gurl)
   set gitPR "/-/branches"
 
   echo "$gitOrigin$gitPR"

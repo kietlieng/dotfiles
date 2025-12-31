@@ -10,11 +10,29 @@ alias mqueue "cmus-remote -q"    # queue
 alias mraw "cmus-remote --raw" # raw
 alias mseekf "cmus-remote --seek +60" # seek
 alias mseekb "cmus-remote --seek -60" # seek
+alias mlc "ml -c"
 
 function ml
 
-  mraw "view 3" && mraw clear && mraw "add $MUSIC_DIRECTORY"
-  mraw "view 2" && mraw clear && mraw "add $MUSIC_DIRECTORY"
+  set modeAttach ''
+  set modeSearch ''
+  set modePlay ''
+  set key ''
+  set musicDir "$MUSIC_DIRECTORY"
+
+  while test (count $argv) -gt 0
+
+    set key "$argv[1]"
+    set argv $argv[2..-1]
+
+    switch $key
+      case '-c'; set musicDir $MUSIC_DIRECTORY_CODING
+    end
+
+  end
+
+  mraw "view 3" && mraw clear && mraw "add $musicDir"
+  mraw "view 2" && mraw clear && mraw "add $musicDir"
 
 end
 
