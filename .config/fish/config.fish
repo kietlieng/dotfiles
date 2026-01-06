@@ -2,6 +2,9 @@
 set fish_function_path ~/.config/fish/functions/theme-pure/functions/ $fish_function_path
 set fish_add_path "/opt/homebrew/bin"
 
+# kitty terminal
+set -gx TERM xterm-256color
+
 # marked directory position
 set lastJump (cat ~/.jumplast)
 cd "$lastJump"

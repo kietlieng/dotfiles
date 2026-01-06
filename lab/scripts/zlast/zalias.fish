@@ -1,5 +1,8 @@
 # load last
 
+alias v "TERM=term-kitty nvim"
+alias vi "TERM=term-kitty nvim"
+alias vim "TERM=term-kitty nvim"
 alias U 'eza --all --long --icons --git; date'
 alias UU 'eza --all --sort=modified -1 --icons --git; date'
 alias oo 'nvim .'
