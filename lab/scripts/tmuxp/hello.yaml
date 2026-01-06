@@ -1,0 +1,7 @@
+session_name: hello-$RANDOM_TITLE1
+windows:
+  - window_name: hello-$RANDOM_TITLE1
+    layout: even-vertical
+    panes:
+      - shell_command:
+          - klhello

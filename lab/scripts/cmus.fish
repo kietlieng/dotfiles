@@ -18,7 +18,7 @@ function ml
   set modeSearch ''
   set modePlay ''
   set key ''
-  set musicDir "$MUSIC_DIRECTORY"
+  set musicDir "$MUSIC_DIRECTORY_MAIN"
 
   while test (count $argv) -gt 0
 
@@ -26,11 +26,17 @@ function ml
     set argv $argv[2..-1]
 
     switch $key
-      case '-c'; set musicDir $MUSIC_DIRECTORY_CODING
+      case '-c'; 
+        set musicDir $MUSIC_DIRECTORY_CODING
+      case '*'
+        if [ -d "$MUSIC_DIRECTORY/$key" ]
+          set musicDir "$MUSIC_DIRECTORY/$key"
+        end
     end
 
   end
 
+  echo "current musicDir $musicDir"
   mraw "view 3" && mraw clear && mraw "add $musicDir"
   mraw "view 2" && mraw clear && mraw "add $musicDir"
 
@@ -75,13 +81,16 @@ function m
         if [ $modeSearch ]
 
           # echo "searching $modeSearch"
-          set results (ls $MUSIC_DIRECTORY | grep -i "$modeSearch" | string collect)
+          set musicFile (cmus-remote -Q | grep -i file | awk '{print $NF }')
+          set musicDir (dirname $musicFile)
+          echo "musicDir $musicDir"
+          set results (/bin/ls -1 $musicDir | grep -i "$modeSearch" | string collect)
           set result (echo $results | head -n 1)
           echo -e "results:\n$results"
           
           if [ "$results" ]
             echo -e "\nplaying $result"
-            cmus-remote -f "$MUSIC_DIRECTORY/$result"
+            cmus-remote -f "$musicDir/$result"
           end
 
         else
@@ -89,7 +98,8 @@ function m
           set qStatus (cmus-remote -Q | grep -i status | awk '{print $2}')
 
           if [ "$qStatus" != 'stopped' ]
-            basename (cmus-remote -Q | grep -i file | awk '{ print $2 }')
+            # basename (cmus-remote -Q | grep -i file | awk '{ print $2 }')
+            cmus-remote -Q | grep -i file | awk '{ print $2 }' | cut -d'/' -f6-
           else
             mpause
           end
