@@ -65,37 +65,37 @@ set.ttimeoutlen    = 0                                                          
 set.updatetime     = 100                                                              -- gitgutter delay
 set.viminfo        = "'100,f1"                                                        -- persistent marks up to 100
 set.wildignore     = '*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx'  -- avoid
-set.guicursor      = 'a:blinkon100'
+-- set.guicursor      = 'a:blinkon100'
 
-vim.cmd([[
-
-  let &t_ut=''
-
-  "let &t_Co="256"
-  "let &t_SI.="\e[5 q" 
-  "let &t_SR.="\e[4 q" 
-  "let &t_EI.="\e[1 q" 
-
-  if $TERM == "xterm-kitty"
-      set mouse=a
-      try
-          " undercurl support
-          let &t_Cs = "\e[4:3m"
-          let &t_Ce = "\e[4:0m"
-      catch
-      endtry
-      " Change the cursor in different modes
-      let &t_SI = "\e[5 q"
-      let &t_SR = "\e[3 q"
-      let &t_EI = "\e[1 q"
-      " vim hardcodes background color erase even if the terminfo file does
-      " not contain bce. This causes incorrect background rendering when
-      " using a color theme with a background color.
-      let &t_ut=''
-      let &t_ti = &t_ti . "\e[1 q"
-  endif
-
-]])
+-- vim.cmd([[
+--
+--   let &t_ut=''
+--
+--   "let &t_Co="256"
+--   "let &t_SI.="\e[5 q" 
+--   "let &t_SR.="\e[4 q" 
+--   "let &t_EI.="\e[1 q" 
+--
+--   if $TERM == "xterm-kitty"
+--       set mouse=a
+--       try
+--           " undercurl support
+--           let &t_Cs = "\e[4:3m"
+--           let &t_Ce = "\e[4:0m"
+--       catch
+--       endtry
+--       " Change the cursor in different modes
+--       let &t_SI = "\e[5 q"
+--       let &t_SR = "\e[3 q"
+--       let &t_EI = "\e[1 q"
+--       " vim hardcodes background color erase even if the terminfo file does
+--       " not contain bce. This causes incorrect background rendering when
+--       " using a color theme with a background color.
+--       let &t_ut=''
+--       let &t_ti = &t_ti . "\e[1 q"
+--   endif
+--
+-- ]])
 
 --set.completeopt = 'menu,menuone' -- duo
 
