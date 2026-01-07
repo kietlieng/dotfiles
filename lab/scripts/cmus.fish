@@ -10,15 +10,18 @@ alias mqueue "cmus-remote -q"    # queue
 alias mraw "cmus-remote --raw" # raw
 alias mseekf "cmus-remote --seek +60" # seek
 alias mseekb "cmus-remote --seek -60" # seek
-alias mlc "ml -c"
+alias mla "ml -a"
 
 function ml
 
   set modeAttach ''
   set modeSearch ''
   set modePlay ''
+  set modeDir 'all'
+  set modeAdd ''
+  set dirList ''
+
   set key ''
-  set musicDir "$MUSIC_DIRECTORY_MAIN"
 
   while test (count $argv) -gt 0
 
@@ -26,19 +29,67 @@ function ml
     set argv $argv[2..-1]
 
     switch $key
-      case '-c'; 
-        set musicDir $MUSIC_DIRECTORY_CODING
-      case '*'
+      case '-a'
+        set modeAdd 't'
+
+        # add music
         if [ -d "$MUSIC_DIRECTORY/$key" ]
-          set musicDir "$MUSIC_DIRECTORY/$key"
+          set dirList $dirList "$MUSIC_DIRECTORY/$key"
+          set modeDir ''
         end
+
+      case '-c' 
+
+        set dirList MUSIC_DIRECTORY_CODING
+        set modeDir ''
+
+      case '*'
+
+        # add music if it exists
+        if [ -d "$MUSIC_DIRECTORY/$key" ]
+          set dirList $dirList "$MUSIC_DIRECTORY/$key"
+          set modeDir ''
+        end
+
     end
 
   end
 
-  echo "current musicDir $musicDir"
-  mraw "view 3" && mraw clear && mraw "add $musicDir"
-  mraw "view 2" && mraw clear && mraw "add $musicDir"
+
+  if [ $modeDir = 'all' ]
+    set dirList (ls -1 $MUSIC_DIRECTORY)
+  end
+
+  # echo "dirList $dirList"
+  mraw "view 3"
+  if test -z $modeAdd
+    echo "clear"
+    mraw clear
+  end
+
+  for musicDir in $dirList
+
+    if test -n $musicDir
+      mraw "add $musicDir"
+    end
+
+  end
+
+  mraw "view 2" 
+
+  if test -z $modeAdd
+    echo "clear"
+    mraw clear
+  end
+
+  for musicDir in $dirList
+
+    if test -n $musicDir
+      echo "Adding $musicDir"
+      mraw "add $musicDir"
+    end
+
+  end
 
 end
 
