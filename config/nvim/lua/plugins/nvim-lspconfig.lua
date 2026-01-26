@@ -2,41 +2,13 @@ return {
   'neovim/nvim-lspconfig',
   -- event = "VeryLazy",
   config = function ()
-      local lspconfig = require('lspconfig')
-      local capabilities = require('cmp_nvim_lsp').default_capabilities()
-      --local capabilities = vim.lsp.protocol.make_client_capabilities()
-      --capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-      local ensure_installed = {
+    local capabilities = require('cmp_nvim_lsp').default_capabilities()
+    capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-        "ansiblels",
-        "awk_ls",
-    --    "bashls",
-        "cssls",
-        "docker_compose_language_service",
-        "dockerls",
-        "html",
-        "jqls",
-        "jsonls",
-        "marksman",
-        "pyright",
-        "terraformls",
-    --    "tsserver",
-        "ts_ls",
-        "lua_ls",
-    --    "yamlls",
-        "zls",
-
-      }
-
-
-      for _, lsp in ipairs(ensure_installed) do
-        lspconfig[lsp].setup {
-          capabilities = capabilities,
-        }
-      end
-
-      lspconfig.lua_ls.setup {
+    vim.lsp.config('lua_ls', {
+      capabilites = capabilities,
+      setup = {
         on_init = function(client)
           local path = client.workspace_folders[1].name
           if not vim.loop.fs_stat(path..'/.luarc.json') and not vim.loop.fs_stat(path..'/.luarc.jsonc') then
@@ -65,64 +37,74 @@ return {
           end
           return true
         end,
-        capabilities = capabilities,
       }
+    })
 
-      --local currentRepo = vim.fn.expand('%:p:h')
+    vim.lsp.config('ansiblels', { capabilites = capabilities })
+    vim.lsp.config('awk_ls', { capabilities = capabilities } )
+    vim.lsp.config('cssls', { capabilities = capabilities } )
+    vim.lsp.config('docker_compose_language_service', { capabilities = capabilities } )
+    vim.lsp.config('dockerls', { capabilities = capabilities } )
+    vim.lsp.config('html', { capabilities = capabilities } )
+    vim.lsp.config('jqls', { capabilities = capabilities } )
+    vim.lsp.config('jsonls', { capabilities = capabilities } )
+    vim.lsp.config('marksman', { capabilities = capabilities } )
+    vim.lsp.config('pyright', { capabilities = capabilities } )
+    vim.lsp.config('terraformls', { capabilities = capabilities } )
+    vim.lsp.config('ts_ls', { capabilities = capabilities } )
+    vim.lsp.config('lua_ls', { capabilities = capabilities } )
+    vim.lsp.config('zls', { capabilities = capabilities } )
 
-      -- --if (string.find(currentRepo, "dns%-internal%-dev") == nil) and
-      -- --   (string.find(currentRepo, "public%-dns%-repo") == nil) and
-      -- --   (string.find(currentRepo, "dns%-internal%-%prod") == nil) then
-      --
-      --   -- do not setup yaml if any of these are true
-      --   lspconfig.yamlls.setup {
-      --     --... -- other configuration for setup {}
-      --     settings = {
-      --       yaml = {
-      --         --... -- other settings. note this overrides the lspconfig defaults.
-      --         --schemas = {
-      --         --  ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
-      --         --  ["../path/relative/to/file.yml"] = "/.github/workflows/*",
-      --         --  ["/path/from/root/of/project"] = "/.github/workflows/*",
-      --         --},
-      --       },
-      --     },
-      --     capabilities = capabilities,
-      --   }
+    -- vim.lsp.config('bashls',{ capabilities = capabilities } )
+    -- vim.lsp.config('tsserver',{ capabilities = capabilities } )
+    -- vim.lsp.config('yamlls',{ capabilities = capabilities } )
 
-      --end
+    vim.api.nvim_create_autocmd('LspAttach', {
+      group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+      callback = function(ev)
+        -- Enable completion triggered by <c-x><c-o>
+        vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
-      -- Use LspAttach autocommand to only map the following keys
-      -- after the language server attaches to the current buffer
-      vim.api.nvim_create_autocmd('LspAttach', {
-        group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-        callback = function(ev)
-          -- Enable completion triggered by <c-x><c-o>
-          vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+        -- Buffer local mappings.
+        -- See `:help vim.lsp.*` for documentation on any of the below functions
+        local opts = { buffer = ev.buf }
+        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+        vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+        vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+        --vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+        --vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+        --vim.keymap.set('n', '<space>wl', function()
+        --  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+        --end, opts)
+        vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
+        --vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+        vim.keymap.set({'n', 'v'}, '<space>ca', vim.lsp.buf.code_action, opts)
+        vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+        vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, opts)
+        -- look for next
+        vim.keymap.set("n", "<leader>n", vim.diagnostic.goto_next)
+        vim.keymap.set("n", "<leader>p", vim.diagnostic.goto_prev)
+      end,
+    })
 
-          -- Buffer local mappings.
-          -- See `:help vim.lsp.*` for documentation on any of the below functions
-          local opts = { buffer = ev.buf }
-          vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-          vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-          vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-          vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-          vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-          --vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
-          --vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
-          --vim.keymap.set('n', '<space>wl', function()
-          --  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-          --end, opts)
-          vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
-          --vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
-          vim.keymap.set({'n', 'v'}, '<space>ca', vim.lsp.buf.code_action, opts)
-          vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-          vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, opts)
-          -- look for next
-          vim.keymap.set("n", "<leader>n", vim.diagnostic.goto_next)
-          vim.keymap.set("n", "<leader>p", vim.diagnostic.goto_prev)
-        end,
-      })
+    vim.lsp.enable('lua_ls')
+    vim.lsp.enable('ansiblels')
+    vim.lsp.enable('awk_ls')
+    vim.lsp.enable('cssls')
+    vim.lsp.enable('docker_compose_language_service')
+    vim.lsp.enable('dockerls')
+    vim.lsp.enable('html')
+    vim.lsp.enable('jqls')
+    vim.lsp.enable('jsonls')
+    vim.lsp.enable('marksman')
+    vim.lsp.enable('pyright')
+    vim.lsp.enable('terraformls')
+    vim.lsp.enable('ts_ls')
+    vim.lsp.enable('lua_ls')
+    vim.lsp.enable('zls')
 
   end
+
 }

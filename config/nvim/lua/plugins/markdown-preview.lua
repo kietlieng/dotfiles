@@ -1,5 +1,6 @@
 return {
-  'iamcco/markdown-preview.nvim',
+  -- 'iamcco/markdown-preview.nvim',
+  'UtkarshKunwar/markdown-preview.nvim',
   -- event = "VeryLazy",
   build = 'cd app && yarn install'
 }
