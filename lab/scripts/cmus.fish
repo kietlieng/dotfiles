@@ -57,7 +57,8 @@ function ml
 
 
   if [ $modeDir = 'all' ]
-    set dirList (ls -1 $MUSIC_DIRECTORY)
+    # set dirList (ls -1 $MUSIC_DIRECTORY)
+    set dirList (find $MUSIC_DIRECTORY -maxdepth 1 -type d | tail -n+2)
   end
 
   # echo "dirList $dirList"
@@ -78,25 +79,37 @@ function ml
   mraw "view 2" 
 
   if test -z $modeAdd
-    echo "clear"
+    # echo "clear"
     mraw clear
   end
+
+
+  set musicDirFirstTime ''
 
   for musicDir in $dirList
 
     if test -n $musicDir
-      echo "Adding $musicDir"
+
+      # if it's empty
+      if test -z $musicDirFirstTime
+        echo "$musicDir" > $MUSIC_DEFAULT
+        set musicDirFirstTime "t"
+      else
+        echo "$musicDir" >> $MUSIC_DEFAULT
+      end
       mraw "add $musicDir"
     end
 
   end
 
+  cat $MUSIC_DEFAULT
 end
 
 function m
 
   set modeAttach ''
   set modeSearch ''
+  set mideFileSearch ''
   set modePlay ''
   set key ''
 
@@ -110,11 +123,14 @@ function m
       case '-p'; set modePlay 't'
       case '*'
         set modeSearch "$modeSearch.*$key.*"
+        set modeFileSearch $modeFileSearch "$key"
     end
 
   end
 
   set hasMusic (tmux ls 2>&1 | grep -i music | awk -F':' '{print $1}')
+  set modeFileSearch (string join -- "*" $modeFileSearch)
+  set modeFileSearch "*$modeFileSearch*"
 
   # echo "hasMusic $hasMusic"
   if [ "$hasMusic" ]
@@ -127,21 +143,30 @@ function m
 
       if [ $modePlay ]
         mpause
+
       else
 
         if [ $modeSearch ]
 
           # echo "searching $modeSearch"
-          set musicFile (cmus-remote -Q | grep -i file | awk '{print $NF }')
-          set musicDir (dirname $musicFile)
-          echo "musicDir $musicDir"
-          set results (/bin/ls -1 $musicDir | grep -i "$modeSearch" | string collect)
-          set result (echo $results | head -n 1)
-          echo -e "results:\n$results"
-          
-          if [ "$results" ]
-            echo -e "\nplaying $result"
-            cmus-remote -f "$musicDir/$result"
+          set foundIt (find $MUSIC_DIRECTORY -iname "$modeFileSearch" | string collect)
+          set foundItFilter (echo "$foundIt" | grep -i -f $MUSIC_DEFAULT | head -n 1)
+          echo "find $MUSIC_DIRECTORY -iname \"$modeFileSearch\""
+          # echo "fileSearch $modeFileSearch"
+          echo $foundIt
+
+          # echo -e "founditFilter\n$foundItFilter"
+
+          # set musicFile (cmus-remote -Q | grep -i file | awk '{print $NF }')
+          # set musicDir (dirname $musicFile)
+          # echo "musicDir $musicDir"
+          # set results (/bin/ls -1 $musicDir | grep -i "$modeSearch" | string collect)
+          # set result (echo $results | head -n 1)
+          # echo -e "results:\n$results"
+          #
+          if [ "$foundItFilter" ]
+            echo -e "\nplaying $foundItFilter"
+            cmus-remote -f "$foundItFilter"
           end
 
         else
@@ -190,6 +215,5 @@ function mnext
     cmus-remote -n
     return
   end
-
 
 end
