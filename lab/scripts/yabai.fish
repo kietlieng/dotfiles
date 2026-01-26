@@ -275,15 +275,16 @@ function yison
 
 end
 
-# don't know what I wanted to do with this
+# move to other monitor
 function yt
+
     # find the displays that you need
     # show me the highest number display
-    set yDisplays $(yabai -m query --displays | jq '.[].index' | grep -i -o '[0-9]')
+    set yDisplays (yabai -m query --displays | jq '.[].index' | grep -i -o '[0-9]')
     echo "displays $yDisplays"
-    set yWindowID $(yabai -m query --windows | jq '.[] | select(.title | contains("yt"))' | jq '.id')
+    set yWindowID (yabai -m query --windows | jq '.[] | select(.title | contains("yt"))' | jq '.id')
     echo "windowID $yWindowID"
-    set yCurrentDisplay $(yabai -m query --windows | jq '.[] | select(.title | contains("yt"))' | jq '.display' | tail -n 1)
+    set yCurrentDisplay (yabai -m query --windows | jq '.[] | select(.title | contains("yt"))' | jq '.display' | tail -n 1)
     # set yCurrentDisplay ${yCurrentDisplay//[$'\t\r\n']}
     set nextDisplay (math $yCurrentDisplay + 1)
 
@@ -293,9 +294,9 @@ function yt
     end
 
     set displayExists 'f'
-    for display in $yDisplays; do
+    for display in $yDisplays
         echo "|$display| $yCurrentDisplay $nextDisplay"
-        if test $nextDisplay -eq $display ]
+        if test $nextDisplay -eq $display
             set displayExists 't'
         end
     end
@@ -305,13 +306,14 @@ function yt
     end
     yabai -m window "$yWindowID" --display "$nextDisplay"
     yabai -m window "$yWindowID" --focus
-    yabai -m display --focus "$nextDisplay"
+    # yabai -m display --focus "$nextDisplay"
+
 end
 
 # if we want the windows managed or not
 function ymanage
 
-    set isFloat $(yabai -m query --spaces | grep -i "\"type\":\"float\"")
+    set isFloat (yabai -m query --spaces | grep -i "\"type\":\"float\"")
     set kittyWidth ''
     set totalWidth ''
     set managedFirefox ''
