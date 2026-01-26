@@ -209,7 +209,7 @@ function fzfpreview
   set queryFile "/tmp/query-$hashDir"
   echo -n "" > $queryFile
 
-  set filesToEdit $(rg --files $searchDirectory | fzf --multi --preview "bat --style=numbers --color=always --line-range :500 {}" --print-query --query "$defaultQuery")
+  set filesToEdit $(rg --files $searchDirectory -g "*" | fzf --multi --preview "bat --style=numbers --color=always --line-range :500 {}" --print-query --query "$defaultQuery")
 
   if [ (count filesToEdit) -ne 0 ]
 
@@ -748,21 +748,22 @@ function gr
         # if the function returns false
         if [ -t 0 ]
           # echo "function is good 1"
-          rg -il -A $modeAfter -B $modeBefore "$searchExpression" 
+          rg -il -A $modeAfter -B $modeBefore "$searchExpression" -g "*" -g "!.git"
         else
           echo "last function errored out"
-          rg -il -A $modeAfter -B $modeBefore  "$searchExpression" $targetFile
+          rg -il -A $modeAfter -B $modeBefore  "$searchExpression" $targetFile -g "*" -g "!.git"
         end
 
       else
 
         if [ -t 0 ]
           # echo "function is good 2"
-          echo "search expression '$searchExpression'"
-          rg -i -A $modeAfter -B $modeBefore "$searchExpression"
+          # echo "search expression '$searchExpression'"
+          echo "rg -i -A $modeAfter -B $modeBefore \"$searchExpression\" -g \"*\" -g \"!.git\""
+          rg -i -A $modeAfter -B $modeBefore "$searchExpression" -g "*" -g "!.git"
         else
           echo "last function errored out"
-          rg -i -A $modeAfter -B $modeBefore "$searchExpression" $targetFile
+          rg -i -A $modeAfter -B $modeBefore "$searchExpression" $targetFile -g "*" -g "!.git"
         end
       end
 
@@ -1721,7 +1722,7 @@ function uncoverfile
 
 end
 
-function reloadfile
+function recover
 
   if test (count $argv) -gt 0
     coverfile $argv[1]
