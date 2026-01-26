@@ -125,6 +125,7 @@ function crancher
  echo -n "$command1 && $command2 && $command3" | pbcopy
 end
 
+# for testing 2d arrays with dynamic variables
 function 2d 
 
   set a "appleorange"
