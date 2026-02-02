@@ -38,7 +38,7 @@ return {
          git_icons  = false,
          file_icons = false,
          follow     = true,
-         no_ignore  = true,
+         -- no_ignore  = true,
 
       },
       actions = {
