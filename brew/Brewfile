@@ -185,7 +185,7 @@ brew "xclip"
 brew "xcodegen"
 brew "yarn"
 brew "yazi"
-brew "yq", link: false
+brew "yq"
 brew "zig"
 brew "zsh"
 brew "zsh-vi-mode"

@@ -182,9 +182,9 @@ function F.setup()
 
         text({
 
-          "  local modeX ''",
-          "  local targetX '.*'",
-          "  local key ''",
+          "  set modeX ''",
+          "  set targetX '.*'",
+          "  set key ''",
           "",
           "  while test (count $argv) -gt 0",
           "",

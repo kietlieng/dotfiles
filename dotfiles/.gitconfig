@@ -10,3 +10,5 @@
 	process = git-lfs filter-process
 [credential]
 	helper = store
+[core]
+	editor = nvim
