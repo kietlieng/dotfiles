@@ -32,11 +32,13 @@ return {
       },
       files = {
 
-         -- prompt     = 'Files >',
+         -- prompt  = 'Files >',
          dir_opts   = [[]],
          cwd_prompt = false,
          git_icons  = false,
          file_icons = false,
+         follow     = true,
+         no_ignore  = true,
 
       },
       actions = {
