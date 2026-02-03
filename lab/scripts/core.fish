@@ -1732,3 +1732,29 @@ function recover
   end
 
 end
+
+# frequent edits
+function vx
+
+  set fileSelection (cat $EDIT_FILE | fzf --multi --print-query --query "$defaultQuery")
+  echo $fileSelection
+
+  for currentSelection in $fileSelection
+    echo "|$currentSelection|"
+    set currentSelection (string replace -a '~' "$HOME" $currentSelection)
+
+    for selection in (string split ' ' $currentSelection) 
+      echo "break $selection"
+      if test -e $selection 
+        echo "select is valid $selection"
+        set filesToEdit $filesToEdit $selection
+      end
+    end
+  end
+
+  echo "files To Edit $filesToEdit"
+  if test -n "$filesToEdit"
+    vim $filesToEdit
+  end
+  
+end
