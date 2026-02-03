@@ -1734,7 +1734,7 @@ function recover
 end
 
 # frequent edits
-function vx
+function x
 
   set fileSelection (cat $EDIT_FILE | fzf --multi --print-query --query "$defaultQuery")
   echo $fileSelection
