@@ -46,9 +46,12 @@ function ml
       case '*'
 
         # add music if it exists
-        if [ -d "$MUSIC_DIRECTORY/$key" ]
-          set dirList $dirList "$MUSIC_DIRECTORY/$key"
+        # if [ -d "$MUSIC_DIRECTORY/$key" ]
+        for mDir in (ls -1 $MUSIC_DIRECTORY | grep -i "$key")
+
+          set dirList $dirList "$MUSIC_DIRECTORY/$mDir"
           set modeDir ''
+
         end
 
     end
@@ -64,7 +67,6 @@ function ml
   # echo "dirList $dirList"
   mraw "view 3"
   if test -z $modeAdd
-    echo "clear"
     mraw clear
   end
 
