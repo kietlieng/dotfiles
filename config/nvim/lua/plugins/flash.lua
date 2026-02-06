@@ -36,8 +36,12 @@ return {
       mode = { "o" },
       function()
         require("flash").remote()
+
+        -- can't copy command to system clipboard due to user input
+        -- print("blah " .. vim.fn.getreg('0') .. " " .. vim.fn.getreg('"'))
+
       end,
-      desc = "Remote Flash.  This is a killer.  Let's see what I can do with it. Try `yR` in normal mode then start trying to yank what you want to yank"
+      desc = "Remote Flash.  This is a killer.  Let's see what I can do with it. Try `yr` in normal mode then start trying to yank what you want to yank"
     },
   },
 }

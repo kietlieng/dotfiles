@@ -94,7 +94,7 @@ map("n", '<LEADER>"', 'mlvi""*y`l', G_SILENT_NO_REMAP)      -- copy within singl
 map("n", "<LEADER>'", "mlvi'\"*y`l", G_SILENT_NO_REMAP)     -- copy within double quotes
 map("n", "<LEADER>(", 'mlvi("*y`l', G_SILENT_NO_REMAP)      -- copy within parenthesis
 map("n", "<LEADER>[", 'mlvi["*y`l', G_SILENT_NO_REMAP)      -- copy within parenthesis
-map("n", "<LEADER>B", 'mlviB"*y`l', G_SILENT_NO_REMAP)      -- copy whole function call
+-- map("n", "<LEADER>B", 'mlviB"*y`l', G_SILENT_NO_REMAP)      -- copy whole function call
 map("n", "<LEADER>p", 'mlvip"*y`l', G_SILENT_NO_REMAP)      -- copy whole block
 map("n", "<LEADER>W", 'mlviW"*y`l', G_SILENT_NO_REMAP)      -- copy WORD
 
@@ -116,12 +116,16 @@ map("n", "<LEADER>bb", "vip<C-v>^o", G_SILENT_NO_REMAP)                    -- bl
 map("n", "<LEADER>bi", "Vip<C-v>I", G_SILENT_NO_REMAP)                     -- block insert beginning
 map("n", "<LEADER>bs", "mcvip:'<,'>sort<CR>`c", G_SILENT_NO_REMAP)         -- block sort
 map("v", "<LEADER>bs", ":'<,'>sort<CR>", G_SILENT_NO_REMAP)                -- block sort
-map("n", "<LEADER>bt", "mcvip:'<,'>Tabularize/=", G_NO_REMAP)              -- table
-map("n", "<LEADER>bT", "mcvip:'<,'>Tabularize/= <LEFT><LEFT>", G_NO_REMAP) -- table. Position at the beginning
-map("v", "<LEADER>Bt", ":Tabularize/|", G_NO_REMAP)                        -- table visual |
-map("v", "<LEADER>BT", ":Tabularize/|<LEFT>", G_NO_REMAP)                  -- table visual |. Position at beginning
-map("v", "<LEADER>bt", ":Tabularize/=", G_NO_REMAP)                        -- table visual =
-map("v", "<LEADER>bT", ":Tabularize/=<LEFT>", G_NO_REMAP)                  -- table visual =. Position at beginning
+
+map("n", "<LEADER>bt", "mcvip:'<,'>Tabularize/=", G_NO_REMAP)       -- table
+map("n", "<LEADER>bT", "mcvip:'<,'>Tabularize/=<LEFT>", G_NO_REMAP) -- table. Position at the beginning
+map("n", "<LEADER>Bt", "mcvip:'<,'>Tabularize/|", G_NO_REMAP)       -- table visual |
+map("n", "<LEADER>BT", "mcvip:'<,'>Tabularize/|<LEFT>", G_NO_REMAP) -- table visual |. Position at beginning
+
+map("v", "<LEADER>bt", ":Tabularize/=", G_NO_REMAP)                 -- table visual =
+map("v", "<LEADER>bT", ":Tabularize/=<LEFT>", G_NO_REMAP)           -- table visual =. Position at beginning
+map("v", "<LEADER>Bt", "mcvip:'<,'>Tabularize/|", G_NO_REMAP)       -- table visual |
+map("v", "<LEADER>BT", "mcvip:'<,'>Tabularize/|<LEFT>", G_NO_REMAP) -- table visual |. Position at beginning
 
 -- search and replace
 --map( "n", "<LEADER>bd", ":bufdo %s//<C-r>./gc<CR>", G_NO_REMAP ) -- repeat replace
@@ -300,7 +304,7 @@ map("n", "<LEADER>td", ":TidalSilence ", G_SILENT_NO_REMAP) -- math
 map("n", "<LEADER>th", ":TidalHush<CR>", G_SILENT_NO_REMAP) -- math
 
 -- flash 
---map("n", "<c-s>", "<cmd>lua require('flash').toggle()<CR>", G_NO_REMAP)    -- flash toggle
+-- map("n", "<c-s>", "<cmd>lua require('flash').toggle()<CR>", G_NO_REMAP)    -- flash toggle
 
 --  USER <C-w><C-w> to toggle between them
 map("n", "<C-k>", ":wincmd k<CR>", G_SILENT_NO_REMAP) -- up
