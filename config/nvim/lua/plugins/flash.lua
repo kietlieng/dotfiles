@@ -32,7 +32,7 @@ return {
     {
 
       "r", -- this is a killer.  Let's see what I can do with it
-      -- try `yR` in normal mode then start trying to yank what you want to yank
+      -- try `yr` in normal mode then start trying to yank what you want to yank
       mode = { "o" },
       function()
         require("flash").remote()

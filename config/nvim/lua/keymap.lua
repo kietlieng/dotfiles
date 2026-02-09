@@ -85,8 +85,10 @@ map("n", "<LEADER>jscript", ":lua require('custom/fzf').dirJump('script')<CR>", 
 map("n", "<LEADER>jtm", ":lua require('custom/fzf').dirJump('tmuxp')<CR>", G_SILENT_NO_REMAP)
 
                                                             -- kl custom
-                                                            --
-map("n", "<C-c>", "ciw", G_SILENT_NO_REMAP)                 -- change a word
+
+-- map("n", "<C-c>", "ciw", G_SILENT_NO_REMAP)            -- change a word
+
+map("n", "<C-c>", ":ClaudeCode<CR>", G_SILENT_NO_REMAP)     -- change a word
 map("n", "<C-y>", "yygccp", G_SILENT_REMAP)                 -- duplicate line and commentout
 map("n", "<LEADER>wr", ":set wrap!<CR>", G_SILENT_NO_REMAP) -- set word wrap
 map("n", "<LEADER>D", "mcDO<ESC>p`c", G_SILENT_NO_REMAP)    -- delete from current to beginning
@@ -94,7 +96,7 @@ map("n", '<LEADER>"', 'mlvi""*y`l', G_SILENT_NO_REMAP)      -- copy within singl
 map("n", "<LEADER>'", "mlvi'\"*y`l", G_SILENT_NO_REMAP)     -- copy within double quotes
 map("n", "<LEADER>(", 'mlvi("*y`l', G_SILENT_NO_REMAP)      -- copy within parenthesis
 map("n", "<LEADER>[", 'mlvi["*y`l', G_SILENT_NO_REMAP)      -- copy within parenthesis
--- map("n", "<LEADER>B", 'mlviB"*y`l', G_SILENT_NO_REMAP)      -- copy whole function call
+                                                            -- map("n", "<LEADER>B", 'mlviB"*y`l', G_SILENT_NO_REMAP) -- copy whole function call
 map("n", "<LEADER>p", 'mlvip"*y`l', G_SILENT_NO_REMAP)      -- copy whole block
 map("n", "<LEADER>W", 'mlviW"*y`l', G_SILENT_NO_REMAP)      -- copy WORD
 
@@ -124,8 +126,8 @@ map("n", "<LEADER>BT", "mcvip:'<,'>Tabularize/|<LEFT>", G_NO_REMAP) -- table vis
 
 map("v", "<LEADER>bt", ":Tabularize/=", G_NO_REMAP)                 -- table visual =
 map("v", "<LEADER>bT", ":Tabularize/=<LEFT>", G_NO_REMAP)           -- table visual =. Position at beginning
-map("v", "<LEADER>Bt", "mcvip:'<,'>Tabularize/|", G_NO_REMAP)       -- table visual |
-map("v", "<LEADER>BT", "mcvip:'<,'>Tabularize/|<LEFT>", G_NO_REMAP) -- table visual |. Position at beginning
+map("v", "<LEADER>Bt", ":Tabularize/|", G_NO_REMAP)       -- table visual |
+map("v", "<LEADER>BT", ":Tabularize/|<LEFT>", G_NO_REMAP) -- table visual |. Position at beginning
 
 -- search and replace
 --map( "n", "<LEADER>bd", ":bufdo %s//<C-r>./gc<CR>", G_NO_REMAP ) -- repeat replace
@@ -144,6 +146,7 @@ map("n", "<LEADER>SR", ":/\\([a-zA-Z0-9\\-\\[\\]\\(\\)_]\\) \\([a-zA-Z0-9\\-\\[\
 map("n", "<LEADER>su", ":!callterminal '%:p:h'  slackuserscopy l=", G_NO_REMAP)          -- tab visual
 
 map("n", "<C-t>", ":!callterminal '%:p:h' ", G_NO_REMAP)  -- terminal runs
+map("n", "<C-q>", ":!callterminal '%:p:h' qc ", G_NO_REMAP)  -- terminal runs
 map("n", "<C-q>", ":!callterminal '%:p:h' qc ", G_NO_REMAP)  -- terminal runs
 
 --  map("v", "<LEADER>zget", ":'<,'>lua require('custom/zookeeper').zkget()<CR>", G_SILENT_NO_REMAP) -- zk copy

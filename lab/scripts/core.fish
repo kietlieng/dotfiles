@@ -1,3 +1,16 @@
+alias v "TERM=term-kitty nvim"
+alias vi "TERM=term-kitty nvim"
+alias vim "TERM=term-kitty nvim"
+alias U 'eza --all --long --icons --git; date'
+alias UU 'eza --all --sort=modified -1 --icons --git; date'
+alias o 'nvim .'
+alias u 'eza --all --sort=modified --long --icons --git; date'
+alias uu 'eza -a; date'
+alias y '/opt/homebrew/bin/yazi'
+
+set -gx COP_FROM_FILE ~/lab/scripts/0zero
+set -gx COP_TO_FILE /tmp
+
 alias ccore="c core"
 alias ctokens="c tokens"
 alias ccop="c cop"
@@ -23,9 +36,6 @@ alias eeeee="e 5"
 alias ex="e -g"
 alias fo="f -o"
 alias zclear="yes | rm ~/.zcompdump*"
-
-set -gx COP_FROM_FILE ~/lab/scripts/0zero
-set -gx COP_TO_FILE "/tmp"
 
 # test if tokens is good 
 function tok? 
@@ -106,8 +116,8 @@ end
 # edit git file
 function egit
 
-    set currentFolder $(pwd)
-    set rootFolder $(gitrootfolder)
+    set currentFolder (pwd)
+    set rootFolder (gitrootfolder)
     cd $rootFolder
 #    vim -c "/url" ".git/config"
     vim ".git/config"
@@ -118,8 +128,8 @@ end
 
 function eignore
 
-    set currentFolder $(pwd)
-    set rootFolder $(gitrootfolder)
+    set currentFolder (pwd)
+    set rootFolder (gitrootfolder)
     cd $rootFolder
     vim ".gitignore"
     cd $currentFolder
@@ -205,15 +215,15 @@ function fzfpreview
 
   set searchDirectory $argv[1]
   set defaultQuery $argv[2]
-  set hashDir $(md5 -q -s $searchDirectory)
+  set hashDir (md5 -q -s $searchDirectory)
   set queryFile "/tmp/query-$hashDir"
   echo -n "" > $queryFile
 
-  set filesToEdit $(rg --files $searchDirectory -g "*" | fzf --multi --preview "bat --style=numbers --color=always --line-range :500 {}" --print-query --query "$defaultQuery")
+  set filesToEdit (rg --files $searchDirectory -g "*" | fzf --multi --preview "bat --style=numbers --color=always --line-range :500 {}" --print-query --query "$defaultQuery")
 
   if [ (count filesToEdit) -ne 0 ]
 
-    set editFiles $(echo "$filesToEdit" | sed -r 's/\n/ /g')
+    set editFiles (echo "$filesToEdit" | sed -r 's/\n/ /g')
     echo "$filesToEdit"
 
   else
@@ -228,7 +238,7 @@ end
 function et
 
   # set tempResults (fzfpreview /tmp)
-  set filesToEdit $(/bin/ls -1 /tmp/ | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 /tmp/{}' --print-query | string collect)
+  set filesToEdit (/bin/ls -1 /tmp/ | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 /tmp/{}' --print-query | string collect)
 
   for element in (echo -e "$filesToEdit")
 
@@ -388,7 +398,7 @@ function E
 
   if [ $lastOnly = 't' ]
 
-    for isFile in $(ls -1t | awk '{print $1}' )
+    for isFile in (ls -1t | awk '{print $1}' )
 
       echo "file $isFile"
 
@@ -409,8 +419,8 @@ function E
     # test if there is any files then search for it 
     if [ $fileCount ]
 
-       # filesToEdit=$(ls -1t modified -sold | fzf --multi --query "$searchString")
-      set filesToEdit $(/bin/ls -1 . | fzf --multi --query "$searchString")
+       # filesToEdit=(ls -1t modified -sold | fzf --multi --query "$searchString")
+      set filesToEdit (/bin/ls -1 . | fzf --multi --query "$searchString")
       # echo "|$searchString|$filesToEdit"
       # fzf --multi --query "$searchString"
 
@@ -421,7 +431,7 @@ function E
 
       if [ $goToDirectory = 't' ]
 
-        cd $(dirname $filesToEdit)
+        cd (dirname $filesToEdit)
 
       else
 
@@ -442,107 +452,15 @@ end
 # same as above function except we go to the root git directory then search
 function eroot
 
-  set rootFolder $(gitrootfolder)
+  set rootFolder (gitrootfolder)
 
   e -d $rootFolder $argv
 
 end
 
-# function edif
-#
-#   set preview $("git diff $@ --color=always -- {-1})
-#   # git status --porcelain | awk '{print $2}' | fzf --multi | while read fileSelected; do
-#
-#   git status --porcelain | awk '{print $2}' | git diff $@ --name-only | fzf -m --ansi --preview $preview | while read fileSelected;
-#
-#     git diff $@ --name-only | fzf -m --ansi --preview $preview
-#
-#   end
-#
-# end
-
-# function er() {
-#
-#   # ripgrep->fzf->vim [QUERY]
-#   set RELOAD "reload:rg --column --color=always --smart-case {q} || :"
-#   set OPENER 'if [ $FZF_SELECT_COUNT -eq 0 ]
-#             nvim {1} +{2}     # No selection. Open the current line in Vim.
-#           else
-#             nvim +cw -q {+f}  # Build quickfix list for the selected items.
-#           fi'
-#   fzf --disabled --ansi --multi \
-#       --bind "start:$RELOAD" --bind "change:$RELOAD" \
-#       --bind "enter:become:$OPENER" \
-#       --bind "ctrl-o:execute:$OPENER" \
-#       --bind 'alt-a:select-all,alt-d:deselect-all,ctrl-/:toggle-preview' \
-#       --delimiter : \
-#       --preview 'bat --style=full --color=always --highlight-line {2} {1}' \
-#       --preview-window '~4,+{2}+4/3,<80(up)' \
-#       --query "$*"
-#
-# }
-#
-# alias eG="eg '?'"
-#
-# # open all files that are modified / new / deleted to vim from git
-# function eg() {
-#
-#   key=''
-#
-#   gitType="M"
-#
-#   while [ $# -gt 0 ]
-#
-#     key="$1"
-#     shift
-#
-#     case "$key" in
-#
-#       '?')
-#
-#         gitType="M?"
-#         
-#
-#       *)
-#
-#         echo default
-#         
-#
-#     esac
-#
-#   done
-#
-#   filesToEdit=""
-#
-#   # modified and new
-#   if [ $gitType = 'M?' ]
-#
-#     filesToEdit=$(git status --porcelain | awk '{ if ($1 == "M" || $1 == "??" )  print $2}')
-#
-#     if [ $filesToEdit != '' ]
-#       vim $(git status --porcelain | awk '{ if ($1 == "M" || $1 == "??" )  print $2}')
-#       echo "files to edit $filesToEdit"
-#     fi
-#
-#   else
-#
-#     # only modified
-#     filesToEdit=$(git status --porcelain | awk '{ if ($1 == "M") print $2}')
-#
-#     if [ $filesToEdit != '' ]
-#       vim $(git status --porcelain | awk '{ if ($1 == "M") print $2}')
-#       echo "files to edit $filesToEdit"
-#     fi
-#
-#   fi
-#
-#
-# }
-#
-
 function hashdir
 
-  set hashDir $(md5 -q -s $(pwd))
+  set hashDir (md5 -q -s (pwd))
   echo "$hashDir"
 
 end
@@ -550,14 +468,14 @@ end
 # # copy file path
 # function fcp() {
 #
-#     cp $(fzf)
+#     cp (fzf)
 #
 # }
 
 # find subdomain on string
 function subd
 
-    set subdomain $(echo "$argv[1]" | awk -F/ '{sub(/^www\.?/,"",$3); print $3}')
+    set subdomain (echo "$argv[1]" | awk -F/ '{sub(/^www\.?/,"",$3); print $3}')
     echo -n $subdomain | pbcopy
     echo $subdomain
 
@@ -616,7 +534,7 @@ function grab
   while read line
 
     # echo "line: $line"
-    set currentResults $(grep -i "$line" $fileB)
+    set currentResults (grep -i "$line" $fileB)
     if [ $currentResults ]
       echo "$currentResults"
       set results "$results\n$currentResults"
@@ -641,7 +559,7 @@ function srabc
   set searchFor "$argv[2]"
   set replaceFor "$argv[3]"
 
-  set searchTarget $(echo "$searchTarget" | sed "s/$searchFor/$replaceFor/g")
+  set searchTarget (echo "$searchTarget" | sed "s/$searchFor/$replaceFor/g")
   echo "$searchTarget"
 
 end
@@ -662,7 +580,7 @@ function stripends
 
   while test (count $argv) -gt 0
 
-    set searchTarget $(echo "$searchTarget" | sed "s/$argv[1]//g")
+    set searchTarget (echo "$searchTarget" | sed "s/$argv[1]//g")
     set argv $argv[2..-1]
 
   end
@@ -863,14 +781,14 @@ end
 # will script out extension
 function nameonly
 
-  set results $(strr -c -s " " -r "_" $argv)
-  set results $(strr -c -s ".\/" "$results")
-  set results $(strr -c -s ".epub" "$results")
-  set results $(strr -c -s ".doc" "$results")
-  set results $(strr -c -s ".txt" "$results")
-  set results $(strr -c -s ".azw3" "$results")
-  set results $(strr -c -s ".mobi" "$results")
-  set results $(strr -c -s ".pdf" "$results")
+  set results (strr -c -s " " -r "_" $argv)
+  set results (strr -c -s ".\/" "$results")
+  set results (strr -c -s ".epub" "$results")
+  set results (strr -c -s ".doc" "$results")
+  set results (strr -c -s ".txt" "$results")
+  set results (strr -c -s ".azw3" "$results")
+  set results (strr -c -s ".mobi" "$results")
+  set results (strr -c -s ".pdf" "$results")
 
 end
 
@@ -902,7 +820,7 @@ function strr
         set copy 'true'
       case '*'
 
-        set shortened $(echo $key | sed "s/$searchTerm/$replaceTerm/g")
+        set shortened (echo $key | sed "s/$searchTerm/$replaceTerm/g")
         set searchExpression "$searchExpression$replaceTerm$shortened"
     end
   end
@@ -954,7 +872,7 @@ function nap
   else
 
     echo "" > /tmp/fzf-query
-    set hashDir (md5 -q -s $(pwd))
+    set hashDir (md5 -q -s (pwd))
     set queryFile "/tmp/query-$hashDir"
 
     # set filesToEdit (/bin/ls -1 /tmp/ | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 /tmp/{}' --query "$jotQuery" --print-query | string collect)
@@ -1010,12 +928,12 @@ end
 
 function etail
 
-  set currentDirectory $(pwd)
-  set tailFiles $(fzfpreview $currentDirectory)
+  set currentDirectory (pwd)
+  set tailFiles (fzfpreview $currentDirectory)
 
   set tailList ()
 
-  for element in $(echo $tailFiles | tr '\n' ' ')
+  for element in (echo $tailFiles | tr '\n' ' ')
     set tailList $tailList "$element"
   end
 
@@ -1052,7 +970,7 @@ function p
   if [ -n $pid ]
     echo "has pid $pid"
     # iterate through loop for multiple pids
-    for pIndex in $(echo $pid)
+    for pIndex in (echo $pid)
 #      sudo kill $pIndex
       kill $pIndex
       echo "x $pIndex"
@@ -1097,128 +1015,6 @@ function deletemacfiles
 
 end
 
-# script search in directory
-# function escript() {
-#
-#   set currentPWD $(pwd)
-#
-#   cd "$HOME/lab/scripts"
-#   # query via filenames
-# #  filesToEdit=$(find $HOME/lab/scripts -iname "*.fish" | fzf --multi --preview "bat --style=numbers --color=always --line-range :500 {}")
-#   set filesToEdit $(fzf --multi --ansi --disabled --query "$INITIAL_QUERY" \
-#     --bind "start:reload:$RG_PREFIX {q}" \
-#     --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
-#     --delimiter : \
-#     --preview 'bat --color=always {1} --highlight-line {2}')
-# #    --preview-window 'up,60%,border-bottom,+{2}+3/3,~3' \
-# #    --bind 'enter:become(vim {1} +{2})')
-# #  echo ">>fileEdit: $filesToEdit"
-#   filesToEdit=$(echo "$filesToEdit" | awk -F: '{print $1}')
-#   echo ">>fileEdit: $filesToEdit"
-#   filesToEdit=($(echo "$filesToEdit" | sed -r 's/\n/ /g'))
-#   echo ">>fileEdit: $filesToEdit"
-#   vim $filesToEdit
-#   cd $currentPWD
-#
-# #    command! -bang -nargs=* Rg call fzf#vim#grep("rg --column -i --context 4 --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>) . " " . @r, 1, { "options": '--delimiter : --nth 4..' }, <bang>0) "" new bang command that searches the current file directory or register r.  This allows for us to change the register value to whatever we want
-#
-# }
-#
-# # mark delete.  Move to tmp directory
-# function mdelete() {
-#
-#     currentDate=$(date +"%y%m%d%H%M")
-#
-#     while [ $# -gt 0 ]
-#     do
-#
-#         echo "move \"$1\" to \"/tmp/$1.$currentDate\""
-#         mv -f "$1" "/tmp/$1.$currentDate"
-#         shift
-#
-#     done
-#
-# }
-#
-# # mark copy to temp.  Move with epoch
-# function mtmp() {
-#
-#     currentDate=$(date +"%y%m%d%H%M")
-#
-#     while [ $# -gt 0 ]
-#     do
-#
-#         echo "copy \"$1\" to \"/tmp/$1.$currentDate\""
-#         cp -rf "$1" "/tmp/$1.$currentDate"
-#         shift
-#
-#     done
-#
-# }
-#
-#
-# # mark move.  Move with epoch
-# function mmove() {
-#
-#     currentDate=$(date +"%y%m%d%H%M")
-#
-#     while [ $# -gt 0 ]
-#     do
-#
-#         echo "move \"$1\" to \"$1.$currentDate\""
-#         mv -f "$1" "$1.$currentDate"
-#         shift
-#
-#     done
-#
-# }
-#
-# # mark backup.  Copy directory to epoch directory
-# function mbackup() {
-#
-#   currentDate=$(date +"%y%m%d%H%M")
-#   re='^[0-9]+$'
-#   while [ $# -gt 0 ]
-#   do
-#
-#     orgFilename="$1"
-#     filename=$(basename -- "$orgFilename")
-#     filename="${filename%.*}"
-#     extension="${filename##*.}"
-#     echo "$orgFilename $filename"
-#     extension="${orgFilename##*.}"
-#     newFilename="$filename.$currentDate"
-#
-#     if [ $filename != "$orgFilename" ]
-#
-#       # check to see if extension is just a number
-#       # if not a number, assume it's a date and discard the old extension
-#       # otherwise add current date to extension
-#       if ! [ $extension =~ $re ]
-#
-#         newFilename="$filename.$currentDate.$extension"
-#
-#       fi
-#
-#     fi
-#
-#     echo "cp -rf \"$orgFilename\" \"$newFilename\""
-#     cp -rf "$orgFilename" "$newFilename"
-#     shift
-#
-#   done
-#
-# }
-#
-# #function marktemp() {
-# #  mv -f $1 /tmp/.
-# #}
-#
-# # script configurations
-# function cyaml() {
-#   c -y "$@"
-# }
-
 function c
 
   set scriptDir $HOME/lab/scripts
@@ -1259,7 +1055,7 @@ function c
   end
 
 
-  set sFilename $(echo $searchTerm | sed "s/*//g")
+  set sFilename (echo $searchTerm | sed "s/*//g")
   #echo "filename $sFilename"
 
   switch "$sFilename"
@@ -1292,13 +1088,13 @@ function c
 
     case 'tokens' 'token'
 
-      set sFilename $(uncoverfile "tokens" -f)
+      set sFilename (uncoverfile "tokens" -f)
       vim $sFilename
       return
 
     case 'cop'
 
-      set sFilename $(uncoverfile "cop" -f)
+      set sFilename (uncoverfile "cop" -f)
       vim $sFilename
       return
 
@@ -1318,11 +1114,10 @@ function c
   if [ $searchTerm = '' ]
 
     echo "" > "/tmp/script-query"
-    # set filesToEdit $(rg --files $HOME/lab/scripts | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 {}' --bind 'change:execute(echo {q} > /tmp/script-query)' --bind 'ctrl-r:execute(echo "" > /tmp/script-query)')
-    set filesToEdit $(rg --files $HOME/lab/scripts | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 {}' --bind 'change:execute(echo {q} > /tmp/script-query)')
+    set filesToEdit (rg --files $HOME/lab/scripts | fzf --multi --preview 'bat --style=numbers --color=always --line-range :500 {}' --bind "enter:execute(echo {q} > $queryFile)+accept")
 
     set editFiles ()
-    for tempFile in $(echo "$filesToEdit")
+    for tempFile in (echo "$filesToEdit")
       set editFiles $editFiles "$tempFile"
     end
 
@@ -1336,7 +1131,7 @@ function c
 
     # echo "xsearchterm $searchTerm$fileExt"
     # if there is terms try to find it
-    set filesToEdit $(find $HOME/lab/scripts -type f -iname "*$searchTerm$fileExt" -o -iname "*$searchTerm$yamlExt")
+    set filesToEdit (find $HOME/lab/scripts -type f -iname "*$searchTerm$fileExt" -o -iname "*$searchTerm$yamlExt")
 
     # if you have a file to edit edit
     if test (count $filesToEdit) -gt 0
@@ -1352,11 +1147,11 @@ function c
 
   if [ $searchTerm ]
 
-    set scriptQuery $(echo "$searchTerm" | tr -d '*')
+    set scriptQuery (echo "$searchTerm" | tr -d '*')
 
   else
 
-    set scriptQuery $(cat /tmp/script-query)
+    set scriptQuery (cat /tmp/script-query)
 
     # if query is a key word
     if [ $scriptQuery = 'Z' ]
@@ -1454,7 +1249,7 @@ end
 function wonderfood
 
   # $HOME/lab/scripts/python/wonderfood.py | sed 's/ /-/g'
-  set foodSent $($HOME/lab/scripts/python/wonderfood.py)
+  set foodSent ($HOME/lab/scripts/python/wonderfood.py)
   echo "$foodSent"
 
 end
@@ -1462,10 +1257,10 @@ end
 # requires wonderword
 function iama
 
-  set wonderAdjective $(wonderwords -w -p adjective)
-  set wonderNoun $(wonderwords -w -p noun)
-  set wonderSituation $(wonderwords -w -p noun)
-  set wonderVerb $(wonderwords -w -p verb)
+  set wonderAdjective (wonderwords -w -p adjective)
+  set wonderNoun (wonderwords -w -p noun)
+  set wonderSituation (wonderwords -w -p noun)
+  set wonderVerb (wonderwords -w -p verb)
 
   echo -n "I am your $wonderVerb $wonderAdjective $wonderNoun of a $wonderSituation$argv[1]"
 
@@ -1474,8 +1269,8 @@ end
 # requires wonderword
 function wondertitle
 
-  set wonderwordadjective $(wonderwords -w -p adjective)
-  set wonderwordnoun $(wonderwords -w -p noun)
+  set wonderwordadjective (wonderwords -w -p adjective)
+  set wonderwordnoun (wonderwords -w -p noun)
 
   set -gx RANDOM_TITLE1 "$wonderwordadjective-$wonderwordnoun"
 
@@ -1485,7 +1280,7 @@ function wondertitle
 
 end
 
-function o
+function oo
 
   if [ "$argv" ]
 
@@ -1577,7 +1372,7 @@ function cop
   set copUser ""
   set copWithoutN "f"
   set fromFile "$COP_FROM_FILE/cop"
-  set copHash $(md5 -q $fromFile)
+  set copHash (md5 -q $fromFile)
   set toFile "$COP_TO_FILE/$copHash"
   set uArgv $argv
 
@@ -1640,7 +1435,7 @@ function coverfile
   set tokenFile "$argv[1]"
   set argv $argv[2..-1]
   set fromTokens "$COP_FROM_FILE/$tokenFile"
-  set hashTokens $(md5 -q $fromTokens)
+  set hashTokens (md5 -q $fromTokens)
   set toTokens "$COP_TO_FILE/$hashTokens"
 
   # copy file over

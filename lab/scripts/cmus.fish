@@ -152,7 +152,7 @@ function m
 
           # echo "searching $modeSearch"
           set foundIt (find $MUSIC_DIRECTORY -iname "$modeFileSearch" | string collect)
-          set foundItFilter (echo "$foundIt" | grep -i -f $MUSIC_DEFAULT | head -n 1)
+          set foundItFilter (echo "$foundIt" | grep -i -f $MUSIC_DEFAULT | head -n 1) # directories loaded if no match that means it's not loaded
           echo "find $MUSIC_DIRECTORY -iname \"$modeFileSearch\""
           # echo "fileSearch $modeFileSearch"
           echo $foundIt
