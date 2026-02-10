@@ -1,3 +1,7 @@
+set -gx COP_FROM_FILE ~/lab/scripts/0zero
+set -gx COP_TO_FILE /tmp
+set -gx EDITOR nvim
+
 alias v "TERM=term-kitty nvim"
 alias vi "TERM=term-kitty nvim"
 alias vim "TERM=term-kitty nvim"
@@ -7,9 +11,6 @@ alias o 'nvim .'
 alias u 'eza --all --sort=modified --long --icons --git; date'
 alias uu 'eza -a; date'
 alias y '/opt/homebrew/bin/yazi'
-
-set -gx COP_FROM_FILE ~/lab/scripts/0zero
-set -gx COP_TO_FILE /tmp
 
 alias ccore="c core"
 alias ctokens="c tokens"

@@ -153,9 +153,12 @@ function m
           # echo "searching $modeSearch"
           set foundIt (find $MUSIC_DIRECTORY -iname "$modeFileSearch" | string collect)
           set foundItFilter (echo "$foundIt" | grep -i -f $MUSIC_DEFAULT | head -n 1) # directories loaded if no match that means it's not loaded
-          echo "find $MUSIC_DIRECTORY -iname \"$modeFileSearch\""
+          # echo "find $MUSIC_DIRECTORY -iname \"$modeFileSearch\""
+          echo "find \"$modeFileSearch\""
           # echo "fileSearch $modeFileSearch"
-          echo $foundIt
+          set shortName (string replace -a -i $MUSIC_DIRECTORY "" $foundIt)
+	  echo $shortName
+	  set shortFoundItFilter (string replace -a -i $MUSIC_DIRECTORY "" $foundItFilter)
 
           # echo -e "founditFilter\n$foundItFilter"
 
@@ -167,7 +170,7 @@ function m
           # echo -e "results:\n$results"
           #
           if [ "$foundItFilter" ]
-            echo -e "\nplaying $foundItFilter"
+            echo -e "\nplaying $shortFoundItFilter"
             cmus-remote -f "$foundItFilter"
           end
 
