@@ -29,15 +29,7 @@ function ml
     set argv $argv[2..-1]
 
     switch $key
-      case '-a'
-        set modeAdd 't'
-
-        # add music
-        if [ -d "$MUSIC_DIRECTORY/$key" ]
-          set dirList $dirList "$MUSIC_DIRECTORY/$key"
-          set modeDir ''
-        end
-
+      case '-a'; set modeAdd 't'
       case '-c' 
 
         set dirList MUSIC_DIRECTORY_CODING
@@ -66,6 +58,7 @@ function ml
 
   # echo "dirList $dirList"
   mraw "view 3"
+  # echo "view 3"
   if test -z $modeAdd
     mraw clear
   end
@@ -79,7 +72,6 @@ function ml
   end
 
   mraw "view 2" 
-
   if test -z $modeAdd
     # echo "clear"
     mraw clear
@@ -100,11 +92,12 @@ function ml
         echo "$musicDir" >> $MUSIC_DEFAULT
       end
       mraw "add $musicDir"
+      echo "adding $musicDir"
+
     end
 
   end
 
-  cat $MUSIC_DEFAULT
 end
 
 function m

@@ -1,10 +1,8 @@
-session_name: update-$RANDOM_TITLE1
+session_name: 1p-$RANDOM_TITLE1
 windows:
-  - window_name: update-$RANDOM_TITLE1
-    layout: even-vertical
+  - window_name: 1p-$RANDOM_TITLE1
+    layout: even-horizontal
+    focus: true
     panes:
       - shell_command:
-          # - brew update; brew upgrade; omz update;
-          - brew update; brew upgrade;
-      # - shell_command:
-      #     - kbuild
+          - brew update && brew upgrade

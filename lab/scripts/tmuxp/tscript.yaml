@@ -1,5 +1,0 @@
-session_name: script-$RANDOM_TITLE1
-windows:
-  - window_name: script-$RANDOM_TITLE1
-    panes:
-        - j script

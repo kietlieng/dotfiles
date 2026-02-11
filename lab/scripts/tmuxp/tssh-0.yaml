@@ -1,5 +1,0 @@
-session_name: tssh-$RANDOM_TITLE1
-windows:
-  - window_name: vicon-$RANDOM_TITLE1
-    panes:
-      - vicon

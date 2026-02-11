@@ -1,8 +1,0 @@
-session_name: pure-$RANDOM_TITLE1
-windows:
-  - window_name: ascii-$RANDOM_TITLE1
-    panes:
-      - viuni
-  - window_name: pure-$RANDOM_TITLE1
-    panes:
-      - c epure
