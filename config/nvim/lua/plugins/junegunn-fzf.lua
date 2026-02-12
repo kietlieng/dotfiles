@@ -1,9 +1,4 @@
--- setup snippet engine
-
 return {
-  {
-    'junegunn/fzf',
-    event = "VeryLazy",
-    build = './install --bin',
-  }
+  'junegunn/fzf.vim',
+  event = "VeryLazy",
 }

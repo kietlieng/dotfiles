@@ -1,0 +1,10 @@
+session_name: $RANDOM_TITLE1
+windows:
+  - window_name: $RANDOM_TITLE1
+    layout: even-horizontal
+    focus: true
+    shell_command_before:
+      - cd ~/lab/movies/ambient/
+    panes:
+      - cmus
+

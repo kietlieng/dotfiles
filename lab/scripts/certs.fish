@@ -1,11 +1,11 @@
 # figure out when certs expire
-function sslcertexpire
+function sslsitecertexpire
   openssl s_client -servername "$argv[1]" -connect "$argv[1]:$argv[2]" | openssl x509 -noout -dates
 	echo "Example sslcertexpire google.com 443"
 end
 
 # grabbing certs from websites via sslgetcert google.com:443
-function sslcert
+function sslsitecert
 	/usr/bin/openssl s_client -connect "$argv[1]"
 	echo "Example sslcert google.com:443"
 end
@@ -22,6 +22,15 @@ function sslcertmodulus
   echo -e "Used for pem files not RSA keys"
 	echo -e "openssl x509 -noout -modulus -in account1.signed.crt"
 	echo -e "openssl x509 -noout -modulus -in account1.signed.crt | openssl md5"
+end
+
+function sslkeymodulus
+  openssl rsa -noout -modulus -in "$argv[1]"
+  openssl rsa -noout -modulus -in "$argv[1]" | openssl md5
+  echo -e "Find out the modulus of the large rsa number to verify private / public keys are the same."
+  echo -e "Used for pem files not RSA keys"
+	echo -e "openssl rsa -noout -modulus -in account1.signed.crt"
+	echo -e "openssl rsa -noout -modulus -in account1.signed.crt | openssl md5"
 end
 
 function sslcertcsr
@@ -59,11 +68,20 @@ end
 
 function sslcertlines
 
-  echo -n "subject "
+  echo "Subject: "
   openssl x509 -in "$argv[1]" -noout -subject
 
-  echo -n "issuer"
+  echo "Issuer: "
   openssl x509 -in "$argv[1]" -noout -issuer
+
+  echo "SANS: "
+  openssl x509 -in "$argv[1]" -noout -ext subjectAltName
+
+	echo "Dates: "
+  openssl x509 -in "$argv[1]" -noout -dates
+
+	echo "Bit rate "
+	openssl x509 -in "$argv[1]" -noout -text | grep "Public-Key"
 
 end
 

@@ -73,8 +73,6 @@ map("n", "<LEADER>RR", "<cmd>lua require('custom/fzf').readFiles('currentFileDir
 map("n", "<LEADER>jj", "<cmd>lua require('custom/fzf').openJumpFiles()<CR>", G_SILENT_NO_REMAP)                   -- Jump script to vim :)
 map("n", "<LEADER>jw", "<cmd>lua require('custom/fzf').openWorkingJumpFile()<CR>", G_SILENT_NO_REMAP)             -- Jump script to vim :)
 
--- map("n", "<LEADER>XX", "<cmd>lua require('custom/fzf').preview()<CR>", G_SILENT_NO_REMAP)     -- doesn't do anything just testing preview on the same buffer
-
 -- fzf to move around
 
 map("n", "<LEADER>jbig", ":lua require('custom/fzf').dirJump('bigip')<CR>", G_SILENT_NO_REMAP)
@@ -100,7 +98,7 @@ map("n", "<LEADER>[", 'mlvi["*y`l', G_SILENT_NO_REMAP)      -- copy within paren
 map("n", "<LEADER>p", 'mlvip"*y`l', G_SILENT_NO_REMAP)      -- copy whole block
 map("n", "<LEADER>W", 'mlviW"*y`l', G_SILENT_NO_REMAP)      -- copy WORD
 
------ comment code
+-- comment code
 -- tips to comment out code use gcc.  Dude this just deleted my comment lua script
 
 map("n", "<LEADER>ba", "mcvip<c-V>$A", G_SILENT_REMAP)                                                                          -- block edit at the end
@@ -130,7 +128,7 @@ map("v", "<LEADER>Bt", ":Tabularize/|", G_NO_REMAP)       -- table visual |
 map("v", "<LEADER>BT", ":Tabularize/|<LEFT>", G_NO_REMAP) -- table visual |. Position at beginning
 
 -- search and replace
---map( "n", "<LEADER>bd", ":bufdo %s//<C-r>./gc<CR>", G_NO_REMAP ) -- repeat replace
+-- map( "n", "<LEADER>bd", ":bufdo %s//<C-r>./gc<CR>", G_NO_REMAP ) -- repeat replace
 -- https://github.com/kaddkaka/vim_examples/blob/main/README.md#repeat-last-change-in-all-of-file-global-repeat-similar-to-g
 -- map("n", "<LEADER>sG", ":%s//<C-r>./gc<CR>", G_NO_REMAP)          -- repeat replace from normal mode
 -- map("n", "<LEADER>sg", ":%s//<C-r>./g<CR>", G_NO_REMAP)           -- repeat replace from normal mode
@@ -141,18 +139,17 @@ map("n", "<LEADER>sr", ":%s///g<LEFT><LEFT>", G_NO_REMAP)        -- search and r
 map("v", "<LEADER>sR", ":s///gc<LEFT><LEFT><LEFT>", G_NO_REMAP)  -- tab visual
 map("v", "<LEADER>sr", ":s///g<LEFT><LEFT>", G_NO_REMAP)         -- tab visual
 
-map("n", "<LEADER>SR", ":/\\([a-zA-Z0-9\\-\\[\\]\\(\\)_]\\) \\([a-zA-Z0-9\\-\\[\\]\\(\\)_]\\)", G_NO_REMAP) -- search for spaces in filenames
+map("n", "<LEADER>SR", ":/\\([a-zA-Z0-9\\-\\[\\]\\(\\)_]\\) \\([a-zA-Z0-9\\-\\[\\]\\(\\)_]\\)<CR>", G_NO_REMAP) -- search for spaces in filenames
 
-map("n", "<LEADER>su", ":!callterminal '%:p:h'  slackuserscopy l=", G_NO_REMAP)          -- tab visual
+-- map("n", "<LEADER>su", ":!callterminal '%:p:h'  slackuserscopy l=", G_NO_REMAP)          -- tab visual.  Currently this is not working properly
 
 map("n", "<C-t>", ":!callterminal '%:p:h' ", G_NO_REMAP)  -- terminal runs
 map("n", "<C-q>", ":!callterminal '%:p:h' qc ", G_NO_REMAP)  -- terminal runs
-map("n", "<C-q>", ":!callterminal '%:p:h' qc ", G_NO_REMAP)  -- terminal runs
 
---  map("v", "<LEADER>zget", ":'<,'>lua require('custom/zookeeper').zkget()<CR>", G_SILENT_NO_REMAP) -- zk copy
---  map("v", "<LEADER>zget", ':!callzkfetch <C-R>"<ENTER>', G_SILENT_NO_REMAP) -- zk copy
-map("v", "<LEADER>zg", ":lua require('custom/zookeeper').zkget()<CR>", G_SILENT_NO_REMAP) -- zk copy
-map("n", "<LEADER>ze", ":lua require('custom/zookeeper').zkenv('')<LEFT><LEFT>", G_SILENT_NO_REMAP) -- zk copy
+-- map("v", "<LEADER>zget", ":'<,'>lua require('custom/zookeeper').zkget()<CR>", G_SILENT_NO_REMAP) -- zk copy
+-- map("v", "<LEADER>zget", ':!callzkfetch <C-R>"<ENTER>', G_SILENT_NO_REMAP) -- zk copy
+-- map("v", "<LEADER>zg", ":lua require('custom/zookeeper').zkget()<CR>", G_SILENT_NO_REMAP) -- zk copy
+-- map("n", "<LEADER>ze", ":lua require('custom/zookeeper').zkenv('')<LEFT><LEFT>", G_SILENT_NO_REMAP) -- zk copy
 
 map("n", "<C-s>", ":silent !callsearchprivate ''<LEFT>", G_NO_REMAP)  -- terminal runs
 -- map("n", "<LEADER>tr", ":silent !callsearch ''<LEFT>", G_NO_REMAP)  -- terminal runs
@@ -162,7 +159,7 @@ map("n", "<C-s>", ":silent !callsearchprivate ''<LEFT>", G_NO_REMAP)  -- termina
 
 -- git conventions: [Gg][action]
 -- g: git
--- G: CAPITAL G means do the command and push 
+-- G: CAPITAL G means do the command and push
 -- example:
 --   - ga: add current file
 --   - Ga: add current file, commit and push
@@ -185,10 +182,10 @@ map("n", "<LEADER>gc", ":Git commit<CR>", G_NO_REMAP)                           
 map("n", "<LEADER>Gc", ":!callterminal2count '%:p:h' gcpush ''<LEFT>", G_NO_REMAP)                         -- commit and push
 map("n", "<LEADER>gs", ":!callterminal2count '%:p:h' gcpushs ''<LEFT>", G_NO_REMAP)                        -- commit and push silent
 map("n", "<LEADER>gm", ":!callterminal '%:p:h' g master<CR>", G_NO_REMAP)                                  -- checkout master
-                                                                                                           -- map("n", "<LEADER>gco", ":!callterminal '%:p:h' gco", G_NO_REMAP)           -- checkout a specific branch
+-- map("n", "<LEADER>gco", ":!callterminal '%:p:h' gco", G_NO_REMAP)           -- checkout a specific branch
 map("n", "<LEADER>gp", ":!callterminal '%:p:h' gpush -p '%:p:h'<CR>", G_NO_REMAP)                          -- push
 map("n", "<LEADER>gP", ":!callterminal '%:p:h' gpushs -p '%:p:h'<CR>", G_NO_REMAP)                         -- push silent
-                                                                                                           -- map("n", "<LEADER>greset", ":!callterminal '%:p:h' greset<CR>", G_NO_REMAP) -- reset
+-- map("n", "<LEADER>greset", ":!callterminal '%:p:h' greset<CR>", G_NO_REMAP) -- reset
 map("n", "<LEADER>G", ":!callterminal '%:p:h' g<CR>", G_NO_REMAP)                                          -- status
 map("n", "<LEADER>gA", ":G<CR>/Unstaged<CR>j", G_NO_REMAP)                                                 -- staging chunks
                                                                                                            -- Select file then >
@@ -201,9 +198,9 @@ map("n", "<LEADER><SPACE>source", ":source ~/.config/nvim/init.lua<CR>", G_SILEN
 map("n", "<LEADER>sp", ":%!cat -s<CR>", G_SILENT_NO_REMAP)                                  -- trim mulitple consecutive lines to one
 map("v", "<LEADER>sp", ":'<,'>!cat -s<CR>", G_SILENT_NO_REMAP)                              -- trim multiple consecutive lines to one
 
---map( "n", "<C-c>", ":call ToggleList(\"Quickfix List\", 'c')<CR>", G_SILENT_NO_REMAP )
---map( "n", "<C-c>", ":copen<CR>", G_SILENT_NO_REMAP )
-map("n", "<LEADER>zc", ":call ToggleList(\"Quickfix List\", 'c')<CR>", G_SILENT_NO_REMAP)
+-- map( "n", "<C-c>", ":call ToggleList(\"Quickfix List\", 'c')<CR>", G_SILENT_NO_REMAP )
+-- map( "n", "<C-c>", ":copen<CR>", G_SILENT_NO_REMAP )
+-- map("n", "<LEADER>zc", ":call ToggleList(\"Quickfix List\", 'c')<CR>", G_SILENT_NO_REMAP)
 
 map("n", "<LEADER>OZ", ":Lazy<CR>", G_NO_REMAP) -- open Lazy
 
@@ -231,11 +228,11 @@ map("n", "<LEADER>ff", "mcvi{c<CR><CR><CR><UP><UP><ESC>p<CR>vi{:'<,'>!cat -s<CR>
 map("n", "<LEADER>FF", "mcvi{c<CR><CR><CR><UP><UP><ESC>p<CR>vi{:'<,'>!cat -s<CR>`c<DOWN><DOWN>vip:'<,'>Tabularize/=<CR>", G_NO_REMAP) -- format the function and paragraph
 map("n", "<LEADER>fblack", "mc:%!black - -q<CR>`c", G_SILENT_NO_REMAP)                                                                -- python format stytle black
 
-map("n", "gV", "`[V`]", G_NO_REMAP)  -- select what got pasted
+map("n", "gV", "`[V`]", G_NO_REMAP)                   -- select what got pasted
 map("n", "<LEADER>==", "gg=G<CR>", G_SILENT_NO_REMAP) -- format
 --  map("n", "<LEADER>zjson", ":%!/opt/homebrew/opt/python@3.11/libexec/bin/python3 -m json.tool<CR>", G_SILENT_NO_REMAP)
-map("n", "<LEADER><SPACE>fjson", ":%!jq<CR>", G_SILENT_NO_REMAP)  -- jq format
-map("v", "<LEADER><SPACE>fjson", ":!jq<CR>", G_NO_REMAP)             -- jq format 
+map("n", "<LEADER><SPACE>fjson", ":%!jq<CR>", G_SILENT_NO_REMAP) -- jq format
+map("v", "<LEADER><SPACE>fjson", ":!jq<CR>", G_NO_REMAP)         -- jq format
 
 map("n", "<LEADER>sk", ":!callterminal '%:p:h' sk<CR>", G_NO_REMAP)       -- uploads
 -- map("n", "<LEADER>Uocto", ":!callterminal '%:p:h' upocto<CR>", G_NO_REMAP)     -- uploads
@@ -244,29 +241,28 @@ map("n", "<LEADER><SPACE>alpha", ":set nrformats=bin,hex,alpha<CR>", G_NO_REMAP)
 -- map("n", "<LEADER><SPACE>number", ":set nrformats=bin,hex<CR>", G_NO_REMAP)      -- change incremental number: default
 map("n", "<LEADER>nu", ":call NumberToggle()<CR>", G_NO_REMAP)      -- change incremental number: default
 
---  map("v", "J", ":m '>+1<CR>gv=gv", G_NO_REMAP)                               -- visual move down
---  map("v", "K", ":m '<-2<CR>gv=gv", G_NO_REMAP)                               -- visual move up
-
-
---map( "n", "<LEADER>pp", ":PrettierAsync<CR>", G_SILENT_NO_REMAP ) -- prettier
-
--- nmap <LEADER>win :silent !callwin md<CR> move windows
+ -- map("v", "J", ":m '>+1<CR>gv=gv", G_NO_REMAP)                     -- visual move down
+ -- map("v", "K", ":m '<-2<CR>gv=gv", G_NO_REMAP)                     -- visual move up
+ -- map( "n", "<LEADER>pp", ":PrettierAsync<CR>", G_SILENT_NO_REMAP ) -- prettier
+ -- nmap <LEADER>win :silent !callwin md<CR> move windows             -- test
 
 map("n", "<LEADER>xx", ":call StripTrailingWhitespaces()<CR>", G_SILENT_NO_REMAP)
 
 -- marks
+
 map({ "n", "v" }, "<LEADER>mv", "dd`tp``", G_SILENT_NO_REMAP) -- paste to mark t and jump back to last location
-map("n", "<LEADER>ml", ":marks<CR>", G_SILENT_NO_REMAP)      -- list marks
+map("n", "<LEADER>ml", ":marks<CR>", G_SILENT_NO_REMAP)       -- list marks
 
 -- markdown visual
 --map( "n", "<LEADER>mc", ":CocCommand markmap.create<CR>", G_SILENT_NO_REMAP ) -- never use
-map("n", "<LEADER>md", ":MarkdownPreviewToggle<CR>", G_SILENT_NO_REMAP)                      -- regular preview
-map("n", "<LEADER>mm", ":CocCommand markmap.watch<CR>", G_SILENT_NO_REMAP)                   -- mind map
-map("n", "<LEADER>mp", ":silent !callterminal '%:p:h' mpx -v '%:p:h' '%:r' ", G_NO_REMAP)  -- get screenshot
--- map("n", "<LEADER>mp", ":!callterminal '%:p:h' mpx -v '%:p:h' '%:r' ", G_NO_REMAP)  -- get screenshot
 
---map( "n", "j", "gj", G_SILENT_NO_REMAP ) -- wrapped text movement. Be careful the regular j needs to be expressed elsewhere
---map( "n", "k", "gk", G_SILENT_NO_REMAP ) -- wrapped text movement. Be careful the regular k needs to be expressed elsewhere
+map("n", "<LEADER>md", ":MarkdownPreviewToggle<CR>", G_SILENT_NO_REMAP)                   -- regular preview
+map("n", "<LEADER>mm", ":CocCommand markmap.watch<CR>", G_SILENT_NO_REMAP)                -- mind map
+map("n", "<LEADER>mp", ":silent !callterminal '%:p:h' mpx -v '%:p:h' '%:r' ", G_NO_REMAP) -- get screenshot
+
+ -- map("n", "<LEADER>mp", ":!callterminal '%:p:h' mpx -v '%:p:h' '%:r' ", G_NO_REMAP) -- get screenshot
+ -- map( "n", "j", "gj", G_SILENT_NO_REMAP )                                           -- wrapped text movement. Be careful the regular j needs to be expressed elsewhere
+ -- map( "n", "k", "gk", G_SILENT_NO_REMAP )                                           -- wrapped text movement. Be careful the regular k needs to be expressed elsewhere
 
 -- oil. directory edits in vim
 map("n", "<LEADER>oo", ":Oil --float<CR>", { desc = "open up" })
@@ -281,46 +277,43 @@ map({"n", "v"}, "<leader>oz", "<cmd>Yazi<cr>", { desc = "Open yazi at the curren
 
 
 ---- See `:help vim.diagnostic.*` for documentation on any of the below functions
-
---map( "n", '<SPACE>e', vim.diagnostic.open_float )
---map( "n", '<SPACE>q', vim.diagnostic.setloclist )
---map( "n", '[d', vim.diagnostic.goto_prev )
---map( "n", ']d', vim.diagnostic.goto_next )
+-- map( "n", '<SPACE>e', vim.diagnostic.open_float )
+-- map( "n", '<SPACE>q', vim.diagnostic.setloclist )
+-- map( "n", '[d', vim.diagnostic.goto_prev )
+-- map( "n", ']d', vim.diagnostic.goto_next )
 
 -- edits using :next instead of :e to open multiple files
-map("n", "<LEADER>vicomments", ":next ~/.config/nvim/lua/custom/comments.lua <CR>", G_SILENT_NO_REMAP)  -- edit init file
-map("n", "<LEADER>vidd", ":next ~/lab/repos/edge/dns-internal-dev/zones/*info.yaml <CR>", G_SILENT_NO_REMAP) -- dns dev
-map("n", "<LEADER>vidp", ":next ~/lab/repos/nameserver/roles/nsupdate/templates/fwd/db.oc2.evenue.net.j2.zone.fwd ~/lab/repos/edge/dns-internal-prod/zones/oc2.evenue.net.yaml <CR>", G_SILENT_NO_REMAP)                                                                                                               -- dns prod
-map("n", "<LEADER>vijob", ":next ~/lab/repos/sre-jobqueue/src/index.js <CR>", G_SILENT_NO_REMAP) -- dns dev
-map("n", "<LEADER>vipd", ":next ~/lab/repos/edge/public-dns-repo/zones/evenue.net.yaml <CR>", G_SILENT_NO_REMAP) -- dns public
-map("n", "<LEADER>vipopup", ":next ~/lab/scripts/calls/popup <CR>", G_SILENT_NO_REMAP) -- interactive popup
-map("n", "<LEADER>vir", ":next ~/.config/nvim/lua/keymap.lua ~/.config/nvim/init.lua <CR>", G_SILENT_NO_REMAP)  -- edit init file
-map("n", "<LEADER>virule", ":next ~/lab/repos/irules-engine/modules/download_irule.py <CR>", G_SILENT_NO_REMAP) -- dns dev
-map("n", "<LEADER>visre", ":next ~/lab/repos/srebot/src/index.js <CR>", G_SILENT_NO_REMAP) -- dns dev
 
-map("n", "<LEADER>ma", ":MdMath enable<CR>", G_SILENT_NO_REMAP) -- math
+map("n", "<LEADER>vicomments", ":next ~/.config/nvim/lua/custom/comments.lua <CR>", G_SILENT_NO_REMAP)                                                                                                   -- edit init file
+map("n", "<LEADER>vidd", ":next ~/lab/repos/edge/dns-internal-dev/zones/*info.yaml <CR>", G_SILENT_NO_REMAP)                                                                                             -- dns dev
+map("n", "<LEADER>vidp", ":next ~/lab/repos/nameserver/roles/nsupdate/templates/fwd/db.oc2.evenue.net.j2.zone.fwd ~/lab/repos/edge/dns-internal-prod/zones/oc2.evenue.net.yaml <CR>", G_SILENT_NO_REMAP) -- dns prod
+map("n", "<LEADER>vijob", ":next ~/lab/repos/sre-jobqueue/src/index.js <CR>", G_SILENT_NO_REMAP)                                                                                                         -- dns dev
+map("n", "<LEADER>vipd", ":next ~/lab/repos/edge/public-dns-repo/zones/evenue.net.yaml <CR>", G_SILENT_NO_REMAP)                                                                                         -- dns public
+map("n", "<LEADER>vipopup", ":next ~/lab/scripts/calls/popup <CR>", G_SILENT_NO_REMAP)                                                                                                                   -- interactive popup
+map("n", "<LEADER>vir", ":next ~/.config/nvim/lua/keymap.lua ~/.config/nvim/init.lua <CR>", G_SILENT_NO_REMAP)                                                                                           -- edit init file
+map("n", "<LEADER>virule", ":next ~/lab/repos/irules-engine/modules/download_irule.py <CR>", G_SILENT_NO_REMAP)                                                                                          -- dns dev
+map("n", "<LEADER>visre", ":next ~/lab/repos/srebot/src/index.js <CR>", G_SILENT_NO_REMAP)                                                                                                               -- dns dev
+map("n", "<LEADER>ma", ":MdMath enable<CR>", G_SILENT_NO_REMAP)                                                                                                                                          -- math
+map("n", "<LEADER>tt", ":TidalSend<CR>", G_SILENT_NO_REMAP)                                                                                                                                              -- math
+map("n", "<LEADER>TT", "mlvip:'<,'>TidalSend<CR>`l", G_SILENT_NO_REMAP)                                                                                                                                  -- math
+map("v", "<LEADER>tt", ":'<,'>TidalSend<CR>", G_SILENT_NO_REMAP)                                                                                                                                         -- math
+map("n", "<LEADER>td", ":TidalSilence ", G_SILENT_NO_REMAP)                                                                                                                                              -- math
+map("n", "<LEADER>th", ":TidalHush<CR>", G_SILENT_NO_REMAP)                                                                                                                                              -- math
 
-map("n", "<LEADER>tt", ":TidalSend<CR>", G_SILENT_NO_REMAP) -- math
-map("n", "<LEADER>TT", "mlvip:'<,'>TidalSend<CR>`l", G_SILENT_NO_REMAP) -- math
-map("v", "<LEADER>tt", ":'<,'>TidalSend<CR>", G_SILENT_NO_REMAP) -- math
-map("n", "<LEADER>td", ":TidalSilence ", G_SILENT_NO_REMAP) -- math
-map("n", "<LEADER>th", ":TidalHush<CR>", G_SILENT_NO_REMAP) -- math
-
--- flash 
+-- flash
 -- map("n", "<c-s>", "<cmd>lua require('flash').toggle()<CR>", G_NO_REMAP)    -- flash toggle
 
 --  USER <C-w><C-w> to toggle between them
 map("n", "<C-k>", ":wincmd k<CR>", G_SILENT_NO_REMAP) -- up
 map("n", "<C-j>", ":wincmd j<CR>", G_SILENT_NO_REMAP) -- down
-map("n", "<C-l>", ":wincmd l<CR>", G_SILENT_NO_REMAP) -- right 
+map("n", "<C-l>", ":wincmd l<CR>", G_SILENT_NO_REMAP) -- right
 map("n", "<C-h>", ":wincmd h<CR>", G_SILENT_NO_REMAP) -- left
 
---  map("n", "<LEADER>wj", ":only<CR>", G_SILENT_NO_REMAP) -- join all windows
+ -- map("n", "<LEADER>wj", ":only<CR>", G_SILENT_NO_REMAP)                                 -- join all windows
+ -- map("n", "<LEADER>pt", ":lua require('precognition').toggle()<CR>", G_SILENT_NO_REMAP) -- precog toggle
+ -- map("n", "<LEADER>pp", ":lua require('precognition').peek()<CR>", G_SILENT_NO_REMAP)   -- precog peek
 
---  map("n", "<LEADER>pt", ":lua require('precognition').toggle()<CR>", G_SILENT_NO_REMAP) -- precog toggle
---  map("n", "<LEADER>pp", ":lua require('precognition').peek()<CR>", G_SILENT_NO_REMAP)   -- precog peek
+--map("n", "<LEADER>gf", vim.lsp.buf.format, {}) -- have no idea what this does right now
 
---map("n", "<LEADER>gf", vim.lsp.buf.format, {})                                                                  -- have no idea what this does right now
-
-map("n", "<LEADER>d", ":lua require('custom/select').bracket()<CR>", G_SILENT_NO_REMAP)  -- select block, comment out invert of block
-map("n", "<LEADER>D", ":lua require('custom/select').definition()<CR>", G_SILENT_NO_REMAP)  -- select block, comment out invert of block
+map("n", "<LEADER>d", ":lua require('custom/select').bracket()<CR>", G_SILENT_NO_REMAP)    -- select block, comment out invert of block
+map("n", "<LEADER>D", ":lua require('custom/select').definition()<CR>", G_SILENT_NO_REMAP) -- select block, comment out invert of block

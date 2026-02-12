@@ -150,8 +150,9 @@ function m
           echo "find \"$modeFileSearch\""
           # echo "fileSearch $modeFileSearch"
           set shortName (string replace -a -i $MUSIC_DIRECTORY "" $foundIt)
-	  echo $shortName
-	  set shortFoundItFilter (string replace -a -i $MUSIC_DIRECTORY "" $foundItFilter)
+					set shortName (string join "\n" $shortName)
+					echo -e $shortName
+					set shortFoundItFilter (string replace -a -i $MUSIC_DIRECTORY "" $foundItFilter)
 
           # echo -e "founditFilter\n$foundItFilter"
 
