@@ -117,6 +117,7 @@ function m
       case '-a'; set modeAttach 't'
       case '-p'; set modePlay 't'
       case '*'
+
         set modeSearch "$modeSearch.*$key.*"
         set modeFileSearch $modeFileSearch "$key"
     end
@@ -137,6 +138,7 @@ function m
     else
 
       if [ $modePlay ]
+
         mpause
 
       else
