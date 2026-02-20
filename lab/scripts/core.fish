@@ -148,21 +148,6 @@ function ec
     gfile ".gitlab-ci.yml"
 end
 
-function testarg
-  
-  echo "all at once |$argv|"
-  # echo "$argv[1]"
-  # echo "$argv[2]"
-  echo (count $argv)
-
-
-  while test (count $argv) -gt 0
-    echo $argv[1]
-    set argv $argv[2..-1]
-  end
-
-end
-
 # go up to root folder and find a file
 function gfile
 
@@ -695,7 +680,7 @@ end
 # find file
 function f
 
-  set searchexpression "*"
+  set searchExpression ""
   set modeOpen ''
   set modeRemove ''
 
@@ -712,29 +697,32 @@ function f
       case '-rm' 
         set modeRemove 't'
       case '*'
-        set searchexpression "$searchexpression$key*"
+        set searchExpression $searchExpression $key
 
     end
 
   end
 
 
-  if test "$searchExpression" != '*'
+  # if test "$searchExpression" != '*'
+  if string length -q -- "$searchExpression"
+		set searchExpression (string join -n -- '.*' $searchExpression)
+		set searchExpression ".*$searchExpression.*"
 
     if test $modeRemove = 't'
 
-      echo "find . -iname \"$searchexpression\" -exec rm {} \\;"
-      find . -iname $searchexpression -exec rm {} \;
+      echo "fd -i -iname \"$searchExpression\" -X rm"
+      fd -i "$searchExpression" -X rm
 
     else if test $modeOpen = 't'
 
-      echo "find . -iname \"$searchexpression\" -exec open {} \\;"
-      find . -iname $searchexpression -exec open {} \;
+      echo "fd -i \"$searchExpression\" -X open"
+      fd -i "$searchExpression" -X open
 
     else
 
-      echo "find . -iname \"$searchexpression\""
-      find . -iname $searchexpression
+      echo "fd -i \"$searchExpression\""
+      fd -i "$searchExpression"
 
     end
 
