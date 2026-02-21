@@ -206,7 +206,6 @@ function F.dirJump(aTarget)
 
 end
 
-
 function F.listDir(aPath)
 
 	fzflua.files({
@@ -223,7 +222,7 @@ function F.openJumpFiles()
 	local currentLine = ''
 
   for line in io.lines(filepath) do
-    currentLine = vim.split(line, "^", { plain = true })[2]
+    currentLine = vim.split(line, "^", { plain = true })[2] -- need plain text option because of special character
     table.insert(lines, currentLine)
   end
 
