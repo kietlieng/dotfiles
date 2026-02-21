@@ -69,9 +69,7 @@ map("n", "<LEADER>,", 'mlv^"*y<CR>`l', G_SILENT_NO_REMAP)                       
 
 -- read in values from file
 
-map("n", "<LEADER>rt", "<cmd>lua require('custom/fzf').readFiles('tmp')<CR>", G_SILENT_NO_REMAP)                  -- search from git root
-map("n", "<LEADER>rr", "<cmd>lua require('custom/fzf').readFiles('')<CR>", G_SILENT_NO_REMAP)                     -- search from git root
-map("n", "<LEADER>RR", "<cmd>lua require('custom/fzf').readFiles('currentFileDirectory')<CR>", G_SILENT_NO_REMAP) -- search from git root
+map("n", "<LEADER>rt", "<cmd>lua require('custom/fzf').listDir('/tmp')<CR>", G_SILENT_NO_REMAP)                  -- search from git root
 map("n", "<LEADER>jj", "<cmd>lua require('custom/fzf').openJumpFiles()<CR>", G_SILENT_NO_REMAP)                   -- Jump script to vim :)
 map("n", "<LEADER>jw", "<cmd>lua require('custom/fzf').openWorkingJumpFile()<CR>", G_SILENT_NO_REMAP)             -- Jump script to vim :)
 

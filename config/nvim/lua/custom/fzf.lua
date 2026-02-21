@@ -1,5 +1,4 @@
 local F = {}
-local fzf = require("fzf")
 local fzflua = require("fzf-lua")
 
 function F.buffers()
@@ -208,67 +207,36 @@ function F.dirJump(aTarget)
 end
 
 
-function F.readFiles(argType)
+function F.listDir(aPath)
 
-  local argPath = ''
-
-  if argType == 'tmp' then
-    argPath = ' /tmp'
-  elseif argType == 'currentFileDirectory' then -- currentDirectory
-    argPath = ' ' .. vim.fn.expand('%:p:h')
-  end
-
-  coroutine.wrap(function()
-    local result = fzf.fzf("rg --files " .. argPath, "--ansi")
-    if result then
-      vim.cmd(':r ' .. result[1])
-    end
-  end)()
+	fzflua.files({
+    cwd = vim.fn.expand(aPath),
+  })
 
 end
 
-function F.readJumpFiles()
-
-  local jumpPath = ''
-  local results = ''
-  coroutine.wrap(function()
-
-    jumpPath = fzf.fzf("cat ~/.jumpscript | awk -F'^' '{print $2}'", "--ansi")
-
-    if jumpPath then
-
-      fzflua.fzf_exec("eza --all --sort=modified -1 --icons --git  --only-files " .. jumpPath[1], {
-        prompt = "",
-        actions = {
-          ["default"] = function(selected)
-            local filename = selected[1]
-            local fullPath = jumpPath[1] .. "/" .. filename
-
-            -- vim.cmd(':r ' .. fullPath)
-            local lines = vim.fn.readfile(fullPath)
-            vim.api.nvim_put(lines, "l", true, true)  -- insert below cursor
-
-          end
-        }
-      })
-
-    end
-  end)()
-
-end
-
+-- List through the jump file
 function F.openJumpFiles()
 
-  local jumpResults = ''
-  coroutine.wrap(function()
-    jumpResults = fzf.fzf("cat ~/.jumpscript | awk -F'^' '{print $2}'", "--ansi")
-    if jumpResults then
-        fzflua.files({
-          cwd = vim.fn.expand(jumpResults[1]),
-        })
+	local filepath = vim.fn.expand("~/.jumpscript")
+  local lines = {}
+	local currentLine = ''
 
-    end
-  end)()
+  for line in io.lines(filepath) do
+    currentLine = vim.split(line, "^", { plain = true })[2]
+    table.insert(lines, currentLine)
+  end
+
+  fzflua.fzf_exec(lines, {
+    prompt = "Search> ",
+    actions = {
+      ["default"] = function(selected)
+        fzflua.files({
+          cwd = vim.fn.expand(selected[1]),
+        })
+      end,
+    },
+  })
 
 end
 
