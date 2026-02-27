@@ -53,7 +53,7 @@ function ml
 
   if [ $modeDir = 'all' ]
     # set dirList (ls -1 $MUSIC_DIRECTORY)
-    set dirList (find $MUSIC_DIRECTORY -maxdepth 1 -type d | tail -n+2)
+    set dirList (fd . --max-depth 1 --type dir $MUSIC_DIRECTORY | tail -n+2)
   end
 
   # echo "dirList $dirList"
@@ -104,7 +104,6 @@ function m
 
   set modeAttach ''
   set modeSearch ''
-  set mideFileSearch ''
   set modePlay ''
   set key ''
 
@@ -118,15 +117,12 @@ function m
       case '-p'; set modePlay 't'
       case '*'
 
-        set modeSearch "$modeSearch.*$key.*"
-        set modeFileSearch $modeFileSearch "$key"
+        set modeSearch $modeSearch $key
     end
 
   end
 
   set hasMusic (tmux ls 2>&1 | grep -i music | awk -F':' '{print $1}')
-  set modeFileSearch (string join -- "*" $modeFileSearch)
-  set modeFileSearch "*$modeFileSearch*"
 
   # echo "hasMusic $hasMusic"
   if [ "$hasMusic" ]
@@ -143,14 +139,16 @@ function m
 
       else
 
-        if [ $modeSearch ]
+			  if string length -q -- "$modeSearch"
+
+					set modeSearch (string join -n -- '.*' $modeSearch)
+					set modeSearch ".*$modeSearch*"
 
           # echo "searching $modeSearch"
-          set foundIt (find $MUSIC_DIRECTORY -iname "$modeFileSearch" | string collect)
+          set foundIt (fd -i "$modeSearch" --type file $MUSIC_DIRECTORY | string collect)
           set foundItFilter (echo "$foundIt" | grep -i -f $MUSIC_DEFAULT | head -n 1) # directories loaded if no match that means it's not loaded
-          # echo "find $MUSIC_DIRECTORY -iname \"$modeFileSearch\""
-          echo "find \"$modeFileSearch\""
-          # echo "fileSearch $modeFileSearch"
+          echo "fd \"$modeSearch\""
+          # echo "fileSearch $modeSearch"
           set shortName (string replace -a -i $MUSIC_DIRECTORY "" $foundIt)
 					set shortName (string join "\n" $shortName)
 					echo -e $shortName

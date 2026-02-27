@@ -113,11 +113,9 @@ function vbub
             set smallerTerm "$smallerTerm $currentTerm"
           end
           
-          echo "plotRange $plotRange"
-
-          echo "/opt/homebrew/opt/python@3.11/libexec/bin/python -c \"import random; print(str(random.randint(-$plotRange,$plotRange)) + ' ' + str(random.randint(-$plotRange,$plotRange)) + ' ' + str(random.randint($minimumRadius,$radiusRange)))\""
-
-          set combineIt (/opt/homebrew/opt/python@3.11/libexec/bin/python -c "import random; print(str(random.randint(-$plotRange,$plotRange)) + ' ' + str(random.randint(-$plotRange,$plotRange)) + ' ' + str(random.randint($minimumRadius,$radiusRange)))")
+          # echo "plotRange $plotRange"
+          # set combineIt (/opt/homebrew/opt/python@3.11/libexec/bin/python -c "import random; print(str(random.randint(-$plotRange,$plotRange)) + ' ' + str(random.randint(-$plotRange,$plotRange)) + ' ' + str(random.randint($minimumRadius,$radiusRange)))")
+          set combineIt (/Users/klieng/.pyenv/shims/python -c "import random; print(str(random.randint(-$plotRange,$plotRange)) + ' ' + str(random.randint(-$plotRange,$plotRange)) + ' ' + str(random.randint($minimumRadius,$radiusRange)))")
 
           set points "$points $combineIt\n"
         end
@@ -136,9 +134,10 @@ function vbub
 
     #echo $totalOutput | bubble.awk
     pecho $totalOutput
-    echo -e $totalOutput > /tmp/bub.txt
+    echo -e "$totalOutput" > /tmp/bub.txt
 
-    ~/lab/scripts/plot/bubble.py
+    /Users/klieng/.pyenv/shims/python ~/lab/scripts/plot/bubble.py
+    # ~/lab/scripts/plot/bubble.py
 
   else if [ "$output" = "last" ]
 
@@ -148,10 +147,11 @@ function vbub
 
   else
 
-    echo $totalOutput > /tmp/bub.txt
+    echo -e "$totalOutput" > /tmp/bub.txt
     #echo $totalOutput | bubble.awk | isvg
     pecho $totalOutput
-    ~/lab/scripts/plot/bubble.py
+    /Users/klieng/.pyenv/shims/python ~/lab/scripts/plot/bubble.py
+    # ~/lab/scripts/plot/bubble.py
     cat /tmp/bubble1.svg | isvg
     cat /tmp/bubble2.svg | isvg
 

@@ -13,30 +13,31 @@ alias u 'eza --all --sort=modified --long --icons --git; date'
 alias uu 'eza -a; date'
 alias y '/opt/homebrew/bin/yazi'
 
-alias ccore="c core"
-alias ctokens="c tokens"
+alias Ed="E -cd"
 alias ccop="c cop"
+alias ccore="c core"
 alias cdo="c todo"
 alias ce="c edit"
 alias cl="c -"
+alias ctokens="c tokens"
 alias cy="c y"
+alias e2="ee"
+alias e3="e 3"
+alias e4="e 4"
+alias e5="e 5"
+alias ee="e 2"
+alias eee="e 3"
+alias eee="e 3"
+alias eeee="e 4"
+alias eeeee="e 5"
+alias egr="e -g "
+alias ex="e -g"
+alias ff="f -f"
+alias fo="f -o"
 alias jote="jot -query ''"
 alias lint="yamllint "
 alias wfood="wonderfood"
 alias wtitle="wondertitle"
-alias Ed="E -cd"
-alias ee="e 2"
-alias eee="e 3"
-alias e2="ee"
-alias e3="e 3"
-alias eee="e 3"
-alias e4="e 4"
-alias eeee="e 4"
-alias egr="e -g "
-alias e5="e 5"
-alias eeeee="e 5"
-alias ex="e -g"
-alias fo="f -o"
 alias zclear="yes | rm ~/.zcompdump*"
 
 # test if tokens is good 
@@ -683,6 +684,7 @@ function f
   set searchExpression ""
   set modeOpen ''
   set modeRemove ''
+	set modeFile ''
 
 
   while test (count $argv) -gt 0
@@ -692,12 +694,10 @@ function f
 
     switch $key
 
-      case '-o' 
-        set modeOpen 't'
-      case '-rm' 
-        set modeRemove 't'
-      case '*'
-        set searchExpression $searchExpression $key
+			case '-f'; set modeFile 't'
+      case '-o'; set modeOpen 't'
+      case '-rm'; set modeRemove 't'
+      case '*'; set searchExpression $searchExpression $key
 
     end
 
@@ -709,22 +709,27 @@ function f
 		set searchExpression (string join -n -- '.*' $searchExpression)
 		set searchExpression ".*$searchExpression.*"
 
-    if test $modeRemove = 't'
+    # if test $modeRemove = 't'
+    #
+    #   echo "fd -Ii \"$searchExpression\" -X rm"
+    #   fd -Ii "$searchExpression" -X rm
+    #
+    # else if test $modeOpen = 't'
+    #
+    #   echo "fd -i \"$searchExpression\" -X open"
+    #   fd -i "$searchExpression" -X open
+    #
+    # else
 
-      echo "fd -i -iname \"$searchExpression\" -X rm"
-      fd -i "$searchExpression" -X rm
-
-    else if test $modeOpen = 't'
-
-      echo "fd -i \"$searchExpression\" -X open"
-      fd -i "$searchExpression" -X open
-
-    else
-
-      echo "fd -i \"$searchExpression\""
-      fd -i "$searchExpression"
-
+		if test $modeFile = "t"
+			echo "fd --type file -HIi \"$searchExpression\""
+			fd --type file -HIi "$searchExpression"
+		else
+			echo "fd -HIi \"$searchExpression\""
+			fd -HIi "$searchExpression"
     end
+    # end
+
 
   else
 
