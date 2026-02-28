@@ -137,6 +137,7 @@ brew "openssh"
 brew "openssl@1.1"
 brew "opentofu"
 brew "pandoc"
+brew "parallel"
 brew "pgcli", link: false
 brew "pipx"
 brew "pnpm"

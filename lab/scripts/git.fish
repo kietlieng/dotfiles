@@ -121,13 +121,13 @@ function greset
   git config pull.rebase true   # rebase
   git config pull.ff only       # fast-forward only
 
-  git reset --hard
   #git pull
   if test (count $argv) -gt 0
 
     while test (count $argv) -gt 0
 
-      git rebose $argv[1]
+			echo "reset $argv[1]"
+      git reset $argv[1]
       set argv $argv[2..-1]
 
     end
@@ -135,6 +135,7 @@ function greset
   else
 
     git rebase
+		# git reset --hard
 
   end
 
