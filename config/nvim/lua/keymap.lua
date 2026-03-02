@@ -139,8 +139,8 @@ map("n", "<LEADER>sR", ":%s///gc<LEFT><LEFT><LEFT>", G_NO_REMAP) -- search and r
 map("n", "<LEADER>sr", ":%s///g<LEFT><LEFT>", G_NO_REMAP)        -- search and replace all
 map("v", "<LEADER>sR", ":s///gc<LEFT><LEFT><LEFT>", G_NO_REMAP)  -- tab visual
 map("v", "<LEADER>sr", ":s///g<LEFT><LEFT>", G_NO_REMAP)         -- tab visual
-
 map("n", "<LEADER>SR", ":/\\([a-zA-Z0-9\\-\\[\\]\\(\\)_]\\) \\([a-zA-Z0-9\\-\\[\\]\\(\\)_]\\)<CR>", G_NO_REMAP) -- search for spaces in filenames
+map("n", "<LEADER>mr", ":%s/[\\([\\]()+,' &’]/_/g | %s/\\([0-9]\\{3,3}\\)_/\\1 /g | %s/__/_/g | %s/__/_/g | %s/_-_/-/g | %s/\\(_\\.\\)\\([0-9a-zA-Z]\\+$\\)/.\\2/g", G_NO_REMAP) -- filename safe
 
 -- map("n", "<LEADER>su", ":!callterminal '%:p:h'  slackuserscopy l=", G_NO_REMAP)          -- tab visual.  Currently this is not working properly
 
