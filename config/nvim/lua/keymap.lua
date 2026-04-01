@@ -13,6 +13,8 @@ map("n", ":", ";", G_SILENT_NO_REMAP)                -- swap for ; cause I'm not
 map("n", "*", "*N", G_SILENT_NO_REMAP)               -- search the word under cursor.  Stay where you were instead of jumping to the search term
 map("n", "n", ":norm! nzzzv<CR>", G_SILENT_NO_REMAP) -- Search but keep the view centered
 map("n", "N", ":norm! Nzzzv<CR>", G_SILENT_NO_REMAP) -- Search but keep the view centered
+ map( "n", "j", "gj", G_SILENT_NO_REMAP )                                           -- wrapped text movement. Be careful the regular j needs to be expressed elsewhere
+ map( "n", "k", "gk", G_SILENT_NO_REMAP )                                           -- wrapped text movement. Be careful the regular k needs to be expressed elsewhere
 
 -- map("n", "}", ":norm! }k<CR>", G_SILENT_NO_REMAP)    -- Jump to last line of paragraph
 -- map("n", "{", ":norm! {j<CR>", G_SILENT_NO_REMAP)    -- Jump to last line of paragraph
@@ -251,8 +253,6 @@ map("n", "<LEADER>mm", ":CocCommand markmap.watch<CR>", G_SILENT_NO_REMAP)      
 map("n", "<LEADER>mp", ":silent !callterminal '%:p:h' mpx -v '%:p:h' '%:r' ", G_NO_REMAP) -- get screenshot
 
  -- map("n", "<LEADER>mp", ":!callterminal '%:p:h' mpx -v '%:p:h' '%:r' ", G_NO_REMAP) -- get screenshot
- -- map( "n", "j", "gj", G_SILENT_NO_REMAP )                                           -- wrapped text movement. Be careful the regular j needs to be expressed elsewhere
- -- map( "n", "k", "gk", G_SILENT_NO_REMAP )                                           -- wrapped text movement. Be careful the regular k needs to be expressed elsewhere
 
 -- oil. directory edits in vim
 map("n", "<LEADER>oo", ":Oil --float<CR>", { desc = "open up" })

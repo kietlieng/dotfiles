@@ -9,8 +9,8 @@ vim.cmd([[set runtimepath+=~/opt/homebrew/opt/fzf]])
 --vim.cmd([[set runtimepath+=~/.luarocks/lib/luarocks/rocks-5.1]])
 
 -- wrap
---set.wrap = true
-set.wrap   = false
+set.wrap = true
+-- set.wrap   = false
 
 ----tmux
 --set.ft   = 'tmux'
