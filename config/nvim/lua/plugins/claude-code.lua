@@ -8,8 +8,8 @@ return {
       window = {
         position = "float",
         float = {
-          width = "90%",      -- Take up 90% of the editor width
-          height = "30%",     -- Take up 90% of the editor height
+          width = "100%",      -- Take up 90% of the editor width
+          height = "35%",     -- Take up 90% of the editor height
           row = 70,     -- Center vertically
           col = "center",     -- Center horizontally
           relative = "editor",

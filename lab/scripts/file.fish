@@ -206,6 +206,8 @@ end
 # swift can take a time limit to reference multiple files
 function frprepswift
 
+	
+	# set start_time (date +%s%N)
   # Define the file path you want to copy
 
   set key ''
@@ -215,7 +217,7 @@ function frprepswift
   set swiftPrepFile "/tmp/swiftprep.txt"
   set swiftRef "/tmp/swiftref.swift"
 
-  set preppedContent $(cat $swiftPrepFile)
+  set preppedContent (cat $swiftPrepFile)
 
   # if you can't find any values set to empty and return
   if [ "$preppedContent" = "" ]
@@ -243,6 +245,11 @@ function frprepswift
   # Use swift to copy the file reference with metadata to the clipboard
   # swift "$swiftRef"
   swift $swiftRef
+	set checkpoint2 (date +%s%N)
+	
+	# Total time
+	# set total (math "($checkpoint2 - $start_time) / 1000000")
+	# pecho "Total time: $total ms"
 
 end
 

@@ -65,6 +65,7 @@ function cpdot
     set fishOMFDir $destinationDir/.local/share/omf 
     set fishConfigDir $destinationDir/.config/fish
     set fishConfigFunctionDir $destinationDir/.config/fish/functions
+    set mappingDir $destinationDir/mappings
 
     # lab
     set dLabDir $destinationDir/lab
@@ -78,7 +79,7 @@ function cpdot
     rm -rf $destinationDir/.local
 
     # create directories
-    mkdir -p $dConfigDir $dFileDir $dScriptDir $dBrewDir $dPure $dYaziDir $dDirenvDir $dBatDir $fishOMFDir $fishConfigFunctionDir
+    mkdir -p $dConfigDir $dFileDir $dScriptDir $dBrewDir $dPure $dYaziDir $dDirenvDir $dBatDir $fishOMFDir $fishConfigFunctionDir $mappingDir
   
     cd $dBrewDir
     brew bundle dump

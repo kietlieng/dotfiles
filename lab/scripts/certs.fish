@@ -20,7 +20,6 @@ function sslcertmodulus
   openssl x509 -noout -modulus -in "$argv[1]" | openssl md5
   echo -e "Find out the modulus of the large rsa number to verify private / public keys are the same."
   echo -e "Used for pem files not RSA keys"
-	echo -e "openssl x509 -noout -modulus -in account1.signed.crt"
 	echo -e "openssl x509 -noout -modulus -in account1.signed.crt | openssl md5"
 end
 
@@ -28,8 +27,6 @@ function sslkeymodulus
   openssl rsa -noout -modulus -in "$argv[1]"
   openssl rsa -noout -modulus -in "$argv[1]" | openssl md5
   echo -e "Find out the modulus of the large rsa number to verify private / public keys are the same."
-  echo -e "Used for pem files not RSA keys"
-	echo -e "openssl rsa -noout -modulus -in account1.signed.crt"
 	echo -e "openssl rsa -noout -modulus -in account1.signed.crt | openssl md5"
 end
 

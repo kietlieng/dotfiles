@@ -8,6 +8,7 @@ return {
       require("oil").setup({
         columns = {}
       })
-    end
+    end,
+		use_default_keymaps = false,
   }
 }

@@ -19,14 +19,15 @@ map("n", "N", ":norm! Nzzzv<CR>", G_SILENT_NO_REMAP) -- Search but keep the view
 
 -- find files with fzf
 
-map("n", "<LEADER>/", "<cmd>lua require('custom/fzf').dirDepthJump(0)<CR>", G_SILENT_NO_REMAP)   -- search from current directory
-map("n", "<LEADER>-", "<cmd>lua require('custom/fzf').dirDepthJump(-1)<CR>", G_SILENT_NO_REMAP)  -- search from git root directory
-map("n", "<LEADER>1-", "<cmd>lua require('custom/fzf').dirDepthJump(-1, 1)<CR>", G_SILENT_NO_REMAP)  -- search 1 level above git root directory
-map("n", "<LEADER>2-", "<cmd>lua require('custom/fzf').dirDepthJump(-1, 2)<CR>", G_SILENT_NO_REMAP)  -- search 1 level above git root directory
-map("n", "<LEADER>0", "<cmd>lua require('custom/fzf').dirDepthJump(-99)<CR>", G_SILENT_NO_REMAP) -- search from current open file root directory
-map("n", "<LEADER>1/", "<cmd>lua require('custom/fzf').dirDepthJump(1)<CR>", G_SILENT_NO_REMAP)  -- search from 1 up
-map("n", "<LEADER>2/", "<cmd>lua require('custom/fzf').dirDepthJump(2)<CR>", G_SILENT_NO_REMAP)  -- search from 2 up
-map("n", "<LEADER>4/", "<cmd>lua require('custom/fzf').dirDepthJump(-2)<CR>", G_SILENT_NO_REMAP) -- search from cwd
+map("n", "<LEADER>/", "<cmd>lua require('custom/fzf').dirDepthJump(0)<CR>", G_SILENT_NO_REMAP)      -- search from current directory
+map("n", "<LEADER>-", "<cmd>lua require('custom/fzf').dirDepthJump(-1)<CR>", G_SILENT_NO_REMAP)     -- search from git root directory
+map("n", "<LEADER>1-", "<cmd>lua require('custom/fzf').dirDepthJump(-1, 1)<CR>", G_SILENT_NO_REMAP) -- search 1 level above git root directory
+map("n", "<LEADER>2-", "<cmd>lua require('custom/fzf').dirDepthJump(-1, 2)<CR>", G_SILENT_NO_REMAP) -- search 1 level above git root directory
+map("n", "<LEADER>0", "<cmd>lua require('custom/fzf').dirDepthJump(-99)<CR>", G_SILENT_NO_REMAP)    -- search from current open file root directory
+map("n", "<LEADER>1/", "<cmd>lua require('custom/fzf').dirDepthJump(1)<CR>", G_SILENT_NO_REMAP)     -- search from 1 up
+map("n", "<LEADER>2/", "<cmd>lua require('custom/fzf').dirDepthJump(2)<CR>", G_SILENT_NO_REMAP)     -- search from 2 up
+map("n", "<LEADER>4/", "<cmd>lua require('custom/fzf').dirDepthJump(-2)<CR>", G_SILENT_NO_REMAP)    -- search from cwd
+
 -- map("n", "<LEADER>uu", "<cmd>lua require('custom/fzf').buffers()<CR>", G_SILENT_NO_REMAP)        -- search from current directory
 
 -- grep string in file
@@ -62,17 +63,17 @@ map("n", "<LEADER>l", 'ml0vg_"*y<CR>`l', G_SILENT_NO_REMAP)                     
 map("n", "<LEADER>L", ":silent! lua require('custom/select').openLink()<CR>", G_NO_REMAP) -- open url link under cursor
 map("v", "<LEADER>y", '"*y', G_SILENT_NO_REMAP)                                           -- copy everything in visual
 
--- map("n", "<LEADER>d", 'V"*y<CR>dd', G_SILENT_NO_REMAP)                                -- cut to clipboard
--- map("v", "<LEADER>d", '"*ygvd', G_SILENT_NO_REMAP)                                    -- cut to clipboard
+ -- map("n", "<LEADER>d", 'V"*y<CR>dd', G_SILENT_NO_REMAP) -- cut to clipboard
+ -- map("v", "<LEADER>d", '"*ygvd', G_SILENT_NO_REMAP)     -- cut to clipboard
 
-map("n", "<LEADER>.", 'mlvg_"*y<CR>`l', G_SILENT_NO_REMAP)                            -- copy current position to end of line to clipboard
-map("n", "<LEADER>,", 'mlv^"*y<CR>`l', G_SILENT_NO_REMAP)                             -- copy current position to beginning of line to clipboard
+map("n", "<LEADER>.", 'mlvg_"*y<CR>`l', G_SILENT_NO_REMAP) -- copy current position to end of line to clipboard
+map("n", "<LEADER>,", 'mlv^"*y<CR>`l', G_SILENT_NO_REMAP)  -- copy current position to beginning of line to clipboard
 
 -- read in values from file
 
-map("n", "<LEADER>rt", "<cmd>lua require('custom/fzf').listDir('/tmp')<CR>", G_SILENT_NO_REMAP)                  -- search from git root
-map("n", "<LEADER>jj", "<cmd>lua require('custom/fzf').openJumpFiles()<CR>", G_SILENT_NO_REMAP)                   -- Jump script to vim :)
-map("n", "<LEADER>jw", "<cmd>lua require('custom/fzf').openWorkingJumpFile()<CR>", G_SILENT_NO_REMAP)             -- Jump script to vim :)
+map("n", "<LEADER>rt", "<cmd>lua require('custom/fzf').listDir('/tmp')<CR>", G_SILENT_NO_REMAP)       -- search from tmp
+map("n", "<LEADER>jj", "<cmd>lua require('custom/fzf').openJumpFiles()<CR>", G_SILENT_NO_REMAP)       -- Jump script to vim :)
+map("n", "<LEADER>jw", "<cmd>lua require('custom/fzf').openWorkingJumpFile()<CR>", G_SILENT_NO_REMAP) -- Jump script to vim :)
 
 -- fzf to move around
 
@@ -96,7 +97,7 @@ map("n", "<LEADER>'", "mlvi'\"*y`l", G_SILENT_NO_REMAP)     -- copy within doubl
 map("n", "<LEADER>(", 'mlvi("*y`l', G_SILENT_NO_REMAP)      -- copy within parenthesis
 map("n", "<LEADER>[", 'mlvi["*y`l', G_SILENT_NO_REMAP)      -- copy within parenthesis
                                                             -- map("n", "<LEADER>B", 'mlviB"*y`l', G_SILENT_NO_REMAP) -- copy whole function call
-map("n", "<LEADER>p", 'mlvip"*y`l', G_SILENT_NO_REMAP)      -- copy whole block
+-- map("n", "<C-p>", 'mlvip"*y`l', G_SILENT_NO_REMAP)      -- copy whole block -- don't think I need or ever user
 map("n", "<LEADER>W", 'mlviW"*y`l', G_SILENT_NO_REMAP)      -- copy WORD
 
 -- comment code
@@ -129,29 +130,18 @@ map("v", "<LEADER>Bt", ":Tabularize/|", G_NO_REMAP)       -- table visual |
 map("v", "<LEADER>BT", ":Tabularize/|<LEFT>", G_NO_REMAP) -- table visual |. Position at beginning
 
 -- search and replace
--- map( "n", "<LEADER>bd", ":bufdo %s//<C-r>./gc<CR>", G_NO_REMAP ) -- repeat replace
 -- https://github.com/kaddkaka/vim_examples/blob/main/README.md#repeat-last-change-in-all-of-file-global-repeat-similar-to-g
--- map("n", "<LEADER>sG", ":%s//<C-r>./gc<CR>", G_NO_REMAP)          -- repeat replace from normal mode
--- map("n", "<LEADER>sg", ":%s//<C-r>./g<CR>", G_NO_REMAP)           -- repeat replace from normal mode
 -- map("n", "<LEADER>sc", ":%s///gn<CR>", G_NO_REMAP)                -- search count
 
 map("n", "<LEADER>sR", ":%s///gc<LEFT><LEFT><LEFT>", G_NO_REMAP) -- search and replace with prompt
 map("n", "<LEADER>sr", ":%s///g<LEFT><LEFT>", G_NO_REMAP)        -- search and replace all
 map("v", "<LEADER>sR", ":s///gc<LEFT><LEFT><LEFT>", G_NO_REMAP)  -- tab visual
 map("v", "<LEADER>sr", ":s///g<LEFT><LEFT>", G_NO_REMAP)         -- tab visual
-map("n", "<LEADER>SR", ":/\\([a-zA-Z0-9\\-\\[\\]\\(\\)_]\\) \\([a-zA-Z0-9\\-\\[\\]\\(\\)_]\\)<CR>", G_NO_REMAP) -- search for spaces in filenames
-map("n", "<LEADER>mr", ":%s/[\\([\\]()+,' &’]/_/g | %s/\\([0-9]\\{3,3}\\)_/\\1 /g | %s/__/_/g | %s/__/_/g | %s/_-_/-/g | %s/\\(_\\.\\)\\([0-9a-zA-Z]\\+$\\)/.\\2/g", G_NO_REMAP) -- filename safe
 
 -- map("n", "<LEADER>su", ":!callterminal '%:p:h'  slackuserscopy l=", G_NO_REMAP)          -- tab visual.  Currently this is not working properly
 
 map("n", "<C-t>", ":!callterminal '%:p:h' ", G_NO_REMAP)  -- terminal runs
 map("n", "<C-q>", ":!callterminal '%:p:h' qc ", G_NO_REMAP)  -- terminal runs
-
--- map("v", "<LEADER>zget", ":'<,'>lua require('custom/zookeeper').zkget()<CR>", G_SILENT_NO_REMAP) -- zk copy
--- map("v", "<LEADER>zget", ':!callzkfetch <C-R>"<ENTER>', G_SILENT_NO_REMAP) -- zk copy
--- map("v", "<LEADER>zg", ":lua require('custom/zookeeper').zkget()<CR>", G_SILENT_NO_REMAP) -- zk copy
--- map("n", "<LEADER>ze", ":lua require('custom/zookeeper').zkenv('')<LEFT><LEFT>", G_SILENT_NO_REMAP) -- zk copy
-
 map("n", "<C-s>", ":silent !callsearchprivate ''<LEFT>", G_NO_REMAP)  -- terminal runs
 -- map("n", "<LEADER>tr", ":silent !callsearch ''<LEFT>", G_NO_REMAP)  -- terminal runs
 -- map("n", "<LEADER>ts", ":silent !callsearchthesaurus ''<LEFT>", G_NO_REMAP)  -- terminal runs thesaurus
@@ -218,7 +208,6 @@ map("n", "<LEADER>Omu", ":MasonUpdate<CR>", G_NO_REMAP)
 
 -- map("n", "<C-b>", ":b#<CR>", G_SILENT_NO_REMAP) -- switch back to previous buffer
 map("n", "<C-n>", ":bn<CR>", G_SILENT_NO_REMAP)      -- buffer next
-map("n", "<C-p>", ":bp<CR>", G_SILENT_NO_REMAP)      -- buffer previous
 map("n", "<LEADER>bd", ":bd<CR>", G_SILENT_NO_REMAP) -- buffer delete
 map("n", "<LEADER>bl", ":ls<CR>", G_SILENT_NO_REMAP) -- buffer list
 
@@ -244,7 +233,7 @@ map("n", "<LEADER>nu", ":call NumberToggle()<CR>", G_NO_REMAP)      -- change in
 
  -- map("v", "J", ":m '>+1<CR>gv=gv", G_NO_REMAP)                     -- visual move down
  -- map("v", "K", ":m '<-2<CR>gv=gv", G_NO_REMAP)                     -- visual move up
- -- map( "n", "<LEADER>pp", ":PrettierAsync<CR>", G_SILENT_NO_REMAP ) -- prettier
+map("n", "<LEADER>p", "<cmd>lua require('custom/fzf').replacePattern()<CR>", G_SILENT_NO_REMAP)   -- get grep pattern
  -- nmap <LEADER>win :silent !callwin md<CR> move windows             -- test
 
 map("n", "<LEADER>xx", ":call StripTrailingWhitespaces()<CR>", G_SILENT_NO_REMAP)

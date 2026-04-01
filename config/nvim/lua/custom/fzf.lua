@@ -239,6 +239,38 @@ function F.openJumpFiles()
 
 end
 
+function F.replacePattern()
+
+	local filepath = os.getenv("DIRECTORY_MAPPING_GREP")
+  local lines = {}
+	local currentLine = ''
+
+  for iLine in io.lines(filepath) do
+    table.insert(lines, iLine)
+  end
+
+  fzflua.fzf_exec(lines, {
+    prompt = "Grep> ",
+    actions = {
+      ["default"] = function(selected)
+
+				-- vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true) .. ':' .. selected[1], 'n', false) -- enter replace mode and fill out pattern
+
+				local splitArray = vim.split(selected[1], ":", { plain = true })
+				local sType = splitArray[2]
+				local content = splitArray[3] -- need plain text option because of special character
+				if sType:sub(1, 1) == 'r' then -- this is a search and replace 
+			   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true) .. ':' .. content, 'n', false) -- enter replace mode and fill out pattern
+				else
+					vim.api.nvim_feedkeys('/' .. content, 'n', false)
+				end
+
+      end,
+    },
+  })
+
+end
+
 function F.openWorkingJumpFile()
 
   local jumpResults = ''

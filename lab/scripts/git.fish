@@ -1,6 +1,7 @@
 alias gD 'git -c diff.external=difft diff --staged'
 alias gHash "git rev-parse HEAD && git rev-parse HEAD | pbcopy"
 alias gP 'gpush'
+alias gpp 'gpush'
 alias gbr 'g -branch'
 # alias gco 'git checkout '
 alias gd 'git -c diff.external=difft diff'
