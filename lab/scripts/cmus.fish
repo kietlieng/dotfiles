@@ -142,7 +142,7 @@ function m
 			  if string length -q -- "$modeSearch"
 
 					set modeSearch (string join -n -- '.*' $modeSearch)
-					set modeSearch ".*$modeSearch*"
+					set modeSearch ".*$modeSearch.*"
 
           # echo "searching $modeSearch"
           set foundIt (fd -i "$modeSearch" --type file $MUSIC_DIRECTORY | string collect)
@@ -174,7 +174,24 @@ function m
 
           if [ "$qStatus" != 'stopped' ]
             # basename (cmus-remote -Q | grep -i file | awk '{ print $2 }')
-            cmus-remote -Q | grep -i file | awk '{ print $2 }' | cut -d'/' -f6-
+            set musicFile (cmus-remote -Q | grep -i file | awk '{ print $2 }' | cut -d'/' -f6-)
+            set musicPosition (cmus-remote -Q | grep -i position | awk '{ print $2 }')
+            set musicTotal (cmus-remote -Q | grep -i duration | awk '{ print $2 }')
+						set per1 (math -s0 "($musicPosition / $musicTotal) * 100")
+						set per2 $per1
+						set perTitle $per1
+						set perbar ""
+						while test $per1 -gt 0
+							set per1 (math $per1 - 2)
+							set perbar "#$perbar"
+							# echo "$percentage"
+						end
+						while test $per2 -lt 100
+							set per2 (math $per2 + 2)
+							set perbar "$perbar-"
+							# echo "$percentage"
+						end
+						echo -e "$musicFile\n|$perbar| $perTitle%"
           else
             mpause
           end

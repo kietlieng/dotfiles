@@ -7,6 +7,7 @@ return {
     event = "VeryLazy",
     opts = { -- A list of parser names, or "all" (the five listed parsers should always be installed)
       ensure_installed = {
+
         "awk",
         "bash",
         "c",
@@ -31,12 +32,13 @@ return {
         "query",
         "ruby",
         "rust",
+        "tcl",
         "terraform",
         "typescript",
         "vim",
         "vimdoc",
         "xml",
-  --      "yaml",
+        "yaml",
 
       },
     },
