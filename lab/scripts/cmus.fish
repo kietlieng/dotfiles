@@ -8,8 +8,8 @@ alias mprevious2 "mprevious && mprevious"         # previous 2
 alias mshuffle "cmus-remote -S"    # shuffle
 alias mqueue "cmus-remote -q"    # queue
 alias mraw "cmus-remote --raw" # raw
-alias mseekf "cmus-remote --seek +60" # seek
-alias mseekb "cmus-remote --seek -60" # seek
+alias mseekf "cmus-remote --seek +30" # seek
+alias mseekb "cmus-remote --seek -30" # seek
 alias mla "ml -a"
 
 function ml
@@ -172,21 +172,27 @@ function m
 
           set qStatus (cmus-remote -Q | grep -i status | awk '{print $2}')
 
-          if [ "$qStatus" != 'stopped' ]
-            # basename (cmus-remote -Q | grep -i file | awk '{ print $2 }')
-            set musicFile (cmus-remote -Q | grep -i file | awk '{ print $2 }' | cut -d'/' -f6-)
-            set musicPosition (cmus-remote -Q | grep -i position | awk '{ print $2 }')
-            set musicTotal (cmus-remote -Q | grep -i duration | awk '{ print $2 }')
-						set per1 (math -s0 "(($musicPosition / $musicTotal) * 100)")
-						# set per1 (math -s0 "($per1 / 2)")
-						set per2 (math -s0 "(100 - $per1) / 2")
-						set perTitle $per1
-						set perbar1 (string repeat -n (math "$per1/2") "#")
-						set perbar2 (string repeat -n (math "$per2/2") "-")
-						echo -e "$musicFile\n[$perbar1$perbar2] $perTitle%"
-          else
-            mpause
-          end
+					set mStatus '▷'
+					if [ $qStatus = 'paused' ]
+						set mStatus '□'
+					end
+
+					# echo "status $qStatus"
+					# basename (cmus-remote -Q | grep -i file | awk '{ print $2 }')
+					set musicFile (cmus-remote -Q | grep -i file | awk '{ print $2 }' | cut -d'/' -f6-)
+					set musicPosition (cmus-remote -Q | grep -i position | awk '{ print $2 }')
+					set musicTotal (cmus-remote -Q | grep -i duration | awk '{ print $2 }')
+					set per1 (math -s0 "(($musicPosition / $musicTotal) * 100)")
+					set curMinutes (math -s0 "($musicPosition / 60)")
+					set curSeconds (math -s0 "($musicPosition % 60)")
+					set minutes (math -s0 "($musicTotal / 60)")
+					set seconds (math -s0 "($musicTotal % 60)")
+					# set per1 (math -s0 "($per1 / 2)")
+					set per2 (math -s0 "(100 - $per1)")
+					set perTitle (printf "%2s" "$per1")
+					set perbar1 (string repeat -n (math -s0 "$per1/2") "█")
+					set perbar2 (string repeat -n (math -s0 "$per2/2") "░")
+					echo -e "$perTitle% $mStatus $musicFile\n$perbar1$perbar2 ($curMinutes:$curSeconds / $minutes:$seconds)"
 
         end
 

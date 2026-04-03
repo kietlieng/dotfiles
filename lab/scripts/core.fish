@@ -606,6 +606,13 @@ function gr
 
       case '-ci'
         set searchCICD 't'
+	
+			case '-n'
+
+				# echo "testing expression $key"
+				set searchExpression "$searchExpression$argv[1]*"
+				set argv $argv[2..-1]
+
 
       case '*' 
 
