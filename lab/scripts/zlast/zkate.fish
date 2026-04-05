@@ -208,8 +208,10 @@ function vvenn
       case '-r'
         set radius $argv[1]
         set argv $argv[2..-1]
-        
-      case '-o' set output "x" 
+
+      case '-o' 
+				set output "x" 
+
       case '-c'
         set centerText "$argv[1]"
         set argv $argv[2..-1]
@@ -223,9 +225,11 @@ function vvenn
         if [ "$subText" != "_" ]
           set subText "$subText $key"
         else
-          set currentTerm $(echo "$key" | sed "s/ /_/g")
+          set currentTerm (echo "$key" | sed "s/ /_/g")
+					echo "currentTerm $currentTerm"
           set searchTerm "$searchTerm $currentTerm"
         end
+				echo "currentKey $key"
         
     end
   end

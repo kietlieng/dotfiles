@@ -195,12 +195,13 @@ function m
 						# set per1 (math -s0 "($per1 / 2)")
 						set per2 (math -s0 "(100 - $per1)")
 						set perTitle (printf "%2s" "$per1")
-						set perbar1 (string repeat -n (math -s0 "$per1/5") "█")
-						set perbar2 (string repeat -n (math -s0 "$per2/5") "░")
+						set reductionFactor "4"
+						set perbar1 (string repeat -n (math -s0 "$per1/$reductionFactor") "█")
+						set perbar2 (string repeat -n (math -s0 "$per2/$reductionFactor") "░")
 						echo -e "$mStatus $perTitle% $perbar1$perbar2 $curMinutes:$curSeconds/$minutes:$seconds\n$musicFile"
 					else
 						echo "0 stopped "
-						set perbar2 (string repeat -n (math -s0 "100/5") "░")
+						set perbar2 (string repeat -n (math -s0 "100/$reductionFactor") "░")
 						echo -e "⏸︎  0% $perbar2 0/0"
 					end
 
