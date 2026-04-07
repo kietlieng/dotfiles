@@ -152,7 +152,7 @@ lctrl - 9 : fish ~/lab/scripts/calls/scriptcall ytdecrease
 # change profile
 rctrl - x : fish ~/lab/scripts/calls/scriptcall ytogpadding 
 # swap anchor point.  Left or right
-rctrl - a : fish ~/lab/scripts/calls/scriptcall ytoganchor
+lctrl - h : fish ~/lab/scripts/calls/scriptcall ytoganchor
 
 
 ########### music ###########
@@ -172,7 +172,7 @@ rctrl - m : fish ~/lab/scripts/calls/scriptcall m -p
 # cmus exit
 rctrl + shift - m : fish ~/lab/scripts/calls/scriptcall mk
 # y move window to differrent screen
-rctrl + shift - a : fish ~/lab/scripts/calls/scriptcall rot
+# rctrl + shift - a : fish ~/lab/scripts/calls/scriptcall rot
 
 # search command 
 # rctrl - 8 : ~/lab/scripts/calls/scriptcall impgrepcname

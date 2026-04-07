@@ -353,7 +353,7 @@ end
 
 function tspace
 
-  if test (count $argv) -gt 0
+  if test (count $argv) -eq 0
 
     terraform workspace list
     return
