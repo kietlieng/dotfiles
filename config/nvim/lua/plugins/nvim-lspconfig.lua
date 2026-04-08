@@ -103,8 +103,8 @@ return {
         vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
         vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, opts)
         -- look for next
-        vim.keymap.set("n", "<leader>n", vim.diagnostic.goto_next)
-        vim.keymap.set("n", "<leader>p", vim.diagnostic.goto_prev)
+        -- vim.keymap.set("n", "<leader>n", vim.diagnostic.goto_next)
+        -- vim.keymap.set("n", "<leader>p", vim.diagnostic.goto_prev)
       end,
     })
 
