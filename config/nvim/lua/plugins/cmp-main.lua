@@ -2,13 +2,26 @@ return {
   'hrsh7th/nvim-cmp',
   dependencies = {
 
-		'hrsh7th/cmp-buffer',
-		'hrsh7th/cmp-cmdline',
+		-- lsp and language 
 		'hrsh7th/cmp-nvim-lsp',
 		'hrsh7th/cmp-nvim-lsp-signature-help',
 		'hrsh7th/cmp-nvim-lua',
+
+	  -- general
+    'hrsh7th/cmp-path',
+		'hrsh7th/cmp-buffer',
+		'hrsh7th/cmp-cmdline',
+
+		-- snippets
     'L3MON4D3/LuaSnip',
     'saadparwaiz1/cmp_luasnip',  -- LuaSnip completion source
+    'rafamadriz/friendly-snippets',
+
+		-- nice options
+		'hrsh7th/cmp-calc',      -- Math
+    -- 'hrsh7th/cmp-emoji',     -- Emojis
+    'f3fora/cmp-spell',      -- Spelling
+    'petertriho/cmp-git',    -- Git commits	
 
   },
   config = function()
@@ -51,16 +64,20 @@ return {
 				}),
       }),
 
-      sources = {
+      sources = cmp.config.sources({
+				{ name = 'nvim_lsp' },
+				{ name = 'nvim_lua' },
+				{ name = 'nvim_lsp_signature_help' },
+				{ name = 'luasnip' },
+			},
+			{
+				{ name = 'buffer' },
+				{ name = 'path' },
+        { name = 'calc' },
+        -- { name = 'emoji' },
+        { name = 'spell' },
+			}),
 
-        { name = 'nvim_lsp' },
-        { name = 'nvim_lua' },
-        { name = 'nvim_lsp_signature_help' },
-        { name = 'luasnip' },
-        { name = 'buffer' },
-        { name = 'path' },
-
-      },
 			formatting = {
 
 				format = function(entry, vim_item)
@@ -75,6 +92,10 @@ return {
 						buffer                  = '[Buf]',  -- Not [A]
 						path                    = '[Path]',
 						cmdline                 = '[Cmd]',
+						calc                    = '[Calc]',
+						-- emoji                = '[Emoji]',
+						spell                   = '[Spell]',
+						git                     = '[Git]',
 
 					})[entry.source.name] or ('[' .. entry.source.name .. ']')
 
