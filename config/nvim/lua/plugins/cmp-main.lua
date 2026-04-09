@@ -114,7 +114,6 @@ return {
 						path                    = '[Path]',
 						cmdline                 = '[Cmd]',
 						-- calc                    = '[Calc]',
-						-- calc                    = '[Calc]',
 						spell                   = '[Spell]',
 
 					})[entry.source.name] or ('[?' .. entry.source.name .. ']')
