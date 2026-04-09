@@ -68,6 +68,9 @@ set.viminfo        = "'100,f1"                                                  
 set.wildignore     = '*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx'  -- avoid
 -- set.guicursor      = 'a:blinkon100'
 
+set.spell = true
+set.spelllang = { 'en_us' }  -- or 'en_gb', 'es', etc.
+
 -- vim.cmd([[
 --
 --   let &t_ut=''

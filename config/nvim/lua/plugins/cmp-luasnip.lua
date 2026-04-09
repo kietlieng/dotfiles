@@ -5,7 +5,6 @@ return {
   version = '2.*',
   build = 'make install_jsregexp',
   config = function()
-
     local luasnip = require('luasnip')
 
     require("luasnip.loaders.from_vscode").lazy_load()  -- lead friendly-snippets support into luasnip
