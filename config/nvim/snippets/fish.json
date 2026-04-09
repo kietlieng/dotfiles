@@ -1,0 +1,201 @@
+{
+  "Function": {
+    "prefix": "fn",
+    "body": [
+      "function ${1:name}",
+      "    ${2:# description}",
+      "    ${3:# code}",
+      "end$0"
+    ],
+    "description": "Fish function"
+  },
+  "Function with Arguments": {
+    "prefix": "fna",
+    "body": [
+      "function ${1:name} --argument ${2:arg1}",
+      "    ${3:# description}",
+      "    ${4:# code}",
+      "end$0"
+    ],
+    "description": "Fish function with arguments"
+  },
+  "Function with Description": {
+    "prefix": "fnd",
+    "body": [
+      "function ${1:name} --description '${2:description}'",
+      "    ${3:# code}",
+      "end$0"
+    ],
+    "description": "Fish function with description"
+  },
+  "If Statement": {
+    "prefix": "if",
+    "body": [
+      "if ${1:condition}",
+      "    ${2:# code}",
+      "end$0"
+    ],
+    "description": "If statement"
+  },
+  "If Else": {
+    "prefix": "ife",
+    "body": [
+      "if ${1:condition}",
+      "    ${2:# code}",
+      "else",
+      "    ${3:# code}",
+      "end$0"
+    ],
+    "description": "If-else statement"
+  },
+  "For Loop": {
+    "prefix": "for",
+    "body": [
+      "for ${1:item} in ${2:items}",
+      "    ${3:# code}",
+      "end$0"
+    ],
+    "description": "For loop"
+  },
+  "While Loop": {
+    "prefix": "while",
+    "body": [
+      "while ${1:condition}",
+      "    ${2:# code}",
+      "end$0"
+    ],
+    "description": "While loop"
+  },
+  "Switch Statement": {
+    "prefix": "switch",
+    "body": [
+      "switch ${1:variable}",
+      "    case ${2:pattern}",
+      "        ${3:# code}",
+      "    case '*'",
+      "        ${4:# default}",
+      "end$0"
+    ],
+    "description": "Switch statement"
+  },
+  "Test File Exists": {
+    "prefix": "testf",
+    "body": [
+      "test -f ${1:file}$0"
+    ],
+    "description": "Test if file exists"
+  },
+  "Test Directory Exists": {
+    "prefix": "testd",
+    "body": [
+      "test -d ${1:directory}$0"
+    ],
+    "description": "Test if directory exists"
+  },
+  "Set Variable": {
+    "prefix": "set",
+    "body": [
+      "set ${1:name} ${2:value}$0"
+    ],
+    "description": "Set variable"
+  },
+  "Set Global Variable": {
+    "prefix": "setg",
+    "body": [
+      "set -g ${1:name} ${2:value}$0"
+    ],
+    "description": "Set global variable"
+  },
+  "Set Universal Variable": {
+    "prefix": "setu",
+    "body": [
+      "set -U ${1:name} ${2:value}$0"
+    ],
+    "description": "Set universal variable"
+  },
+  "Set Export Variable": {
+    "prefix": "setx",
+    "body": [
+      "set -x ${1:name} ${2:value}$0"
+    ],
+    "description": "Set exported variable"
+  },
+  "Abbreviation": {
+    "prefix": "abbr",
+    "body": [
+      "abbr -a ${1:name} '${2:expansion}'$0"
+    ],
+    "description": "Create abbreviation"
+  },
+  "Alias": {
+    "prefix": "alias",
+    "body": [
+      "alias ${1:name}='${2:command}'$0"
+    ],
+    "description": "Create alias"
+  },
+  "Command Substitution": {
+    "prefix": "cmd",
+    "body": [
+      "(${1:command})$0"
+    ],
+    "description": "Command substitution"
+  },
+  "String Contains": {
+    "prefix": "contains",
+    "body": [
+      "if string match -q '*${1:pattern}*' ${2:string}",
+      "    ${3:# code}",
+      "end$0"
+    ],
+    "description": "Check if string contains pattern"
+  },
+  "Echo": {
+    "prefix": "echo",
+    "body": [
+      "echo '${1:message}'$0"
+    ],
+    "description": "Echo message"
+  },
+  "Error Message": {
+    "prefix": "err",
+    "body": [
+      "echo '${1:Error:} ${2:message}' >&2$0"
+    ],
+    "description": "Print error message to stderr"
+  },
+  "Complete Command": {
+    "prefix": "complete",
+    "body": [
+      "complete -c ${1:command} -s ${2:short} -l ${3:long} -d '${4:description}'$0"
+    ],
+    "description": "Define command completion"
+  },
+  "Begin Block": {
+    "prefix": "begin",
+    "body": [
+      "begin",
+      "    ${1:# code}",
+      "end$0"
+    ],
+    "description": "Begin block"
+  },
+  "Path Check and Add": {
+    "prefix": "pathcheck",
+    "body": [
+      "if test -d ${1:path}",
+      "    set -gx PATH ${1:path} \\$PATH",
+      "end$0"
+    ],
+    "description": "Check path exists and add to PATH"
+  },
+  "Source Config": {
+    "prefix": "source",
+    "body": [
+      "if test -f ${1:file}",
+      "    source ${1:file}",
+      "end$0"
+    ],
+    "description": "Source file if exists"
+  }
+}

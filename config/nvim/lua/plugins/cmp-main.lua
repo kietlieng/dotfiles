@@ -19,9 +19,8 @@ return {
 
 		-- nice options
 		'hrsh7th/cmp-calc',      -- Math
-    -- 'hrsh7th/cmp-emoji',     -- Emojis
-    'f3fora/cmp-spell',      -- Spelling
-    'petertriho/cmp-git',    -- Git commits	
+		'f3fora/cmp-spell',      -- Spelling
+		'petertriho/cmp-git',    -- Git commits	
 
   },
   config = function()
@@ -64,19 +63,20 @@ return {
 				}),
       }),
 
-      sources = cmp.config.sources({
+      sources = {
+
 				{ name = 'nvim_lsp' },
 				{ name = 'nvim_lua' },
 				{ name = 'nvim_lsp_signature_help' },
 				{ name = 'luasnip' },
-			},
-			{
+
 				{ name = 'buffer' },
 				{ name = 'path' },
         { name = 'calc' },
-        -- { name = 'emoji' },
-        { name = 'spell' },
-			}),
+				{ name = 'spell' },
+				{ name = 'git' },
+
+			},
 
 			formatting = {
 
@@ -93,7 +93,6 @@ return {
 						path                    = '[Path]',
 						cmdline                 = '[Cmd]',
 						calc                    = '[Calc]',
-						-- emoji                = '[Emoji]',
 						spell                   = '[Spell]',
 						git                     = '[Git]',
 

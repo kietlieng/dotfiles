@@ -1,0 +1,14 @@
+{
+  "name": "my-custom-snippets",
+  "engines": {
+    "vscode": "^1.0.0"
+  },
+  "contributes": {
+    "snippets": [
+      {
+        "language": "fish",
+        "path": "./fish.json"
+      }
+    ]
+  }
+}
