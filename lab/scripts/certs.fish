@@ -1,21 +1,21 @@
 # figure out when certs expire
-function sslsitecertexpire
+function certsiteexpire
   openssl s_client -servername "$argv[1]" -connect "$argv[1]:$argv[2]" | openssl x509 -noout -dates
 	echo "Example sslcertexpire google.com 443"
 end
 
 # grabbing certs from websites via sslgetcert google.com:443
-function sslsitecert
+function certsite
 	/usr/bin/openssl s_client -connect "$argv[1]"
 	echo "Example sslcert google.com:443"
 end
 
 # 
-function sslcertread
+function certread
 	/usr/bin/openssl x509 -in "$argv[1]" -text
 end
 
-function sslcertmodulus
+function certmodulus
   openssl x509 -noout -modulus -in "$argv[1]"
   openssl x509 -noout -modulus -in "$argv[1]" | openssl md5
   echo -e "Find out the modulus of the large rsa number to verify private / public keys are the same."
@@ -23,25 +23,25 @@ function sslcertmodulus
 	echo -e "openssl x509 -noout -modulus -in account1.signed.crt | openssl md5"
 end
 
-function sslkeymodulus
+function certkeymodulus
   openssl rsa -noout -modulus -in "$argv[1]"
   openssl rsa -noout -modulus -in "$argv[1]" | openssl md5
   echo -e "Find out the modulus of the large rsa number to verify private / public keys are the same."
 	echo -e "openssl rsa -noout -modulus -in account1.signed.crt | openssl md5"
 end
 
-function sslcertcsr
+function certcsr
   openssl req -in "$argv[1]" -noout -text
 	echo -e "sslcertcsr "
 end
 
 # this means the cert can stand on it's own
-function sslverify
+function certverify
   openssl verify "$argv[1]"
   echo "sslverify account1.signed.crt"
 end
 
-function sslverifyCAFile
+function certverifyCAFile
   openssl verify -CAfile "$argv[1]" "$argv[2]"
   echo -e "Verified against a CAFile that you want to custom reference certificate athority"
   echo -e "sslverifyCAFile ca-bundle.pem account1.signed.crt"
@@ -49,7 +49,7 @@ function sslverifyCAFile
 	echo -e "try the sslverify command"
 end
 
-function sslverifybuildchain
+function certverifybuildchain
 
 	echo openssl verify -CAfile $argv[1] -untrusted $argv[2] -show_chain $argv[3]
 	echo -e "sslverifybuildchain isrgrootx1.pem r12.pem account1.signe.crt"
@@ -63,7 +63,7 @@ function sslverifybuildchain
 
 end
 
-function sslcertlines
+function certlines
 
   echo "Subject: "
   openssl x509 -in "$argv[1]" -noout -subject

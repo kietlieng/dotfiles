@@ -182,33 +182,30 @@ function m
 					set musicFile (cmus-remote -Q | grep -i file | awk '{ print $2 }' | cut -d'/' -f6-)
 					set reductionFactor "4"
 			
-					# if test (string length "$musicFile") -gt 0
-						set musicPosition (cmus-remote -Q | grep -i position | awk '{ print $2 }')
-						test -z "$musicPosition"; and set musicPosition 0
+					# set default value for variable
+					set musicPosition (cmus-remote -Q | grep -i position | awk '{ print $2 }')
+					test -z "$musicPosition"; and set musicPosition 0
 
-						set musicTotal (cmus-remote -Q | grep -i duration | awk '{ print $2 }')
-						test -z "$musicTotal"; and set musicTotal "1"
-						
-						set per1 (math -s0 "(($musicPosition / $musicTotal) * 100)")
-						set curMinutes (math -s0 "($musicPosition / 60)")
-						set curSeconds (math -s0 "($musicPosition % 60)")
-						set curSecondsPad (string repeat -n (math "2 - "(string length "$curSeconds")) "0") 
-						set curSeconds "$curSecondsPad$curSeconds"
-						set minutes (math -s0 "($musicTotal / 60)")
-						set seconds (math -s0 "($musicTotal % 60)")
-						set secondsPad (string repeat -n (math "2 - "(string length "$seconds")) "0") 
-						set seconds "$secondsPad$seconds"
-						# echo "padding |$seconds|"
-						# set per1 (math -s0 "($per1 / 2)")
-						set per2 (math -s0 "(100 - $per1)")
-						set perTitle (printf "%2s" "$per1")
-						set perbar1 (string repeat -n (math -s0 "$per1/$reductionFactor") "█")
-						set perbar2 (string repeat -n (math -s0 "$per2/$reductionFactor") "░")
-						echo -e "$mStatus $perTitle% $perbar1$perbar2 $curMinutes:$curSeconds/$minutes:$seconds\n$musicFile"
-					# else
-					# 	set perbar2 (string repeat -n (math -s0 "100/$reductionFactor") "░")
-					# 	echo -e "⏸︎  0% $perbar2 0/0"
-					# end
+					# set default value for variable
+					set musicTotal (cmus-remote -Q | grep -i duration | awk '{ print $2 }')
+					test -z "$musicTotal"; and set musicTotal "1"
+					
+					set per1 (math -s0 "(($musicPosition / $musicTotal) * 100)")
+					set curMinutes (math -s0 "($musicPosition / 60)")
+					set curSeconds (math -s0 "($musicPosition % 60)")
+					set curSecondsPad (string repeat -n (math "2 - "(string length "$curSeconds")) "0") 
+					set curSeconds "$curSecondsPad$curSeconds"
+					set minutes (math -s0 "($musicTotal / 60)")
+					set seconds (math -s0 "($musicTotal % 60)")
+					set secondsPad (string repeat -n (math "2 - "(string length "$seconds")) "0") 
+					set seconds "$secondsPad$seconds"
+					# echo "padding |$seconds|"
+					# set per1 (math -s0 "($per1 / 2)")
+					set per2 (math -s0 "(100 - $per1)")
+					set perTitle (printf "%2s" "$per1")
+					set perbar1 (string repeat -n (math -s0 "$per1/$reductionFactor") "█")
+					set perbar2 (string repeat -n (math -s0 "$per2/$reductionFactor") "░")
+					echo -e "$mStatus $perTitle% $perbar1$perbar2 $curMinutes:$curSeconds/$minutes:$seconds\n$musicFile"
 
         end
       end
