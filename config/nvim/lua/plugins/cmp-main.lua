@@ -2,7 +2,6 @@ return {
   'hrsh7th/nvim-cmp',
   dependencies = {
 
-		
 		-- -- lsp and language 
 		'hrsh7th/cmp-nvim-lsp',
 		'hrsh7th/cmp-nvim-lsp-signature-help',
@@ -20,7 +19,6 @@ return {
 		-- nice options
 
 		-- 'hrsh7th/cmp-calc',      -- Math
-
 		'hrsh7th/cmp-git',       -- git
 		'nvim-lua/plenary.nvim', -- git Required
 		'f3fora/cmp-spell',      -- Spelling
@@ -67,6 +65,13 @@ return {
 				}),
       }),
 
+      completion = {
+        keyword_length = 1,
+        autocomplete = {
+          require('cmp.types').cmp.TriggerEvent.TextChanged,
+        },
+      },
+
       sources = cmp.config.sources({
 				{ name = 'nvim_lsp' },
 				{ name = 'nvim_lua' },
@@ -75,6 +80,7 @@ return {
 			},
 			{
 				{ name = 'buffer' },
+				-- { name = 'calc', priority = 1000 },
 				{
 					name = 'spell',
 					option = {
@@ -95,10 +101,14 @@ return {
 						label_trailing_slash = true,  -- Show trailing slash in menu
 					}
 				},
-        -- { name = 'calc' },
 				{ name = 'cmdline' },
 
 			}),
+
+			-- performance = {
+			-- 	max_view_entries = 100,
+			-- },
+
 			formatting = {
 
 				format = function(entry, vim_item)
@@ -120,7 +130,6 @@ return {
 
 					return vim_item
 				end
-
 			},
 			github = {
 					issues = {

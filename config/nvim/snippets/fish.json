@@ -66,6 +66,40 @@
     ],
     "description": "While loop"
   },
+  "kl arg while": {
+    "prefix": "argwhile",
+    "body": [
+			"  set modeX ''",
+      "  set targetX '.*'",
+      "  set key ''",
+      "",
+      "  while test (count $argv) -gt 0",
+      "",
+      "    set key $argv[1]",
+      "    set argv $argv[2..-1]",
+      "",
+      "",
+      "    switch \"$key\"",
+      "      case '${1:search}'; set modeX ${2:set value}",
+      "      case '*'; set targetX \"$targetX$key.*\"",
+      "    end",
+      "",
+      "  end",
+      "  ",
+      "  if [ $targetX = '.*' ]",
+      "    echo 'no value'",
+      "    return",
+      "  end"
+    ],
+    "description": "While loop2"
+  },
+  "test empty var ": {
+    "prefix": "testv",
+    "body": [
+			"test -z \"$${1:variable}\"; and set ${2:variable} ${3:value}"
+    ],
+    "description": "test empty variable"
+  },
   "Switch Statement": {
     "prefix": "switch",
     "body": [

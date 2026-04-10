@@ -178,11 +178,17 @@ function m
 						set mStatus '⏸︎'
 					end
 
+
 					set musicFile (cmus-remote -Q | grep -i file | awk '{ print $2 }' | cut -d'/' -f6-)
 					set reductionFactor "4"
-					if test (string length "$musicFile") -gt 0
+			
+					# if test (string length "$musicFile") -gt 0
 						set musicPosition (cmus-remote -Q | grep -i position | awk '{ print $2 }')
+						test -z "$musicPosition"; and set musicPosition 0
+
 						set musicTotal (cmus-remote -Q | grep -i duration | awk '{ print $2 }')
+						test -z "$musicTotal"; and set musicTotal "1"
+						
 						set per1 (math -s0 "(($musicPosition / $musicTotal) * 100)")
 						set curMinutes (math -s0 "($musicPosition / 60)")
 						set curSeconds (math -s0 "($musicPosition % 60)")
@@ -199,16 +205,13 @@ function m
 						set perbar1 (string repeat -n (math -s0 "$per1/$reductionFactor") "█")
 						set perbar2 (string repeat -n (math -s0 "$per2/$reductionFactor") "░")
 						echo -e "$mStatus $perTitle% $perbar1$perbar2 $curMinutes:$curSeconds/$minutes:$seconds\n$musicFile"
-					else
-						echo "0 stopped "
-						set perbar2 (string repeat -n (math -s0 "100/$reductionFactor") "░")
-						echo -e "⏸︎  0% $perbar2 0/0"
-					end
+					# else
+					# 	set perbar2 (string repeat -n (math -s0 "100/$reductionFactor") "░")
+					# 	echo -e "⏸︎  0% $perbar2 0/0"
+					# end
 
         end
-
       end
-
     end
 
   else

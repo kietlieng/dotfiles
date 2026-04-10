@@ -75,7 +75,7 @@ return {
     vim.lsp.enable('terraformls')
     vim.lsp.enable('tclsp')
     vim.lsp.enable('ts_ls')
-		vim.lsp.enable('yamlls')
+		-- vim.lsp.enable('yamlls')
     vim.lsp.enable('zls')
 
     vim.api.nvim_create_autocmd('LspAttach', {
