@@ -123,8 +123,8 @@ function egit
     set currentFolder (pwd)
     set rootFolder (gitrootfolder)
     cd $rootFolder
-#    vim -c "/url" ".git/config"
-    vim ".git/config"
+#   nvim -c "/url" ".git/config"
+    nvim ".git/config"
     echo "$rootFolder"
     cd $currentFolder
 
@@ -135,7 +135,7 @@ function eignore
     set currentFolder (pwd)
     set rootFolder (gitrootfolder)
     cd $rootFolder
-    vim ".gitignore"
+    nvim ".gitignore"
     cd $currentFolder
 
 end
@@ -178,7 +178,7 @@ function gfile
     else
 
       # echo "vim $editFiles"
-      vim $editFiles
+      nvim $editFiles
 
     end
 
@@ -245,7 +245,7 @@ function et
   # check to see if you have elements
   if test (count $filesToEditSanitized) -gt 0
     echo "edit |$filesToEditSanitized|"
-    vim $filesToEditSanitized
+    nvim $filesToEditSanitized
   end
 
 end
@@ -340,7 +340,7 @@ function e
   echo "edit $vimToEdit"
 
   if [ $modeNoEdit != 't' ]
-    vim $vimToEdit
+    nvim $vimToEdit
   end
 
 end
@@ -393,7 +393,7 @@ function E
 
       if [ -f $isFile ]
 
-        vim $isFile
+        nvim $isFile
         break
 
       end
@@ -426,7 +426,7 @@ function E
 
         set editFiles $filesToEdit
 
-        vim $editFiles
+        nvim $editFiles
 
       end
 
@@ -870,7 +870,7 @@ function nap
   # no filename
   if [ $fileScratch != "kin" ]
 
-    vim "/tmp/$fileScratch"
+    nvim "/tmp/$fileScratch"
 
   else
 
@@ -894,7 +894,9 @@ function nap
       # test if not empty 
       if test -n "$element" 
         and [ "$element" != 'kin-' ]
+				# set element (string replace " " "-" $element)
         set filesToEditSanitized $filesToEditSanitized  "/tmp/$element"
+				# echo "blah $filesToEditSanitized"
         set elementFound 't'
       end
 
@@ -906,6 +908,7 @@ function nap
       set queryValue (cat $queryFile)
       if [ "$queryValue" != 'kin-' ]
         # echo "setting queryValue |/tmp/$queryValue| |$filesToEditSanitized|"
+				set queryValue (string replace " " "-" $queryValue)
         set filesToEditSanitized $filesToEditSanitized  "/tmp/$queryValue"
       end
     end
@@ -918,7 +921,7 @@ function nap
     # echo "count $fCount"
     if [ "$filesToEditSanitized" != "" ]
       if [ "$filesToEditSanitized" != '/tmp/' ] 
-        vim $filesToEditSanitized
+        nvim $filesToEditSanitized
         echo "edit $filesToEditSanitized"
       else
         echo "skipping $filesToEditSanitized"
@@ -1057,12 +1060,10 @@ function c
 
   end
 
-
   set sFilename (echo $searchTerm | sed "s/*//g")
   #echo "filename $sFilename"
 
   switch "$sFilename"
-
 
     case 'sh'
       set sFilename "jumpssh"
@@ -1092,13 +1093,13 @@ function c
     case 'tokens' 'token'
 
       set sFilename (uncoverfile "tokens" -f)
-      vim $sFilename
+      nvim $sFilename
       return
 
     case 'cop'
 
       set sFilename (uncoverfile "cop" -f)
-      vim $sFilename
+      nvim $sFilename
       return
 
     case '-'
@@ -1126,7 +1127,7 @@ function c
 
     # if you have files edit them
     if [ "$editFiles" ]
-      vim $editFiles
+      nvim $editFiles
       return
     end
 
@@ -1139,7 +1140,7 @@ function c
     # if you have a file to edit edit
     if test (count $filesToEdit) -gt 0
 
-      vim $filesToEdit
+      nvim $filesToEdit
       return
 
     end
@@ -1195,7 +1196,7 @@ function c
     switch $ANSWER
       case 'y' 'Y'
         echo "|$ANSWER| yes"
-        vim "$targetDir/$sFilename$searchExt"
+        nvim "$targetDir/$sFilename$searchExt"
       case 'n' 'N'
         echo "|$ANSWER| no"
       case '*'
@@ -1552,7 +1553,7 @@ function x
 
   echo "files To Edit $filesToEdit"
   if test -n "$filesToEdit"
-    vim $filesToEdit
+    vvim $filesToEdit
   end
   
 end
