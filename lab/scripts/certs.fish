@@ -62,6 +62,11 @@ function certverifybuildchain
 	echo -e "-- root cert (trunk) intermediate issuer"
 
 end
+function certsubject
+
+  echo "Subject: "
+  openssl x509 -in "$argv[1]" -noout -subject
+end
 
 function certlines
 
