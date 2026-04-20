@@ -17,7 +17,6 @@ end
 
 set.rtp:prepend(lazypath)
 
-
 -- lazystart
 require('lazy').setup({
     { import = "plugins" },
