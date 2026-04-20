@@ -295,10 +295,16 @@ map("n", "<LEADER>th", ":TidalHush<CR>", G_SILENT_NO_REMAP)                     
 -- map("n", "<c-s>", "<cmd>lua require('flash').toggle()<CR>", G_NO_REMAP)    -- flash toggle
 
 --  USER <C-w><C-w> to toggle between them
-map("n", "<C-k>", ":wincmd k<CR>", G_SILENT_NO_REMAP) -- up
-map("n", "<C-j>", ":wincmd j<CR>", G_SILENT_NO_REMAP) -- down
-map("n", "<C-l>", ":wincmd l<CR>", G_SILENT_NO_REMAP) -- right
+
 map("n", "<C-h>", ":wincmd h<CR>", G_SILENT_NO_REMAP) -- left
+map("n", "<C-j>", ":wincmd j<CR>", G_SILENT_NO_REMAP) -- down
+map("n", "<C-k>", ":wincmd k<CR>", G_SILENT_NO_REMAP) -- up
+map("n", "<C-l>", ":wincmd l<CR>", G_SILENT_NO_REMAP) -- right
+
+map("t", "<C-h>", "<C-\\><C-n><C-w>h", G_SILENT_NO_REMAP) -- terminal left
+map("t", "<C-j>", "<C-\\><C-n><C-w>j", G_SILENT_NO_REMAP) -- terminal down
+map("t", "<C-k>", "<C-\\><C-n><C-w>k", G_SILENT_NO_REMAP) -- terminal up
+map("t", "<C-l>", "<C-\\><C-n><C-w>l", G_SILENT_NO_REMAP) -- terminal right
 
  -- map("n", "<LEADER>wj", ":only<CR>", G_SILENT_NO_REMAP)                                 -- join all windows
  -- map("n", "<LEADER>pt", ":lua require('precognition').toggle()<CR>", G_SILENT_NO_REMAP) -- precog toggle
