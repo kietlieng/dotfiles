@@ -1,30 +1,31 @@
+# alias gco 'git checkout '
+# alias gtrack "git update-index --no-assume-unchanged "
 alias gD 'git -c diff.external=difft diff --staged'
 alias gHash "git rev-parse HEAD && git rev-parse HEAD | pbcopy"
+alias gL "git diff --cached"
 alias gP 'gpush'
-alias gpp 'gpush'
+alias gR 'groot' # taken over by grep
+alias gabort 'git rebase --abort'
 alias gbr 'g -branch'
-# alias gco 'git checkout '
 alias gd 'git -c diff.external=difft diff'
 alias gdstaged 'git -c diff.external=difft diff --staged'
 alias gfetch "git fetch --all"
 alias gfiles "git log --name-only --oneline"
 alias ghash "git rev-parse HEAD && git rev-parse HEAD | cut -c -8 | pbcopy"
 alias gl "git -c diff.external=difft log -p --ext-diff"
-alias gL "git diff --cached"
 alias glines "git log -p --unified=0"
 alias glogfiles "git log --name-only"
 alias gm "git merge"
+alias gmm 'git merge master'
+alias gpp 'gpush'
 alias gprune "g -prune"
 alias gpull "git pull --all"
-alias gR 'groot' # taken over by grep
-alias gabort 'git rebase --abort'
 alias grebasedelete 'rm -fr ".git/rebase-merge"'
 alias grebaseskip 'git rebase --skip'
 alias gslist "git stash list"
 alias gspop "git stash pop"
 alias gspush "git stash push"
 alias gsstack "git log --name-status --oneline"
-# alias gtrack "git update-index --no-assume-unchanged "
 alias guadd 'git restore --staged'
 alias guntrack "git update-index --assume-unchanged "
 alias guntracklist "git ls-files -v | grep \"^[[:lower:]]\""

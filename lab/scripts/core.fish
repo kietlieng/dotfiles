@@ -1553,7 +1553,7 @@ function x
 
   echo "files To Edit $filesToEdit"
   if test -n "$filesToEdit"
-    vvim $filesToEdit
+    nvim $filesToEdit
   end
   
 end

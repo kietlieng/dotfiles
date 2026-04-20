@@ -152,7 +152,7 @@ lctrl - 9 : fish ~/lab/scripts/calls/scriptcall ytdecrease
 # change profile
 rctrl - x : fish ~/lab/scripts/calls/scriptcall ytogpadding 
 # swap anchor point.  Left or right
-lctrl - h : fish ~/lab/scripts/calls/scriptcall ytoganchor
+lctrl - H : fish ~/lab/scripts/calls/scriptcall ytoganchor
 
 
 ########### music ###########

@@ -7,7 +7,7 @@ return {
     capabilities.textDocument.completion.completionItem.snippetSupport = true
 
     vim.lsp.config('lua_ls', {
-      capabilites = capabilities,
+      capabilities = capabilities,
       setup = {
         on_init = function(client)
           local path = client.workspace_folders[1].name
@@ -40,24 +40,24 @@ return {
       }
     })
 
-    vim.lsp.config('ansiblels', { capabilites = capabilities })
-    vim.lsp.config('awk_ls', { capabilites = capabilities })
-    vim.lsp.config('bashls', { capabilites = capabilities })
-    vim.lsp.config('cssls', { capabilites = capabilities })
-    vim.lsp.config('docker_compose_language_service', { capabilites = capabilities })
-    vim.lsp.config('dockerls', { capabilites = capabilities })
-    vim.lsp.config('eslint', { capabilites = capabilities })
-    vim.lsp.config('html', { capabilites = capabilities })
-    vim.lsp.config('jqls', { capabilites = capabilities })
-    vim.lsp.config('jsonls', { capabilites = capabilities })
-    -- vim.lsp.config('lua_ls', { capabilites = capabilities })
-    vim.lsp.config('marksman', { capabilites = capabilities })
-    vim.lsp.config('pyright', { capabilites = capabilities })
-    vim.lsp.config('terraformls', { capabilites = capabilities })
-    vim.lsp.config('tclsp', { capabilites = capabilities })
-    vim.lsp.config('ts_ls', { capabilites = capabilities })
-		vim.lsp.config('yamlls', { capabilites = capabilities })
-    vim.lsp.config('zls', { capabilites = capabilities })
+    vim.lsp.config('ansiblels', { capabilities = capabilities })
+    vim.lsp.config('awk_ls', { capabilities = capabilities })
+    vim.lsp.config('bashls', { capabilities = capabilities })
+    vim.lsp.config('cssls', { capabilities = capabilities })
+    vim.lsp.config('docker_compose_language_service', { capabilities = capabilities })
+    vim.lsp.config('dockerls', { capabilities = capabilities })
+    vim.lsp.config('eslint', { capabilities = capabilities })
+    vim.lsp.config('html', { capabilities = capabilities })
+    vim.lsp.config('jqls', { capabilities = capabilities })
+    vim.lsp.config('jsonls', { capabilities = capabilities })
+    vim.lsp.config('lua_ls', { capabilities = capabilities })
+    vim.lsp.config('marksman', { capabilities = capabilities })
+    vim.lsp.config('pyright', { capabilities = capabilities })
+    vim.lsp.config('terraformls', { capabilities = capabilities })
+    vim.lsp.config('tclsp', { capabilities = capabilities })
+    vim.lsp.config('ts_ls', { capabilities = capabilities })
+		vim.lsp.config('yamlls', { capabilities = capabilities })
+    vim.lsp.config('zls', { capabilities = capabilities })
 
 		vim.lsp.enable('ansiblels')
     vim.lsp.enable('awk_ls')
