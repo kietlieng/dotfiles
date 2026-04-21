@@ -620,10 +620,10 @@ function gr
         if string match -qr '^[0-9]+$' $key
 
           if [ "$modeFound" = '' ]
-            set modeBefore "$key"
-          else
             set modeFound 't'
             set modeAfter "$key"
+          else
+            set modeBefore "$key"
           end
 
         else
