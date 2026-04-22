@@ -91,7 +91,8 @@ map("n", "<LEADER>jtm", ":lua require('custom/fzf').dirJump('tmuxp')<CR>", G_SIL
 
 -- map("n", "<C-c>", "ciw", G_SILENT_NO_REMAP)            -- change a word
 
-map("n", "<C-c>", ":ClaudeCode<CR>", G_SILENT_NO_REMAP)     -- change a word
+map("n", "<C-C>", ":ClaudeCode<CR>", G_SILENT_NO_REMAP)     -- change a word
+map("n", "<C-c>", ":ClaudeCode --resume<CR>", G_SILENT_NO_REMAP)     -- change a word
 map("n", "<C-y>", "yygccp", G_SILENT_REMAP)                 -- duplicate line and commentout
 map("n", "<LEADER>wr", ":set wrap!<CR>", G_SILENT_NO_REMAP) -- set word wrap
 map("n", "<LEADER>D", "mcDO<ESC>p`c", G_SILENT_NO_REMAP)    -- delete from current to beginning

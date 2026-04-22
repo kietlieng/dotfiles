@@ -1,0 +1,15 @@
+session_name: bot2-$RANDOM_TITLE1
+windows:
+  - window_name: bot2-$RANDOM_TITLE1
+    layout: even-horizontal
+    focus: true
+    panes:
+      - shell_command:
+        - bot
+      - shell_command:
+        - bot "pac" "dev"
+      - shell_command:
+        - bot "pac" "prod"
+    options_after:
+        synchronize-panes: on
+

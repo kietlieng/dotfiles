@@ -1,12 +1,12 @@
-session_name: update-$RANDOM_TITLE1
+session_name: bot1-$RANDOM_TITLE1
 windows:
-  - window_name: update-$RANDOM_TITLE1
+  - window_name: bot1-$RANDOM_TITLE1
     layout: even-horizontal
     focus: true
     panes:
       - shell_command:
         - bot
       - shell_command:
-        - bot 1
+        - bot "pac" "dev"
     options_after:
         synchronize-panes: on
