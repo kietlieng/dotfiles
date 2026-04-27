@@ -19,8 +19,12 @@ map( "n", "k", "gk", G_SILENT_NO_REMAP )             -- wrapped text movement. B
 -- map("n", "}", ":norm! }k<CR>", G_SILENT_NO_REMAP)    -- Jump to last line of paragraph
 -- map("n", "{", ":norm! {j<CR>", G_SILENT_NO_REMAP)    -- Jump to last line of paragraph
 
--- find files with fzf
+-- restore features
+map("n", "<LEADER>UU", ":e!", G_SILENT_NO_REMAP)         -- reload from file
+-- map("n", "<LEADER>U", ":earlier 1f", G_SILENT_NO_REMAP) -- restore from last save.  Doesn't matter if got rewritten
+-- map("n", "<LEADER>u", "<cmd>lua require('custom/restore').restore()<CR>", G_SILENT_NO_REMAP) -- restore file
 
+-- find files with fzf
 map("n", "<LEADER>/", "<cmd>lua require('custom/fzf').dirDepthJump(0)<CR>", G_SILENT_NO_REMAP)      -- search from current directory
 map("n", "<LEADER>-", "<cmd>lua require('custom/fzf').dirDepthJump(-1)<CR>", G_SILENT_NO_REMAP)     -- search from git root directory
 map("n", "<LEADER>1-", "<cmd>lua require('custom/fzf').dirDepthJump(-1, 1)<CR>", G_SILENT_NO_REMAP) -- search 1 level above git root directory
@@ -44,9 +48,6 @@ map("n", "<LEADER>gR", "<cmd>lua require('custom/fzf').grepLevel(-1)<CR>", G_NO_
 map("n", "<LEADER>Gr", "<cmd>lua require('custom/fzf').liveGrepLevel(0)<CR>", G_NO_REMAP)                  -- live grep cwd
 map("n", "<LEADER>GGr", ":lua require('custom/fzf').liveGrepLevel()<LEFT>", G_NO_REMAP) -- live grep level up from cwd (default is 1)
 map("n", "<LEADER>GR", "<cmd>lua require('custom/fzf').liveGrepLevel(-1)<CR>", G_NO_REMAP)                 -- live grep git root
-
--- map("n", "<LEADER>V", 'viw"*y<ESC>', G_SILENT_NO_REMAP)  -- copy word
--- map("n", "<LEADER>v", 'viW"*y<ESC>', G_SILENT_NO_REMAP)  -- copy WORD
 
 -- save and quit override
 --map( "n", "QQ", "<cmd>lua require('buffer').CloseBufferOrVim(0)<CR>", G_SILENT_NO_REMAP ) -- Quit without saving. Buffer aware. Will close 1 buffer at a time.
@@ -91,18 +92,21 @@ map("n", "<LEADER>jtm", ":lua require('custom/fzf').dirJump('tmuxp')<CR>", G_SIL
 
 -- map("n", "<C-c>", "ciw", G_SILENT_NO_REMAP)            -- change a word
 
-map("n", "<C-C>", ":ClaudeCode<CR>", G_SILENT_NO_REMAP)     -- change a word
-map("n", "<C-c>", ":ClaudeCode --resume<CR>", G_SILENT_NO_REMAP)     -- change a word
+-- map("n", "<C-C>", ":ClaudeCode --resume<CR>", G_SILENT_NO_REMAP)     -- claude code resume
+map("n", "<C-c>", ":ClaudeCode<CR>", G_SILENT_NO_REMAP)     -- claude code
 map("n", "<C-y>", "yygccp", G_SILENT_REMAP)                 -- duplicate line and commentout
 map("n", "<LEADER>wr", ":set wrap!<CR>", G_SILENT_NO_REMAP) -- set word wrap
 map("n", "<LEADER>D", "mcDO<ESC>p`c", G_SILENT_NO_REMAP)    -- delete from current to beginning
-map("n", '<LEADER>"', 'mlvi""*y`l', G_SILENT_NO_REMAP)      -- copy within single quotes
-map("n", "<LEADER>'", "mlvi'\"*y`l", G_SILENT_NO_REMAP)     -- copy within double quotes
-map("n", "<LEADER>(", 'mlvi("*y`l', G_SILENT_NO_REMAP)      -- copy within parenthesis
-map("n", "<LEADER>[", 'mlvi["*y`l', G_SILENT_NO_REMAP)      -- copy within parenthesis
-                                                            -- map("n", "<LEADER>B", 'mlviB"*y`l', G_SILENT_NO_REMAP) -- copy whole function call
+-- map("n", '<LEADER>"', 'mlvi""*y`l', G_SILENT_NO_REMAP)      -- copy within double quotes
+-- map("n", "<LEADER>'", "mlvi'\"*y`l", G_SILENT_NO_REMAP)     -- copy within single quotes
+map("n", "<LEADER>'", ":lua require('custom/select').selectContent()<CR>", G_SILENT_NO_REMAP)     -- copy within single quotes
+map("x", "<LEADER>e", "<Cmd>lua require('custom/select').expandContent(true)<CR>", G_SILENT_NO_REMAP)
+map("n", '<LEADER>"', ":lua require('custom/select').selectContent(true)<CR>", G_SILENT_NO_REMAP)     -- copy within single quotes
+-- map("n", "<LEADER>(", 'mlvi("*y`l', G_SILENT_NO_REMAP)      -- copy within parenthesis
+-- map("n", "<LEADER>[", 'mlvi["*y`l', G_SILENT_NO_REMAP)      -- copy within parenthesis
+-- map("n", "<LEADER>B", 'mlviB"*y`l', G_SILENT_NO_REMAP) -- copy whole function call
 -- map("n", "<C-p>", 'mlvip"*y`l', G_SILENT_NO_REMAP)      -- copy whole block -- don't think I need or ever user
-map("n", "<LEADER>W", 'mlviW"*y`l', G_SILENT_NO_REMAP)      -- copy WORD
+-- map("n", "<LEADER>W", 'mlviW"*y`l', G_SILENT_NO_REMAP)      -- copy WORD
 
 -- comment code
 -- tips to comment out code use gcc.  Dude this just deleted my comment lua script
@@ -234,6 +238,7 @@ map("n", "<LEADER>sk", ":!callterminal '%:p:h' sk<CR>", G_NO_REMAP)       -- upl
 map("n", "<LEADER><SPACE>alpha", ":set nrformats=bin,hex,alpha<CR>", G_NO_REMAP) -- change incremental alpha
 -- map("n", "<LEADER><SPACE>number", ":set nrformats=bin,hex<CR>", G_NO_REMAP)      -- change incremental number: default
 map("n", "<LEADER>nu", ":call NumberToggle()<CR>", G_NO_REMAP)      -- change incremental number: default
+
 
  -- map("v", "J", ":m '>+1<CR>gv=gv", G_NO_REMAP)                     -- visual move down
  -- map("v", "K", ":m '<-2<CR>gv=gv", G_NO_REMAP)                     -- visual move up

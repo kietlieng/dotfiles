@@ -1,11 +1,12 @@
 -- setup syntax for treesitter
 
-
 return {
   {
     'nvim-treesitter/nvim-treesitter',
     event = "VeryLazy",
     opts = { -- A list of parser names, or "all" (the five listed parsers should always be installed)
+			highlight = { enable = true }, -- this is missing
+			indent = { enable = true }, -- optional
       ensure_installed = {
 
         "awk",
