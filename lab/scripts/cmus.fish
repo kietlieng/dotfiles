@@ -283,8 +283,6 @@ function maa
 			echo "Queued: $targetFile"
 	end
 
-	echo ""
-
 	mq
 
 end
@@ -294,12 +292,17 @@ function mq
 
 	cmus-remote -C "save -q /tmp/cmus-queue.txt"
 
+
+
 	cat /tmp/cmus-queue.txt | while read -l line
 		# echo "|$line|"
 		set nextFile (echo "$line" | cut -d'/' -f6-)
 		echo "$nextFile"
 	end
-	echo ""
+
+	if string length -q -- "$nextFile"
+	  echo ""
+	end
 	m
 
 end
