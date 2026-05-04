@@ -124,7 +124,7 @@ function egit
     set rootFolder (gitrootfolder)
     cd $rootFolder
 #   nvim -c "/url" ".git/config"
-    nvim ".git/config"
+    $EDITOR ".git/config"
     echo "$rootFolder"
     cd $currentFolder
 
@@ -135,14 +135,16 @@ function eignore
     set currentFolder (pwd)
     set rootFolder (gitrootfolder)
     cd $rootFolder
-    nvim ".gitignore"
+    $EDITOR ".gitignore"
     cd $currentFolder
 
 end
 
 # find docker file
 function edoc
+
     gfile "Dockerfile"
+
 end
 
 # edit ci yaml file without looking
@@ -178,7 +180,7 @@ function gfile
     else
 
       # echo "vim $editFiles"
-      nvim $editFiles
+      $EDITOR $editFiles
 
     end
 
@@ -245,7 +247,7 @@ function et
   # check to see if you have elements
   if test (count $filesToEditSanitized) -gt 0
     echo "edit |$filesToEditSanitized|"
-    nvim $filesToEditSanitized
+    $EDITOR $filesToEditSanitized
   end
 
 end
@@ -340,7 +342,7 @@ function e
   echo "edit $vimToEdit"
 
   if [ $modeNoEdit != 't' ]
-    nvim $vimToEdit
+    $EDITOR $vimToEdit
   end
 
 end
@@ -393,7 +395,7 @@ function E
 
       if [ -f $isFile ]
 
-        nvim $isFile
+        $EDITOR $isFile
         break
 
       end
@@ -426,7 +428,7 @@ function E
 
         set editFiles $filesToEdit
 
-        nvim $editFiles
+        $EDITOR $editFiles
 
       end
 
@@ -870,7 +872,7 @@ function nap
   # no filename
   if [ $fileScratch != "kin" ]
 
-    nvim "/tmp/$fileScratch"
+    $EDITOR "/tmp/$fileScratch"
 
   else
 
@@ -921,7 +923,7 @@ function nap
     # echo "count $fCount"
     if [ "$filesToEditSanitized" != "" ]
       if [ "$filesToEditSanitized" != '/tmp/' ] 
-        nvim $filesToEditSanitized
+        $EDITOR $filesToEditSanitized
         echo "edit $filesToEditSanitized"
       else
         echo "skipping $filesToEditSanitized"
@@ -1093,13 +1095,13 @@ function c
     case 'tokens' 'token'
 
       set sFilename (uncoverfile "tokens" -f)
-      nvim $sFilename
+      $EDITOR $sFilename
       return
 
     case 'cop'
 
       set sFilename (uncoverfile "cop" -f)
-      nvim $sFilename
+      $EDITOR $sFilename
       return
 
     case '-'
@@ -1127,7 +1129,7 @@ function c
 
     # if you have files edit them
     if [ "$editFiles" ]
-      nvim $editFiles
+      $EDITOR $editFiles
       return
     end
 
@@ -1140,7 +1142,7 @@ function c
     # if you have a file to edit edit
     if test (count $filesToEdit) -gt 0
 
-      nvim $filesToEdit
+      $EDITOR $filesToEdit
       return
 
     end
@@ -1196,7 +1198,7 @@ function c
     switch $ANSWER
       case 'y' 'Y'
         echo "|$ANSWER| yes"
-        nvim "$targetDir/$sFilename$searchExt"
+        $EDITOR "$targetDir/$sFilename$searchExt"
       case 'n' 'N'
         echo "|$ANSWER| no"
       case '*'
@@ -1553,7 +1555,7 @@ function x
 
   echo "files To Edit $filesToEdit"
   if test -n "$filesToEdit"
-    nvim $filesToEdit
+    $EDITOR $filesToEdit
   end
   
 end

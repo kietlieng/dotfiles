@@ -7,6 +7,6 @@ windows:
       - shell_command:
         - bot
       - shell_command:
-        - bot "pac" "dev"
+        - bot "pac" "dev" "alpha"
     options_after:
         synchronize-panes: on

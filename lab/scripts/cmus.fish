@@ -242,3 +242,12 @@ function mnext
   end
 
 end
+
+
+function madd
+	set file (cmus-remote -Q 2>/dev/null | grep "^file " | cut -d ' ' -f 2-)
+	if test -n "$file"
+			cmus-remote -q "$file"
+			echo "Queued: $file"
+	end
+end

@@ -22,6 +22,8 @@ alias gprune "g -prune"
 alias gpull "git pull --all"
 alias grebasedelete 'rm -fr ".git/rebase-merge"'
 alias grebaseskip 'git rebase --skip'
+alias gscan "time git secrets --scan"
+alias gscanh "time git secrets --scan-history"
 alias gslist "git stash list"
 alias gspop "git stash pop"
 alias gspush "git stash push"

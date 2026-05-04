@@ -337,12 +337,9 @@ function F.expandContent(selectOnly)
   -- A range strictly contains the selection if it is at least as wide on both
   -- sides AND strictly larger on at least one side.
   local function strictly_contains(rStartRow, rStartCol, rEndRow, rEndCol)
-    local startOk = pos_lt(rStartRow, rStartCol, selStartRow, selStartCol)
-                    or (rStartRow == selStartRow and rStartCol == selStartCol)
-    local endOk = pos_lt(selEndExRow, selEndExCol, rEndRow, rEndCol)
-                  or (selEndExRow == rEndRow and selEndExCol == rEndCol)
-    local strictlyLarger = pos_lt(rStartRow, rStartCol, selStartRow, selStartCol)
-                           or pos_lt(selEndExRow, selEndExCol, rEndRow, rEndCol)
+    local startOk = pos_lt(rStartRow, rStartCol, selStartRow, selStartCol) or (rStartRow == selStartRow and rStartCol == selStartCol)
+    local endOk = pos_lt(selEndExRow, selEndExCol, rEndRow, rEndCol) or (selEndExRow == rEndRow and selEndExCol == rEndCol)
+    local strictlyLarger = pos_lt(rStartRow, rStartCol, selStartRow, selStartCol) or pos_lt(selEndExRow, selEndExCol, rEndRow, rEndCol)
     return startOk and endOk and strictlyLarger
   end
 

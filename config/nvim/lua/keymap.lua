@@ -99,9 +99,9 @@ map("n", "<LEADER>wr", ":set wrap!<CR>", G_SILENT_NO_REMAP) -- set word wrap
 map("n", "<LEADER>D", "mcDO<ESC>p`c", G_SILENT_NO_REMAP)    -- delete from current to beginning
 -- map("n", '<LEADER>"', 'mlvi""*y`l', G_SILENT_NO_REMAP)      -- copy within double quotes
 -- map("n", "<LEADER>'", "mlvi'\"*y`l", G_SILENT_NO_REMAP)     -- copy within single quotes
-map("n", "<LEADER>'", ":lua require('custom/select').selectContent()<CR>", G_SILENT_NO_REMAP)     -- copy within single quotes
-map("x", "<LEADER>e", "<Cmd>lua require('custom/select').expandContent(true)<CR>", G_SILENT_NO_REMAP)
-map("n", '<LEADER>"', ":lua require('custom/select').selectContent(true)<CR>", G_SILENT_NO_REMAP)     -- copy within single quotes
+map("n", '<LEADER>e', ":lua require('custom/select').selectContent(true)<CR>", G_SILENT_NO_REMAP)     -- copy within single quotes
+-- map("x", '<LEADER>e', "<Cmd>lua require('custom/select').expandContent(true)<CR>", G_SILENT_NO_REMAP)
+map("n", '<LEADER>\'', ":lua require('custom/select').selectContent()<CR>", G_SILENT_NO_REMAP)     -- copy within single quotes
 -- map("n", "<LEADER>(", 'mlvi("*y`l', G_SILENT_NO_REMAP)      -- copy within parenthesis
 -- map("n", "<LEADER>[", 'mlvi["*y`l', G_SILENT_NO_REMAP)      -- copy within parenthesis
 -- map("n", "<LEADER>B", 'mlviB"*y`l', G_SILENT_NO_REMAP) -- copy whole function call
