@@ -244,10 +244,62 @@ function mnext
 end
 
 
-function madd
-	set file (cmus-remote -Q 2>/dev/null | grep "^file " | cut -d ' ' -f 2-)
-	if test -n "$file"
-			cmus-remote -q "$file"
-			echo "Queued: $file"
+function maa
+
+  set modeSearch ''
+	set targetFile ''
+  set key ''
+
+  while test (count $argv) -gt 0
+
+    set key "$argv[1]"
+    set argv $argv[2..-1]
+
+    switch $key
+      case '*'; set modeSearch $modeSearch $key
+    end
+
+  end
+
+	if string length -q -- "$modeSearch"
+
+		set modeSearch (string join -n -- '.*' $modeSearch)
+		set modeSearch ".*$modeSearch.*"
+
+		# echo "searching $modeSearch"
+		set foundIt (fd -i "$modeSearch" --type file $MUSIC_DIRECTORY | string collect)
+		set foundItFilter (echo "$foundIt" | grep -i -f $MUSIC_DEFAULT | head -n 1) # directories loaded if no match that means it's not loaded
+		set shortFoundItFilter (string replace -a -i $MUSIC_DIRECTORY "" $foundItFilter)
+
+		set targetFile $foundItFilter 
+
+	else
+		set targetFile (cmus-remote -Q 2>/dev/null | grep "^file " | cut -d ' ' -f 2-)
+
+  end
+
+	if test -n "$targetFile"
+			cmus-remote -q "$targetFile"
+			echo "Queued: $targetFile"
 	end
+
+	echo ""
+
+	mq
+
+end
+
+
+function mq
+
+	cmus-remote -C "save -q /tmp/cmus-queue.txt"
+
+	cat /tmp/cmus-queue.txt | while read -l line
+		# echo "|$line|"
+		set nextFile (echo "$line" | cut -d'/' -f6-)
+		echo "$nextFile"
+	end
+	echo ""
+	m
+
 end
