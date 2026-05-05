@@ -92,8 +92,8 @@ map("n", "<LEADER>jtm", ":lua require('custom/fzf').dirJump('tmuxp')<CR>", G_SIL
 
 -- map("n", "<C-c>", "ciw", G_SILENT_NO_REMAP)            -- change a word
 
--- map("n", "<C-C>", ":ClaudeCode --resume<CR>", G_SILENT_NO_REMAP)     -- claude code resume
-map("n", "<C-c>", ":ClaudeCode<CR>", G_SILENT_NO_REMAP)     -- claude code
+map("n", "<C-c>", ":ClaudeCode --continue<CR>", G_SILENT_NO_REMAP)     -- claude code continue
+map("n", "<M-c>", ":ClaudeCode<CR>", G_SILENT_NO_REMAP)     -- claude code
 map("n", "<C-y>", "yygccp", G_SILENT_REMAP)                 -- duplicate line and commentout
 map("n", "<LEADER>wr", ":set wrap!<CR>", G_SILENT_NO_REMAP) -- set word wrap
 map("n", "<LEADER>D", "mcDO<ESC>p`c", G_SILENT_NO_REMAP)    -- delete from current to beginning
@@ -148,8 +148,8 @@ map("v", "<LEADER>sr", ":s///g<LEFT><LEFT>", G_NO_REMAP)         -- tab visual
 
 -- map("n", "<LEADER>su", ":!callterminal '%:p:h'  slackuserscopy l=", G_NO_REMAP)          -- tab visual.  Currently this is not working properly
 
-map("n", "<C-t>", ":!callterminal '%:p:h' ", G_NO_REMAP)  -- terminal runs
-map("n", "<C-q>", ":!callterminal '%:p:h' qc ", G_NO_REMAP)  -- terminal runs
+-- map("n", "<C-t>", ":!callterminal '%:p:h' ", G_NO_REMAP)  -- terminal runs
+-- map("n", "<C-q>", ":!callterminal '%:p:h' qc ", G_NO_REMAP)  -- terminal runs
 map("n", "<C-s>", ":silent !callsearchprivate ''<LEFT>", G_NO_REMAP)  -- terminal runs
 -- map("n", "<LEADER>tr", ":silent !callsearch ''<LEFT>", G_NO_REMAP)  -- terminal runs
 -- map("n", "<LEADER>ts", ":silent !callsearchthesaurus ''<LEFT>", G_NO_REMAP)  -- terminal runs thesaurus

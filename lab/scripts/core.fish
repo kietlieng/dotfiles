@@ -1538,16 +1538,16 @@ end
 function x
 
   set fileSelection (cat $EDIT_FILE | fzf --multi --print-query --query "$defaultQuery")
-  echo $fileSelection
+  # echo $fileSelection
 
   for currentSelection in $fileSelection
-    echo "|$currentSelection|"
+    # echo "|$currentSelection|"
     set currentSelection (string replace -a '~' "$HOME" $currentSelection)
 
     for selection in (string split ' ' $currentSelection) 
-      echo "break $selection"
+      # echo "break $selection"
       if test -e $selection 
-        echo "select is valid $selection"
+        # echo "select is valid $selection"
         set filesToEdit $filesToEdit $selection
       end
     end
