@@ -224,7 +224,7 @@ function mnext
   echo "$isRunning"
   if test $isRunning -eq 0
     echo "cmus does not exists"
-    mdisplay
+    m
     return
   end
 

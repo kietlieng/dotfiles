@@ -158,7 +158,6 @@ brew "tcl-tk"
 brew "python-tk@3.12"
 brew "rbenv"
 brew "rclone"
-brew "redis", link: false
 brew "resvg"
 brew "ripgrep"
 brew "ruby"
