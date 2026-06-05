@@ -25,6 +25,6 @@ function sci
   end
 
 	echo "https://sci-hub.st/match/$targetX"
-	open -a "Firefox" "https://sci-hub.st/match/$targetX"
+	/Applications/Firefox.app/Contents/MacOS/firefox --private-window "https://sci-hub.st/match/$targetX"
 
 end

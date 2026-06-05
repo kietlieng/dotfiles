@@ -1332,13 +1332,14 @@ function s
   if [ "$optionLink" ]
 
     # echo "optionLink |$optionLink|"
-    open -na "Firefox" --args --private-window "$optionLink"
+	  /Applications/Firefox.app/Contents/MacOS/firefox --private-window "$optionLink"
+
     return
 
   end
 
   if [ "$searchString" ]
-    open -na "Firefox" --args --private-window "https://duckduckgo.com/?q=$searchString"
+	  /Applications/Firefox.app/Contents/MacOS/firefox --private-window "https://duckduckgo.com/?q=$searchString"
     yfocuswin Firefox -title Private
   end
 

@@ -4,5 +4,6 @@ source ~/lab/scripts/calls/sourceall
 
 set search_query_encoded $(echo "$argv" | sed 's/ /+/g')
 
-open -a "Firefox" "https://duckduckgo.com/?q=$search_query_encoded"
+/Applications/Firefox.app/Contents/MacOS/firefox "https://duckduckgo.com/?q=$search_query_encoded"
+
 

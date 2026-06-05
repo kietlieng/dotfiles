@@ -4,6 +4,7 @@ source ~/lab/scripts/calls/sourceall
 
 set search_query_encoded $(echo "$argv" | sed 's/ /+/g')
 
-open -na "Firefox" --args --private-window "https://duckduckgo.com/?q=$search_query_encoded"
+/Applications/Firefox.app/Contents/MacOS/firefox --private-window "https://duckduckgo.com/?q=$search_query_encoded"
+
 
 yfocuswin Firefox -title Private

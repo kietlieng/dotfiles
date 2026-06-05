@@ -4,4 +4,4 @@ source ~/lab/scripts/calls/sourceall
 
 set search_query_encoded $(echo "$argv" | sed 's/ /_/g')
 
-open -na "Firefox" --args --private-window "https://www.powerthesaurus.org/$search_query_encoded/synonyms"
+/Applications/Firefox.app/Contents/MacOS/firefox --private-window "https://www.powerthesaurus.org/$search_query_encoded/synonyms"

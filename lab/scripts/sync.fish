@@ -58,7 +58,6 @@ function cpdot
     set dBatDir $destinationDir/bat
     set dBrewDir $destinationDir/brew
     set dConfigDir $destinationDir/config
-    set dDirenvDir $destinationDir/direnv
     set dFileDir $destinationDir/dotfiles
     set dYaziDir $destinationDir/yazi
     set dYaziDir $destinationDir/znosource
@@ -79,7 +78,7 @@ function cpdot
     rm -rf $destinationDir/.local
 
     # create directories
-    mkdir -p $dConfigDir $dFileDir $dScriptDir $dBrewDir $dPure $dYaziDir $dDirenvDir $dBatDir $fishOMFDir $fishConfigFunctionDir $mappingDir
+    mkdir -p $dConfigDir $dFileDir $dScriptDir $dBrewDir $dPure $dYaziDir $dBatDir $fishOMFDir $fishConfigFunctionDir $mappingDir
   
     cd $dBrewDir
     brew bundle dump
