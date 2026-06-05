@@ -121,7 +121,7 @@ end
 function egit
 
     set currentFolder (pwd)
-    set rootFolder (gitrootfolder)
+    set rootFolder (grootfolder)
     cd $rootFolder
 #   nvim -c "/url" ".git/config"
     $EDITOR ".git/config"
@@ -133,7 +133,7 @@ end
 function eignore
 
     set currentFolder (pwd)
-    set rootFolder (gitrootfolder)
+    set rootFolder (grootfolder)
     cd $rootFolder
     $EDITOR ".gitignore"
     cd $currentFolder
@@ -156,7 +156,7 @@ end
 function gfile
 
   set currentFolder (pwd)
-  set rootFolder (gitrootfolder)
+  set rootFolder (grootfolder)
   echo "rootFolder $rootFolder"
   set searchExpression "$argv[1]"
 
@@ -443,7 +443,7 @@ end
 # same as above function except we go to the root git directory then search
 function eroot
 
-  set rootFolder (gitrootfolder)
+  set rootFolder (grootfolder)
 
   e -d $rootFolder $argv
 

@@ -17,7 +17,8 @@ function yum
   set packArray_dnf "dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm -y"
 
   # centos
-  set packArray_yum_pack "sudo yum install y epel-release; sudo yum install -y netcat mtr net-tools vim git wget htop iotop iftop unzip bind-utils gcc.x86_64; sudo yum groupinstall \"Development Tools\" -y; sudo yum install openssl-devel libffi-devel bzip2-devel -y;"
+  # set packArray_yum_pack "sudo yum install -y epel-release && sudo yum install -y netcat mtr net-tools vim git wget htop iotop iftop unzip bind-utils gcc.x86_64 && sudo yum groupinstall \"Development Tools\" -y && sudo yum install openssl-devel libffi-devel bzip2-devel -y"
+  set packArray_yum_pack "sudo yum install -y mtr net-tools vim git wget htop iotop iftop unzip bind-utils gcc.x86_64 && sudo yum groupinstall \"Development Tools\" -y && sudo yum install openssl-devel libffi-devel bzip2-devel -y"
   set packArray_yum_rust "yum install -y rust cargo;"
   set packArray_yum_go "yum install -y go;"
   set packArray_yum_list "yum list kernel;"

@@ -70,7 +70,7 @@
     "prefix": "argwhile",
     "body": [
 			"  set modeX ''",
-      "  set targetX '.*'",
+      "  set targetX ''",
       "  set key ''",
       "",
       "  while test (count \\$argv) -gt 0",
@@ -86,7 +86,8 @@
       "",
       "  end",
       "  ",
-      "  if test \"\\$targetX\" = '.*'",
+      "  set targetX (string trim -c '.*' $targetX)",
+      "  if test \"\\$targetX\" = ''",
       "    echo 'no value'",
       "    return",
       "  end"

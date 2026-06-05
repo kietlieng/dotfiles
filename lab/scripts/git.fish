@@ -180,7 +180,7 @@ end
 # go to root folder
 function groot
 
-  set rootFolder (gitrootfolder)
+  set rootFolder (grootfolder)
   cd $rootFolder
   becho "󰌍 $rootFolder"
 
@@ -193,7 +193,7 @@ function gp
   #which git
   set currentDirectory (pwd)
   cd $currentDirectory
-  set rootFolder (gitrootfolder)
+  set rootFolder (grootfolder)
 
   #echo "folder $rootFolder"
   # this means you deep within a repo
@@ -204,27 +204,13 @@ function gp
     set originInfo (ggetorg $rootFolder $currentBranch)
     # echo "origin is 1 $currentBranch $originInfo"
 
-    # if [ "$originInfo" != 'master' ]
-    #   #currentFolder=(pwd)
-    #   #echo "currentFolder $currentFolder: $currentBranch"
-    #   #echo "git pull rebase --rebase origin $originInfo"
-    #   #git pull --rebase origin "$originInfo" &
-    #   # rebosed on origin
-    #   echo "git pull --rebase origin \"$originInfo\""
-    #
-    #   # git rebase
-    #   git fetch -p
-    #
-    # else
-    #   #git pull &
-    #   #git pull --rebase origin "$originInfo" &
-    #   # git rebase
-    #   echo "git else"
-    #   git fetch -p
-    #
-    # end
-
     git fetch -p
+		if test "$currentBranch" != "master"
+			# echo "merge from master"
+			git fetch origin
+			# git fetch origin master:master
+		end
+		# git merge master
     git rebase
     gwait
     cd $currentDirectory
@@ -247,25 +233,15 @@ function gp
     echo "⇣ $gitFolderDirectory"
     # git rebase
 
-   # if [ "$originInfo" != 'master' ] 
-   #   #currentFolder=(pwd)
-   #   # echo "rebase to $originInfo"
-   #   #git pull --rebase origin "$originInfo" &
-   #   git fetch -p
-   #   git rebase
-   #
-   # else
-   #   # echo "pull from master"
-   #   #git pull &
-   #   #git pull --rebase origin "$originInfo" &
-   #   git fetch -p 
-   #   git rebase
-   #
-   # end
-
     #gwarn
     # sleep if it's over a certain amount
     git fetch -p 
+		if test "$currentBranch" != "master"
+			# echo "merge from master"
+			git fetch origin
+			# git fetch origin master:master
+		end
+		# git merge master
     git rebase
     cd $currentDirectory
     gwait
@@ -518,7 +494,7 @@ function g
     set branchAll (git branch -a | string collect)
     #echo "$branchAll\n\n---\n"
 
-    set gitFolderDirectory (gitrootfolder)
+    set gitFolderDirectory (grootfolder)
     echo "> $gitFolderDirectory"
 
     #echo $branchAll | grep -i "remotes/origin" | awk '{print $1}'
@@ -547,7 +523,7 @@ function g
     echo -e "---\nUNTRACKED "
 
     # command only works on relative path.  Need to go to gitroot
-    cd (gitrootfolder)
+    cd (grootfolder)
     git ls-files --others --exclude-standard | sed 's/^/>>      /g'
 
     echo -e "---\nSTATUS "
@@ -664,7 +640,7 @@ function isRepo
 end
 
 # find root git folder
-function gitrootfolder
+function grootfolder
 
   set currentDirectory (pwd)
   set gitDirectory $currentDirectory
@@ -795,6 +771,7 @@ function gclone
     set mungedURL (string replace --regex 'tree*' '' $mungedURL)
     set mungedURL (string replace --regex '/blob*' '' $mungedURL)
     set mungedURL (echo "$mungedURL" | sed "s/https:\/\/gitlabdev/git@gitlabdev/g")
+    set mungedURL (echo "$mungedURL" | sed "s/https:\/\/upgitlab/git@upgitlab/g")
 
   end
   set mungedURL (echo "$mungedURL" | sed "s/info\//info:/g")

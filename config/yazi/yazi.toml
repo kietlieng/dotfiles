@@ -1,14 +1,14 @@
 [plugin]  
 
-prepend_preloaders = [  
+prepend_preloaders = [
 
   # DB
-  { name = "*.csv", run = "duckdb", multi = false },  
-  { name = "*.tsv", run = "duckdb", multi = false },  
-  { name = "*.json", run = "duckdb", multi = false },  
-  { name = "*.parquet", run = "duckdb", multi = false },
-  { name = "*.txt", run = "duckdb", multi = false },  
-  { name = "*.xlsx", run = "duckdb", multi = false },
+  { url = "*.csv", run = "duckdb", multi = false },
+  { url = "*.tsv", run = "duckdb", multi = false },
+  { url = "*.json", run = "duckdb", multi = false },
+  { url = "*.parquet", run = "duckdb", multi = false },
+  { url = "*.txt", run = "duckdb", multi = false },
+  { url = "*.xlsx", run = "duckdb", multi = false },
   { mime = "audio/*",   run = "exifaudio"},
   # { mime = "audio/*", run = "audio-preview" },
 
@@ -21,19 +21,27 @@ prepend_preloaders = [
 
 ]
 
-prepend_previewers = [  
+prepend_previewers = [
 
   # db
-  { name = "*.csv", run = "duckdb" },  
-  { name = "*.tsv", run = "duckdb" },  
-  { name = "*.json", run = "duckdb" },  
-  { name = "*.parquet", run = "duckdb" },  
-  { name = "*.txt", run = "duckdb" },  
-  { name = "*.xlsx", run = "duckdb" },  
-  { name = "*.db", run = "duckdb" },
-  { name = "*.duckdb", run = "duckdb" },
+  { url = "*.csv", run = "duckdb" },
+  { url = "*.tsv", run = "duckdb" },
+  { url = "*.json", run = "duckdb" },
+  { url = "*.parquet", run = "duckdb" },
+  { url = "*.txt", run = "duckdb" },
+  { url = "*.xlsx", run = "duckdb" },
+  { url = "*.db", run = "duckdb" },
+  { url = "*.duckdb", run = "duckdb" },
   { mime = "audio/*",   run = "exifaudio"},
   # { mime = "audio/*", run = "audio-preview" },
+	{ mime = "application/*tar", run = "ouch", multi = false },
+  { mime = "application/*gzip", run = "ouch", multi = false },
+  { mime = "application/x-bzip*", run = "ouch", multi = false },
+  { mime = "application/x-xz", run = "ouch", multi = false },
+  { mime = "application/x-zstd", run = "ouch", multi = false },
+  { mime = "application/zip", run = "ouch", multi = false },
+  { mime = "application/x-7z-compressed", run = "ouch", multi = false },
+  { mime = "application/vnd.rar", run = "ouch", multi = false },
 
   # # Office Documents
   # { mime = "application/openxmlformats-officedocument.*", run = "libreoffice" },

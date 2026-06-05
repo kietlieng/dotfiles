@@ -229,8 +229,8 @@ function mnext
   end
 
   echo "status |$qStatus|"
-  if [ "$qStatus" = 'stopped' ]
-    echo "stopped"
+  if test "$qStatus" = "paused"; or test "$qStatus" = "stopped"
+    echo "$qStatus"
     mpause
   else 
     echo "it's running next"

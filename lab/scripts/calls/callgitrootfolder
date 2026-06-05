@@ -9,4 +9,4 @@ if test (count $argv) -gt 0
 end
 
 # pass back the levels
-gitrootfolder $argv[1]
+grootfolder $argv[1]
