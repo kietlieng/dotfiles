@@ -5,4 +5,4 @@ windows:
     focus: true
     panes:
       - shell_command:
-          - brew update && brew upgrade
+          - brew update && brew upgrade -y
