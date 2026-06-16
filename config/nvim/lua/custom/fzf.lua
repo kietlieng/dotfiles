@@ -256,7 +256,7 @@ function F.replacePattern()
 
 				-- vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true) .. ':' .. selected[1], 'n', false) -- enter replace mode and fill out pattern
 
-				local splitArray = vim.split(selected[1], ":", { plain = true })
+				local splitArray = vim.split(selected[1], "~", { plain = true })
 				local sType = splitArray[2]
 				local content = splitArray[3] -- need plain text option because of special character
 				if sType:sub(1, 1) == 'r' then -- this is a search and replace 

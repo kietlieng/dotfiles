@@ -305,7 +305,7 @@ function e
   if [ $modeGrep ]
 
     echo "search | $searchString"
-    set vimToEdit (eza --all --sort=modified -1 -f --only-files | grep -i $searchString | tail -n $modeTail | sed -r 's/\n/ /g')
+    set vimToEdit (eza --all --sort=modified -1 -f --only-files | grep -i $searchString | grep -iv "^esearch" | tail -n $modeTail | sed -r 's/\n/ /g')
 
   else
 
@@ -335,7 +335,7 @@ function e
     tail -n $fileFinal $searchOutput >  $searchResults
 
     # echo "|$targetFile| $grepString"
-    set vimToEdit (cat $searchResults | head -n $modeTail | sed -r 's/\n/ /g')
+    set vimToEdit (cat $searchResults | grep -iv "^esearch" | head -n $modeTail | sed -r 's/\n/ /g')
 
   end
 
