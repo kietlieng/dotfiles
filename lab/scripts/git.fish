@@ -835,3 +835,14 @@ function gpr
   open "$gitOrigin$gitPR"
 
 end
+
+
+function grebasehard
+
+	git reset --hard origin/master
+  git reset --hard head
+	git pull
+	get fetch origin
+	git rebase --continue
+
+end
