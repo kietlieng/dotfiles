@@ -310,3 +310,21 @@ function mq
 	end
 
 end
+
+function mrm
+
+	set qStatus (cmus-remote -Q | grep -i status | awk '{print $2}')
+
+	set musicFilePath (cmus-remote -Q | grep -i file | awk '{ print $2 }')
+	set musicFile (cmus-remote -Q | grep -i file | awk '{ print $2 }' | cut -d'/' -f6-)
+
+	set mStatus '▷'
+  if test "$qStatus" = "paused"; or test "$qStatus" = "stopped"
+		echo "currently stopped will not delete"
+	else
+		
+		echo "Delete $musicFile"
+		rm "$musicFilePath"
+
+	end
+end
