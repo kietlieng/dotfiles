@@ -52,8 +52,10 @@ function ml
 
 
   if [ $modeDir = 'all' ]
+
     # set dirList (ls -1 $MUSIC_DIRECTORY)
-    set dirList (fd . --max-depth 1 --type dir $MUSIC_DIRECTORY | tail -n+2)
+    set dirList (fd . --max-depth 1 --type dir $MUSIC_DIRECTORY | tail -n+1)
+
   end
 
   # echo "dirList $dirList"
@@ -92,7 +94,8 @@ function ml
         echo "$musicDir" >> $MUSIC_DEFAULT
       end
       mraw "add $musicDir"
-      echo "adding $musicDir"
+			set musicDir (string trim -c '/' $musicDir)
+      echo "add $musicDir"
 
     end
 
@@ -189,6 +192,7 @@ function m
           set foundIt (fd -i "$modeSearch" --type file $MUSIC_DIRECTORY | string collect)
           set foundItFilter (echo "$foundIt" | grep -i -f $MUSIC_DEFAULT | head -n 1) # directories loaded if no match that means it's not loaded
           echo "fd \"$modeSearch\""
+          echo "foundIt |$foundIt| foundItFilter |$foundItFilter|"
           # echo "fileSearch $modeSearch"
           set shortName (string replace -a -i $MUSIC_DIRECTORY "" $foundIt)
 					set shortName (string join "\n" $shortName)
@@ -196,8 +200,9 @@ function m
 					set shortFoundItFilter (string replace -a -i $MUSIC_DIRECTORY "" $foundItFilter)
 
           if [ "$foundItFilter" ]
-            echo -e "\nplaying $shortFoundItFilter"
             cmus-remote -f "$foundItFilter"
+						set shortFoundItFilter (string trim -c '/' $shortFoundItFilter)
+            echo -e "\nplaying $shortFoundItFilter"
           end
 
         else # print music player 
