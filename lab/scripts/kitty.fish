@@ -14,6 +14,7 @@ function kpull
 
   set currentDir $(pwd)
   cd ~/lab/repos/kitty
+	rm -rf dependencies
   git checkout go.mod
   git pull
   sed -i -e 's/go 1.23$/go 1.23.0/g' go.mod
@@ -25,6 +26,9 @@ function krebuild
 
   cd ~/lab/repos/kitty
   # rm -rf kitty/launcher/kitt*
+	# which python3
+	# python3 --version
+	# which python
   ./dev.sh build
 
 end

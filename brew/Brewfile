@@ -1,7 +1,6 @@
 tap "asmvik/formulae", "https://github.com/asmvik/homebrew-formulae.git"
 tap "atlassian/acli"
 tap "boz/repo"
-tap "chase/tap"
 tap "esolitos/ipa"
 tap "hashicorp/tap"
 tap "homebrew/bundle"
@@ -191,8 +190,6 @@ brew "grc"
 brew "grep"
 # Popular GNU data compression program
 brew "gzip"
-# Package compiler and linker metadata toolkit
-brew "pkgconf"
 # Kubernetes package manager
 brew "helm"
 # View and edit files in hexadecimal or ASCII
@@ -279,6 +276,8 @@ brew "parallel"
 brew "pgcli", link: false
 # Execute binaries from Python packages in isolated environments
 brew "pipx"
+# Package compiler and linker metadata toolkit
+brew "pkgconf"
 # Fast, disk space efficient package manager
 brew "pnpm"
 # Python package management tool

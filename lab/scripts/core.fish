@@ -1560,3 +1560,30 @@ function x
   end
   
 end
+
+# frequent open files with an application
+function O
+
+  set fileSelection (cat $OPEN_FILE | fzf --multi --print-query --query "$defaultQuery")
+  # echo $fileSelection
+
+  for currentSelection in $fileSelection
+    # echo "|$currentSelection|"
+
+    set currentSelection (string replace -a '~' "$HOME" $currentSelection)
+
+    for selection in (string split '^' $currentSelection) 
+			# echo "looking at \"$selection\""
+			if test -e "$selection"
+				echo "opening \"$selection\""
+				if string match -i "/Applications/*" $selection
+					open -a "$selection"
+				else
+					open "$selection"
+				end
+			end
+    end
+
+  end
+
+end
