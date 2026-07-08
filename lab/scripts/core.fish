@@ -1591,7 +1591,7 @@ function O
 		# 3 elements
 		if test $optionCount -gt 2 
 
-			echo "running option 2 exec \"$openOption[2]\""	
+			# echo "running option 2 exec \"$openOption[2]\""	
 			eval "$openOption[2]" 
 			set openTarget $openOption[3]
 
