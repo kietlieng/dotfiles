@@ -1569,8 +1569,6 @@ end
 # label^command^path
 # cisco^cop g^/Applications/Cisco/Cisco AnyConnect Secure Mobility Client.app/Contents/MacOS/Cisco AnyConnect Secure Mobility Client
 # this will evaluate the cop g then open the file
-
-
 function O
 
   set fileSelection (cat $OPEN_FILE | fzf --multi --print-query --query "$defaultQuery")
@@ -1584,37 +1582,26 @@ function O
 
     set currentSelection (string replace -a '~' "$HOME" $currentSelection)
 
-    set openOption (string split '^' $currentSelection) 
-		set optionCount (count $openOption)
-		set openTarget $openOption[2]
+    for openOption in (string split '^' $currentSelection)[2..-1]
 
-		# 3 elements
-		if test $optionCount -gt 2 
+			# if a file open
+      if test -e $openOption
 
-			# echo "running option 2 exec \"$openOption[2]\""	
-			eval "$openOption[2]" 
-			set openTarget $openOption[3]
+				# open as application
+				if string match -i "/Applications/*" $openOption
+					open -a "$openOption"
+				else # open as regular
+					open "$openOption"
+				end
 
-		else if test $optionCount -gt 3 
+			else # evaluate 
 
-			eval "$openOption[2]" 
-			eval "$openOption[3]" 
-			set openTarget $openOption[4]
+				eval "$openOption"
 
-		else if test $optionCount -gt 4 
-
-			eval "$openOption[2]" 
-			eval "$openOption[3]" 
-			eval "$openOption[4]" 
-			set openTarget $openOption[5]
+			end
 
 		end
 
-		if string match -i "/Applications/*" $openTarget
-			open -a "$openTarget"
-		else
-			open "$openTarget"
-		end
 
   end
 
