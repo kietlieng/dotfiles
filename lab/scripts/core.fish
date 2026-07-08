@@ -1562,27 +1562,59 @@ function x
 end
 
 # frequent open files with an application
+# takes 2 forms: 
+# label^path
+# renewal^~/lab/presentation/control-tower.pptx
+# explanation: this will open a file with open command
+# label^command^path
+# cisco^cop g^/Applications/Cisco/Cisco AnyConnect Secure Mobility Client.app/Contents/MacOS/Cisco AnyConnect Secure Mobility Client
+# this will evaluate the cop g then open the file
+
+
 function O
 
   set fileSelection (cat $OPEN_FILE | fzf --multi --print-query --query "$defaultQuery")
-  # echo $fileSelection
 
   for currentSelection in $fileSelection
-    # echo "|$currentSelection|"
+
+		# skip 
+		if [ "$currentSelection" = '' ]
+			continue
+		end
 
     set currentSelection (string replace -a '~' "$HOME" $currentSelection)
 
-    for selection in (string split '^' $currentSelection) 
-			# echo "looking at \"$selection\""
-			if test -e "$selection"
-				echo "opening \"$selection\""
-				if string match -i "/Applications/*" $selection
-					open -a "$selection"
-				else
-					open "$selection"
-				end
-			end
-    end
+    set openOption (string split '^' $currentSelection) 
+		set optionCount (count $openOption)
+		set openTarget $openOption[2]
+
+		# 3 elements
+		if test $optionCount -gt 2 
+
+			echo "running option 2 exec \"$openOption[2]\""	
+			eval "$openOption[2]" 
+			set openTarget $openOption[3]
+
+		else if test $optionCount -gt 3 
+
+			eval "$openOption[2]" 
+			eval "$openOption[3]" 
+			set openTarget $openOption[4]
+
+		else if test $optionCount -gt 4 
+
+			eval "$openOption[2]" 
+			eval "$openOption[3]" 
+			eval "$openOption[4]" 
+			set openTarget $openOption[5]
+
+		end
+
+		if string match -i "/Applications/*" $openTarget
+			open -a "$openTarget"
+		else
+			open "$openTarget"
+		end
 
   end
 
