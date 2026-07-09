@@ -1,4 +1,4 @@
-duplicate~s~^\(.*\)$\n\1$/p
+duplicate~s~^\(.*\)$\n\1$
 grep~r~%s/[\([\]()+,' &]/_/g 
 music~r~%s/[\([\]()+,' &]/_/g | %s/\([0-9]\{3,3}\)_/\1 /g | %s/__/_/g | %s/__/_/g | %s/_-_/-/g | %s/\([_]\+\.\)\([0-9a-zA-Z]\+$\)/.\2/g
 permissionnames~r~%s/\("\)\(.*\)\("\)\(\s=\)/\2\4/gc
@@ -6,4 +6,3 @@ policycustom~r~%s/\({ exact_policy = \)\(".*"\)\(,[ ]*filename.*[ ]*},\)/\2,/gc
 policymanaged~r~%s/\({ arn[ ]*:\s\)\(".*"\)\( },\)/\2,/gc
 space~s~\([a-zA-Z0-9\-[\]()_]\) \([a-zA-Z0-9\-[\]()_]\)
 subdomain~s~[a-zA-Z0-9]\+\.[a-zA-Z0-9]\+\.[a-zA-Z0-9]\+
-
