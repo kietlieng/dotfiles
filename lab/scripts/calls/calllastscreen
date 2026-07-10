@@ -2,5 +2,4 @@
 
 source ~/lab/scripts/calls/sourceall
 
-frprepfiles -d $SCREENSHOT_DIRECTORY -t "$(cat $SCREENSHOT_TIME_FILE)" -c -l && \
-frprepswift
+frprepfiles -d $SCREENSHOT_DIRECTORY -t "$(cat $SCREENSHOT_TIME_FILE)" -c -l && frprepswift

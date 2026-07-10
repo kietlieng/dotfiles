@@ -1569,7 +1569,7 @@ end
 # label^command^path
 # cisco^cop g^/Applications/Cisco/Cisco AnyConnect Secure Mobility Client.app/Contents/MacOS/Cisco AnyConnect Secure Mobility Client
 # this will evaluate the cop g then open the file
-function O
+function i
 
   set fileSelection (cat $OPEN_FILE | fzf --multi --print-query --query "$defaultQuery")
 
