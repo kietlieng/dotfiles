@@ -192,7 +192,7 @@ function m
           set foundIt (fd -i "$modeSearch" --type file $MUSIC_DIRECTORY | string collect)
           set foundItFilter (echo "$foundIt" | grep -i -f $MUSIC_DEFAULT | head -n 1) # directories loaded if no match that means it's not loaded
           echo "fd \"$modeSearch\""
-          echo "foundIt |$foundIt| foundItFilter |$foundItFilter|"
+          # echo "foundIt |$foundIt| foundItFilter |$foundItFilter|"
           # echo "fileSearch $modeSearch"
           set shortName (string replace -a -i $MUSIC_DIRECTORY "" $foundIt)
 					set shortName (string join "\n" $shortName)
