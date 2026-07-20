@@ -105,7 +105,7 @@ brew "direnv"
 # Measure DNS performance by simulating network conditions
 brew "dnsperf"
 # Pack, ship and run any application as a lightweight container
-brew "docker", link: false
+brew "docker"
 # Isolated development environments using Docker
 brew "docker-compose"
 # Feature-rich C++11/14/17/20/23 single-header testing framework
@@ -307,7 +307,7 @@ brew "resvg"
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
 # Powerful, clean, object-oriented scripting language
-brew "ruby", link: false
+brew "ruby"
 # Safe, concurrent, practical language
 brew "rust"
 # Intuitive find & replace CLI

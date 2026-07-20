@@ -1571,7 +1571,7 @@ end
 # this will evaluate the cop g then open the file
 function i
 
-  set fileSelection (cat $OPEN_FILE | fzf --multi --print-query --query "$defaultQuery")
+  set fileSelection (cat $IMPLEMENT_FILE | fzf --multi --print-query --query "$defaultQuery")
 
   for currentSelection in $fileSelection
 
